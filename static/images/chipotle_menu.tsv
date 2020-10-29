@@ -1,0 +1,75 @@
+id	itemCategory	itemId	itemName	unitPrice	calories	customization
+1002	side	cmg-1002	Chips	1.45	540	None
+1003	side	cmg-1003	Chips & Guacamole	3.65	770	None
+1005	side	cmg-1005	Chips & Fresh Tomato Salsa	2.00	570	None
+1006	side	cmg-1006	Chips & Tomatillo-Green Chili Salsa	2.00	560	None
+1007	side	cmg-1007	Chips & Tomatillo-Red Chili Salsa	2.00	570	None
+1008	side	cmg-1008	Chips & Roasted Chili-Corn Salsa	2.00	620	None
+1015	side	cmg-1015	Large Chips & Large Guacamole	5.95	1270	None
+1018	drink	cmg-1018	32 fl oz Soda/Iced Tea	2.05	0 - 250	None
+1019	drink	cmg-1019	22 fl oz Soda/Iced Tea	2.35	0 - 300	None
+1029	topping	cmg-1029	Queso Blanco	1.30	120	[3]
+1029-s	side	cmg-1029	Queso Blanco	1.30	120	None
+1032	side	cmg-1032	Chips & Queso Blanco	3.65	780	None
+1033	side	cmg-1033	Large Chips & Large Queso Blanco	5.85	1290	None
+1402	side	cmg-1402	Kid's Fruit	0	35	None
+2051	drink	cmg-2051	Blackberry Izze	2.80	170	None
+2052	drink	cmg-2052	Grapefruit Izze	2.80	160	None
+2054	drink	cmg-2054	Clementine Izze	2.80	160	None
+2101	drink	cmg-2101	Pressed Apple Juice	2.80	240	None
+2102	drink	cmg-2102	Pineapple Orange Banana Juice	2.80	280	None
+2103	drink	cmg-2103	Peach Orange Juice	2.80	220	None
+2104	drink	cmg-2104	Pomegranate Cherry Juice	2.80	240	None
+2201	drink	cmg-2201	Bottled Water	2.45	0	None
+2805	drink	cmg-2805	San Pellegrino Sparkling	2.75	0	None
+2810	drink	cmg-2810	Mexican Coca-Cola	3	150	None
+5001	topping	cmg-5001	White Rice	0	210	"[1,2,3,4]"
+5002	topping	cmg-5002	Brown Rice	0	210	"[1,2,3,4]"
+5051	topping	cmg-5051	Black Beans	0	130	"[1,2,3,4]"
+5052	topping	cmg-5052	Pinto Beans	0	130	"[1,2,3,4]"
+5101	topping	cmg-5101	Fajita Veggies	0	20	"[1,2,3]"
+5201	topping	cmg-5201	Fresh Tomato Salsa	0	25	"[1,2,3]"
+5202	topping	cmg-5202	Roasted Chili-Corn Salsa	0	80	"[1,2,3]"
+5203	topping	cmg-5203	Tomatillo-Green Chili Salsa	0	15	"[1,2,3]"
+5204	topping	cmg-5204	Tomatillo-Red Chili Salsa	0	30	"[1,2,3]"
+5251	topping	cmg-5251	Sour Cream	0	110	"[1,2,3]"
+5252	topping	cmg-5252	Cheese	0	110	"[1,2,3]"
+5301	topping	cmg-5301	Guacamole	2.20	230	[3]
+5301-s	side	cmg-5301	Guacamole	2.20	230	None
+5351	topping	cmg-5351	Romaine Lettuce	0	5	"[1,2]"
+5353	topping	cmg-5353	Chipotle-Honey Vinaigrette	0	220	None
+5401	tortilla	cmg-5401	Soft Flour Tortilla	0	80	None
+5501	tortilla	cmg-5501	Tortilla on the Side	0	320	None
+5501-b	tortilla	cmg-5501	Double Wrap with Tortilla	0	320	None
+5503	tortilla	cmg-5503	Crispy Corn Tortilla	0	70	None
+5552	drink	cmg-5552	Organic Apple Juice	0	100	None
+5553	drink	cmg-5553	Organic Chocolate Milk	0	130	None
+5554	drink	cmg-5554	Organic Milk	0	90	None
+6601	protein	cmg-6601	Chicken	7.25	180	[4]
+6601-t	protein	cmg-6601	Chicken	2.65	180	None
+6601-x	protein	cmg-6601	Chicken	3	180	None
+6601-k	protein	cmg-6601	Chicken	4.95	180	None
+6602	protein	cmg-6602	Steak	8.25	150	[4]
+6602-t	protein	cmg-6602	Steak	2.95	150	None
+6602-x	protein	cmg-6602	Steak	3	150	None
+6602-k	protein	cmg-6602	Steak	4.95	150	None
+6603	protein	cmg-6603	Carnitas	7.75	210	[4]
+6603-t	protein	cmg-6603	Carnitas	2.75	210	None
+6603-x	protein	cmg-6603	Carnitas	3	210	None
+6603-k	protein	cmg-6603	Carnitas	4.95	210	None
+6604	protein	cmg-6604	Barbacoa	8.25	170	[4]
+6604-t	protein	cmg-6604	Barbacoa	2.95	170	None
+6604-x	protein	cmg-6604	Barbacoa	3	170	None
+6604-k	protein	cmg-6604	Barbacoa	4.95	170	None
+6605	protein	cmg-6605	Sofritas	7.25	150	[4]
+6605-t	protein	cmg-6605	Sofritas	2.65	150	None
+6605-x	protein	cmg-6605	Sofritas	3	150	None
+6605-k	protein	cmg-6605	Sofritas	4.95	150	None
+6606	protein	cmg-6606	Chorizo	7.75	190	[4]
+6606-t	protein	cmg-6606	Chorizo	2.85	190	None
+6606-x	protein	cmg-6606	Chorizo	3	190	None
+6606-k	protein	cmg-6606	Chorizo	4.95	190	None
+6608	protein	cmg-6608	Carne Asada	8.25	160	[4]
+6608-t	protein	cmg-6608	Carne Asada	2.95	160	None
+6608-x	protein	cmg-6608	Carne Asada	3	160	None
+6608-k	protein	cmg-6608	Carne Asada	4.95	160	None
