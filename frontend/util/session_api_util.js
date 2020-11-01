@@ -16,8 +16,8 @@ function getCookie(name) {
 
 const fetchHeader = () => ({
   "X-CSRFToken": getCookie('csrftoken'),
-  'Accept': 'application/json',
-  'Content-Type': 'application/json;charset=UTF-8',      
+  // 'Accept': 'application/json',
+  // 'Content-Type': 'application/json;charset=UTF-8',      
 })
 
 export const login = user => (

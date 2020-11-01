@@ -135,3 +135,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
 # django_heroku.settings(locals())
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+# DROPBOX_OAUTH2_TOKEN = 'yFzU8js8oqsAAAAAAAAAATi0VKrlceFPmFyjGbmHiunUFvXkoQQGCpYuce3fQUzP'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID='AKIA5BJLHP7KDWGZFFNP'
+AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME='music-player-1'

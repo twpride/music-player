@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 
-
 import React, { useState, useReducer } from 'react';
 
 import './intro.css'
+import { createSong } from './actions'
 
 import {
   Route,
@@ -16,7 +16,7 @@ import {
 
 
 
-const Intro = ({ logout, openModal, menu }) => {
+const Intro = ({ logout, openModal, createSong }) => {
   const useLegacyState = initialState => useReducer(
     (state, update) => ({ ...state, ...update }),
     initialState
@@ -36,7 +36,7 @@ const Intro = ({ logout, openModal, menu }) => {
   });
 
   window.yyy = state
-  const uploadSongs = e => {
+  const loadSong = e => {
     let reader = new FileReader();
     const music = e.currentTarget.files[0]
 
@@ -49,23 +49,33 @@ const Intro = ({ logout, openModal, menu }) => {
     if (music) {
       reader.readAsDataURL(music)
     }
+
+    setState({ waveform: music })
+  }
+
+  const submitSong = e => {
+    e.preventDefault();
+    // console.log(this.uploadButton.current)
+    // this.uploadButton.current.disabled = true;
+
+    setState({ uploading: true })
+
+    const myForm = document.getElementById('songForm');
+    const formData = new FormData(myForm);
+    console.log(myForm)
+    console.log(formData.keys())
+    createSong(formData)
   }
 
 
   return (
-    <div className="login-form-container">
-      <input type="file" onChange={uploadSongs}></input>
-      <div className="modal-img">
-        <img className="sign-in-logo"
-          src="/static/svgs/pepper-medallion.svg" alt=""
-        />
-      </div>
-      <h1 className="login-signup">CREATE AN ACCOUNT</h1>
-
-      <form onSubmit={update('')} className="login-form-box">
+    <div>
+      <form id="songForm" onSubmit={submitSong}>
+        <input type="file" name="waveform" onChange={loadSong} multiple></input>
         <div className="login-input">
           <div>Title</div>
           <input type="text"
+            name="title"
             value={state.title}
             onChange={update('title')}
           />
@@ -73,6 +83,7 @@ const Intro = ({ logout, openModal, menu }) => {
         <div className="login-input">
           <div>Artist</div>
           <input type="text"
+            name="artist"
             value={state.artist}
             onChange={update('artist')}
           />
@@ -80,6 +91,7 @@ const Intro = ({ logout, openModal, menu }) => {
         <div className="login-input">
           <div>Album</div>
           <input type="text"
+            name="album"
             value={state.album}
             onChange={update('album')}
           />
@@ -87,17 +99,9 @@ const Intro = ({ logout, openModal, menu }) => {
         {/* {this.renderErrors()} */}
         <input className="submit-button"
           type="submit"
-        // value={this.props.formType}
+          value="Upload"
         />
       </form>
-
-      <div className="sign-in-redirect">
-        <div className="heading">ALREADY A MEMBER?</div>
-        <div className="link-to-sign-in"
-        // onClick={() => this.props.openModal('login')}
-        >SIGN IN</div>
-      </div>
-
     </div>
   )
 };
@@ -109,12 +113,13 @@ const mapStateToProps = ({ entities }) => ({
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
+  createSong: (song) => dispatch(createSong(song)),
   openModal: modal => dispatch(openModal(modal)),
 });
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Intro);
 
 

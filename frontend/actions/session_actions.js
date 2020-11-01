@@ -25,6 +25,7 @@ export const signup = user => dispatch => (
     .then(user => {
       if (user.firstName) {
         dispatch(receiveCurrentUser(user))
+        console.log('this is fucked')
         dispatch(closeModal())
       } else {
         dispatch(receiveErrors(user))
@@ -36,6 +37,7 @@ export const login = user => dispatch => (
   APIUtil.login(user)
     .then(response => response.json())
     .then(user => {
+      console.log(user)
       if (user.firstName) {
         dispatch(receiveCurrentUser(user))
         dispatch(closeModal())

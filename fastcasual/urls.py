@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from user_auth import views as auth
+from song_player import views as song
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -26,4 +27,5 @@ urlpatterns = [
     path('', auth.RootView.as_view() , name="index"),    
     path('api/users', auth.UserView.as_view(), name="user view"),
     path('api/session', auth.SessionView.as_view(), name="session view"),    
+    path('api/song', song.SongView.as_view(), name="song view"),    
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

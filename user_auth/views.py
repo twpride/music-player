@@ -7,7 +7,7 @@ import json
 from django.forms.models import model_to_dict
 
 from django.http import JsonResponse
-
+from django.core import serializers
 
 class CustomView(View):
 
@@ -43,6 +43,9 @@ class CustomView(View):
     else:
       response = {}
     return JsonResponse(response)
+  # def success(self):
+  #   # camel2snake # name[0].lower() + re.sub(r'(?!^)[A-Z]', lambda x: '_' + x.group(0).lower(), name[1:])
+  #   return JsonResponse(self.current_user)
 
 class RootView(CustomView):
   

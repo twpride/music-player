@@ -10,7 +10,7 @@ import {
 
 import Navbar from './navbar';
 import Intro from './intro';
-import Builder from './builder';
+import SongList from './songlist';
 import './app.css'
 
 import { AuthRoute, ProtectedRoute } from '../util/route_util';
@@ -27,8 +27,8 @@ const App = () => {
         <Route exact path="/">
           <Intro/>
         </Route>
-        <Route path="/order/build">
-          <Builder entree = "burrito"/>
+        <Route path="/songlist">
+          <SongList/>
         </Route>
       </Switch>
 

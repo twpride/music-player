@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 
 import { logout, receiveErrors } from '../actions/session_actions';
 import { openModal } from '../actions/modal_actions';
+import {Link} from 'react-router-dom'
 
 import React from 'react';
 
@@ -23,14 +24,9 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
         </div>
       </div>
 
-      <div className="pickup-button">
-        <img className="location-logo" src="/static/svgs/edit_location-24px.svg" alt="" />
-        <div className="sep"></div>
-        <div>
-          <div className='text'>PICKUP FROM</div>
-          <div className='address'>516 Van Buren street, ridgewood</div>
-        </div>
-      </div>
+      <Link to="/songlist">
+        song list
+      </Link>
 
       <div className="cart">
         <img className="nav-logo" src="/static/svgs/bag.svg" alt="" />

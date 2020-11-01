@@ -6,26 +6,38 @@ from .models import Song
 import json
 from django.forms.models import model_to_dict
 
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+
+
+
+from django.core import serializers
+
 
 class SongView(View):
+
   def get(self, request):
-    if self.exists():
-      return HttpResponse("song exists")
-    else:
-      return HttpResponse("song doesn't exist")
+    aa = list(Song.objects.all())
+    print(aa[4].waveform.url)
+    songs = list(Song.objects.values_list())
+    return JsonResponse(songs, safe=False)
+
+
 
   def post(self, request):
 
-    req_json = json.loads(request.body.decode('utf-8'))
+    post = request.POST
+    entries = zip(post.getlist('title'), post.getlist('artist'),
+                  post.getlist('album'), request.FILES.getlist('waveform'))
 
-    self.song = Song(**req_json)
+    res = []
+    for entry in entries:
+      song = Song(None, *entry)
+      try:
+        song.full_clean()
+      except:
+        return JsonResponse(["Invalid submission. Please try again."], safe=False, status=422)
+      res.append(song)
 
-    try:
-      self.song.full_clean()
-    except:
-      return JsonResponse({"msg": "invalid data"}, status=422)
+    Song.objects.bulk_create(res)
 
-    self.song.save()
-
-    return self.success()
+    return HttpResponse("sucess")
