@@ -11,12 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-# import django_heroku
 import psycopg2
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -24,10 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
   'DJANGO_SECRET_KEY', 'z7t+y3%z6n&-$==3*@q#9@6b)!c+!3h1ftoqz_8su6n70mm*k%')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-
+DEBUG = 'PROD' not in os.environ
+# DEBUG = True
 ALLOWED_HOSTS = [
   'fastcasual.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
 ]
@@ -44,6 +43,7 @@ INSTALLED_APPS = [
   'django.contrib.sessions',
   # 'django.contrib.messages',
   'django.contrib.staticfiles',
+  'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +52,7 @@ MIDDLEWARE = [
   'django.contrib.sessions.middleware.SessionMiddleware',
   # 'django.middleware.common.CommonMiddleware',
   'django.middleware.csrf.CsrfViewMiddleware',
+  'debug_toolbar.middleware.DebugToolbarMiddleware',
   # 'django.contrib.auth.middleware.AuthenticationMiddleware',
   # 'django.contrib.messages.middleware.MessageMiddleware',
   # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -140,6 +141,12 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 # DROPBOX_OAUTH2_TOKEN = 'yFzU8js8oqsAAAAAAAAAATi0VKrlceFPmFyjGbmHiunUFvXkoQQGCpYuce3fQUzP'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID='AKIA5BJLHP7KDWGZFFNP'
-AWS_SECRET_ACCESS_KEY='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'
+AWS_ACCESS_KEY_ID='AKIA5BJLHP7KHY6TTHKN'
+AWS_SECRET_ACCESS_KEY='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'
 AWS_STORAGE_BUCKET_NAME='music-player-1'
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]

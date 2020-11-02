@@ -16,10 +16,11 @@ from django.core import serializers
 class SongView(View):
 
   def get(self, request):
-    aa = list(Song.objects.all())
-    print(aa[4].waveform.url)
-    songs = list(Song.objects.values_list())
-    return JsonResponse(songs, safe=False)
+    aa = Song.objects.filter(album__startswith="is")
+    xx = list(aa)
+    # songs = list(Song.objects.values_list())
+
+    return JsonResponse(['asdf'], safe=False)
 
 
 

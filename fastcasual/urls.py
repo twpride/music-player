@@ -14,13 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from user_auth import views as auth
 from song_player import views as song
 
 from django.conf import settings
 from django.conf.urls.static import static
-
+import debug_toolbar
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('api/users', auth.UserView.as_view(), name="user view"),
     path('api/session', auth.SessionView.as_view(), name="session view"),    
     path('api/song', song.SongView.as_view(), name="song view"),    
+    path('__debug__/', include(debug_toolbar.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
