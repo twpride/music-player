@@ -4,9 +4,9 @@ module.exports = {
 	entry: './frontend/index.jsx',
 	output: {
 		path: path.resolve(__dirname, 'static', 'bundles'),
-    filename: "bundle.js",
-    mode: 'development'
-	},
+		filename: "bundle.js",
+  },
+  mode: 'development',
 	module: {
 		rules: [
 			{
