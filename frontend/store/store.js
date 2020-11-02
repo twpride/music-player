@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import rootReducer from '../components/root_reducexxr';
+import rootReducer from '../components/root_reducer.js';
 
 const menuItems = [
   { id:'7',
