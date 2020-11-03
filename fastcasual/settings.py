@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get(
   'DJANGO_SECRET_KEY', 'z7t+y3%z6n&-$==3*@q#9@6b)!c+!3h1ftoqz_8su6n70mm*k%')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = 'PROD' not in os.environ
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [
   'fastcasual.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
 ]
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
   'django.contrib.contenttypes',
   'django.contrib.sessions',
   # 'django.contrib.messages',
-  # 'django.contrib.staticfiles',
+  'django.contrib.staticfiles',
   'debug_toolbar'
 ]
 
