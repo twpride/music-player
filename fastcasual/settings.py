@@ -25,8 +25,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get(
   'DJANGO_SECRET_KEY', 'z7t+y3%z6n&-$==3*@q#9@6b)!c+!3h1ftoqz_8su6n70mm*k%')
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'PROD' not in os.environ
-DEBUG = True
+DEBUG = 'PROD' not in os.environ
+# DEBUG = True
 ALLOWED_HOSTS = [
   'music-player-1.herokuapp.com',
 ]
@@ -146,7 +146,5 @@ AWS_SECRET_ACCESS_KEY='AahtVvsag2HU2z6t9KFWkyDjf9pAj5XsC8l48ho2'
 AWS_STORAGE_BUCKET_NAME='music-player-1'
 
 INTERNAL_IPS = [
-    'music-player-1.herokuapp.com',
     '127.0.0.1',
-    # ...
 ]
