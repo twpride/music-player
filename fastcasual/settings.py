@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
 # DEBUG = 'PROD' not in os.environ
 DEBUG = True
 ALLOWED_HOSTS = [
-  'fastcasual.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
+  'music-player-1.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
 ]
 
 # Application definition
