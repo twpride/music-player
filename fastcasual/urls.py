@@ -29,4 +29,5 @@ urlpatterns = [
     path('api/session', auth.SessionView.as_view(), name="session view"),    
     path('api/song', song.SongView.as_view(), name="song view"),    
     path('__debug__/', include(debug_toolbar.urls)),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+# ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
