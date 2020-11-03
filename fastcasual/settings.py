@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
 # DEBUG = 'PROD' not in os.environ
 DEBUG = True
 ALLOWED_HOSTS = [
-  'music-player-1.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
+  'music-player-1.herokuapp.com',
 ]
 
 # Application definition
@@ -146,7 +146,7 @@ AWS_SECRET_ACCESS_KEY='AahtVvsag2HU2z6t9KFWkyDjf9pAj5XsC8l48ho2'
 AWS_STORAGE_BUCKET_NAME='music-player-1'
 
 INTERNAL_IPS = [
-    # ...
+    'music-player-1.herokuapp.com',
     '127.0.0.1',
     # ...
 ]
