@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-  # 'whitenoise.runserver_nostatic',
+  'whitenoise.runserver_nostatic',
   'user_auth.apps.UserAuthConfig',
   'song_player.apps.SongPlayerConfig',
   # 'django.contrib.admin',
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
   'django.contrib.contenttypes',
   'django.contrib.sessions',
   # 'django.contrib.messages',
-  # 'django.contrib.staticfiles',
+  'django.contrib.staticfiles',
   'debug_toolbar'
 ]
 
