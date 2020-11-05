@@ -2,29 +2,15 @@
 import { connect, useDispatch } from 'react-redux';
 import React, { useState, useReducer, useEffect } from 'react';
 
-import { createSong, getSongs} from './actions'
-
-import {
-  Route,
-  Redirect,
-  Switch,
-  Link,
-  HashRouter
-} from 'react-router-dom';
+import {getSongs} from './actions'
 
 
-
-
-const SongList = ({ logout, openModal, createSong, getSongs }) => {
+export default function SongList() {
 
 
   useEffect(() => {
     getSongs()
   },[])
-
-
-
-
 
   // const [state, setState] = useState({email: '', password: ''})
 
@@ -85,27 +71,6 @@ const SongList = ({ logout, openModal, createSong, getSongs }) => {
     </div>
   )
 };
-
-const mapStateToProps = ({ entities }) => ({
-  // currentUser: session.currentUser
-  menu: entities.menu
-});
-
-const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout()),
-  createSong: (song) => dispatch(createSong(song)),
-  getSongs: () => dispatch(getSongs()),
-  openModal: modal => dispatch(openModal(modal)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SongList);
-
-
-
-
 
 
 

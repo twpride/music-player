@@ -26,6 +26,9 @@ class SongView(View):
   def get(self, request):
     # aa = Song.objects.filter(album__startswith="is")
     # xx = list(aa)
+    xxx = Song.objects.all()
+    print(xxx[19].waveform.url)
+    print(xxx[20].waveform.url)
     songs = list(Song.objects.values_list())
 
     return JsonResponse(songs, safe=False)
@@ -36,7 +39,6 @@ class SongView(View):
     post = request.POST
     entries = zip(post.getlist('title'), post.getlist('artist'),
                   post.getlist('album'), request.FILES.getlist('waveform'))
-    print("yeolo",post.get('title'))
     res = []
     for entry in entries:
       song = Song(None, *entry)
