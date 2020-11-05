@@ -21,20 +21,24 @@ const fetchHeader = () => ({
 })
 
 export const login = user => (
-  fetch('/api/session', {
-    method: 'POST',
-    body: JSON.stringify(user),
-    headers: fetchHeader(),
-  })
-);
+  fetch('/api/session',
+    {
+      method: 'POST',
+      body: user,
+      headers: fetchHeader()
+    }
+  )
+)
 
 export const signup = user => (
-  fetch('/api/users', {
-    method: 'POST',
-    body: JSON.stringify(user),
-    headers: fetchHeader(),
-  })
-);
+  fetch('/api/users',
+    {
+      method: 'POST',
+      body: user,
+      headers: fetchHeader()
+    }
+  )
+)
 
 export const logout = () => (
   fetch('/api/session', {

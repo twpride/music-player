@@ -1,5 +1,5 @@
 
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import React, { useState, useReducer, useEffect } from 'react';
 
 import { createSong, getSongs} from './actions'
@@ -26,7 +26,7 @@ const SongList = ({ logout, openModal, createSong, getSongs }) => {
 
 
 
-
+  // const [state, setState] = useState({email: '', password: ''})
 
   const useLegacyState = initialState => useReducer(
     (state, update) => ({ ...state, ...update }),
@@ -73,8 +73,8 @@ const SongList = ({ logout, openModal, createSong, getSongs }) => {
 
     const myForm = document.getElementById('songForm');
     const formData = new FormData(myForm);
+    console.log("submitsong")
     console.log(myForm)
-    console.log(formData.keys())
     createSong(formData)
   }
 

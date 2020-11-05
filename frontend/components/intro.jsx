@@ -14,13 +14,12 @@ import {
 } from 'react-router-dom';
 
 
-
+const useLegacyState = initialState => useReducer(
+  (state, update) => ({ ...state, ...update }),
+  initialState
+);
 
 const Intro = ({ logout, openModal, createSong }) => {
-  const useLegacyState = initialState => useReducer(
-    (state, update) => ({ ...state, ...update }),
-    initialState
-  );
 
   const initState = {
     title: "hello",
@@ -62,8 +61,6 @@ const Intro = ({ logout, openModal, createSong }) => {
 
     const myForm = document.getElementById('songForm');
     const formData = new FormData(myForm);
-    console.log(myForm)
-    console.log(formData.keys())
     createSong(formData)
   }
 

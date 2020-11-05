@@ -19,45 +19,41 @@ export const receiveErrors = errors => ({
   errors
 });
 
+
 export const signup = user => dispatch => (
-  APIUtil.signup(user)
-    .then(response => response.json())
-    .then(user => {
-      if (user.firstName) {
+  APIUtil.signup(user).then(res => {
+    if (res.ok) {
+      res.json().then(user => {
         dispatch(receiveCurrentUser(user))
-        console.log('this is fucked')
         dispatch(closeModal())
-      } else {
-        dispatch(receiveErrors(user))
-      }
-    })
+      })
+    } else {
+      res.json().then(error => {
+        dispatch(receiveErrors(error))
+      })
+    }
+  })
 )
 
 export const login = user => dispatch => (
-  APIUtil.login(user)
-    .then(response => response.json())
-    .then(user => {
-      console.log(user)
-      if (user.firstName) {
+  APIUtil.login(user).then(res => {
+    if (res.ok) {
+      res.json().then(user => {
         dispatch(receiveCurrentUser(user))
         dispatch(closeModal())
-      } else {
-        dispatch(receiveErrors(user))
-      }
-    })
+      })
+    } else {
+      res.json().then(error => {
+        dispatch(receiveErrors(error))
+      })
+    }
+  })
 )
 
+
 export const logout = () => dispatch => {
-  APIUtil.logout()
-    .then(() => {
-      dispatch(logoutCurrentUser())
-      dispatch(closeModal())
-    })
+  APIUtil.logout().then(() => {
+    dispatch(logoutCurrentUser())
+    dispatch(closeModal())
+  })
 };
-
-
-// export const logout = () => dispatch => (
-//   APIUtil.logout()
-//     .then(() => dispatch(logoutCurrentUser()))
-//     .then(() => dispatch(closeModal()))
-// );

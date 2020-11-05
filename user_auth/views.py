@@ -9,6 +9,7 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.core import serializers
 
+
 class CustomView(View):
 
   def setup(self, request, *args, **kwargs):
@@ -16,12 +17,14 @@ class CustomView(View):
     self.current_user = None
 
   def get_current_user(self):
-    if not self.current_user:
-      curr_user = User.objects.filter(
-        session_token=self.request.session.get('session_token', None))
-      if curr_user:
+    if self.current_user:
+      return self.current_user
+    if token := self.request.session.get('session_token', None):
+      if curr_user := User.objects.filter(session_token=token):
         self.current_user = curr_user[0]
-    return self.current_user
+      return self.current_user
+    else:
+      return None
 
   def logged_in(self):
     return not not self.get_current_user()
@@ -36,29 +39,23 @@ class CustomView(View):
     self.current_user = user
 
   def success(self):
-    # camel2snake # name[0].lower() + re.sub(r'(?!^)[A-Z]', lambda x: '_' + x.group(0).lower(), name[1:])
     if self.current_user:
       response = model_to_dict(self.current_user, fields=['id', 'first_name'])
       response['firstName'] = response.pop('first_name')
     else:
       response = {}
     return JsonResponse(response)
-  # def success(self):
-  #   # camel2snake # name[0].lower() + re.sub(r'(?!^)[A-Z]', lambda x: '_' + x.group(0).lower(), name[1:])
-  #   return JsonResponse(self.current_user)
+
 
 class RootView(CustomView):
-  
+
   def get(self, request):
     cur = self.get_current_user()
-
     if cur:
       response = model_to_dict(cur, fields=['id', 'first_name'])
       response['firstName'] = response.pop('first_name')
     else:
-      response = {}    
-    print(response, "whatt")
-    
+      response = {}
     context = {'response': json.dumps(response)}
     return render(request, 'root.html', context)
 
@@ -72,26 +69,27 @@ class UserView(CustomView):
       return HttpResponse("not logged in")
 
   def post(self, request):
-
     req_json = json.loads(request.body.decode('utf-8'))
-
     self.user = User.pre_init(**req_json)
-
     try:
       self.user.full_clean()
     except:
-      return JsonResponse(["Invalid submission. Please try again."], safe=False, status=422)
-
+      return JsonResponse(["Invalid submission. Please try again."],
+                          safe=False,
+                          status=422)
     self.user.save()
     self.log_in(self.user)
-
     return self.success()
 
 
 class SessionView(CustomView):
 
   def post(self, request):
-    req_json = json.loads(request.body.decode('utf-8'))
+    # req_json = json.loads(request.body.decode('utf-8'))
+    req_json = request.POST
+
+    print("helooooooo")
+    print(req_json.get('email'))
     email = req_json['email']
     password = req_json['password'].encode('utf-8')
     self.user = User.find_by_credentials(email, password)
@@ -99,11 +97,14 @@ class SessionView(CustomView):
       self.log_in(self.user[0])
       return self.success()
     else:
-      return JsonResponse(["The email or password you entered isn't quite right."], safe=False, status=401)
+      return JsonResponse(
+          ["The email or password you entered isn't quite right."],
+          safe=False,
+          status=401)
 
   def delete(self, request):
     if self.logged_in():
       self.log_out()
       return self.success()
     else:
-      return JsonResponse({"msg" :"Nobody signed in"}, status=404)
+      return JsonResponse({"msg": "Nobody signed in"}, status=404)

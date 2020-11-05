@@ -1,46 +1,46 @@
-import { connect } from 'react-redux';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { login } from '../actions/session_actions';
-import { openModal, closeModal} from '../actions/modal_actions';
 import './login_signup_form.css'
-import {receiveErrors} from '../actions/session_actions'
+import { receiveErrors } from '../actions/session_actions'
 
-class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: ''
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
+import { openModal, closeModal } from '../actions/modal_actions';
+export default function LoginForm() {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  function processForm(user) { dispatch(login(user)); }
+
+  const openModals = modal => {
+    dispatch(receiveErrors([]))
+    dispatch(openModal(modal))
+  };
+
+  const closeModals = () => dispatch(closeModal())
+
+  const { errors, formType } = useSelector(({ errors }) => ({
+    errors: errors.session,
+    formType: 'SIGN IN',
+  }));
+
+  const demoUser = () => {
+    setEmail("demoUser@gmail.com");
+    setPassword("demouser");
   }
 
-  demoUser() {
-    this.setState({
-      ['email']: "demoUser@gmail.com",
-      ['password']: "demouser",
-    });
-  }
-
-
-
-  update(field) {
-    return e => this.setState({
-      [field]: e.currentTarget.value
-    });
-  }
-
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const user = Object.assign({}, this.state);
-    console.log("login qwer")
-    this.props.processForm(user)
+    const form = new FormData(document.getElementById('loginForm'));
+    processForm(form);
   }
 
-  renderErrors() {
+  const renderErrors = () => {
     return (
       <>
-        {this.props.errors.map((error, i) => (
+        {errors.map((error, i) => (
           <div key={`error-${i}`} className="form-error">
             {error}
           </div>
@@ -49,83 +49,59 @@ class LoginForm extends React.Component {
     );
   }
 
-  render() {
-    return (
-      <div className="modal">
-        <div className="login-form-container">
-          <div className="modal-img">
-            <img className="sign-in-logo"
-              src="/static/svgs/pepper-medallion.svg" alt=""
+  return (
+    <div className="modal" >
+      <div className="login-form-container">
+        <div className="modal-img">
+          image?!
+        </div>
+        <h1 className="login-signup">SIGN IN</h1>
+
+        <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
+          <div className="login-input">
+            <div>Email</div>
+            <input type="text"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              name="email"
             />
           </div>
-          <h1 className="login-signup">SIGN IN</h1>
-
-          <form onSubmit={this.handleSubmit} className="login-form-box">
-            <div className="login-input">
-              <div>Email</div>
-              <input type="text"
-                value={this.state.email}
-                onChange={this.update('email')}
-              />
-            </div>            
-            <div className="login-input">
-              <div>Password</div>
-              <input type="password"
-                value={this.state.password}
-                onChange={this.update('password')}
-              />              
-            </div>
-            {this.renderErrors()}
-            <input className="submit-button"
-              type="submit"
-              value={this.props.formType}
+          <div className="login-input">
+            <div>Password</div>
+            <input type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              name="password"
             />
-          </form>
-          <div className="seperator"></div>
+          </div>
+          {renderErrors()}
+          <input className="submit-button"
+            type="submit"
+          />
+        </form>
+        <div className="seperator"></div>
 
-          <div className="create-account">
-            <div className="heading">NOT A MEMBER?</div>
-            <div className="subheading">JOIN REWARDS. GET REWARDED.</div>
-            <div className="button"
-            onClick={() => this.props.openModal('signup')}
-            >
-              CREATE AN ACCOUNT
-            </div>
-            <br/>
-            <div className="button"
-            onClick={() => this.demoUser()}
-            >
-              FILL IN DEMO USER INFO
-            </div>            
-          </div>      
+        <div className="create-account">
+          <div className="heading">NOT A MEMBER?</div>
+          <div className="subheading">JOIN REWARDS. GET REWARDED.</div>
+          <div className="button"
+            onClick={() => openModals('signup')}
+          >
+            CREATE AN ACCOUNT
+          </div>
+          <br />
+          <div className="button"
+            onClick={() => demoUser()}
+          >
+            FILL IN DEMO USER INFO
+          </div>
         </div>
-
-        <div className="close-modal" onClick={() => this.props.closeModal()}>
-          <img src="/static/svgs/dark-brown-x.png" alt="" />  
-        </div>
-
       </div>
-    );
-  }
+
+      <div className="close-modal" onClick={closeModals}>
+        X
+      </div>
+
+    </div >
+  );
 }
-
-
-const mapStateToProps = ({ errors }) => {
-  return {
-    errors: errors.session,
-    formType: 'SIGN IN',
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    processForm: (user) => dispatch(login(user)),
-    openModal: modal => {
-      dispatch(receiveErrors([]))
-      dispatch(openModal(modal))
-    },
-    closeModal: ()=> dispatch(closeModal())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -24,15 +24,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get(
   'DJANGO_SECRET_KEY', 'z7t+y3%z6n&-$==3*@q#9@6b)!c+!3h1ftoqz_8su6n70mm*k%')
+
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'PROD' not in os.environ
-DEBUG = True
+DEBUG = 'PROD' not in os.environ
 
-if 'PROD' not in os.environ:
-  ALLOWED_HOSTS = [
-    'music-player-1.herokuapp.com',
-  ]
+ALLOWED_HOSTS = [
+  'music-player-1.herokuapp.com',
+]
 
+# ALLOWED_HOSTS = [
+#   'fastcasual.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
+# ]
 # Application definition
 
 INSTALLED_APPS = [
@@ -136,11 +138,6 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-
-# django_heroku.settings(locals())
-
-# DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-# DROPBOX_OAUTH2_TOKEN = 'yFzU8js8oqsAAAAAAAAAATi0VKrlceFPmFyjGbmHiunUFvXkoQQGCpYuce3fQUzP'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID='AKIA5BJLHP7KHY6TTHKN'
