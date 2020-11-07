@@ -69,12 +69,14 @@ class UserView(CustomView):
       return HttpResponse("not logged in")
 
   def post(self, request):
-    req_json = json.loads(request.body.decode('utf-8'))
+    # req_json = json.loads(request.body.decode('utf-8'))
+    req_json = request.POST
     self.user = User.pre_init(**req_json)
+    print(req_json)
     try:
       self.user.full_clean()
     except:
-      return JsonResponse(["Invalid submission. Please try again."],
+      return JsonResponse(["Invalid submisxion. Please try again."],
                           safe=False,
                           status=422)
     self.user.save()
