@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
+import { connect, useDispatch} from 'react-redux';
 
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect} from 'react';
 
 import './intro.css'
 import { createSong } from './actions'
@@ -64,6 +64,10 @@ const Intro = ({ logout, openModal, createSong }) => {
     createSong(formData)
   }
 
+ 
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <div>

@@ -26,9 +26,9 @@ class SongView(View):
   def get(self, request):
     # aa = Song.objects.filter(album__startswith="is")
     # xx = list(aa)
-    xxx = Song.objects.all()
-    print(xxx[19].waveform.url)
-    print(xxx[20].waveform.url)
+    # xxx = Song.objects.all()
+    # print(xxx[21].waveform.url)
+    # print(xxx[22].waveform.url)
     songs = list(Song.objects.values_list())
 
     return JsonResponse(songs, safe=False)

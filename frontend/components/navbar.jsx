@@ -15,11 +15,11 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
     <div className="nav">
       <div className="left-nav">
         <a href="" className="logo">
-          <img src="/static/svgs/cmg-medallion-logo.svg" alt="" className="logo" />
+          medalion
         </a>
         <div className="user-button"
           onClick={() => { openModal(currentUser ? 'user' : 'login') }}>
-          <img className="nav-logo" src="/static/svgs/user-outline.svg" alt="" />
+          user outline
           <div className="header-name">{currentUser ? `HEY ${currentUser.firstName}` : 'SIGN IN'}</div>
         </div>
       </div>
@@ -29,7 +29,7 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
       </Link>
 
       <div className="cart">
-        <img className="nav-logo" src="/static/svgs/bag.svg" alt="" />
+        bag
         <div className="cart-badge">7</div>
       </div>
 

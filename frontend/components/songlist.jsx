@@ -1,16 +1,19 @@
 
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import React, { useState, useReducer, useEffect } from 'react';
 
-import {getSongs} from './actions'
+import styled from 'styled-components'
+
 
 
 export default function SongList() {
+  // const dispatch = useDispatch();
 
+  const [store, dispatch] = useReducer([])
 
-  useEffect(() => {
-    getSongs()
-  },[])
+  // useEffect(() => {
+  //   // dispatch(getSongs())
+  // }, [])
 
   // const [state, setState] = useState({email: '', password: ''})
 
@@ -50,25 +53,21 @@ export default function SongList() {
     setState({ waveform: music })
   }
 
-  const submitSong = e => {
-    e.preventDefault();
-    // console.log(this.uploadButton.current)
-    // this.uploadButton.current.disabled = true;
-
-    setState({ uploading: true })
-
-    const myForm = document.getElementById('songForm');
-    const formData = new FormData(myForm);
-    console.log("submitsong")
-    console.log(myForm)
-    createSong(formData)
-  }
-
+  const songs = useSelector(state => state.entities.songs)
 
   return (
-    <div>
-      Song list bro
-    </div>
+    // <div>hello</div>
+    <table>
+      <tbody>
+        {songs.map(song => (
+          <tr key={song[0].toString()}>
+            {song.map((col, i) => (
+              <td key={i}>{col}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 };
 

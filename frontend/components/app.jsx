@@ -11,12 +11,21 @@ import {
 import Navbar from './navbar';
 import Intro from './intro';
 import SongList from './songlist';
-import './app.css'
+import './app.css';
 
 import { AuthRoute, ProtectedRoute } from '../util/route_util';
+import {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+
+import {getSongs} from './actions';
 
 const App = () => {
-
+  
+  const dispatch = useDispatch()
+  
+  useEffect( ()=> {
+    dispatch(getSongs())
+  }, [])
 
   return (
     <div className="app-container">

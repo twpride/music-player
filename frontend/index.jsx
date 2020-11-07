@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ************* testing ************
-  window.xyz = store
+  window.store = store
   // ************* testing ************ 
   
   const root = document.getElementById('root');

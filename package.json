@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "react": "^16.13.1",

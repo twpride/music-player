@@ -6,8 +6,6 @@ import errors from '../reducers/errors_reducer';
 import ui from '../reducers/ui_reducer';
 
 
-
-
 import users from '../reducers/users_reducer';
 import menu from '../reducers/menu_reducer';
 
@@ -16,7 +14,7 @@ import {
   RECEIVE_SONGS,
 } from './actions';
 
-const songsReducer = (state = {}, action) => {
+const songs = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_SONG:
@@ -32,11 +30,8 @@ const songsReducer = (state = {}, action) => {
 const entities = combineReducers({
   users,
   menu,
-  songsReducer
+  songs
 });
-
-
-
 
 const rootReducer = combineReducers({
   entities,
