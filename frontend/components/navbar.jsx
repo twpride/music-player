@@ -28,6 +28,9 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
         song list
       </Link>
 
+      <Link to="/playlists/8">
+        pl8
+      </Link>
       <div className="cart">
         bag
         <div className="cart-badge">7</div>
