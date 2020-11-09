@@ -10,34 +10,9 @@ from django.http import HttpResponse, JsonResponse
 
 from django.core import serializers
 
-# class SongView(View):
 
-#   def get(self, request):
-#     return JsonResponse(list(Song.objects.values_list()), safe=False)
-
-#   def post(self, request):
-
-#     post = request.POST
-#     entries = zip(post.getlist('title'), post.getlist('artist'),
-#                   post.getlist('album'), request.FILES.getlist('waveform'))
-#     res = []
-#     for entry in entries:
-#       song = Song(None, *entry)
-#       try:
-#         song.full_clean()
-#       except:
-#         return JsonResponse(["Invalid submission. Please try again."],
-#                             safe=False,
-#                             status=422)
-#       res.append(song)
-
-#     Song.objects.bulk_create(res)
-
-#     return HttpResponse("sucess")
-
-
-def songs(request):
-  if request.method == "GET": 
+def songs_index(request):
+  if request.method == "GET":
     return JsonResponse(list(Song.objects.values_list()), safe=False)
 
   post = request.POST
@@ -56,41 +31,38 @@ def songs(request):
     res.append(song)
 
   Song.objects.bulk_create(res)
-  return HttpResponse("sucess")
+  return JsonResponse(list(Song.objects.values_list()), safe=False)
+  # return HttpResponse("sucess")
 
 
 def song(request, id):
   return JsonResponse(Song.objects.get(pk=id).waveform.url, safe=False)
 
 
-def playlists(request):
+def playlists_index(request):
   if request.method == "GET":
     return JsonResponse(list(Playlist.objects.values_list()), safe=False)
 
 
 def playlist(request, id):
-  cols = ['pk', 'title', 'artist', 'album', 'entry__pk', 'entry__next_id']
-  res = Song.objects.prefetch_related(
-      'playlist_set', 'entry_set').filter(playlist__pk=id).values(*cols)
+  # cols = ['pk', 'title', 'artist', 'album', 'entry__pk', 'entry__next_id']
+  # res = Song.objects.prefetch_related(
+  #     'playlist_set', 'entry_set').filter(playlist__pk=id).values(*cols)
+  res = Entry.objects.select_related('playlist','song') \
+                     .filter(playlist__pk=id) \
+                     .values_list("song__pk","pk","prev_id")
+
+  # res = Entry.objects.select_related('playlist','song').filter(playlist__pk=id).values_list("song__pk","pk","prev_id")
   return JsonResponse(list(res), safe=False)
-  # Playlist.objects.prefetch_related('Entry_set','songs').filter(pk=2)
-  # Entry.objects.select_related('playlist','song').filter(playlist__pk=2)
 
 
-def entries(request, playlist_id=None, song_id=None):
+def entries_index(request, playlist_id=None, song_id=None):
   playlist = Playlist.objects.get(pk=playlist_id)
   song = Song.objects.get(pk=song_id)
-  new_entry = Entry.objects.create(playlist=playlist, song=song)
-
-  if playlist.tail_id:
-    obj = Entry.objects.get(pk=playlist.tail_id)
-    obj.next_id = new_entry.pk
-    obj.save()
-
+  new_entry = Entry.objects.create(playlist=playlist,
+                                   song=song,
+                                   prev_id=playlist.tail_id)
   playlist.tail_id = new_entry.pk
-  if not playlist.head_id:
-    playlist.tail_id = new_entry.pk
-
   playlist.save()
   return JsonResponse("sucess", safe=False)
 

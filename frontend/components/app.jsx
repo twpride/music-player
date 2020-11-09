@@ -11,11 +11,11 @@ import {
 import Navbar from './navbar';
 import Intro from './intro';
 import SongList from './songlist';
+import Playlist from './playlist';
 import './app.css';
 
-import { AuthRoute, ProtectedRoute } from '../util/route_util';
 import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {getSongs} from './actions';
 
@@ -27,22 +27,26 @@ const App = () => {
     dispatch(getSongs())
   }, [])
 
+  const songUrl = useSelector(state => state.player.songUrl)
+
   return (
     <div className="app-container">
 
-      <Navbar/>
 
       <Switch>
         <Route exact path="/">
           <Intro/>
         </Route>
-        <Route path="/songlist">
+        <Route path="/songlist" component={SongList} />
+        <Route path="/playlists/:id" component={Playlist} />
+        {/* <Route path={`/playlist/${}`}>
           <SongList/>
-        </Route>
+        </Route> */}
       </Switch>
       
-      <audio controls />
+      <audio controls src={songUrl}/>
 
+      <Navbar/>
     </div>
   )
 };
