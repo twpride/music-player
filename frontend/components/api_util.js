@@ -19,7 +19,7 @@ const fetchHeader = () => ({
 })
 
 export const createSong = song => (
-  fetch('/api/song', {
+  fetch('/api/songs', {
     method: 'POST',
     body: song,
     headers: fetchHeader(),
@@ -27,7 +27,7 @@ export const createSong = song => (
 );
 
 export const getSongs = song => (
-  fetch('/api/song', {
+  fetch('/api/songs/', {
     method: 'GET',
     headers: fetchHeader(),
   })

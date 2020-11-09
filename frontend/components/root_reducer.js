@@ -6,15 +6,14 @@ import errors from '../reducers/errors_reducer';
 import ui from '../reducers/ui_reducer';
 
 
-import users from '../reducers/users_reducer';
-import menu from '../reducers/menu_reducer';
+// import menu from '../reducers/menu_reducer';
 
 import {
   RECEIVE_SONG,
   RECEIVE_SONGS,
 } from './actions';
 
-const songs = (state = {}, action) => {
+const songs = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_SONG:
@@ -26,10 +25,32 @@ const songs = (state = {}, action) => {
   }
 };
 
+// const playlists = (state =[], action) => {
+//   Object.freeze(state);
+//   switch (action.type) {
+//     case RECEIVE_SONG:
+//       return { ...state, [action.song.id]: action.song};
+//     case RECEIVE_SONGS:
+//       return action.songs;
+//     default:
+//       return state;
+//   }
+// };
+
+// const playlists = (state =[], action) => {
+//   Object.freeze(state);
+//   switch (action.type) {
+//     case RECEIVE_SONG:
+//       return { ...state, [action.song.id]: action.song};
+//     case RECEIVE_SONGS:
+//       return action.songs;
+//     default:
+//       return state;
+//   }
+// };
 
 const entities = combineReducers({
-  users,
-  menu,
+  // menu,
   songs
 });
 

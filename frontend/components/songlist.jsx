@@ -4,11 +4,6 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 import styled from 'styled-components'
 
-
-
-import {getSongs} from './actions';
-
-
 export default function SongList() {
   // const [store, dispatch] = useReducer([])
   // const [state, setState] = useState({email: '', password: ''})
@@ -55,21 +50,24 @@ export default function SongList() {
   //   dispatch(getSongs())
   // }, [])
 
-  const songs = useSelector(state => state.entities.songs)
+  const playSong = (e) => {
+    console.log(e)
+  }
 
+  const songs = useSelector(state => state.entities.songs)
+  
   return (
-    <div>hello</div>
-    // <table>
-    //   <tbody>
-    //     {songs.map(song => (
-    //       <tr key={song[0].toString()}>
-    //         {song.map((col, i) => (
-    //           <td key={i}>{col}</td>
-    //         ))}
-    //       </tr>
-    //     ))}
-    //   </tbody>
-    // </table>
+    <table>
+      <tbody>
+        {songs.map(song => (
+          <tr key={song[0]} onClick={() => playSong(song[0])}>
+            {song.map((col, i) => (
+              <td key={i}>{col}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 };
 

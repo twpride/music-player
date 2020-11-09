@@ -21,11 +21,11 @@ import {getSongs} from './actions';
 
 const App = () => {
   
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   
-  // useEffect( ()=> {
-  //   dispatch(getSongs())
-  // }, [])
+  useEffect( ()=> {
+    dispatch(getSongs())
+  }, [])
 
   return (
     <div className="app-container">
@@ -40,7 +40,8 @@ const App = () => {
           <SongList/>
         </Route>
       </Switch>
-
+      
+      <audio controls />
 
     </div>
   )

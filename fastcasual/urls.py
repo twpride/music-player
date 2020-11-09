@@ -24,10 +24,17 @@ import debug_toolbar
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', auth.RootView.as_view() , name="index"),    
+    path('', auth.RootView.as_view(), name="index"),
     path('api/users', auth.UserView.as_view(), name="user view"),
-    path('api/session', auth.SessionView.as_view(), name="session view"),    
-    path('api/song', song.SongView.as_view(), name="song view"),    
+    path('api/session', auth.SessionView.as_view(), name="session view"),
+    path('api/songs', song.songs, name="song view"),
+    path('api/songs/<int:id>', song.song, name="song view"),
+    path('api/playlists/', song.playlists, name="playlists index"),
+    path('api/playlists/<int:id>', song.playlist, name="playlist show"),
+    path('api/entries/<int:playlist_id>/<int:song_id>',
+         song.entries,
+         name="add song to playlist"),
+    path('api/move_track', song.move_track, name="playlist"),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 # ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

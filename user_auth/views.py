@@ -90,8 +90,6 @@ class SessionView(CustomView):
     # req_json = json.loads(request.body.decode('utf-8'))
     req_json = request.POST
 
-    print("helooooooo")
-    print(req_json.get('email'))
     email = req_json['email']
     password = req_json['password'].encode('utf-8')
     self.user = User.find_by_credentials(email, password)

@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.db import models
 import re
 
+
 # class User(models.Model):
 class User(models.Model):
   email = models.CharField(max_length=100, unique=True)
@@ -20,9 +21,10 @@ class User(models.Model):
 
   def pre_init(**kwargs):
 
-    camel2snake = lambda str: re.sub('(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))', '_\\1', str).lower().strip('_')
+    camel2snake = lambda str: re.sub('(((?<=[a-z])[A-Z])|([A-Z](?![A-Z]|$)))',
+                                     '_\\1', str).lower().strip('_')
 
-    newkwargs=dict()
+    newkwargs = dict()
 
     for k, v in kwargs.items():
       if k == "password":
@@ -40,8 +42,8 @@ class User(models.Model):
     return self.session_token
 
   def find_by_credentials(email, password):
-    user = User.objects.filter(email=email)
-    if user and user[0].is_password(password):
+    if (user :=
+        User.objects.filter(email=email)) and user[0].is_password(password):
       return user
 
   def is_password(self, password):
