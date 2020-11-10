@@ -28,7 +28,7 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
         song list
       </Link>
 
-      <Link to="/playlists/8">
+      <Link to="/playlists/9">
         pl8
       </Link>
       <div className="cart">

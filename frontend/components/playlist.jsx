@@ -51,38 +51,31 @@ export default function Playlist() {
   )
 
   const setPrev = (start, index) => {
-    const seq = {}
     const req = {}
+
     const dir = index - start
     if (dir > 0) {
       if (start > 0) {
-        seq[start] = { $splice: [[2, 1, cards[start - 1][1]]] }
         req[cards[start][1]] = cards[start - 1][1]
       } else if (start === 0) {
-        seq[start] = { $splice: [[2, 1, null]] }
         req[cards[start][1]] = null
       }
     } else if (dir < 0 && start + 1 < cards.length) {
-      seq[start + 1] = { $splice: [[2, 1, cards[start][1]]] }
       req[cards[start + 1][1]] = cards[start][1]
     }
 
     if (index > 0) {
-      seq[index] = { $splice: [[2, 1, cards[index - 1][1]]] }
       req[cards[index][1]] = cards[index - 1][1]
     } else if (index === 0) {
-      seq[index] = { $splice: [[2, 1, null]] }
       req[cards[index][1]] = null
     }
 
     if (index + 1 < cards.length) {
-      seq[index + 1] = { $splice: [[2, 1, cards[index][1]]] }
       req[cards[index+1][1]] = cards[index][1]
     }
 
-    console.log(req)
     moveTrack(req)
-    setCards(update(cards, seq))
+    dispatch(receivePlaylist(id,cards))
   };
 
   return (
