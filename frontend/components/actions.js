@@ -3,6 +3,7 @@ export const RECEIVE_SONG = "RECEIVE_SONG"
 export const RECEIVE_SONGS = "RECEIVE_SONGS"
 export const RECEIVE_SONG_URL = "RECEIVE_SONG_URL"
 export const RECEIVE_PLAYLIST = "RECEIVE_PLAYLIST"
+export const UPDATE_PLAYLIST = "UPDATE_PLAYLIST"
 export const RECEIVE_PLAYLISTS = "RECEIVE_PLAYLISTS"
 
 export const receiveSong = (song) => ({
@@ -24,6 +25,13 @@ export const receivePlaylist = (id,playlist) => ({
   type: RECEIVE_PLAYLIST,
   id,
   playlist
+})
+
+export const updatePlaylist = (id,dragIdx,hoverIdx) => ({
+  type: RECEIVE_PLAYLIST,
+  id,
+  dragIdx,
+  hoverIdx
 })
 
 export const createSong = song => dispatch => (

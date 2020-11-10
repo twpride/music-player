@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
 
-import { getSongUrl, getPlaylist } from './actions'
+import { getSongUrl, getPlaylist, receivePlaylist } from './actions'
 import { addToPlaylist } from './api_util'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -23,50 +23,38 @@ export default function Playlist() {
 
   const playlist = useSelector(state => state.entities.playlists[id])
 
-  const [cards, setCards] = useState([])
-
   useEffect(() => {
     if (!playlist) {
       dispatch(getPlaylist(id))
     }
   }, [])
 
-  useEffect(() => {
-    if (playlist) { setCards([...playlist]) }
-  }, [playlist])
-
-
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
-      const dragCard = cards[dragIndex]
-
-      setCards(
-        update(cards, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, dragCard],
-          ],
-        })
+      dispatch(
+        receivePlaylist(
+          id,
+          update(playlist, {
+            $splice: [
+              [dragIndex, 1],
+              [hoverIndex, 0, playlist[dragIndex]],
+            ],
+          })
+        )
       )
-      // dispatch([EDIT_ARC_PARAMS,
-      //   {
-      //     id: sel,
-      //     field: "config",
-      //     data: newdata
-      //   }
-      // ])
     },
-    [cards, dispatch],
+    [playlist, dispatch],
   )
 
   return (
     <div>
       <DndProvider backend={HTML5Backend} >
-        {cards && cards.map(([song, track, next], index) => (
+        {playlist && playlist.map(([song, track, prev], index) => (
           <Card
             key={track}
             index={index}
             id={track}
+            prev={prev}
             text={song}
             moveCard={moveCard}
           />
