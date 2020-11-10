@@ -69,13 +69,10 @@ def entries_index(request, playlist_id=None, song_id=None):
 
 def move_track(request):
   req = json.loads(request.body.decode('utf-8'))
-  # req = list(zip(*req))
-  # res = list(Entry.objects.filter(pk__in=req[0]))
   res = list(Entry.objects.filter(pk__in=req.keys()))
   for entry in res:
-    # entry.next_id = req[1][req[0].index(entry.pk)]
-    entry.next_id = req[entry.pk]
-  Entry.objects.bulk_update(res, ['next_id'])
+    entry.prev_id = req[str(entry.pk)]
+  Entry.objects.bulk_update(res, ['prev_id'])
   return JsonResponse("sucess", safe=False)
 
 

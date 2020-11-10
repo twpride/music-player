@@ -1,15 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 const style = {
   border: '2px solid lightgrey',
   padding: '1',
   marginBottom: '0px',
-
   backgroundColor: 'white',
   cursor: 'move',
 }
-export const Card = ({ id, text, index, moveCard, prev }) => {
+export const Card = ({ id, text, index, moveCard, prev, setPrev }) => {
   const ref = useRef(null)
+  const [start, setStart] = useState(null)
+
   const [, drop] = useDrop({
     accept: 'card',
     hover(item, monitor) {
@@ -18,36 +19,21 @@ export const Card = ({ id, text, index, moveCard, prev }) => {
       }
       const dragIndex = item.index
       const hoverIndex = index
-      // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
         return
       }
-      // Determine rectangle on screen
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
-      // Get vertical middle
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 3
-      // Determine mouse position
       const clientOffset = monitor.getClientOffset()
-      // Get pixels to the top
       const hoverClientY = clientOffset.y - hoverBoundingRect.top
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 51%
-      // When dragging upwards, only move when the cursor is above 51%
-      // Dragging downwards
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
       }
-      // Dragging upwards
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return
       }
-      // Time to actually perform the action
       moveCard(dragIndex, hoverIndex)
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
       item.index = hoverIndex
     },
   })
@@ -56,8 +42,15 @@ export const Card = ({ id, text, index, moveCard, prev }) => {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
+    begin() { setStart(index) },
+    end() {
+      console.log(start)
+      console.log(index)
+      setPrev(start, index)
+    }
   })
-  const opacity = isDragging ? 1 : 1
+  const opacity = isDragging ? 0 : 1
+
   drag(drop(ref))
   return (
     <div ref={ref} style={{ ...style, opacity }}>

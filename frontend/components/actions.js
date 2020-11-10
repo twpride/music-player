@@ -21,13 +21,13 @@ export const loadSongUrl = (url) => ({
   url
 })
 
-export const receivePlaylist = (id,playlist) => ({
+export const receivePlaylist = (id, playlist) => ({
   type: RECEIVE_PLAYLIST,
   id,
   playlist
 })
 
-export const updatePlaylist = (id,dragIdx,hoverIdx) => ({
+export const updatePlaylist = (id, dragIdx, hoverIdx) => ({
   type: RECEIVE_PLAYLIST,
   id,
   dragIdx,
@@ -65,6 +65,32 @@ export const createPlaylist = playlist => dispatch => (
 export const getPlaylist = (id) => dispatch => (
   APIUtil.getPlaylist(id)
     .then(response => response.json())
+    .then(linkedList => {
+      console.log(linkedList)
+      let sortedList = [];
+      let map = new Map();
+      let currentId = null;
+
+      // index the linked list by previous_item_id
+      for (let i = 0; i < linkedList.length; i++) {
+        let item = linkedList[i];
+        if (item[2] === null) {
+          currentId = item[1];
+          sortedList.push(item);
+        } else {
+          map.set(item[2], i);
+        }
+      }
+
+      while (sortedList.length < linkedList.length) {
+        // get the item with a previous item ID referencing the current item
+        let nextItem = linkedList[map.get(currentId)];
+        sortedList.push(nextItem);
+        currentId = nextItem[1];
+      }
+
+      return sortedList;
+    })
     .then(playlist => {
       dispatch(receivePlaylist(id, playlist))
     })

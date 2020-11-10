@@ -68,3 +68,11 @@ export const getPlaylist = (id) => (
     headers: fetchHeader(),
   })
 );
+
+export const moveTrack = req => (
+  fetch('/api/move_track', {
+    method: 'POST',
+    body: JSON.stringify(req),
+    headers: fetchHeader(),
+  })
+);
