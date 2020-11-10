@@ -81,7 +81,6 @@ export default function Playlist() {
   return (
     <div>
       <DndProvider backend={HTML5Backend} >
-        {/* {playlist && playlist.map(([song, track, prev], index) => ( */}
         {cards && cards.map(([song, track, prev], index) => (
           <Card
             key={track}

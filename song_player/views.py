@@ -48,11 +48,13 @@ def playlist(request, id):
   # cols = ['pk', 'title', 'artist', 'album', 'entry__pk', 'entry__next_id']
   # res = Song.objects.prefetch_related(
   #     'playlist_set', 'entry_set').filter(playlist__pk=id).values(*cols)
-  res = Entry.objects.select_related('playlist','song') \
-                     .filter(playlist__pk=id) \
-                     .values_list("song__pk","pk","prev_id")
+  res = Entry.objects.filter(playlist_id=id) \
+                     .values_list("song_id","pk","prev_id")
 
-  # res = Entry.objects.select_related('playlist','song').filter(playlist__pk=id).values_list("song__pk","pk","prev_id")
+  # res = Entry.objects.select_related('playlist','song') \
+  #                    .filter(playlist__pk=id) \
+  #                    .values_list("song__pk","pk","prev_id")
+  # res = Entry.objects.select_related('playlist','song').filter(playlist__pk=9).values_list("song__pk","pk","prev_id")
   return JsonResponse(list(res), safe=False)
 
 
