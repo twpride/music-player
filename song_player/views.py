@@ -32,10 +32,9 @@ def songs_index(request):
 
   Song.objects.bulk_create(res)
   return JsonResponse(list(Song.objects.values_list()), safe=False)
-  # return HttpResponse("sucess")
 
 
-def song(request, id):
+def song_url(request, id):
   return JsonResponse(Song.objects.get(pk=id).waveform.url, safe=False)
 
 
@@ -45,17 +44,10 @@ def playlists_index(request):
 
 
 def playlist(request, id):
-  # cols = ['pk', 'title', 'artist', 'album', 'entry__pk', 'entry__next_id']
-  # res = Song.objects.prefetch_related(
-  #     'playlist_set', 'entry_set').filter(playlist__pk=id).values(*cols)
-  res = Entry.objects.filter(playlist_id=id) \
-                     .values_list("song_id","pk","prev_id")
-
-  # res = Entry.objects.select_related('playlist','song') \
-  #                    .filter(playlist__pk=id) \
-  #                    .values_list("song__pk","pk","prev_id")
-  # res = Entry.objects.select_related('playlist','song').filter(playlist__pk=9).values_list("song__pk","pk","prev_id")
-  return JsonResponse(list(res), safe=False)
+  # Entry.objects.filter(playlist_id=id).values_list("song_id","pk","prev_id")
+  return JsonResponse(
+    list(Entry.objects.filter(playlist_id=id)
+                      .values_list("song_id", "pk","prev_id")), safe=False)
 
 
 def entries_index(request, playlist_id=None, song_id=None):

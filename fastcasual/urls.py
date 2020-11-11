@@ -24,17 +24,14 @@ import debug_toolbar
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', auth.RootView.as_view(), name="index"),
-    path('api/users', auth.UserView.as_view(), name="user view"),
-    path('api/session', auth.SessionView.as_view(), name="session view"),
-    path('api/songs/', song.songs_index, name="song view"),
-    path('api/songs/<int:id>', song.song, name="song view"),
-    path('api/playlists/', song.playlists_index, name="playlists index"),
-    path('api/playlists/<int:id>', song.playlist, name="playlist show"),
-    path('api/entries/<int:playlist_id>/<int:song_id>',
-         song.entries_index,
-         name="add song to playlist"),
-    path('api/move_track', song.move_track, name="playlist"),
+    path('', auth.RootView.as_view()),
+    path('api/users', auth.UserView.as_view()),
+    path('api/session', auth.SessionView.as_view()),
+    path('api/songs/', song.songs_index),
+    path('api/songs/<int:id>', song.song_url),
+    path('api/playlists/', song.playlists_index),
+    path('api/playlists/<int:id>', song.playlist),
+    path('api/entries/<int:playlist_id>/<int:song_id>', song.entries_index),
+    path('api/move_track', song.move_track),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
-# ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
