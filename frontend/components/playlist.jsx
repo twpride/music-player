@@ -21,17 +21,22 @@ export default function Playlist() {
     dispatch(getSongUrl(e))
   }
 
-  const playlist = useSelector(state => state.entities.playlists[id])
-  const [cards, setCards] = useState([])
+  const playlist = useSelector(state => state.entities.playlistD[id])
+  const songD = useSelector(state => state.entities.songD)
+  const [cards, setCards] = useState(null)
+
+  // useEffect(() => {
+  //   if (!playlist) {
+  //     dispatch(getPlaylist(id))
+  //   }
+  // }, [])
 
   useEffect(() => {
     if (!playlist) {
       dispatch(getPlaylist(id))
+    } else if (!cards) {
+      setCards([...playlist])
     }
-  }, [])
-
-  useEffect(() => {
-    if (playlist) { setCards([...playlist]) }
   }, [playlist])
 
   const moveCard = useCallback(
@@ -71,11 +76,11 @@ export default function Playlist() {
     }
 
     if (index + 1 < cards.length) {
-      req[cards[index+1][1]] = cards[index][1]
+      req[cards[index + 1][1]] = cards[index][1]
     }
 
-    moveTrack(req)
-    dispatch(receivePlaylist(id,cards))
+    moveTrack(req) // update db
+    dispatch(receivePlaylist(id, cards)) // update store
   };
 
   return (
@@ -87,7 +92,7 @@ export default function Playlist() {
             index={index}
             id={track}
             prev={prev}
-            text={song}
+            text={songD[song]}
             moveCard={moveCard}
             setPrev={setPrev}
           />

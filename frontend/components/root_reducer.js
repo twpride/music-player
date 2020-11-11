@@ -10,31 +10,31 @@ import ui from '../reducers/ui_reducer';
 
 import {
   RECEIVE_SONG,
-  RECEIVE_SONGS,
+  RECEIVE_SONG_D,
   RECEIVE_SONG_URL,
   RECEIVE_PLAYLIST,
-  RECEIVE_PLAYLISTS
+  RECEIVE_PLAYLIST_TITLE_D
 } from './actions';
 
-const songs = (state = [], action) => {
+const songD = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_SONG:
       return { ...state, [action.song.id]: action.song };
-    case RECEIVE_SONGS:
-      return action.songs;
+    case RECEIVE_SONG_D:
+      return action.songD;
     default:
       return state;
   }
 };
 
-const playlists = (state = {}, action) => {
+const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_PLAYLIST:
       return { ...state, [action.id]: action.playlist };
-    case RECEIVE_PLAYLISTS:
-      return action.playlists;
+    case RECEIVE_PLAYLIST_TITLE_D:
+      return { ...state, playlistTitleD: action.playlistTitleD };
     default:
       return state;
   }
@@ -52,8 +52,8 @@ const player = (state = [], action) => {
 };
 
 const entities = combineReducers({
-  playlists,
-  songs
+  playlistD,
+  songD
 });
 
 const rootReducer = combineReducers({

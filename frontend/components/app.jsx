@@ -10,21 +10,22 @@ import {
 
 import Navbar from './navbar';
 import Intro from './intro';
-import SongList from './songlist';
+import SongD from './songD';
 import Playlist from './playlist';
+import PlaylistD from './playlistD';
 import './app.css';
 
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {getSongs} from './actions';
+import { getSongD } from './actions';
 
 const App = () => {
-  
+
   const dispatch = useDispatch()
-  
-  useEffect( ()=> {
-    dispatch(getSongs())
+
+  useEffect(() => {
+    dispatch(getSongD())
   }, [])
 
   const songUrl = useSelector(state => state.player.songUrl)
@@ -32,21 +33,20 @@ const App = () => {
   return (
     <div className="app-container">
 
-
       <Switch>
-        <Route exact path="/">
-          <Intro/>
+        <Route exact path="/" component={SongD} />
+        <Route exact path="/upload">
+          <Intro />
         </Route>
-        <Route path="/songlist" component={SongList} />
-        <Route path="/playlists/:id" component={Playlist} />
-        {/* <Route path={`/playlist/${}`}>
-          <SongList/>
-        </Route> */}
+        <Route path="/playlist_d/:id" component={Playlist} />
+        <Route path={`/playlist_d/`}>
+          <PlaylistD />
+        </Route>
       </Switch>
-      
-      <audio controls src={songUrl}/>
 
-      <Navbar/>
+      <audio controls src={songUrl} />
+
+      <Navbar />
     </div>
   )
 };

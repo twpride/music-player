@@ -19,51 +19,51 @@ const fetchHeader = () => ({
 })
 
 export const createSong = song => (
-  fetch('/api/songs/', {
+  fetch('/api/song_d/', {
     method: 'POST',
     body: song,
     headers: fetchHeader(),
   })
 );
 
-export const getSongs = () => (
-  fetch('/api/songs/', {
+export const getSongD = () => (
+  fetch('/api/song_d/', {
     method: 'GET',
     headers: fetchHeader(),
   })
 );
 
 export const getSongUrl = id => (
-  fetch(`/api/songs/${id}`, {
+  fetch(`/api/song_d/${id}`, {
     method: 'GET',
     headers: fetchHeader(),
   })
 );
 
 export const createPlaylist = playlist => (
-  fetch('/api/playlists/', {
+  fetch('/api/playlist_d/', {
     method: 'POST',
     body: playlist,
     headers: fetchHeader(),
   })
 );
 
-export const addToPlaylist = (playlist,song) => (
-  fetch(`/api/entries/${playlist}/${song}`, {
+export const addTracK = (playlist,song) => (
+  fetch(`/api/add_track/${playlist}/${song}`, {
     method: 'POST',
     headers: fetchHeader(),
   })
 );
 
-export const getPlaylists = () => (
-  fetch('/api/playlists/', {
+export const getPlaylistTitleD = () => (
+  fetch('/api/playlist_d/', {
     method: 'GET',
     headers: fetchHeader(),
   })
 );
 
 export const getPlaylist = (id) => (
-  fetch(`/api/playlists/${id}`, {
+  fetch(`/api/playlist_d/${id}`, {
     method: 'GET',
     headers: fetchHeader(),
   })

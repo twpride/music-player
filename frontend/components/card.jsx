@@ -7,7 +7,7 @@ const style = {
   backgroundColor: 'white',
   cursor: 'move',
 }
-export const Card = ({ id, text, index, moveCard, prev, setPrev }) => {
+export const Card = ({ id, text, index, moveCard, setPrev }) => {
   const ref = useRef(null)
   const [start, setStart] = useState(null)
 
@@ -54,7 +54,7 @@ export const Card = ({ id, text, index, moveCard, prev, setPrev }) => {
   drag(drop(ref))
   return (
     <div ref={ref} style={{ ...style, opacity }}>
-      {text} {id} {prev}
+      {text.title}
     </div>
   )
 }

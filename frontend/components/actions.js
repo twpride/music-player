@@ -1,19 +1,19 @@
 import * as APIUtil from './api_util';
 export const RECEIVE_SONG = "RECEIVE_SONG"
-export const RECEIVE_SONGS = "RECEIVE_SONGS"
+export const RECEIVE_SONG_D = "RECEIVE_SONG_D"
 export const RECEIVE_SONG_URL = "RECEIVE_SONG_URL"
 export const RECEIVE_PLAYLIST = "RECEIVE_PLAYLIST"
 export const UPDATE_PLAYLIST = "UPDATE_PLAYLIST"
-export const RECEIVE_PLAYLISTS = "RECEIVE_PLAYLISTS"
+export const RECEIVE_PLAYLIST_TITLE_D = "RECEIVE_PLAYLIST_TITLE_D"
 
 export const receiveSong = (song) => ({
   type: RECEIVE_SONG,
   song
 })
 
-export const receiveSongs = (songs) => ({
-  type: RECEIVE_SONGS,
-  songs
+export const receiveSongD = (songD) => ({
+  type: RECEIVE_SONG_D,
+  songD
 })
 
 export const loadSongUrl = (url) => ({
@@ -27,6 +27,11 @@ export const receivePlaylist = (id, playlist) => ({
   playlist
 })
 
+export const receivePlaylistTitleD = (playlistTitleD) => ({
+  type: RECEIVE_PLAYLIST_TITLE_D,
+  playlistTitleD
+})
+
 export const updatePlaylist = (id, dragIdx, hoverIdx) => ({
   type: RECEIVE_PLAYLIST,
   id,
@@ -37,14 +42,14 @@ export const updatePlaylist = (id, dragIdx, hoverIdx) => ({
 export const createSong = song => dispatch => (
   APIUtil.createSong(song)
     .then(response => response.json())
-    .then(newSongs => dispatch(receiveSongs(newSongs)))
+    .then(songD => dispatch(receiveSongD(songD)))
 )
 
-export const getSongs = () => dispatch => (
-  APIUtil.getSongs()
+export const getSongD = () => dispatch => (
+  APIUtil.getSongD()
     .then(response => response.json())
-    .then(songs => {
-      dispatch(receiveSongs(songs))
+    .then(songD => {
+      dispatch(receiveSongD(songD))
     })
 )
 
@@ -59,7 +64,7 @@ export const getSongUrl = (id) => dispatch => (
 export const createPlaylist = playlist => dispatch => (
   APIUtil.createSong(playlist)
     .then(response => response.json())
-    .then(newSongs => dispatch(receiveSongs(newSongs)))
+    .then(songD => dispatch(receiveSongD(songD)))
 )
 
 export const getPlaylist = (id) => dispatch => (
@@ -98,13 +103,10 @@ export const getPlaylist = (id) => dispatch => (
 
 
 
-
-
-
-export const getPlaylists = () => dispatch => (
-  APIUtil.getPlaylists()
+export const getPlaylistTitleD = () => dispatch => (
+  APIUtil.getPlaylistTitleD()
     .then(response => response.json())
-    .then(playlists => {
-      dispatch(receivePlaylists(playlists))
+    .then(titleD => {
+      dispatch(receivePlaylistTitleD(titleD))
     })
 )

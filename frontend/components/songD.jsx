@@ -6,7 +6,7 @@ import { getSongUrl } from './actions'
 import { addToPlaylist} from './api_util'
 import styled from 'styled-components'
 
-export default function SongList() {
+export default function SongD() {
 
   const dispatch = useDispatch();
 
@@ -19,14 +19,14 @@ export default function SongList() {
   //   addToPlaylist()
   // }
 
-  const songs = useSelector(state => state.entities.songs)
+  const songD = useSelector(state => state.entities.songD)
 
   return (
     <table>
       <tbody>
-        {songs.map(song => (
+        {Object.values(songD).map(song => (
           <tr key={song[0]} onClick={() => playSong(song[0])}>
-            {song.map((col, i) => (
+            {Object.values(song).map((col, i) => (
               <td key={i}>{col}</td>
             ))}
           </tr>

@@ -9,32 +9,26 @@ import React from 'react';
 import Modal from './modal'
 import './navbar.css'
 
-const Navbar = ({ currentUser, closeModal, openModal }) => {
 
+const Navbar = ({ currentUser, closeModal, openModal }) => {
+  const login = () => { openModal(currentUser ? 'user' : 'login') }
   return (
     <div className="nav">
-      <div className="left-nav">
-        <a href="" className="logo">
-          medalion
-        </a>
-        <div className="user-button"
-          onClick={() => { openModal(currentUser ? 'user' : 'login') }}>
-          user outline
-          <div className="header-name">{currentUser ? `HEY ${currentUser.firstName}` : 'SIGN IN'}</div>
-        </div>
+      <Link to="/">
+        Home
+      </Link>
+      <div className="user-button"
+        onClick={login}>
+        user 
       </div>
 
-      <Link to="/songlist">
-        song list
+      <Link to="/upload">
+        Upload
       </Link>
 
-      <Link to="/playlists/9">
-        pl8
+      <Link to="/playlist_d/">
+        Playlists
       </Link>
-      <div className="cart">
-        bag
-        <div className="cart-badge">7</div>
-      </div>
 
       <Modal className="modalclass" />
     </div>
