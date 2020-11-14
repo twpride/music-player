@@ -28,9 +28,9 @@ class User(models.Model):
 
     for k, v in kwargs.items():
       if k == "password":
-        newkwargs['password_digest'] = User.ph.hash(v)
+        newkwargs['password_digest'] = User.ph.hash(v[0])
         continue
-      newkwargs[camel2snake(k)] = v
+      newkwargs[camel2snake(k)] = v[0]
 
     newkwargs['session_token'] = secrets.token_urlsafe(16)
 

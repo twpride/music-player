@@ -24,7 +24,9 @@ class SignupForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const user = Object.assign({}, this.state);
+    // const user = Object.assign({}, this.state);
+    const sf= document.getElementById('signup-form')
+    const user = new FormData(sf);
     this.props.processForm(user);
   }
 
@@ -51,12 +53,13 @@ class SignupForm extends React.Component {
           </div>
           <h1 className="login-signup">CREATE AN ACCOUNT</h1>
 
-          <form onSubmit={this.handleSubmit} className="login-form-box">
+          <form onSubmit={this.handleSubmit} className="login-form-box" id="signup-form">
             <div className="login-input">
               <div>Email</div>
               <input type="text"
                 value={this.state.username}
                 onChange={this.update('email')}
+                name="email"
               />
             </div>
             <div className="login-input">
@@ -64,6 +67,7 @@ class SignupForm extends React.Component {
               <input type="text"
                 value={this.state.password}
                 onChange={this.update('password')}
+                name="password"
               />
             </div>
             <div className="login-input">
@@ -71,6 +75,7 @@ class SignupForm extends React.Component {
               <input type="text"
                 value={this.state.firstName}
                 onChange={this.update('firstName')}
+                name="firstName"
               />
             </div>
             <div className="login-input">
@@ -78,6 +83,7 @@ class SignupForm extends React.Component {
               <input type="text"
                 value={this.state.lastName}
                 onChange={this.update('lastName')}
+                name="lastName"
               />
             </div>
             <div className="login-input">
@@ -85,6 +91,7 @@ class SignupForm extends React.Component {
               <input type="text"
                 value={this.state.phoneNumber}
                 onChange={this.update('phoneNumber')}
+                name='phoneNumber'
               />
             </div>
             {this.renderErrors()}

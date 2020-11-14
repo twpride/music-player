@@ -2,17 +2,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { login } from '../actions/session_actions';
 import './login_signup_form.css'
-import { receiveErrors } from '../actions/session_actions'
+import { receiveErrors, receiveCurrentUser } from '../actions/session_actions'
 
 import { openModal, closeModal } from '../actions/modal_actions';
+
 export default function LoginForm() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-
-  function processForm(user) { dispatch(login(user)); }
 
   const openModals = modal => {
     dispatch(receiveErrors([]))
@@ -34,7 +33,7 @@ export default function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = new FormData(document.getElementById('loginForm'));
-    processForm(form);
+    dispatch(login(form))
   }
 
   const renderErrors = () => {

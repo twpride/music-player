@@ -54,7 +54,7 @@ export const Card = ({ id, text, index, moveCard, setPrev }) => {
   drag(drop(ref))
   return (
     <div ref={ref} style={{ ...style, opacity }}>
-      {text.title}
+      {text ? text.title : "false"}
     </div>
   )
 }

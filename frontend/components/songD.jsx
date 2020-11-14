@@ -3,7 +3,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import React, { useState, useReducer, useEffect } from 'react';
 
 import { getSongUrl } from './actions'
-import { addToPlaylist} from './api_util'
+import { addToPlaylist } from './api_util'
 import styled from 'styled-components'
 
 export default function SongD() {
@@ -11,7 +11,6 @@ export default function SongD() {
   const dispatch = useDispatch();
 
   const playSong = (e) => {
-    console.log(e)
     dispatch(getSongUrl(e))
   }
 
@@ -25,7 +24,7 @@ export default function SongD() {
     <table>
       <tbody>
         {Object.values(songD).map(song => (
-          <tr key={song[0]} onClick={() => playSong(song[0])}>
+          <tr key={song.id} onClick={() => playSong(song.id)}>
             {Object.values(song).map((col, i) => (
               <td key={i}>{col}</td>
             ))}

@@ -9,7 +9,7 @@ chardet==3.0.4
 dj-database-url==0.5.0
 Django==3.0.5
 django-debug-toolbar==3.1.1
-django-storages==1.10.1
+-e git+git@github.com:twpride/django-storages.git@adeb2afb861ebc3b2719e098b43ea8d10e9f0781#egg=django_storages&subdirectory=../../django-storages
 dropbox==10.8.0
 gunicorn==20.0.4
 idna==2.10

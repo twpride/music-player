@@ -6,9 +6,6 @@
   {% csrf_token %}
   {% load static %}
 
-  <script type="text/javascript"> window.currentUser = {{response|safe}} </script>
-  <script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
-  <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
   <title>Document</title>
   <link rel="icon" href="data:,">
 </head>
@@ -17,5 +14,8 @@
     Frontend not working
   </div>
 
+  <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
+  <script type="text/javascript"> window.currentUser = {{response|safe}} </script>
+  <script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
 </body>
 </html>

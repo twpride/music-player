@@ -72,7 +72,6 @@ class UserView(CustomView):
     # req_json = json.loads(request.body.decode('utf-8'))
     req_json = request.POST
     self.user = User.pre_init(**req_json)
-    print(req_json)
     try:
       self.user.full_clean()
     except:

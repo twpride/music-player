@@ -82,7 +82,7 @@ export default function Playlist() {
     moveTrack(req) // update db
     dispatch(receivePlaylist(id, cards)) // update store
   };
-
+  
   return (
     <div>
       <DndProvider backend={HTML5Backend} >

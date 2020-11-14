@@ -34,7 +34,6 @@ const Intro = ({ logout, openModal, createSong }) => {
     [field]: e.currentTarget.value
   });
 
-  window.yyy = state
   const loadSong = e => {
     let reader = new FileReader();
     const music = e.currentTarget.files[0]
@@ -64,10 +63,8 @@ const Intro = ({ logout, openModal, createSong }) => {
     createSong(formData)
   }
 
- 
-  useEffect(() => {
     
-  }, [])
+
 
   return (
     <div>
