@@ -1,0 +1,3 @@
+[submodule "django-storages"]
+	path = django-storages
+	url = https://github.com/twpride/django-storages.git
