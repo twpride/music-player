@@ -29,14 +29,12 @@ const fetchHeader = () => ({
 export const postSong = song => (
   fetch(`https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url=${song}`, {
     method: 'POST',
-    // headers: {
-    //   // "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-    //   // "Access-Control-Allow-Credentials" : true, // Required for cookies, authorization headers with HTTPS
-    //   // "X-CSRFToken": getCookie('csrftoken')
-    // },
-    // mode: 'no-cors'
   })
 );
+// export const postSong = song => (
+//   fetch(`https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url=${song}`)
+// );
+
 
 export const getSongD = () => (
   fetch('/api/song_d/', {
