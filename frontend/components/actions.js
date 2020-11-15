@@ -42,7 +42,8 @@ export const updatePlaylist = (id, dragIdx, hoverIdx) => ({
 export const createSong = song => dispatch => (
   APIUtil.createSong(song)
     .then(response => response.json())
-    .then(songD => dispatch(receiveSongD(songD)))
+    .then(json => console.log(json))
+    // .then(songD => dispatch(receiveSongD(songD)))
 )
 
 export const getSongD = () => dispatch => (

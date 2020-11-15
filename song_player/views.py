@@ -16,11 +16,10 @@ def song_d(request):
     return JsonResponse({x["id"]:x for x in Song.objects.values('id','title','artist','album')}, safe=False)
 
   post = request.POST
-  print(request.FILES.getlist('waveform'))
-  songs_to_upload = zip(post.getlist('title'), post.getlist('artist'),
-                        post.getlist('album'),
-                        request.FILES.getlist('waveform'))
+
+  songs_to_upload = post.getlist('url') + request.FILES.getlist('waveform')
   res = []
+  breakpoint() 
   for _song in songs_to_upload:
     song = Song(None, *_song)
     try:

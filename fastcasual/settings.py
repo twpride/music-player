@@ -144,6 +144,8 @@ AWS_ACCESS_KEY_ID='AKIA5BJLHP7KHY6TTHKN'
 AWS_SECRET_ACCESS_KEY='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'
 AWS_STORAGE_BUCKET_NAME='music-player-1'
 
+AWS_YTDL_API_URL='https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url='
+
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
