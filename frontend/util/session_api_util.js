@@ -25,7 +25,7 @@ export const login = user => (
     {
       method: 'POST',
       body: user,
-      // headers: fetchHeader()
+      headers: fetchHeader()
     }
   )
 )
