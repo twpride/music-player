@@ -26,13 +26,11 @@ SECRET_KEY = os.environ.get(
   'DJANGO_SECRET_KEY', 'z7t+y3%z6n&-$==3*@q#9@6b)!c+!3h1ftoqz_8su6n70mm*k%')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = 'PROD' not in os.environ
-DEBUG = False
-# ALLOWED_HOSTS = []
+DEBUG = 'PROD' not in os.environ
 
-# ALLOWED_HOSTS = [
-#   'music-player-1.herokuapp.com',
-# ]
+ALLOWED_HOSTS = [
+  'music-player-1.herokuapp.com',
+]
 
 # ALLOWED_HOSTS = [
 #   'fastcasual.herokuapp.com', '127.0.0.1', '0.0.0.0', 'localhost'
@@ -49,15 +47,15 @@ INSTALLED_APPS = [
   # 'django.contrib.sessions', # db based caching
   # 'django.contrib.messages',
   'django.contrib.staticfiles', # needed for collect static
-  'debug_toolbar'
+  'debug_toolbar',
 ]
 
 MIDDLEWARE = [
   # 'django.middleware.security.SecurityMiddleware',
-  'whitenoise.middleware.WhiteNoiseMiddleware',
-  'django.contrib.sessions.middleware.SessionMiddleware',
+  'whitenoise.middleware.WhiteNoiseMiddleware', # host static files
+  'django.contrib.sessions.middleware.SessionMiddleware', #for cookies
   # 'django.middleware.common.CommonMiddleware',
-  'django.middleware.csrf.CsrfViewMiddleware',
+  # 'django.middleware.csrf.CsrfViewMiddleware',
   'debug_toolbar.middleware.DebugToolbarMiddleware',
   # 'django.contrib.auth.middleware.AuthenticationMiddleware',
   # 'django.contrib.messages.middleware.MessageMiddleware',
@@ -70,7 +68,7 @@ TEMPLATES = [
   {
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'DIRS': [os.path.join(BASE_DIR, 'templates')],
-    'APP_DIRS': True,
+    'APP_DIRS': True, # seemingly only needed for debug toolbar
     # 'OPTIONS': {
     #   'context_processors': [
     #     'django.template.context_processors.debug',
@@ -98,24 +96,24 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-AUTH_PASSWORD_VALIDATORS = [
-  {
-    'NAME':
-      'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-  },
-  {
-    'NAME':
-      'django.contrib.auth.password_validation.MinimumLengthValidator',
-  },
-  {
-    'NAME':
-      'django.contrib.auth.password_validation.CommonPasswordValidator',
-  },
-  {
-    'NAME':
-      'django.contrib.auth.password_validation.NumericPasswordValidator',
-  },
-]
+# AUTH_PASSWORD_VALIDATORS = [
+#   {
+#     'NAME':
+#       'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+#   },
+#   {
+#     'NAME':
+#       'django.contrib.auth.password_validation.MinimumLengthValidator',
+#   },
+#   {
+#     'NAME':
+#       'django.contrib.auth.password_validation.CommonPasswordValidator',
+#   },
+#   {
+#     'NAME':
+#       'django.contrib.auth.password_validation.NumericPasswordValidator',
+#   },
+# ]
 
 # Internationalization
 # Internationalization
@@ -150,4 +148,4 @@ AWS_YTDL_API_URL='https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?u
 
 INTERNAL_IPS = [
     '127.0.0.1',
-]
+] # for debug toolbar

@@ -18,22 +18,13 @@ const fetchHeader = () => ({
   "X-CSRFToken": getCookie('csrftoken'),
 })
 
-// export const createSong = song => (
-//   fetch('/api/song_d/', {
-//     method: 'POST',
-//     body: song,
-//     headers: fetchHeader(),
-//   })
-// );
-
-export const postSong = song => (
-  fetch(`https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url=${song}`, {
+export const postSongs = songs => (
+  fetch('/api/post_songs', {
     method: 'POST',
+    body: JSON.stringify(songs),
+    headers: fetchHeader(),
   })
 );
-// export const postSong = song => (
-//   fetch(`https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url=${song}`)
-// );
 
 
 export const getSongD = () => (

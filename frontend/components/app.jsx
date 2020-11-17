@@ -13,6 +13,8 @@ import Intro from './intro';
 import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
+import Test from './styletest';
+
 import './app.css';
 
 import { useEffect } from 'react';
@@ -41,6 +43,9 @@ const App = () => {
         <Route path="/playlist_d/:id" component={Playlist} />
         <Route path={`/playlist_d/`}>
           <PlaylistD />
+        </Route>
+        <Route path={`/styletest`}>
+          <Test />
         </Route>
       </Switch>
 

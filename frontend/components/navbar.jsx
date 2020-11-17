@@ -1,17 +1,21 @@
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import { logout, receiveErrors } from '../actions/session_actions';
-import { openModal } from '../actions/modal_actions';
-import {Link} from 'react-router-dom'
+import { openModal, openContextMenu } from '../actions/ui_actions';
+import { Link } from 'react-router-dom'
 
-import React from 'react';
+import React, { useDebugValue } from 'react';
 
-import Modal from './modal'
+import Modal, { LOGIN_M, USER_M } from './modal'
+import ContextMenu, { SONG_EDIT_C, SONG_BURGER_C } from './contextMenu'
 import './navbar.css'
 
 
-const Navbar = ({ currentUser, closeModal, openModal }) => {
-  const login = () => { openModal(currentUser ? 'user' : 'login') }
+export default function Navbar() {
+  const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.session.currentUser)
+  const login = () => { dispatch(openModal(currentUser ? USER_M : LOGIN_M)) }
+  const cct = () => { dispatch(openContextMenu(SONG_EDIT_C, 2)) }
   return (
     <div className="nav">
       <Link to="/">
@@ -19,7 +23,17 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
       </Link>
       <div className="user-button"
         onClick={login}>
-        user 
+        user
+      </div>
+
+      <div className="user-button"
+        onClick={cct}>
+        EDIT SONG
+      </div>
+
+      <div className="user-button"
+        onClick={() => { dispatch(openContextMenu(SONG_BURGER_C, 2)) }}>
+        Right Click
       </div>
 
       <Link to="/upload">
@@ -30,25 +44,15 @@ const Navbar = ({ currentUser, closeModal, openModal }) => {
         Playlists
       </Link>
 
+      <Link to="/styletest">
+        TEST
+      </Link>
+
       <Modal className="modalclass" />
+      <ContextMenu className="modalclass" />
     </div>
   )
 };
 
 
-const mapStateToProps = ({ session }) => ({
-  currentUser: session.currentUser
-});
 
-const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout()),
-  openModal: modal => {
-    dispatch(receiveErrors([]))
-    dispatch(openModal(modal))
-  }
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Navbar);

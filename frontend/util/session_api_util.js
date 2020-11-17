@@ -35,7 +35,7 @@ export const signup = user => (
     {
       method: 'POST',
       body: user,
-      // headers: fetchHeader()
+      headers: fetchHeader()
     }
   )
 )

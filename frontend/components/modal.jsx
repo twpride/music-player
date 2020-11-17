@@ -1,36 +1,33 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import LoginForm from './login_form';
 import SignupForm from './signup_form';
 import User from './user';
-
-function Modal({modal}) {
+import SongEditForm from './song_edit_form';
+import {useSelector} from 'react-redux'
+ 
+export const LOGIN_M = "LOGIN_M";
+export const SIGNUP_M = "SIGNUP_M";
+export const USER_M = "USER_M";
+export const SONG_EDIT_C = "SONG_EDIT_C";
+import './login_signup_form.css'
+export default function Modal(props) {
+  const modal = useSelector(state => state.ui.modal);
   if (!modal) {
     return null;
   }
   let Component;
   switch (modal) {
-    case 'login':
+    case LOGIN_M:
       Component = LoginForm;
       break;
-    case 'signup':
+    case SIGNUP_M:
       Component = SignupForm;
       break;
-    case 'user':
+    case USER_M:
       Component = User;
-      break;
+      break
     default:
       return null;
   }
   return <Component className="modalclass"/>
-
 }
-
-const mapStateToProps = state => {
-  return {
-    modal: state.ui.modal
-  };
-};
-
-
-export default connect(mapStateToProps)(Modal);

@@ -7,7 +7,8 @@ class Song(models.Model):
   title = models.CharField(max_length=100)
   artist = models.CharField(max_length=100, blank=True)
   album = models.CharField(max_length=100, blank=True)
-  waveform = models.FileField(upload_to='./media/songs')
+  filename = models.CharField(max_length=255, blank=True)
+  # waveform = models.FileField(upload_to='./media/songs')
 
 class Entry(models.Model):
   playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)

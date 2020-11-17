@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { login } from '../actions/session_actions';
-import './login_signup_form.css'
+
 import { receiveErrors, receiveCurrentUser } from '../actions/session_actions'
 
-import { openModal, closeModal } from '../actions/modal_actions';
+import { openModal, closeModal } from '../actions/ui_actions';
 
 export default function LoginForm() {
 

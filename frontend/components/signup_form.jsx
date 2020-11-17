@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import { signup, receiveErrors} from '../actions/session_actions';
-import { openModal, closeModal } from '../actions/modal_actions';
+import { openModal, closeModal } from '../actions/ui_actions';
+
+
 class SignupForm extends React.Component {
   constructor(props) {
     super(props);

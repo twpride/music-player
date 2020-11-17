@@ -1,10 +1,10 @@
-import { connect, useDispatch} from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
-import React, { useState, useReducer, useEffect} from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 
 import './intro.css'
-// import { createSong } from './actions'
-import { postSong } from './api_util'
+import { postSongs } from './actions'
+import { } from './api_util'
 
 import {
   Route,
@@ -14,9 +14,9 @@ import {
   HashRouter
 } from 'react-router-dom';
 
+const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 
-
-const Intro = ({ logout, openModal, createSong }) => {
+const Intro = ({ logout, openModal, postSongs }) => {
 
   const [urls, setUrls] = useState('');
 
@@ -24,7 +24,7 @@ const Intro = ({ logout, openModal, createSong }) => {
     const music = e.currentTarget.files[0]
   }
 
-  const submitSong = e => {
+  const submitSong = async e => {
     e.preventDefault();
     // console.log(this.uploadButton.current)
     // this.uploadButton.current.disabled = true;
@@ -35,18 +35,18 @@ const Intro = ({ logout, openModal, createSong }) => {
     // createSong(formData)
     const urlsArray = urls.split("\n")
 
-    const res = urlsArray.map( async url => {
-      const temp = await postSong(url);
-      const fin = await temp.json();
-      console.log(fin)
-      return fin
-    })
-    
-    window.rr = res
+    const songs = await Promise.all(
+      urlsArray.map(async url => {
+        const resp = await fetch(ytdlAPI + url)
+        const json = await resp.json();
+        return json
+      })
+    )
 
+    postSongs(songs)
   }
 
-    
+
 
 
   return (
@@ -59,7 +59,7 @@ const Intro = ({ logout, openModal, createSong }) => {
           <textarea type="text"
             name="url"
             value={urls}
-            onChange={ e=> setUrls(e.currentTarget.value)}
+            onChange={e => setUrls(e.currentTarget.value)}
             rows="5" cols="43" wrap="hard"
           />
         </div>
@@ -81,7 +81,7 @@ const mapStateToProps = ({ entities }) => ({
 
 const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
-  createSong: (song) => dispatch(createSong(song)),
+  postSongs: (songs) => dispatch(postSongs(songs)),
   openModal: modal => dispatch(openModal(modal)),
 });
 

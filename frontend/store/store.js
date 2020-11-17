@@ -5,7 +5,7 @@ import logger from 'redux-logger';
 import rootReducer from '../components/root_reducer.js';
 
 
-const ps = { entities: { playlistD: {}, songD: {} } }
+const ps = { entities: { playlistD: {}, songD: {} }, ui: {} }
 
 const configureStore = (preloadedState = ps) => (
   createStore(
