@@ -35,7 +35,7 @@ export default function SongEditForm(props) {
   return (
     <div className="modal" >
       <div className="login-form-container">
-        <h1 className="login-signup">Edit Songk</h1>
+        <h1 className="login-signup">Edit Song</h1>
 
         <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
 

@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { login } from '../actions/session_actions';
 
-import { closeContextMenu } from '../actions/ui_actions';
-import { useTextField } from './hooks'
+import { closeContextMenu, openContextMenu} from '../actions/ui_actions';
+import {SONG_EDIT_C} from './contextMenu'
 
 export default function SongBurger(props) {
 
@@ -12,7 +12,9 @@ export default function SongBurger(props) {
   const errors = useSelector(state => state.errors);
 
   const burgerList = {
-    "Edit song": () => { console.log(1) },
+    "Edit song": () => {
+      dispatch(openContextMenu(SONG_EDIT_C, props.id))
+    },
     "Add to playlist": () => { console.log(2) },
     "Delete song": () => { console.log(3) },
   }
@@ -42,6 +44,9 @@ export default function SongBurger(props) {
           {name}
         </div>
       ))}
+      <div className="close-modal" onClick={() => dispatch(closeContextMenu())}>
+        X
+      </div>
     </div >
   );
 }

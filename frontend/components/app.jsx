@@ -15,13 +15,21 @@ import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import Test from './styletest';
 
-import './app.css';
-
+import styled from 'styled-components'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getSongD } from './actions';
+const AppDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  height:100vh;
 
+  >div:first-child {
+    height:90%;
+    overflow:scroll;
+  }
+`
 const App = () => {
 
   const dispatch = useDispatch()
@@ -33,26 +41,27 @@ const App = () => {
   const songUrl = useSelector(state => state.player.songUrl)
 
   return (
-    <div className="app-container">
-
-      <Switch>
-        <Route exact path="/" component={SongD} />
-        <Route exact path="/upload">
-          <Intro />
-        </Route>
-        <Route path="/playlist_d/:id" component={Playlist} />
-        <Route path={`/playlist_d/`}>
-          <PlaylistD />
-        </Route>
-        <Route path={`/styletest`}>
-          <Test />
-        </Route>
-      </Switch>
+    <AppDiv>
+      <div>
+        <Switch>
+          <Route exact path="/" component={SongD} />
+          <Route exact path="/upload">
+            <Intro />
+          </Route>
+          <Route path="/playlist_d/:id" component={Playlist} />
+          <Route path={`/playlist_d/`}>
+            <PlaylistD />
+          </Route>
+          <Route path={`/styletest`}>
+            <Test />
+          </Route>
+        </Switch>
+      </div>
 
       <audio controls src={songUrl} />
 
       <Navbar />
-    </div>
+    </AppDiv>
   )
 };
 

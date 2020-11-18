@@ -8,8 +8,42 @@ import React, { useDebugValue } from 'react';
 
 import Modal, { LOGIN_M, USER_M } from './modal'
 import ContextMenu, { SONG_EDIT_C, SONG_BURGER_C } from './contextMenu'
-import './navbar.css'
+// import './navbar.css'
 
+import styled from 'styled-components'
+
+const NavbarDiv = styled.div`
+a.logo{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+
+
+  display: flex;
+  align-items: center;
+
+  min-height: 100px;
+  justify-content: space-between;
+  /* font-size: 20px; */
+  width: 100%;
+  z-index: 10;
+
+
+
+.modalclass {
+  z-index: 10;
+}
+
+.nav-logo {
+  height: 48px;
+  width: 48px;
+}
+
+img.logo {
+  width: 80px;
+}
+`
 
 export default function Navbar() {
   const dispatch = useDispatch()
@@ -17,7 +51,7 @@ export default function Navbar() {
   const login = () => { dispatch(openModal(currentUser ? USER_M : LOGIN_M)) }
   const cct = () => { dispatch(openContextMenu(SONG_EDIT_C, 2)) }
   return (
-    <div className="nav">
+    <NavbarDiv className="nav">
       <Link to="/">
         Home
       </Link>
@@ -50,7 +84,7 @@ export default function Navbar() {
 
       <Modal className="modalclass" />
       <ContextMenu className="modalclass" />
-    </div>
+    </NavbarDiv>
   )
 };
 

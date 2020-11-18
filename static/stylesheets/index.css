@@ -3,7 +3,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
-
   /* border: solid 1px red; */
 }
 
@@ -14,7 +13,11 @@ body {
   /* font-family: "Trade Gothic LT Bold,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol"; */
 }
 
-
+body, html {
+  height: 100vh;
+  max-height: 100vh;
+  box-sizing: border-box;
+}
 
 
 .modal {

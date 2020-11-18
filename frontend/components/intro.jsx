@@ -2,7 +2,7 @@ import { connect, useDispatch } from 'react-redux';
 
 import React, { useState, useReducer, useEffect } from 'react';
 
-import './intro.css'
+// import './intro.css'
 import { postSongs } from './actions'
 import { } from './api_util'
 

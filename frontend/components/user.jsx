@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import { login } from '../actions/session_actions';
 import { openModal, closeModal} from '../actions/ui_actions';
-import './login_signup_form.css'
+// import './login_signup_form.css'
 import {receiveErrors, logout} from '../actions/session_actions'
 
 class LoginForm extends React.Component {

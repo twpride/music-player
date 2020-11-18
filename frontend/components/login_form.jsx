@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { login } from '../actions/session_actions';
-
+import {SIGNUP_M} from './modal'
 import { receiveErrors, receiveCurrentUser } from '../actions/session_actions'
 
 import { openModal, closeModal } from '../actions/ui_actions';
@@ -84,7 +84,7 @@ export default function LoginForm() {
           <div className="heading">NOT A MEMBER?</div>
           <div className="subheading">JOIN REWARDS. GET REWARDED.</div>
           <div className="button"
-            onClick={() => openModals('signup')}
+            onClick={() => openModals(SIGNUP_M)}
           >
             CREATE AN ACCOUNT
           </div>
