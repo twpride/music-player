@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 
-import { receiveErrors, receiveCurrentUser } from '../actions/session_actions'
-
+import { session_act } from '../reducers/session_reducer'
 import { modal_act } from '../reducers/ui_reducer'
 import { login } from "../util/session_api_util"
 
@@ -14,7 +13,7 @@ export default function LoginForm() {
   const dispatch = useDispatch();
 
   function signUp() {
-    dispatch(receiveErrors([]))
+    dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors: []})
     dispatch({type:modal_act.SIGNUP_M})
   };
 
@@ -33,12 +32,12 @@ export default function LoginForm() {
 
     const res = await login(form)
     if (res.ok) {
-      const user = await res.json()
-      dispatch(receiveCurrentUser(user))
+      const currentUser = await res.json()
+      dispatch({type:session_act.RECEIVE_CURRENT_USER, currentUser})
       dispatch({type:modal_act.CLOSE_MODAL})
     } else {
-      const error = await res.json()
-      dispatch(receiveErrors(error))
+      const errors = await res.json()
+      dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors})
     }
 
   }

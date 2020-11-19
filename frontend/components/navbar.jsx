@@ -41,7 +41,11 @@ img.logo {
 export default function Navbar() {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
-  const login = () => { dispatch({type:currentUser? modal_act.USER_M : modal_act.LOGIN_M}) }
+  const login = () => { 
+    console.log('heeeeeeeer')
+    const type = currentUser? modal_act.USER_M : modal_act.LOGIN_M;
+    dispatch({type}) 
+  }
 
   return (
     <NavbarDiv className="nav">

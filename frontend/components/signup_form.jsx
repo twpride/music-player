@@ -1,8 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
-import { signup, receiveErrors } from '../actions/session_actions';
-import { modal_act } from '../reducers/ui_reducer'
 import { useTextField } from './hooks'
+import { signup } from '../util/session_api_util'
+import { modal_act } from '../reducers/ui_reducer'
+import { session_act } from '../reducers/session_reducer'
 
 export default function SignupForm() {
   const dispatch = useDispatch()
@@ -16,11 +17,24 @@ export default function SignupForm() {
     phoneNumber: 'Mobile Number'
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const sf = document.getElementById('signup-form')
     const user = new FormData(sf);
-    dispatch(signup(user))
+    // dispatch(signup(user))
+
+    const res = await signup(user)
+
+    if (res.ok) {
+      const currentUser = await res.json()
+      dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
+      dispatch({ type: modal_act.CLOSE_MODAL })
+    } else {
+      const errors = await res.json()
+      dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })
+    }
+
+
   }
 
   function renderErrors() {
@@ -36,8 +50,8 @@ export default function SignupForm() {
   }
 
   function login() {
-    dispatch(receiveErrors([]))
-    dispatch({type:modal_act.LOGIN_M})
+    dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors: []})
+    dispatch({ type: modal_act.LOGIN_M })
   }
 
   return (
@@ -68,7 +82,7 @@ export default function SignupForm() {
       </div>
 
       <div className="close-modal" onClick={() => {
-        dispatch({type:modal_act.CLOSE_MODAL})
+        dispatch({ type: modal_act.CLOSE_MODAL })
       }}>
       </div>
     </>

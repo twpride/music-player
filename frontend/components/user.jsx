@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import {modal_act} from '../reducers/ui_reducer'
-import {receiveErrors, logout} from '../actions/session_actions'
+import { session_act } from '../reducers/session_reducer';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -63,7 +63,7 @@ const mapStateToProps = ({ errors }) => {
 const mapDispatchToProps = dispatch => {
   return {
     closeModal: ()=> dispatch({type:modal_act.CLOSE_MODAL}),
-    logout: ()=> dispatch(logout())
+    logout: ()=> dispatch({type:session_act.LOGOUT_CURRENT_USER})
   };
 };
 

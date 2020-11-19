@@ -39,23 +39,11 @@ export const signup = user => dispatch => (
 
 
 
-// export const login = user => async dispatch => {
-//   const res = await APIUtil.login(user)
-//   if (res.ok) {
-//     const user = await res.json()
-//     dispatch(receiveCurrentUser(user))
-//     dispatch(closeModal())
-//   } else {
-//     const error = await res.json()
-//     dispatch(receiveErrors(error))
-//   }
-// }
-
 
 
 export const logout = () => dispatch => {
   APIUtil.logout().then(() => {
     dispatch(logoutCurrentUser())
-    dispatch(closeModal())
+    dispatch({type:modal_act.CLOSE_MODAL})
   })
 };
