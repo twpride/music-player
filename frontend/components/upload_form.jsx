@@ -5,11 +5,18 @@ import React, { useState, useReducer, useEffect } from 'react';
 import { postSongs } from './actions'
 import { } from './api_util'
 
+import {
 
+  Route,
+  Redirect,
+  Switch,
+  Link,
+  HashRouter
+} from 'react-router-dom';
 
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 
-const UploadForm = ({ logout, openModal, postSongs }) => {
+const UploadFormX = ({ logout, openModal, postSongs }) => {
 
   const [urls, setUrls] = useState('');
 
@@ -81,7 +88,7 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UploadForm);
+)(UploadFormX);
 
 
 

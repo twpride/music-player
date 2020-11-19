@@ -5,7 +5,7 @@ export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
 import { closeModal } from './ui_actions'
 
-// import 'babel-polyfill'; // for await syntax compat
+import 'babel-polyfill'; // for await syntax compat
 export const receiveCurrentUser = currentUser => ({
   type: RECEIVE_CURRENT_USER,
   currentUser
