@@ -70,6 +70,7 @@ class UserView(CustomView):
 
   def post(self, request):
     # req_json = json.loads(request.body.decode('utf-8'))
+    # breakpoint()
     req_json = request.POST
     self.user = User.pre_init(**req_json)
     try:

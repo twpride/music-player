@@ -9,8 +9,6 @@
 body {
   margin: 0;
   padding: 0;
-  /* font-family: "Nunito,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol"; */
-  /* font-family: "Trade Gothic LT Bold,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol"; */
 }
 
 body, html {
@@ -19,26 +17,3 @@ body, html {
   box-sizing: border-box;
 }
 
-
-.modal {
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: beige;
-  z-index: 1;
-}
-
-.close-modal {
-  position: absolute;
-  right: 2.5em;
-  top: 2.5em;
-  cursor: pointer;
-}
-
-.close-modal img{
-  width: 1.3em;
-  height: 1.3em;
-}

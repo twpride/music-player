@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
-import { login } from '../actions/session_actions';
 import {SIGNUP_M} from './modal'
 import { receiveErrors, receiveCurrentUser } from '../actions/session_actions'
 
 import { openModal, closeModal } from '../actions/ui_actions';
-
+import {login} from "../util/session_api_util"
 export default function LoginForm() {
 
   const [email, setEmail] = useState('');
@@ -20,20 +19,27 @@ export default function LoginForm() {
 
   const closeModals = () => dispatch(closeModal())
 
-  const { errors, formType } = useSelector(({ errors }) => ({
-    errors: errors.session,
-    formType: 'SIGN IN',
-  }));
+  const errors = useSelector(state => state.errors.session)
 
   const demoUser = () => {
     setEmail("demoUser@gmail.com");
     setPassword("demouser");
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(document.getElementById('loginForm'));
-    dispatch(login(form))
+
+    const res = await login(form) 
+    if (res.ok) {
+      const user = await res.json()
+      dispatch(receiveCurrentUser(user))
+      dispatch(closeModal())
+    } else {
+      const error = await res.json()
+      dispatch(receiveErrors(error))
+    }
+
   }
 
   const renderErrors = () => {
@@ -49,7 +55,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="modal" >
+    <>
       <div className="login-form-container">
         <div className="modal-img">
           image?!
@@ -101,6 +107,6 @@ export default function LoginForm() {
         X
       </div>
 
-    </div >
+    </>
   );
 }

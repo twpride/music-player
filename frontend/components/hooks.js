@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-export const useTextField = ([name, initValue]) => {
+export const useTextField = (name, initValue='') => {
   const [value, setValue] = useState(initValue);
   const onChange = event => {
     setValue(event.target.value);

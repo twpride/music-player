@@ -1,14 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState } from 'react';
-import { login } from '../actions/session_actions';
+import React, { } from 'react';
+import styled from 'styled-components'
 
-import { closeContextMenu } from '../actions/ui_actions';
 import { editSongs } from './actions'
 import { useTextField } from './hooks'
+import { ui } from '../reducers/ui_reducer'
 
 
+const ModalDiv = styled.div`
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: beige;
+  z-index: 1;
 
-
+  .field {
+    text-transform: capitalize;
+  }
+`
 export default function SongEditForm(props) {
 
   const dispatch = useDispatch();
@@ -21,7 +33,7 @@ export default function SongEditForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const song = new FormData(document.getElementById('songEditForm'));
-    song.append('ids',JSON.stringify(props.id))
+    song.append('ids', JSON.stringify(props.id))
     dispatch(editSongs(song))
   }
 
@@ -38,7 +50,7 @@ export default function SongEditForm(props) {
   }
 
   return (
-    <div className="modal" >
+    <>
       <div className="login-form-container">
         <h1 className="login-signup">Edit Song</h1>
 
@@ -47,9 +59,9 @@ export default function SongEditForm(props) {
           {Object.entries(song).filter(e => e[0] != 'id').map(
             (field, i) => (
               <div key={i} className="login-input">
-                <div>{field[0]}</div>
+                <div className="field">{field[0]}</div>
                 <input type="text"
-                  {...useTextField(field)}
+                  {...useTextField(...field)}
                 />
               </div>
             )
@@ -64,10 +76,9 @@ export default function SongEditForm(props) {
 
       </div>
 
-      <div className="close-modal" onClick={() => dispatch(closeContextMenu())}>
+      <div className="close-modal" onClick={() => dispatch({ type: ui.CLOSE_CONTEXT })}>
         X
       </div>
-
-    </div >
+    </>
   );
 }

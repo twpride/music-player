@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 
 import Navbar from './navbar';
-import Intro from './intro';
+import UploadForm from './upload_form';
 import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
@@ -46,7 +46,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={SongD} />
           <Route exact path="/upload">
-            <Intro />
+            <UploadForm />
           </Route>
           <Route path="/playlist_d/:id" component={Playlist} />
           <Route path={`/playlist_d/`}>
