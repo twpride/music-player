@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
-import { SIGNUP_M } from './modal'
+
 import { receiveErrors, receiveCurrentUser } from '../actions/session_actions'
 
-import { openModal, closeModal } from '../actions/ui_actions';
+import { modal_act } from '../reducers/ui_reducer'
 import { login } from "../util/session_api_util"
+
 export default function LoginForm() {
 
   const [email, setEmail] = useState('');
@@ -12,12 +13,12 @@ export default function LoginForm() {
 
   const dispatch = useDispatch();
 
-  const openModals = modal => {
+  function signUp() {
     dispatch(receiveErrors([]))
-    dispatch(openModal(modal))
+    dispatch({type:modal_act.SIGNUP_M})
   };
 
-  const closeModals = () => dispatch(closeModal())
+  const closeModals = () => dispatch({type:modal_act.CLOSE_MODAL})
 
   const errors = useSelector(state => state.errors.session)
 
@@ -34,7 +35,7 @@ export default function LoginForm() {
     if (res.ok) {
       const user = await res.json()
       dispatch(receiveCurrentUser(user))
-      dispatch(closeModal())
+      dispatch({type:modal_act.CLOSE_MODAL})
     } else {
       const error = await res.json()
       dispatch(receiveErrors(error))
@@ -83,7 +84,7 @@ export default function LoginForm() {
 
       <div className="create-account">
         <div className="heading">NOT A MEMBER?</div>
-        <div className="button" onClick={() => openModals(SIGNUP_M)}>
+        <div className="button" onClick={signUp}>
           CREATE AN ACCOUNT
           </div>
         <div className="button" onClick={() => demoUser()}>

@@ -3,12 +3,9 @@ import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useReducer, useEffect } from 'react';
 import burgerIcon from './icons/burger.svg'
+
 import { getSongUrl } from './actions'
-
-import { SONG_EDIT_C, SONG_BURGER_C } from './contextMenu'
-import { openModal, openContextMenu } from '../actions/ui_actions';
-
-import {ui} from '../reducers/ui_reducer'
+import {context_act} from '../reducers/ui_reducer'
 
 const Table = styled.table`
   font-size: .9em;
@@ -53,8 +50,7 @@ export default function SongD() {
 
   const launchBurger = (id) => (e) => {
     e.stopPropagation()
-    // dispatch(openContextMenu(SONG_BURGER_C, id))
-    dispatch({type: ui.SONG_BURGER_C, id})
+    dispatch({type: context_act.SONG_BURGER_C, id})
   }
 
 

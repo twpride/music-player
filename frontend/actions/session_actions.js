@@ -3,7 +3,8 @@ import * as APIUtil from '../util/session_api_util';
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 export const RECEIVE_SESSION_ERRORS = 'RECEIVE_SESSION_ERRORS';
-import { closeModal } from './ui_actions'
+
+import {modal_act } from '../reducers/ui_reducer'
 
 import 'babel-polyfill'; // for await syntax compat
 export const receiveCurrentUser = currentUser => ({
@@ -26,7 +27,7 @@ export const signup = user => dispatch => (
     if (res.ok) {
       res.json().then(user => {
         dispatch(receiveCurrentUser(user))
-        dispatch(closeModal())
+        dispatch({type:modal_act.CLOSE_MODAL})
       })
     } else {
       res.json().then(error => {

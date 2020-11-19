@@ -1,8 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
 import { signup, receiveErrors } from '../actions/session_actions';
-import { openModal, closeModal } from '../actions/ui_actions';
-import {LOGIN_M} from './modal'
+import { modal_act } from '../reducers/ui_reducer'
 import { useTextField } from './hooks'
 
 export default function SignupForm() {
@@ -38,7 +37,7 @@ export default function SignupForm() {
 
   function login() {
     dispatch(receiveErrors([]))
-    dispatch(openModal(LOGIN_M))
+    dispatch({type:modal_act.LOGIN_M})
   }
 
   return (
@@ -69,7 +68,7 @@ export default function SignupForm() {
       </div>
 
       <div className="close-modal" onClick={() => {
-        dispatch(closeModal())
+        dispatch({type:modal_act.CLOSE_MODAL})
       }}>
       </div>
     </>

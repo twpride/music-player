@@ -10,6 +10,8 @@ export const LOGIN_M = "LOGIN_M";
 export const SIGNUP_M = "SIGNUP_M";
 export const USER_M = "USER_M";
 
+import {modal_act} from '../reducers/ui_reducer'
+
 const ModalDiv = styled.div`
   display: block;
   position: absolute;
@@ -30,14 +32,14 @@ export default function Modal() {
     return null;
   }
   let Component;
-  switch (modal) {
-    case LOGIN_M:
+  switch (modal.type) {
+    case modal_act.LOGIN_M:
       Component = LoginForm;
       break;
-    case SIGNUP_M:
+    case modal_act.SIGNUP_M:
       Component = SignupForm;
       break;
-    case USER_M:
+    case modal_act.USER_M:
       Component = User;
       break
     default:

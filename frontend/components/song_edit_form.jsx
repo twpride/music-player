@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 import { editSongs } from './actions'
 import { useTextField } from './hooks'
-import { ui } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/ui_reducer'
 
 
 const ModalDiv = styled.div`
@@ -76,7 +76,7 @@ export default function SongEditForm(props) {
 
       </div>
 
-      <div className="close-modal" onClick={() => dispatch({ type: ui.CLOSE_CONTEXT })}>
+      <div className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
         X
       </div>
     </>

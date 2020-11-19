@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import { openModal, closeModal} from '../actions/ui_actions';
-// import './login_signup_form.css'
+import {modal_act} from '../reducers/ui_reducer'
 import {receiveErrors, logout} from '../actions/session_actions'
 
 class LoginForm extends React.Component {
@@ -63,12 +62,7 @@ const mapStateToProps = ({ errors }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    processForm: (user) => dispatch(login(user)),
-    openModal: modal => {
-      dispatch(receiveErrors([]))
-      dispatch(openModal(modal))
-    },
-    closeModal: ()=> dispatch(closeModal()),
+    closeModal: ()=> dispatch({type:modal_act.CLOSE_MODAL}),
     logout: ()=> dispatch(logout())
   };
 };

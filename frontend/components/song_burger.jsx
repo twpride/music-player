@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 
-import { closeContextMenu, openContextMenu} from '../actions/ui_actions';
 
-import {ui} from '../reducers/ui_reducer'
+import { context_act } from '../reducers/ui_reducer'
 
 export default function SongBurger(props) {
 
@@ -13,7 +12,7 @@ export default function SongBurger(props) {
 
   const burgerList = {
     "Edit song": () => {
-      dispatch({ type: ui.SONG_EDIT_C, id: props.id })
+      dispatch({ type: context_act.SONG_EDIT_C, id: props.id })
     },
     "Add to playlist": () => { console.log(2) },
     "Delete song": () => { console.log(3) },
@@ -40,7 +39,8 @@ export default function SongBurger(props) {
           {name}
         </div>
       ))}
-      <div className="close-modal" onClick={() => dispatch({ type: ui.CLOSE_CONTEXT})}>
+      <div className="close-modal" onClick={() => dispatch(
+        { type: context_act.CLOSE_CONTEXT })}>
         X
       </div>
     </>

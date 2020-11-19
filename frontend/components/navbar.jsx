@@ -1,15 +1,14 @@
 import { connect, useDispatch, useSelector } from 'react-redux';
 
-import { logout, receiveErrors } from '../actions/session_actions';
-import { openModal, openContextMenu } from '../actions/ui_actions';
 import { Link } from 'react-router-dom'
 
 import React, { useDebugValue } from 'react';
 
 import Modal, { LOGIN_M, USER_M } from './modal'
-import ContextMenu, { SONG_EDIT_C, SONG_BURGER_C } from './contextMenu'
+import ContextMenu, {} from './contextMenu'
 
 import styled from 'styled-components'
+import { context_act, modal_act } from '../reducers/ui_reducer';
 
 const NavbarDiv = styled.div`
 a.logo{
@@ -42,7 +41,7 @@ img.logo {
 export default function Navbar() {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
-  const login = () => { dispatch(openModal(currentUser ? USER_M : LOGIN_M)) }
+  const login = () => { dispatch({type:currentUser? modal_act.USER_M : modal_act.LOGIN_M}) }
 
   return (
     <NavbarDiv className="nav">
