@@ -42,5 +42,5 @@ export default function ContextMenu() {
     default:
       return null;
   }
-  return <ModalDiv><Component /></ModalDiv>
+  return <ModalDiv><Component id={contextMenu.id} /></ModalDiv>
 }

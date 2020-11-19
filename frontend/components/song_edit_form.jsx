@@ -25,7 +25,7 @@ export default function SongEditForm(props) {
 
   const dispatch = useDispatch();
 
-  const song = useSelector(state => state.entities.songD[props.id]);
+  const songState = useSelector(state => state.entities.songD[props.id]);
 
   const errors = useSelector(state => state.errors);
 
@@ -56,7 +56,7 @@ export default function SongEditForm(props) {
 
         <form onSubmit={handleSubmit} className="login-form-box" id="songEditForm">
 
-          {Object.entries(song).filter(e => e[0] != 'id').map(
+          {Object.entries(songState).filter(e => e[0] != 'id').map(
             (field, i) => (
               <div key={i} className="login-input">
                 <div className="field">{field[0]}</div>
