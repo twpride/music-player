@@ -22,7 +22,7 @@ const songD = (state = [], action) => {
     case RECEIVE_SONG:
       return { ...state, [action.song.id]: action.song };
     case RECEIVE_SONG_D:
-      return action.songD;
+      return {...state, ...action.songD};
     default:
       return state;
   }

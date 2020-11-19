@@ -7,3 +7,16 @@ export const useTextField = ([name, initValue]) => {
   };
   return { name, value, onChange };
 }
+
+export const useLegacyState = initialState => {
+  const [state, setState] = useReducer(
+    (state, update) => ({ ...state, ...update }),
+    initialState
+  );
+  return [state, setState];
+}
+
+
+  const update = field => e => setState({
+    [field]: e.currentTarget.value
+  });

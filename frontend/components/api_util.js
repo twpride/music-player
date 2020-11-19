@@ -26,6 +26,14 @@ export const postSongs = songs => (
   })
 );
 
+export const editSongs = (song) => (
+  fetch('/api/edit_songs', {
+    method: 'POST',
+    body: song,
+    headers: fetchHeader(),
+  })
+);
+
 
 export const getSongD = () => (
   fetch('/api/song_d/', {

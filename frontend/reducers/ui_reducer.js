@@ -2,15 +2,13 @@ import { combineReducers } from 'redux';
 
 
 
-
-
 import { OPEN_MODAL, CLOSE_MODAL, OPEN_CONTEXT_MENU, CLOSE_CONTEXT_MENU } from '../actions/ui_actions';
 
 const modal = (state = null, action) => {
   Object.freeze(state);
-  switch(action.type) {
+  switch (action.type) {
     case OPEN_MODAL:
-      return action.modal 
+      return action.modal
     case CLOSE_MODAL:
       return null;
     default:
@@ -20,9 +18,9 @@ const modal = (state = null, action) => {
 
 const contextMenu = (state = null, action) => {
   Object.freeze(state);
-  switch(action.type) {
+  switch (action.type) {
     case OPEN_CONTEXT_MENU:
-      // delete action.type;
+      delete action.type;
       return action;
     case CLOSE_CONTEXT_MENU:
       return null;

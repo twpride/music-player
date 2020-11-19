@@ -42,8 +42,13 @@ export const updatePlaylist = (id, dragIdx, hoverIdx) => ({
 export const postSongs = songs => dispatch => (
   APIUtil.postSongs(songs)
     .then(response => response.json())
-    .then(json => console.log(json))
-    // .then(songD => dispatch(receiveSongD(songD)))
+    .then(songD => dispatch(receiveSongD(songD)))
+)
+
+export const editSongs = (song)=> dispatch => (
+  APIUtil.editSongs(song)
+    .then(response => response.json())
+    .then(songD => dispatch(receiveSongD(songD)))
 )
 
 export const getSongD = () => dispatch => (

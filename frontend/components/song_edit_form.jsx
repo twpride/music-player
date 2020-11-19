@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import { login } from '../actions/session_actions';
 
 import { closeContextMenu } from '../actions/ui_actions';
+import { editSongs } from './actions'
 import { useTextField } from './hooks'
+
+
+
 
 export default function SongEditForm(props) {
 
@@ -16,8 +20,9 @@ export default function SongEditForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = new FormData(document.getElementById('loginForm'));
-    dispatch(login(form))
+    const song = new FormData(document.getElementById('songEditForm'));
+    song.append('ids',JSON.stringify(props.id))
+    dispatch(editSongs(song))
   }
 
   const renderErrors = () => {
@@ -37,16 +42,18 @@ export default function SongEditForm(props) {
       <div className="login-form-container">
         <h1 className="login-signup">Edit Song</h1>
 
-        <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
+        <form onSubmit={handleSubmit} className="login-form-box" id="songEditForm">
 
-          {Object.entries(song).map((field, i) => (
-            <div key={i} className="login-input">
-              <div>{field[0]}</div>
-              <input type="text"
-              {...useTextField(field)}
-              />
-            </div>
-          ))}
+          {Object.entries(song).filter(e => e[0] != 'id').map(
+            (field, i) => (
+              <div key={i} className="login-input">
+                <div>{field[0]}</div>
+                <input type="text"
+                  {...useTextField(field)}
+                />
+              </div>
+            )
+          )}
 
           {/* {renderErrors()} */}
           <input className="submit-button"

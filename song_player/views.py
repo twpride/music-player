@@ -12,24 +12,18 @@ def song_d(request):
   if request.method == "GET":
     return JsonResponse({x["id"]:x for x in Song.objects.values('id','title','artist','album')}, safe=False)
 
-  post = request.POST
-  print(request.FILES.getlist('waveform'))
-  songs_to_upload = zip(post.getlist('title'), post.getlist('artist'),
-                        post.getlist('album'),
-                        request.FILES.getlist('waveform'))
-  res = []
-  for _song in songs_to_upload:
-    song = Song(None, *_song)
-    try:
-      song.full_clean()
-    except:
-      return JsonResponse(["Invalid submission. Please try again."],
-                          safe=False,
-                          status=422)
-    res.append(song)
 
-  Song.objects.bulk_create(res)
-  return JsonResponse({x["id"]:x for x in Song.objects.values('id','title','artist','album')}, safe=False)
+def edit_songs(request):
+  req = request.POST.dict()
+  ids = req.pop('ids').split(',')
+  Song.objects.filter(pk__in=ids).update(**req)
+  return JsonResponse(
+    { x['id']: x for x in 
+      Song.objects
+          .filter(pk__in=ids)
+          .values('id', 'title', 'artist', 'album')
+    },
+    safe=False)
 
 
 def post_songs(request):
@@ -44,36 +38,30 @@ def post_songs(request):
                           safe=False,
                           status=422)
     res.append(song)
-
+  idx = Song.objects.count()
   Song.objects.bulk_create(res)
-  return JsonResponse(
-      {
-        x["id"]: x
-        for x in Song.objects.values('id', 'title', 'artist', 'album')
+  return JsonResponse({
+        x["id"]: x for x in Song.objects.filter(pk__gt=idx).values('id', 'title', 'artist', 'album')
       },
       safe=False)
 
-
-def song_url(request, id):
-  import boto3.session
-  from django.conf import settings
-
-  session = boto3.session.Session()
-  connection = session.resource(
-    's3',
-    aws_access_key_id=getattr(settings, "AWS_ACCESS_KEY_ID", None),
-    aws_secret_access_key=getattr(settings, "AWS_SECRET_ACCESS_KEY", None),
-  )
-
-  bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
-
-  params = {}
-  params['Bucket'] = bucket
-  params['Key'] = Song.objects.get(pk=id).filename
-
-  url = connection.Bucket(bucket).meta.client.generate_presigned_url(
+def song(request, id):
+  if request.method == "GET":
+    import boto3.session
+    from django.conf import settings
+    session = boto3.session.Session()
+    connection = session.resource('s3',
+      aws_access_key_id=getattr(settings, "AWS_ACCESS_KEY_ID", None),
+      aws_secret_access_key=getattr(settings, "AWS_SECRET_ACCESS_KEY", None),
+    )
+    bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
+    params = {}
+    params['Bucket'] = bucket
+    params['Key'] = Song.objects.get(pk=id).filename
+    url = connection.Bucket(bucket).meta.client.generate_presigned_url(
       'get_object', Params=params, ExpiresIn=3600)
-  return JsonResponse(url, safe=False)
+    return JsonResponse(url, safe=False)
+
 
 
 def playlist_d(request):

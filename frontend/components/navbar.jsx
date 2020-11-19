@@ -18,18 +18,13 @@ a.logo{
   margin-right: 10px;
 }
 
-
-
   display: flex;
   align-items: center;
 
   min-height: 100px;
   justify-content: space-between;
-  /* font-size: 20px; */
   width: 100%;
   z-index: 10;
-
-
 
 .modalclass {
   z-index: 10;
@@ -49,7 +44,7 @@ export default function Navbar() {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
   const login = () => { dispatch(openModal(currentUser ? USER_M : LOGIN_M)) }
-  const cct = () => { dispatch(openContextMenu(SONG_EDIT_C, 2)) }
+
   return (
     <NavbarDiv className="nav">
       <Link to="/">
@@ -58,16 +53,6 @@ export default function Navbar() {
       <div className="user-button"
         onClick={login}>
         user
-      </div>
-
-      <div className="user-button"
-        onClick={cct}>
-        EDIT SONG
-      </div>
-
-      <div className="user-button"
-        onClick={() => { dispatch(openContextMenu(SONG_BURGER_C, 2)) }}>
-        Right Click
       </div>
 
       <Link to="/upload">

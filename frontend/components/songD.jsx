@@ -46,12 +46,10 @@ const Table = styled.table`
 export default function SongD() {
   const dispatch = useDispatch();
   const playSong = (id) => (e) => {
-    console.log(e, "not here")
     dispatch(getSongUrl(id))
   }
 
   const launchBurger = (id) => (e) => {
-    console.log(e)
     e.stopPropagation()
     dispatch(openContextMenu(SONG_BURGER_C, id)) 
   }

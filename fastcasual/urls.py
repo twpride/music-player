@@ -28,11 +28,12 @@ urlpatterns = [
     path('api/users', auth.UserView.as_view()),
     path('api/session', auth.SessionView.as_view()),
     path('api/song_d/', song.song_d),
-    path('api/song_d/<int:id>', song.song_url),
+    path('api/song_d/<int:id>', song.song),
     path('api/playlist_d/', song.playlist_d),
     path('api/playlist_d/<int:id>', song.playlist),
     path('api/add_track/<int:playlist_id>/<int:song_id>', song.add_track),
     path('api/move_track', song.move_track),
     path('api/post_songs', song.post_songs),
+    path('api/edit_songs', song.edit_songs),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
