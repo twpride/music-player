@@ -139,7 +139,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage
 AWS_ACCESS_KEY_ID='AKIA5BJLHP7KHY6TTHKN'
 AWS_SECRET_ACCESS_KEY='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'
 AWS_STORAGE_BUCKET_NAME='music-player-1'
