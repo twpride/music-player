@@ -21,6 +21,7 @@ import styled from 'styled-components'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSongD } from '../actions/actions';
+import { ProtectedRoute } from '../util/route_util'
 
 const AppDiv = styled.div`
   display: flex;
@@ -42,21 +43,17 @@ const App = () => {
 
   const songUrl = useSelector(state => state.player.songUrl)
 
+  const hii = () => <div>hiiiiiiii</div>
   return (
     <AppDiv>
-      <div>
-        <Switch>
-          <Route exact path="/" component={SongD} />
-          <Route exact path="/upload">
-            <UploadForm />
-          </Route>
-          <Route path="/playlist_d/:id" component={Playlist} />
-          <Route path={`/playlist_d/`}>
-            <PlaylistD />
-          </Route>
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path='/' component={SongD} />
+        <Route exact path='/upload' component={UploadForm} />
+        <Route path='/playlist_d/:id' component={Playlist} />
+        <Route path='/playlist_d/' component={PlaylistD} />
+      </Switch>
 
+      {/* <ProtectedRoute path='/' component={hii} /> */}
       <audio controls src={songUrl} />
       <Navbar />
       <Modal />

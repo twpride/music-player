@@ -5,11 +5,6 @@ import LoginForm from './login_form';
 import SignupForm from './signup_form';
 import User from './user';
 import { useSelector } from 'react-redux'
-
-export const LOGIN_M = "LOGIN_M";
-export const SIGNUP_M = "SIGNUP_M";
-export const USER_M = "USER_M";
-
 import {modal_act} from '../reducers/ui_reducer'
 
 const ModalDiv = styled.div`
