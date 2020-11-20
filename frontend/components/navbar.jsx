@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import React, { } from 'react';
 
 import styled from 'styled-components'
-import { modal_act } from '../reducers/ui_reducer';
+import { session_act } from '../reducers/session_reducer';
+import { logout } from '../util/session_api_util'
 
 const NavbarDiv = styled.div`
 a.logo{
@@ -36,9 +37,10 @@ img.logo {
 export default function Navbar() {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
-  const login = () => {
-    const type = currentUser ? modal_act.USER_M : modal_act.LOGIN_M;
-    dispatch({ type })
+  const logout_call = () => {
+    logout().then(
+      () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+    )
   }
 
   return (
@@ -47,8 +49,8 @@ export default function Navbar() {
         Home
       </Link>
       <div className="user-button"
-        onClick={login}>
-        user
+        onClick={logout_call}>
+        Log out
       </div>
 
       <Link to="/upload">

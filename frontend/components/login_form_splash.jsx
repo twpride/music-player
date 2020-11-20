@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 
 import { session_act } from '../reducers/session_reducer'
-import { modal_act } from '../reducers/ui_reducer'
 // import { login } from "../util/session_api_util" //option await
 import { loginThunk } from '../actions/actions' //option thunk (more portable)
 
@@ -31,19 +30,6 @@ export default function LoginForm({ setMode }) {
     setMode('signup')
   };
 
-  const closeModals = () => dispatch({ type: modal_act.CLOSE_MODAL })
-
-
-  const demoUser = async () => {
-    await new Promise((res) => {
-      setEmail("demo1@demo.com");
-      setPassword("demodemo");
-      res()
-    })
-    const form = new FormData(document.getElementById('loginForm'));
-    dispatch(loginThunk(form)) // option thunk
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = new FormData(document.getElementById('loginForm'));
@@ -66,8 +52,7 @@ export default function LoginForm({ setMode }) {
 
   return (
     <>
-      <h1 className="login-signup">SIGN IN</h1>
-
+      <h1 className="login-signup">LOG IN</h1>
       <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
         <div className="login-input">
           <div>Email</div>
@@ -87,7 +72,7 @@ export default function LoginForm({ setMode }) {
         </div>
         {renderErrors()}
         <input id='login' className="submit-button"
-          type="submit"
+          type="submit" value='Log in'
         />
       </form>
 
@@ -96,12 +81,8 @@ export default function LoginForm({ setMode }) {
         <div className="button" onClick={signUp}>
           CREATE AN ACCOUNT
           </div>
-        <div className="button" id='demo' onClick={() => demoUser()}>
-          FILL IN DEMO USER INFO
-          </div>
       </div>
       <button onClick={() => setMode('')}>BacK</button>
-
     </>
   );
 }

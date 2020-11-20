@@ -25,7 +25,8 @@ import { ProtectedRoute, AuthRoute } from '../util/route_util'
 
 import LoginForm from './login_form_splash'
 import SignupForm from './signup_form_splash'
-import { loginThunk } from '../actions/actions' 
+import { loginThunk } from '../actions/actions'
+
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -70,7 +71,6 @@ const App = () => {
 
 export default function Splash() {
   const [mode, setMode] = useState(null)
-
   const dispatch = useDispatch()
 
   const demoScript = () => {
@@ -80,24 +80,13 @@ export default function Splash() {
     dispatch(loginThunk(form))
   }
 
-  const Choose = ({ setMode }) => {
-    // const demoScript = async () => {
-    //   await new Promise((res)=>{
-    //     setMode('login')
-    //     res()
-    //   })
-    //   document.getElementById('demo').click()
-    // }
-
-    return (
-      <>
-        <button onClick={() => setMode('login')}>Log in</button>
-        <button onClick={() => setMode('signup')}>Sign up</button>
-        <button onClick={demoScript}>Demo</button>
-      </>
-    )
-  }
-
+  const Choose = () => (
+    <>
+      <button onClick={() => setMode('login')}>Log in</button>
+      <button onClick={() => setMode('signup')}>Sign up</button>
+      <button onClick={demoScript}>Demo</button>
+    </>
+  )
 
   let Comp;
   switch (mode) {

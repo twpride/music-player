@@ -44,9 +44,7 @@ export default function SignupForm({setMode}) {
       dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })
     }
 
-
   }
-
 
   function login() {
     dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
@@ -71,7 +69,7 @@ export default function SignupForm({setMode}) {
 
         {renderErrors()}
         <input className="submit-button"
-          type="submit"
+          type="submit" value='Sign up'
         />
       </form>
 
