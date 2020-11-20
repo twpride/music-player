@@ -1,31 +1,20 @@
-import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import {
-  Route,
-  Redirect,
-  Switch,
-  Link,
-  HashRouter
-} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import { ProtectedRoute, AuthRoute } from '../util/route_util'
+import styled from 'styled-components'
 
 import Navbar from './navbar';
 import UploadForm from './upload_form';
 import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
-
 import Modal from './modal'
 import ContextMenu from './contextMenu'
-
-import styled from 'styled-components'
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSongD } from '../actions/actions';
-import { ProtectedRoute, AuthRoute } from '../util/route_util'
-
 import LoginForm from './login_form_splash'
 import SignupForm from './signup_form_splash'
-import { loginThunk } from '../actions/actions'
+
+import { getSongD, loginThunk } from '../actions/actions'
 
 const AppDiv = styled.div`
   display: flex;
@@ -66,8 +55,18 @@ const App = () => {
   )
 };
 
+const SplashDiv = styled.div`
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height:100%;
+  button {
+    margin: 0.7em;
+  }
 
-
+`
 
 export default function Splash() {
   const [mode, setMode] = useState(null)
@@ -102,7 +101,9 @@ export default function Splash() {
   return (
     <>
       <ProtectedRoute path='/' component={App} />
-      <AuthRoute path='/' component={Comp} setMode={setMode} />
+      <SplashDiv>
+        <AuthRoute path='/' component={Comp} setMode={setMode} />
+      </SplashDiv>
     </>
   )
 }
