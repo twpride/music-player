@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
 
 import { getSongUrl, getPlaylist, receivePlaylist } from './actions'
-import { moveTrack } from './api_util'
+import { moveTrack } from '../util/api_util'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import update from 'immutability-helper'

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import React from 'react';
-import {modal_act} from '../reducers/ui_reducer'
+import { modal_act } from '../reducers/ui_reducer'
 import { session_act } from '../reducers/session_reducer';
+import { logout } from '../util/session_api_util'
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -34,22 +35,22 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-    <div className="modal">
-      <div className = "login-form-container">
-        <div className = "create-account">
+      <div className="modal">
+        <div className="login-form-container">
+          <div className="create-account">
 
-          <div className="button"
-              onClick={() => this.props.logout()}
-          >
-            LOGOUT
+            <div className="button"
+              onClick={this.props.logout}
+            >
+              LOGOUT
+          </div>
           </div>
         </div>
+        <div className="close-modal" onClick={() => this.props.closeModal()}>
+          <img src="/static/svgs/dark-brown-x.png" alt="" />
+        </div>
       </div>
-      <div className="close-modal" onClick={() => this.props.closeModal()}>
-        <img src="/static/svgs/dark-brown-x.png" alt="" />  
-      </div>
-    </div>
-    )    
+    )
   }
 }
 
@@ -62,8 +63,12 @@ const mapStateToProps = ({ errors }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    closeModal: ()=> dispatch({type:modal_act.CLOSE_MODAL}),
-    logout: ()=> dispatch({type:session_act.LOGOUT_CURRENT_USER})
+    closeModal: () => dispatch({ type: modal_act.CLOSE_MODAL }),
+    logout: async () => {
+      await logout();
+      dispatch({ type: session_act.LOGOUT_CURRENT_USER });
+      dispatch({ type: modal_act.CLOSE_MODAL });
+    }
   };
 };
 

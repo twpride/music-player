@@ -1,3 +1,5 @@
+
+import 'babel-polyfill'; // for await syntax compat
 function getCookie(name) {
   var cookieValue = null;
   if (document.cookie && document.cookie !== '') {

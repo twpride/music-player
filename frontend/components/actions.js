@@ -1,4 +1,4 @@
-import * as APIUtil from './api_util';
+import * as APIUtil from '../util/api_util';
 export const RECEIVE_SONG = "RECEIVE_SONG"
 export const RECEIVE_SONG_D = "RECEIVE_SONG_D"
 export const RECEIVE_SONG_URL = "RECEIVE_SONG_URL"
@@ -32,12 +32,7 @@ export const receivePlaylistTitleD = (playlistTitleD) => ({
   playlistTitleD
 })
 
-export const updatePlaylist = (id, dragIdx, hoverIdx) => ({
-  type: RECEIVE_PLAYLIST,
-  id,
-  dragIdx,
-  hoverIdx
-})
+
 
 export const postSongs = songs => dispatch => (
   APIUtil.postSongs(songs)
@@ -45,7 +40,7 @@ export const postSongs = songs => dispatch => (
     .then(songD => dispatch(receiveSongD(songD)))
 )
 
-export const editSongs = (song)=> dispatch => (
+export const editSongs = song => dispatch => (
   APIUtil.editSongs(song)
     .then(response => response.json())
     .then(songD => dispatch(receiveSongD(songD)))
@@ -54,23 +49,25 @@ export const editSongs = (song)=> dispatch => (
 export const getSongD = () => dispatch => (
   APIUtil.getSongD()
     .then(response => response.json())
-    .then(songD => {
-      dispatch(receiveSongD(songD))
-    })
+    .then(songD => dispatch(receiveSongD(songD)))
 )
 
-export const getSongUrl = (id) => dispatch => (
+export const getSongUrl = id => dispatch => (
   APIUtil.getSongUrl(id)
     .then(response => response.json())
-    .then(url => {
-      dispatch(loadSongUrl(url))
-    })
+    .then(url => dispatch(loadSongUrl(url)))
 )
 
 export const createPlaylist = playlist => dispatch => (
   APIUtil.createPlaylist(playlist)
     .then(response => response.json())
     .then(songD => dispatch(receiveSongD(songD)))
+)
+
+export const getPlaylistTitleD = () => dispatch => (
+  APIUtil.getPlaylistTitleD()
+    .then(response => response.json())
+    .then(titleD => dispatch(receivePlaylistTitleD(titleD)))
 )
 
 export const getPlaylist = id => async dispatch => {
@@ -103,10 +100,3 @@ export const getPlaylist = id => async dispatch => {
 
 
 
-export const getPlaylistTitleD = () => dispatch => (
-  APIUtil.getPlaylistTitleD()
-    .then(response => response.json())
-    .then(titleD => {
-      dispatch(receivePlaylistTitleD(titleD))
-    })
-)

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
-import { useTextField } from './hooks'
+import { useTextField } from '../util/hooks'
 import { signup } from '../util/session_api_util'
 import { modal_act } from '../reducers/ui_reducer'
 import { session_act } from '../reducers/session_reducer'

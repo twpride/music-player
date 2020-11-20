@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 // import entities from '../reducers/entities_reducer';
-import session from '../reducers/session_reducer';
-import errors from '../reducers/errors_reducer';
-import ui from '../reducers/ui_reducer';
+import session from './session_reducer';
+import errors from './errors_reducer';
+import ui from './ui_reducer';
 
 
 // import menu from '../reducers/menu_reducer';
@@ -14,7 +14,7 @@ import {
   RECEIVE_SONG_URL,
   RECEIVE_PLAYLIST,
   RECEIVE_PLAYLIST_TITLE_D
-} from './actions';
+} from '../components/actions';
 
 const songD = (state = [], action) => {
   Object.freeze(state);

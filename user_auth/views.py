@@ -19,6 +19,7 @@ class CustomView(View):
   def get_current_user(self):
     if self.current_user:
       return self.current_user
+    # breakpoint()
     if token := self.request.session.get('session_token', None):
       if curr_user := User.objects.filter(session_token=token):
         self.current_user = curr_user[0]
