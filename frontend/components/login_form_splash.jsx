@@ -5,6 +5,7 @@ import { session_act } from '../reducers/session_reducer'
 import { modal_act } from '../reducers/ui_reducer'
 // import { login } from "../util/session_api_util" //option await
 import { loginThunk } from '../actions/actions' //option thunk (more portable)
+
 const renderErrors = () => {
   const errors = useSelector(state => state.errors.session)
   return (
@@ -18,7 +19,7 @@ const renderErrors = () => {
   );
 }
 
-export default function LoginForm() {
+export default function LoginForm({ setMode }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,15 +28,20 @@ export default function LoginForm() {
 
   function signUp() {
     dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
-    dispatch({ type: modal_act.SIGNUP_M })
+    setMode('signup')
   };
 
   const closeModals = () => dispatch({ type: modal_act.CLOSE_MODAL })
 
 
-  const demoUser = () => {
-    setEmail("demoUser@gmail.com");
-    setPassword("demouser");
+  const demoUser = async () => {
+    await new Promise((res) => {
+      setEmail("demo1@demo.com");
+      setPassword("demodemo");
+      res()
+    })
+    const form = new FormData(document.getElementById('loginForm'));
+    dispatch(loginThunk(form)) // option thunk
   }
 
   const handleSubmit = async (e) => {
@@ -80,7 +86,7 @@ export default function LoginForm() {
           />
         </div>
         {renderErrors()}
-        <input className="submit-button"
+        <input id='login' className="submit-button"
           type="submit"
         />
       </form>
@@ -90,15 +96,11 @@ export default function LoginForm() {
         <div className="button" onClick={signUp}>
           CREATE AN ACCOUNT
           </div>
-        <div className="button" onClick={() => demoUser()}>
+        <div className="button" id='demo' onClick={() => demoUser()}>
           FILL IN DEMO USER INFO
           </div>
       </div>
-
-
-      <div className="close-modal" onClick={closeModals}>
-        X
-      </div>
+      <button onClick={() => setMode('')}>BacK</button>
 
     </>
   );

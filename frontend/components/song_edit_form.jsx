@@ -21,13 +21,26 @@ const ModalDiv = styled.div`
     text-transform: capitalize;
   }
 `
+const renderErrors = () => {
+  const errors = useSelector(state => state.errors);
+  return (
+    <>
+      {errors.map((error, i) => (
+        <div key={`error-${i}`} className="form-error">
+          {error}
+        </div>
+      ))}
+    </>
+  );
+}
+
+
 export default function SongEditForm(props) {
 
   const dispatch = useDispatch();
 
   const songState = useSelector(state => state.entities.songD[props.id]);
 
-  const errors = useSelector(state => state.errors);
 
 
   const handleSubmit = (e) => {
@@ -35,18 +48,6 @@ export default function SongEditForm(props) {
     const song = new FormData(document.getElementById('songEditForm'));
     song.append('ids', JSON.stringify(props.id))
     dispatch(editSongs(song))
-  }
-
-  const renderErrors = () => {
-    return (
-      <>
-        {errors.map((error, i) => (
-          <div key={`error-${i}`} className="form-error">
-            {error}
-          </div>
-        ))}
-      </>
-    );
   }
 
   return (

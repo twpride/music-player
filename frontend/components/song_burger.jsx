@@ -4,11 +4,25 @@ import React, { useState } from 'react';
 
 import { context_act } from '../reducers/ui_reducer'
 
+
+const renderErrors = () => {
+  const errors = useSelector(state => state.errors);
+  return (
+    <>
+      {errors.map((error, i) => (
+        <div key={`error-${i}`} className="form-error">
+          {error}
+        </div>
+      ))}
+    </>
+  );
+}
+
+
 export default function SongBurger(props) {
 
   const dispatch = useDispatch();
 
-  const errors = useSelector(state => state.errors);
 
   const burgerList = {
     "Edit song": () => {
@@ -16,20 +30,6 @@ export default function SongBurger(props) {
     },
     "Add to playlist": () => { console.log(2) },
     "Delete song": () => { console.log(3) },
-  }
-
-
-
-  const renderErrors = () => {
-    return (
-      <>
-        {errors.map((error, i) => (
-          <div key={`error-${i}`} className="form-error">
-            {error}
-          </div>
-        ))}
-      </>
-    );
   }
 
   return (
