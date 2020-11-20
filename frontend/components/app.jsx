@@ -19,7 +19,7 @@ import { getSongD, loginThunk } from '../actions/actions'
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
-  height:100vh;
+  height:100%;
 
   >div:first-child {
     height:90%;
@@ -60,7 +60,6 @@ const SplashDiv = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width:100%;
   height:100%;
   button {
     margin: 0.7em;
@@ -100,8 +99,8 @@ export default function Splash() {
   }
   return (
     <>
-      <ProtectedRoute path='/' component={App} />
       <SplashDiv>
+        <ProtectedRoute path='/' component={App} />
         <AuthRoute path='/' component={Comp} setMode={setMode} />
       </SplashDiv>
     </>
