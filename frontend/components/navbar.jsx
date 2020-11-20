@@ -58,10 +58,6 @@ export default function Navbar() {
       <Link to="/playlist_d/">
         Playlists
       </Link>
-
-      <Link to="/styletest">
-        TEST
-      </Link>
     </NavbarDiv>
   )
 };

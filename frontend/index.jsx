@@ -2,9 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 import App from './components/app';
-import configureStore from './store/store';
+import rootReducer from './reducers/root_reducer.js';
+
+const configureStore = (preloadedState={}) => (
+  createStore(
+    rootReducer,
+    preloadedState,
+    applyMiddleware(thunk, logger)
+  )
+);
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -16,13 +27,9 @@ const Root = ({ store }) => (
 
 document.addEventListener('DOMContentLoaded', () => {
   let store;
-
   if (window.currentUser.id) {
     const preloadedState = {
       session: { currentUser: window.currentUser },
-      // entities: {
-        // users: { [window.currentUser.id]: window.currentUser }
-      // }
     };
     store = configureStore(preloadedState);
     delete window.currentUser;
@@ -30,11 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
     store = configureStore();
   }
 
-  // ************* testing ************
   window.store = store
-  // ************* testing ************ 
   
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
-
 });

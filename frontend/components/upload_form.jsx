@@ -1,18 +1,8 @@
-import { connect, useDispatch } from 'react-redux';
+import { connect} from 'react-redux';
 
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { postSongs } from '../actions/actions'
-import { } from '../util/api_util'
-
-import {
-
-  Route,
-  Redirect,
-  Switch,
-  Link,
-  HashRouter
-} from 'react-router-dom';
 
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 
@@ -29,7 +19,6 @@ const UploadFormX = ({ logout, openModal, postSongs }) => {
     // console.log(this.uploadButton.current)
     // this.uploadButton.current.disabled = true;
 
-
     // const myForm = document.getElementById('songForm');
     // const formData = new FormData(myForm);
     // createSong(formData)
@@ -45,9 +34,6 @@ const UploadFormX = ({ logout, openModal, postSongs }) => {
 
     postSongs(songs)
   }
-
-
-
 
   return (
     <div>

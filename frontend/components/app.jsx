@@ -13,7 +13,6 @@ import UploadForm from './upload_form';
 import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
-import Test from './styletest';
 
 import Modal from './modal'
 import ContextMenu from './contextMenu'
@@ -21,8 +20,8 @@ import ContextMenu from './contextMenu'
 import styled from 'styled-components'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { getSongD } from '../actions/actions';
+
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,14 +54,10 @@ const App = () => {
           <Route path={`/playlist_d/`}>
             <PlaylistD />
           </Route>
-          <Route path={`/styletest`}>
-            <Test />
-          </Route>
         </Switch>
       </div>
 
       <audio controls src={songUrl} />
-
       <Navbar />
       <Modal />
       <ContextMenu />

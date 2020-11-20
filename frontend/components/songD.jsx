@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
-import burgerIcon from './icons/burger.svg'
+import burgerIcon from '../icons/burger.svg'
 
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
