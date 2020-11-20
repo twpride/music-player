@@ -1,4 +1,8 @@
 import * as APIUtil from '../util/api_util';
+import {login} from '../util/session_api_util';
+import {session_act} from '../reducers/session_reducer'
+import {modal_act} from '../reducers/ui_reducer'
+
 export const RECEIVE_SONG = "RECEIVE_SONG"
 export const RECEIVE_SONG_D = "RECEIVE_SONG_D"
 export const RECEIVE_SONG_URL = "RECEIVE_SONG_URL"
@@ -58,12 +62,6 @@ export const getSongUrl = id => dispatch => (
     .then(url => dispatch(loadSongUrl(url)))
 )
 
-export const createPlaylist = playlist => dispatch => (
-  APIUtil.createPlaylist(playlist)
-    .then(response => response.json())
-    .then(songD => dispatch(receiveSongD(songD)))
-)
-
 export const getPlaylistTitleD = () => dispatch => (
   APIUtil.getPlaylistTitleD()
     .then(response => response.json())
@@ -99,4 +97,22 @@ export const getPlaylist = id => async dispatch => {
 }
 
 
+export const loginThunk = user => async dispatch => {
+  const res = await login(user);
+  if (res.ok) {
+    const currentUser = await res.json();
+    dispatch({type:session_act.RECEIVE_CURRENT_USER, currentUser});
+    dispatch({type:modal_act.CLOSE_MODAL});
+  } else {
+    const errors = await res.json();
+    dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors});
+  }
+}
 
+
+
+export const createPlaylist = playlist => dispatch => (
+  APIUtil.createPlaylist(playlist)
+    .then(response => response.json())
+    .then(songD => dispatch(receiveSongD(songD)))
+)

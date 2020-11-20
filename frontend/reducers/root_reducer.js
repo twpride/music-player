@@ -6,15 +6,13 @@ import errors from './errors_reducer';
 import ui from './ui_reducer';
 
 
-// import menu from '../reducers/menu_reducer';
-
 import {
   RECEIVE_SONG,
   RECEIVE_SONG_D,
   RECEIVE_SONG_URL,
   RECEIVE_PLAYLIST,
   RECEIVE_PLAYLIST_TITLE_D
-} from '../components/actions';
+} from '../actions/actions';
 
 const songD = (state = [], action) => {
   Object.freeze(state);

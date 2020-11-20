@@ -47,7 +47,7 @@ class LoginForm extends React.Component {
           </div>
         </div>
         <div className="close-modal" onClick={() => this.props.closeModal()}>
-          <img src="/static/svgs/dark-brown-x.png" alt="" />
+          X
         </div>
       </div>
     )

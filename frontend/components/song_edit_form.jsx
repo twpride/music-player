@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 import styled from 'styled-components'
 
-import { editSongs } from './actions'
+import { editSongs } from '../actions/actions'
 import { useTextField } from '../util/hooks'
 import { context_act } from '../reducers/ui_reducer'
 

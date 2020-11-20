@@ -15,11 +15,14 @@ import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import Test from './styletest';
 
+import Modal from './modal'
+import ContextMenu from './contextMenu'
+
 import styled from 'styled-components'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getSongD } from './actions';
+import { getSongD } from '../actions/actions';
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,6 +64,8 @@ const App = () => {
       <audio controls src={songUrl} />
 
       <Navbar />
+      <Modal />
+      <ContextMenu />
     </AppDiv>
   )
 };

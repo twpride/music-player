@@ -1,9 +1,5 @@
 import { combineReducers } from 'redux';
 
-
-
-
-
 export const modal_act = {
   LOGIN_M: 'LOGIN_M',
   SIGNUP_M: 'SIGNUP_M',

@@ -1,14 +1,9 @@
-import { connect, useDispatch, useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-
-import React, { useDebugValue } from 'react';
-
-import Modal, { LOGIN_M, USER_M } from './modal'
-import ContextMenu, {} from './contextMenu'
+import React, { } from 'react';
 
 import styled from 'styled-components'
-import { context_act, modal_act } from '../reducers/ui_reducer';
+import { modal_act } from '../reducers/ui_reducer';
 
 const NavbarDiv = styled.div`
 a.logo{
@@ -41,10 +36,9 @@ img.logo {
 export default function Navbar() {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
-  const login = () => { 
-    console.log('heeeeeeeer')
-    const type = currentUser? modal_act.USER_M : modal_act.LOGIN_M;
-    dispatch({type}) 
+  const login = () => {
+    const type = currentUser ? modal_act.USER_M : modal_act.LOGIN_M;
+    dispatch({ type })
   }
 
   return (
@@ -68,12 +62,6 @@ export default function Navbar() {
       <Link to="/styletest">
         TEST
       </Link>
-
-      <Modal className="modalclass" />
-      <ContextMenu className="modalclass" />
     </NavbarDiv>
   )
 };
-
-
-

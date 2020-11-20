@@ -50,7 +50,7 @@ export default function SignupForm() {
   }
 
   function login() {
-    dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors: []})
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
     dispatch({ type: modal_act.LOGIN_M })
   }
 

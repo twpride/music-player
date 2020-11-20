@@ -1,11 +1,11 @@
 
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { } from 'react';
 import burgerIcon from './icons/burger.svg'
 
-import { getSongUrl } from './actions'
-import {context_act} from '../reducers/ui_reducer'
+import { getSongUrl } from '../actions/actions'
+import { context_act } from '../reducers/ui_reducer'
 
 const Table = styled.table`
   font-size: .9em;
@@ -44,15 +44,15 @@ const Table = styled.table`
 
 export default function SongD() {
   const dispatch = useDispatch();
+
   const playSong = (id) => (e) => {
     dispatch(getSongUrl(id))
   }
 
   const launchBurger = (id) => (e) => {
     e.stopPropagation()
-    dispatch({type: context_act.SONG_BURGER_C, id})
+    dispatch({ type: context_act.SONG_BURGER_C, id })
   }
-
 
   const songD = useSelector(state => state.entities.songD)
 
@@ -75,12 +75,6 @@ export default function SongD() {
     </Table>
   )
 };
-
-
-
-
-
-
 
 
 

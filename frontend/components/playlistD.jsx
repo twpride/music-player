@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
 
-import { createPlaylist, getPlaylistTitleD } from './actions'
+import { createPlaylist, getPlaylistTitleD } from '../actions/actions'
 
 import { Link } from 'react-router-dom'
 
