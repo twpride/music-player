@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 
-import LoginForm from './login_form';
+import NewPlaylist from './new_playlist';
 import SignupForm from './signup_form';
 import User from './user';
 import { useSelector } from 'react-redux'
@@ -28,8 +28,8 @@ export default function Modal() {
   }
   let Component;
   switch (modal.type) {
-    case modal_act.LOGIN_M:
-      Component = LoginForm;
+    case modal_act.NEW_PLAYLIST:
+      Component = NewPlaylist;
       break;
     case modal_act.SIGNUP_M:
       Component = SignupForm;

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 export const modal_act = {
-  LOGIN_M: 'LOGIN_M',
+  NEW_PLAYLIST: 'NEW_PLAYLIST',
   SIGNUP_M: 'SIGNUP_M',
   USER_M: 'USER_M',
   CLOSE_MODAL: 'CLOSE_MODAL'
@@ -18,7 +18,7 @@ const modal = (state = null, action) => {
 };
 
 export const context_act = {
-  SONG_EDIT_C:"SONG_EDIT_C",
+  SONG_EDIT_C: "SONG_EDIT_C",
   SONG_BURGER_C: "SONG_BURGER_C",
   CLOSE_CONTEXT: "CLOSE_CONTEXT",
 }

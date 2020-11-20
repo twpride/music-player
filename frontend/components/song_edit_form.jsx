@@ -62,7 +62,7 @@ export default function SongEditForm(props) {
               <div key={i} className="login-input">
                 <div className="field">{field[0]}</div>
                 <input type="text"
-                  {...useTextField(...field)}
+                  {...useTextField(...field)} //useTextField to load preloaded text
                 />
               </div>
             )

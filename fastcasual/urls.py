@@ -21,7 +21,8 @@ from song_player import views as song
 from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
-
+from django.views.generic.base import RedirectView
+from django.urls import re_path
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', auth.RootView.as_view()),
@@ -35,5 +36,6 @@ urlpatterns = [
     path('api/move_track', song.move_track),
     path('api/post_songs', song.post_songs),
     path('api/edit_songs', song.edit_songs),
-    path('__debug__/', include(debug_toolbar.urls)),
+    re_path(r'^.*$', auth.RootView.as_view()),
+    # path('__debug__/', include(debug_toolbar.urls)),
 ]

@@ -70,7 +70,7 @@ class UserView(CustomView):
 
   def post(self, request):
     # req_json = json.loads(request.body.decode('utf-8'))
-    # breakpoint()
+    breakpoint()
     req_json = request.POST
     self.user = User.pre_init(**req_json)
     try:
@@ -89,6 +89,7 @@ class SessionView(CustomView):
   def post(self, request):
     # req_json = json.loads(request.body.decode('utf-8'))
     req_json = request.POST
+    # breakpoint()
 
     email = req_json['email']
     password = req_json['password'].encode('utf-8')

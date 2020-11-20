@@ -20,6 +20,7 @@ const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
   height:100%;
+  width:100%;
 
   >div:first-child {
     height:90%;
@@ -37,11 +38,11 @@ const App = () => {
   const songUrl = useSelector(state => state.player.songUrl)
 
   return (
-    <AppDiv>
+    <AppDiv id="appdiv">
       <div>
         <Switch>
           <Route exact path='/' component={SongD} />
-          <Route path='/upload' component={UploadForm} />
+          <Route exact path='/upload' component={UploadForm} />
           <Route path='/playlist_d/:id' component={Playlist} />
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
@@ -61,7 +62,7 @@ const SplashDiv = styled.div`
   align-items: center;
   justify-content: center;
   height:100%;
-  button {
+  >button {
     margin: 0.7em;
   }
 
@@ -97,11 +98,12 @@ export default function Splash() {
     default:
       Comp = Choose;
   }
+  const currentUser = useSelector(state => state.session.currentUser);
   return (
     <>
       <SplashDiv>
-        <ProtectedRoute path='/' component={App} />
-        <AuthRoute path='/' component={Comp} setMode={setMode} />
+        <ProtectedRoute exact path='/' component={App} />
+        {!currentUser && <Comp setMode={setMode} />}
       </SplashDiv>
     </>
   )

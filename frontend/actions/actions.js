@@ -1,7 +1,7 @@
 import * as APIUtil from '../util/api_util';
-import {login} from '../util/session_api_util';
-import {session_act} from '../reducers/session_reducer'
-import {modal_act} from '../reducers/ui_reducer'
+import { login } from '../util/session_api_util';
+import { session_act } from '../reducers/session_reducer'
+import { modal_act } from '../reducers/ui_reducer'
 
 export const RECEIVE_SONG = "RECEIVE_SONG"
 export const RECEIVE_SONG_D = "RECEIVE_SONG_D"
@@ -9,6 +9,8 @@ export const RECEIVE_SONG_URL = "RECEIVE_SONG_URL"
 export const RECEIVE_PLAYLIST = "RECEIVE_PLAYLIST"
 export const UPDATE_PLAYLIST = "UPDATE_PLAYLIST"
 export const RECEIVE_PLAYLIST_TITLE_D = "RECEIVE_PLAYLIST_TITLE_D"
+
+import { ent_act } from '../reducers/root_reducer'
 
 export const receiveSong = (song) => ({
   type: RECEIVE_SONG,
@@ -41,37 +43,40 @@ export const receivePlaylistTitleD = (playlistTitleD) => ({
 export const postSongs = songs => dispatch => (
   APIUtil.postSongs(songs)
     .then(response => response.json())
-    .then(songD => dispatch(receiveSongD(songD)))
+    .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }))
 )
 
 export const editSongs = song => dispatch => (
   APIUtil.editSongs(song)
     .then(response => response.json())
-    .then(songD => dispatch(receiveSongD(songD)))
+    .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }))
 )
 
 export const getSongD = () => dispatch => (
   APIUtil.getSongD()
     .then(response => response.json())
     .then(songD => dispatch(receiveSongD(songD)))
+    .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }))
 )
 
 export const getSongUrl = id => dispatch => (
   APIUtil.getSongUrl(id)
     .then(response => response.json())
-    .then(url => dispatch(loadSongUrl(url)))
+    .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
 )
 
 export const getPlaylistTitleD = () => dispatch => (
   APIUtil.getPlaylistTitleD()
     .then(response => response.json())
-    .then(titleD => dispatch(receivePlaylistTitleD(titleD)))
+    .then(playlistTitleD => dispatch(
+      { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
+    ))
 )
 
 export const getPlaylist = id => async dispatch => {
   const response = await APIUtil.getPlaylist(id)
   const linkedList = await response.json()
-  let sortedList = [];
+  let playlist = [];
   let map = new Map();
   let currentId = null;
 
@@ -80,20 +85,19 @@ export const getPlaylist = id => async dispatch => {
     let item = linkedList[i];
     if (item[2] === null) {
       currentId = item[1];
-      sortedList.push(item);
+      playlist.push(item);
     } else {
       map.set(item[2], i);
     }
   }
 
-  while (sortedList.length < linkedList.length) {
+  while (playlist.length < linkedList.length) {
     // get the item with a previous item ID referencing the current item
     let nextItem = linkedList[map.get(currentId)];
-    sortedList.push(nextItem);
+    playlist.push(nextItem);
     currentId = nextItem[1];
   }
-
-  dispatch(receivePlaylist(id, sortedList))
+  dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist })
 }
 
 
@@ -101,11 +105,11 @@ export const loginThunk = user => async dispatch => {
   const res = await login(user);
   if (res.ok) {
     const currentUser = await res.json();
-    dispatch({type:session_act.RECEIVE_CURRENT_USER, currentUser});
-    dispatch({type:modal_act.CLOSE_MODAL});
+    dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser });
+    dispatch({ type: modal_act.CLOSE_MODAL });
   } else {
     const errors = await res.json();
-    dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors});
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors });
   }
 }
 

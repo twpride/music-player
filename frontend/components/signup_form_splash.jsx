@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
-import { useTextField } from '../util/hooks'
 import { signup } from '../util/session_api_util'
 import { session_act } from '../reducers/session_reducer'
 
@@ -17,7 +16,7 @@ function renderErrors() {
   );
 }
 
-export default function SignupForm({setMode}) {
+export default function SignupForm({ setMode }) {
   const dispatch = useDispatch()
 
   const fields = {// dbname: print name
@@ -60,9 +59,7 @@ export default function SignupForm({setMode}) {
           (field, i) => ( // field = [dbname, print name]
             <div key={i} className="login-input">
               <div className="field">{field[1]}</div>
-              <input type="text"
-                {...useTextField(field[0])}
-              />
+              <input type="text" name={field[0]} />
             </div>
           )
         )}
@@ -78,7 +75,7 @@ export default function SignupForm({setMode}) {
         <div className="link-to-sign-in" onClick={login}>SIGN IN</div>
       </div>
 
-      <button onClick={()=> setMode('')}>BacK</button>
+      <button onClick={() => setMode('')}>BacK</button>
     </>
 
   );

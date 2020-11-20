@@ -6,21 +6,24 @@ import errors from './errors_reducer';
 import ui from './ui_reducer';
 
 
-import {
-  RECEIVE_SONG,
-  RECEIVE_SONG_D,
-  RECEIVE_SONG_URL,
-  RECEIVE_PLAYLIST,
-  RECEIVE_PLAYLIST_TITLE_D
-} from '../actions/actions';
+
+
+export const ent_act = {
+  RECEIVE_SONG: "RECEIVE_SONG",
+  RECEIVE_SONG_D: "RECEIVE_SONG_D",
+  RECEIVE_SONG_URL: "RECEIVE_SONG_URL",
+  RECEIVE_PLAYLIST: "RECEIVE_PLAYLIST",
+  UPDATE_PLAYLIST: "UPDATE_PLAYLIST",
+  RECEIVE_PLAYLIST_TITLE_D: "RECEIVE_PLAYLIST_TITLE"
+}
 
 const songD = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_SONG:
+    case ent_act.RECEVE_SONG:
       return { ...state, [action.song.id]: action.song };
-    case RECEIVE_SONG_D:
-      return {...state, ...action.songD};
+    case ent_act.RECEIVE_SONG_D:
+      return { ...state, ...action.songD };
     default:
       return state;
   }
@@ -29,9 +32,9 @@ const songD = (state = [], action) => {
 const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_PLAYLIST:
+    case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.id]: action.playlist };
-    case RECEIVE_PLAYLIST_TITLE_D:
+    case ent_act.RECEIVE_PLAYLIST_TITLE_D:
       return { ...state, playlistTitleD: action.playlistTitleD };
     default:
       return state;
@@ -42,7 +45,7 @@ const playlistD = (state = {}, action) => {
 const player = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_SONG_URL:
+    case ent_act.RECEIVE_SONG_URL:
       return { ...state, songUrl: action.url };
     default:
       return state;
