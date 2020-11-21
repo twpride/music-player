@@ -5,23 +5,18 @@ import session from './session_reducer';
 import errors from './errors_reducer';
 import ui from './ui_reducer';
 
-
-
-
 export const ent_act = {
-  RECEIVE_SONG: "RECEIVE_SONG",
   RECEIVE_SONG_D: "RECEIVE_SONG_D",
   RECEIVE_SONG_URL: "RECEIVE_SONG_URL",
   RECEIVE_PLAYLIST: "RECEIVE_PLAYLIST",
   UPDATE_PLAYLIST: "UPDATE_PLAYLIST",
-  RECEIVE_PLAYLIST_TITLE_D: "RECEIVE_PLAYLIST_TITLE"
+  RECEIVE_PLAYLIST_TITLE_D: "RECEIVE_PLAYLIST_TITLE",
+  APPEND_PLAYLIST: "APPEND_PLAYLIST"
 }
 
 const songD = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
-    case ent_act.RECEVE_SONG:
-      return { ...state, [action.song.id]: action.song };
     case ent_act.RECEIVE_SONG_D:
       return { ...state, ...action.songD };
     default:
@@ -36,6 +31,11 @@ const playlistD = (state = {}, action) => {
       return { ...state, [action.id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
       return { ...state, playlistTitleD: action.playlistTitleD };
+    case ent_act.APPEND_PLAYLIST:
+      return {
+        ...state,
+        [action.playlist_id]: [...state[action.playlist_id], ...action.tracks]
+      }
     default:
       return state;
   }

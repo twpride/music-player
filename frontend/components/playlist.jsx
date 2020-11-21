@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
 
-import { getSongUrl, getPlaylist, receivePlaylist } from '../actions/actions'
+import { getSongUrl, getPlaylist } from '../actions/actions'
 import { moveTrack } from '../util/api_util'
 import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { Card } from './card'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { ent_act } from '../reducers/root_reducer'
 
 export default function Playlist() {
   let { id } = useParams();
@@ -80,9 +81,9 @@ export default function Playlist() {
     }
 
     moveTrack(req) // update db
-    dispatch(receivePlaylist(id, cards)) // update store
+    dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist: cards }) // update store
   };
-  
+
   return (
     <div>
       <DndProvider backend={HTML5Backend} >

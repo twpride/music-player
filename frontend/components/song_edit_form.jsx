@@ -7,20 +7,7 @@ import { useTextField } from '../util/hooks'
 import { context_act } from '../reducers/ui_reducer'
 
 
-const ModalDiv = styled.div`
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100vh;
-  width: 100vw;
-  background-color: beige;
-  z-index: 1;
 
-  .field {
-    text-transform: capitalize;
-  }
-`
 const renderErrors = () => {
   const errors = useSelector(state => state.errors);
   return (
@@ -73,7 +60,6 @@ export default function SongEditForm(props) {
             type="submit"
           />
         </form>
-        <div className="seperator"></div>
 
       </div>
 

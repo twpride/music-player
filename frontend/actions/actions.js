@@ -2,42 +2,7 @@ import * as APIUtil from '../util/api_util';
 import { login } from '../util/session_api_util';
 import { session_act } from '../reducers/session_reducer'
 import { modal_act } from '../reducers/ui_reducer'
-
-export const RECEIVE_SONG = "RECEIVE_SONG"
-export const RECEIVE_SONG_D = "RECEIVE_SONG_D"
-export const RECEIVE_SONG_URL = "RECEIVE_SONG_URL"
-export const RECEIVE_PLAYLIST = "RECEIVE_PLAYLIST"
-export const UPDATE_PLAYLIST = "UPDATE_PLAYLIST"
-export const RECEIVE_PLAYLIST_TITLE_D = "RECEIVE_PLAYLIST_TITLE_D"
-
 import { ent_act } from '../reducers/root_reducer'
-
-export const receiveSong = (song) => ({
-  type: RECEIVE_SONG,
-  song
-})
-
-export const receiveSongD = (songD) => ({
-  type: RECEIVE_SONG_D,
-  songD
-})
-
-export const loadSongUrl = (url) => ({
-  type: RECEIVE_SONG_URL,
-  url
-})
-
-export const receivePlaylist = (id, playlist) => ({
-  type: RECEIVE_PLAYLIST,
-  id,
-  playlist
-})
-
-export const receivePlaylistTitleD = (playlistTitleD) => ({
-  type: RECEIVE_PLAYLIST_TITLE_D,
-  playlistTitleD
-})
-
 
 
 export const postSongs = songs => dispatch => (
@@ -55,7 +20,6 @@ export const editSongs = song => dispatch => (
 export const getSongD = () => dispatch => (
   APIUtil.getSongD()
     .then(response => response.json())
-    .then(songD => dispatch(receiveSongD(songD)))
     .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }))
 )
 
@@ -114,9 +78,10 @@ export const loginThunk = user => async dispatch => {
 }
 
 
-
 export const createPlaylist = playlist => dispatch => (
   APIUtil.createPlaylist(playlist)
     .then(response => response.json())
-    .then(songD => dispatch(receiveSongD(songD)))
+    .then(playlistTitleD => dispatch(
+      { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
+    ))
 )

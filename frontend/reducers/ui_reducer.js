@@ -21,6 +21,7 @@ export const context_act = {
   SONG_EDIT_C: "SONG_EDIT_C",
   SONG_BURGER_C: "SONG_BURGER_C",
   CLOSE_CONTEXT: "CLOSE_CONTEXT",
+  SELECT_PLAYLIST_C: "SELECT_PLAYLIST_C",
 }
 const contextMenu = (state = null, action) => {
   Object.freeze(state);

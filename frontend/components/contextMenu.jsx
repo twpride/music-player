@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import SongEditForm from './song_edit_form';
 import SongBurger from './song_burger';
+import SelectPlaylist from './select_playlist';
 import {useSelector} from 'react-redux'
  
 
@@ -13,8 +14,8 @@ const ModalDiv = styled.div`
   display: block;
   position: absolute;
   left: 0;
-  top: 0;
-  height: 100vh;
+  top: 25%;
+  height: 50vh;
   width: 100vw;
   background-color: beige;
   z-index: 1;
@@ -36,6 +37,9 @@ export default function ContextMenu() {
       break;
     case context_act.SONG_EDIT_C:
       Component = SongEditForm;
+      break;
+    case context_act.SELECT_PLAYLIST_C:
+      Component = SelectPlaylist;
       break;
     default:
       return null;

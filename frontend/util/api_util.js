@@ -57,7 +57,7 @@ export const createPlaylist = playlist => (
   })
 );
 
-export const addTracK = (playlist, song) => (
+export const addTrack = (playlist, song) => (
   fetch(`/api/add_track/${playlist}/${song}`, {
     method: 'POST',
     headers: fetchHeader(),

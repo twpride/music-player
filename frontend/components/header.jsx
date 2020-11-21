@@ -6,7 +6,9 @@ import styled from 'styled-components'
 import { session_act } from '../reducers/session_reducer';
 import { logout } from '../util/session_api_util'
 
-const NavbarDiv = styled.div`
+import { useLocation} from 'react-router-dom';
+
+const HeaderDiv = styled.div`
 a.logo{
   margin-left: 10px;
   margin-right: 10px;
@@ -19,6 +21,7 @@ a.logo{
   justify-content: space-between;
   width: 100%;
   z-index: 10;
+  border:solid black 1px;
 
 .modalclass {
   z-index: 10;
@@ -34,32 +37,22 @@ img.logo {
 }
 `
 
-export default function Navbar() {
+export default function Header() {
   const dispatch = useDispatch()
+  let location = useLocation()
   const currentUser = useSelector(state => state.session.currentUser)
   const logout_call = () => {
     logout().then(
       () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
     )
   }
+  // const path = location.pathname.split('/')
+  // if (path[2]) {
 
+  // }
   return (
-    <NavbarDiv className="nav">
-      <Link to="/">
-        Home
-      </Link>
-      <div className="user-button"
-        onClick={logout_call}>
-        Log out
-      </div>
-
-      <Link to="/upload">
-        Upload
-      </Link>
-
-      <Link to="/playlist_d/">
-        Playlists
-      </Link>
-    </NavbarDiv>
+    <HeaderDiv className="nav">
+    
+    </HeaderDiv>
   )
 };

@@ -1,12 +1,21 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
+import styled from 'styled-components'
 
-import { createPlaylist, getPlaylistTitleD } from '../actions/actions'
-import { modal_act} from '../reducers/ui_reducer'
+import { getPlaylistTitleD } from '../actions/actions'
+import { modal_act } from '../reducers/ui_reducer'
 
 import { Link } from 'react-router-dom'
 
+const PlaylistDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  width:100%;
+`
 
 export default function PlaylistD() {
 
@@ -22,14 +31,14 @@ export default function PlaylistD() {
 
   return (
 
-    <div>
-      <div onClick={() => dispatch({type:modal_act.NEW_PLAYLIST})}> New Playlist</div>
+    <PlaylistDiv>
+      <div onClick={() => dispatch({ type: modal_act.NEW_PLAYLIST })}> New Playlist</div>
       {titleD && titleD.map((pl, index) => (
         <Link key={index} to={`/playlist_D/${pl.id}`}>
           {pl.title}
         </Link>
       ))}
-    </div>
+    </PlaylistDiv>
   )
 };
 

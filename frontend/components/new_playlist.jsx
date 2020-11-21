@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 import { modal_act } from '../reducers/ui_reducer'
+import { ent_act } from '../reducers/root_reducer'
 import { createPlaylist } from '../util/api_util'
 const renderErrors = () => {
   const errors = useSelector(state => state.errors.session)
@@ -26,11 +27,12 @@ export default function NewPlaylist() {
     e.preventDefault();
     const playlistTitle = new FormData(document.getElementById('loginForm'));
 
-    const res = await create(playlistTitle)
+    const res = await createPlaylist(playlistTitle)
     if (res.ok) {
-      const playlist = await res.json()
-      dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
-      dispatch({ type: modal_act.CLOSE_MODAL })
+      const playlistTitleD = await res.json()
+      const id = playlistTitleD[playlistTitleD.length - 1].id
+      dispatch({ type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD })
+      dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist: [] }) // update store
     } else {
       const errors = await res.json()
       dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })

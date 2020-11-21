@@ -11,8 +11,8 @@ const ModalDiv = styled.div`
   display: block;
   position: absolute;
   left: 0;
-  top: 0;
-  height: 100vh;
+  top: 25%;
+  height: 50vh;
   width: 100vw;
   background-color: beige;
   z-index: 1;

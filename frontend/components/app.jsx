@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { ProtectedRoute, AuthRoute } from '../util/route_util'
+import { ProtectedRoute } from '../util/route_util'
 import styled from 'styled-components'
 
 import Navbar from './navbar';
+import Header from './header'
 import UploadForm from './upload_form';
 import SongD from './songD';
 import Playlist from './playlist';
@@ -14,7 +15,9 @@ import ContextMenu from './contextMenu'
 import LoginForm from './login_form_splash'
 import SignupForm from './signup_form_splash'
 
-import { getSongD, loginThunk } from '../actions/actions'
+import { loginThunk } from '../actions/actions'
+import { getSongD, getPlaylistTitleD } from '../util/api_util'
+import { ent_act } from "../reducers/root_reducer"
 
 const AppDiv = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ const AppDiv = styled.div`
   height:100%;
   width:100%;
 
-  >div:first-child {
+  .scrollable {
     height:90%;
     overflow:scroll;
   }
@@ -32,14 +35,23 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getSongD())
+    getSongD()
+      .then(response => response.json())
+      .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }));
+
+    getPlaylistTitleD()
+      .then(response => response.json())
+      .then(playlistTitleD => dispatch(
+        { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
+      ));
   }, [])
 
   const songUrl = useSelector(state => state.player.songUrl)
 
   return (
     <AppDiv id="appdiv">
-      <div>
+      <Route path='/' component={Header} />
+      <div className="scrollable">
         <Switch>
           <Route exact path='/' component={SongD} />
           <Route exact path='/upload' component={UploadForm} />

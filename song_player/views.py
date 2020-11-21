@@ -65,8 +65,10 @@ def song(request, id):
 
 
 def playlist_d(request):
-  if request.method == "GET":
-    return JsonResponse(list(Playlist.objects.values()), safe=False)
+  if request.method == "POST":
+    req = request.POST.get('title')
+    Playlist.objects.create(title=req)
+  return JsonResponse(list(Playlist.objects.values()), safe=False)
 
 
 def playlist(request, id):
@@ -84,7 +86,7 @@ def add_track(request, playlist_id=None, song_id=None):
                                    prev_id=playlist.tail_id)
   playlist.tail_id = new_entry.pk
   playlist.save()
-  return JsonResponse("sucess", safe=False)
+  return JsonResponse(Entry.objects.count(), safe=False)
 
 
 def move_track(request):

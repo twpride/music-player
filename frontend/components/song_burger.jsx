@@ -28,7 +28,8 @@ export default function SongBurger(props) {
     "Edit song": () => {
       dispatch({ type: context_act.SONG_EDIT_C, id: props.id })
     },
-    "Add to playlist": () => { console.log(2) },
+    "Add to playlist": () => dispatch(
+      { type: context_act.SELECT_PLAYLIST_C, id: props.id }),
     "Delete song": () => { console.log(3) },
   }
 
