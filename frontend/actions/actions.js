@@ -44,7 +44,8 @@ export const getPlaylist = id => async dispatch => {
   let map = new Map();
   let currentId = null;
 
-  // index the linked list by previous_item_id
+  // index the linked list by previous_item_id 
+  // we use prev because we rely on prev==null to identify list head
   for (let i = 0; i < linkedList.length; i++) {
     let item = linkedList[i];
     if (item[2] === null) {

@@ -1,6 +1,6 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components'
 
 import { getPlaylistTitleD } from '../actions/actions'

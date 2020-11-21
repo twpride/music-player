@@ -11,7 +11,8 @@ export const ent_act = {
   RECEIVE_PLAYLIST: "RECEIVE_PLAYLIST",
   UPDATE_PLAYLIST: "UPDATE_PLAYLIST",
   RECEIVE_PLAYLIST_TITLE_D: "RECEIVE_PLAYLIST_TITLE",
-  APPEND_PLAYLIST: "APPEND_PLAYLIST"
+  APPEND_PLAYLIST: "APPEND_PLAYLIST",
+  LOAD_TRACK: "LOAD_TRACK"
 }
 
 const songD = (state = [], action) => {
@@ -47,6 +48,8 @@ const player = (state = [], action) => {
   switch (action.type) {
     case ent_act.RECEIVE_SONG_URL:
       return { ...state, songUrl: action.url };
+    case ent_act.LOAD_TRACK:
+      return { ...state, track: action.track };
     default:
       return state;
   }

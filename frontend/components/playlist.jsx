@@ -18,8 +18,10 @@ export default function Playlist() {
 
   const dispatch = useDispatch();
 
-  const playSong = (e) => {
-    dispatch(getSongUrl(e))
+
+  const playSong = (song_id, track_no) => (e) => {
+    dispatch({type:ent_act.LOAD_TRACK, track:[id, track_no]})
+    dispatch(getSongUrl(song_id))
   }
 
   const playlist = useSelector(state => state.entities.playlistD[id])
@@ -87,15 +89,16 @@ export default function Playlist() {
   return (
     <div>
       <DndProvider backend={HTML5Backend} >
-        {cards && cards.map(([song, track, prev], index) => (
+        {cards && cards.map(([song_id, entry_id, prev], index) => (
           <Card
-            key={track}
+            key={entry_id}
             index={index}
-            id={track}
+            id={entry_id}
             prev={prev}
-            text={songD[song]}
+            text={songD[song_id]}
             moveCard={moveCard}
             setPrev={setPrev}
+            playSong={playSong(song_id, index)}
           />
         ))}
       </DndProvider>

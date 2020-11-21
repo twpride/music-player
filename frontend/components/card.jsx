@@ -7,7 +7,7 @@ const style = {
   backgroundColor: 'white',
   cursor: 'move',
 }
-export const Card = ({ id, text, index, moveCard, setPrev }) => {
+export const Card = ({ id, text, index, moveCard, setPrev, playSong}) => {
   const ref = useRef(null)
   const [start, setStart] = useState(null)
 
@@ -42,7 +42,9 @@ export const Card = ({ id, text, index, moveCard, setPrev }) => {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-    begin() { setStart(index) },
+    begin() { 
+      setStart(index) 
+    },
     end() {
       console.log(start)
       console.log(index)
@@ -53,7 +55,7 @@ export const Card = ({ id, text, index, moveCard, setPrev }) => {
 
   drag(drop(ref))
   return (
-    <div ref={ref} style={{ ...style, opacity }}>
+    <div ref={ref} style={{ ...style, opacity }} onDoubleClick={playSong}>
       {text ? text.title : "false"}
     </div>
   )
