@@ -60,7 +60,7 @@ input[type='range']::-webkit-slider-runnable-track {
     border-radius: 50%;
   }
 
-  &:hover {
+  &:active:hover {
     &[type="range"]::-moz-range-thumb {
       height: 10px;
       width: 10px;

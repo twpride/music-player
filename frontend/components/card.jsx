@@ -79,7 +79,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
       setPrev(start, index)
     }
   })
-  const opacity = isDragging ? 0 : 1
+  const opacity = isDragging ? 0.4 : 1
 
   drag(drop(ref))
   return (
