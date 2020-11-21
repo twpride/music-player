@@ -11,6 +11,7 @@ import { Card } from './card'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
 
 export default function Playlist() {
@@ -93,7 +94,7 @@ export default function Playlist() {
 
   return (
     <div>
-      <DndProvider backend={HTML5Backend} >
+      <DndProvider backend={TouchBackend} >
         {cards && cards.map(([song_id, entry_id, prev], index) => (
           <Card
             song_id={song_id}
