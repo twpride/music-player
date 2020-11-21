@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ProtectedRoute } from '../util/route_util'
@@ -12,13 +12,12 @@ import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import Modal from './modal'
 import ContextMenu from './contextMenu'
-import LoginForm from './login_form_splash'
-import SignupForm from './signup_form_splash'
+import LoginForm from './login_form'
+import SignupForm from './signup_form'
+import AudioPlayer from './audio_player'
 
 import { loginThunk } from '../actions/actions'
-import { getSongD, getPlaylistTitleD } from '../util/api_util'
-import { ent_act } from "../reducers/root_reducer"
-import { getSongUrl } from '../actions/actions'
+
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -31,53 +30,6 @@ const AppDiv = styled.div`
   }
 `
 const App = () => {
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    getSongD()
-      .then(response => response.json())
-      .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }));
-
-    getPlaylistTitleD()
-      .then(response => response.json())
-      .then(playlistTitleD => dispatch(
-        { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
-      ));
-
-    window.xxx = document.querySelector('audio');
-  }, [])
-
-
-  const audEle = useCallback(
-    node => {
-      if (node !== null) {
-        // console.log(node)
-      }
-    }, []);
-
-  const songUrl = useSelector(state => state.player.songUrl)
-  const playlist_dir = useSelector(state => state.entities.playlistD)
-
-
-  const track = useSelector(state => state.player.track)
-  const playNext = () => {
-    console.log("next",track)
-    const newtr = [...track]
-    newtr[1]+=1
-
-    let song_id
-    if (song_id = playlist_dir[newtr[0]][newtr[1]]){
-      dispatch(getSongUrl(song_id[0]))
-      dispatch({type:ent_act.LOAD_TRACK, track:newtr})
-    }
-  }
-
-  // useEffect(() => {
-  //   const song_id=
-  //   dispatch(getSongUrl(song_id))
-  // }, [trac])
-
   return (
     <AppDiv id="appdiv">
       <Route path='/' component={Header} />
@@ -89,8 +41,7 @@ const App = () => {
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
       </div>
-
-      <audio controls src={songUrl} ref={audEle} autoPlay onEnded={playNext} />
+      <AudioPlayer/>
       <Navbar />
       <Modal />
       <ContextMenu />
@@ -109,7 +60,6 @@ const SplashDiv = styled.div`
   }
 
 `
-
 export default function Splash() {
   const [mode, setMode] = useState(null)
   const dispatch = useDispatch()

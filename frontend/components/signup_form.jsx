@@ -1,8 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
-import { useTextField } from '../util/hooks'
 import { signup } from '../util/session_api_util'
-import { modal_act } from '../reducers/ui_reducer'
 import { session_act } from '../reducers/session_reducer'
 
 function renderErrors() {
@@ -18,7 +16,7 @@ function renderErrors() {
   );
 }
 
-export default function SignupForm() {
+export default function SignupForm({ setMode }) {
   const dispatch = useDispatch()
 
   const fields = {// dbname: print name
@@ -40,20 +38,16 @@ export default function SignupForm() {
     if (res.ok) {
       const currentUser = await res.json()
       dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
-      dispatch({ type: modal_act.CLOSE_MODAL })
     } else {
       const errors = await res.json()
       dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })
     }
 
-
   }
-
-
 
   function login() {
     dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
-    dispatch({ type: modal_act.LOGIN_M })
+    setMode('login')
   }
 
   return (
@@ -65,16 +59,14 @@ export default function SignupForm() {
           (field, i) => ( // field = [dbname, print name]
             <div key={i} className="login-input">
               <div className="field">{field[1]}</div>
-              <input type="text"
-                {...useTextField(field[0])}
-              />
+              <input type="text" name={field[0]} />
             </div>
           )
         )}
 
         {renderErrors()}
         <input className="submit-button"
-          type="submit"
+          type="submit" value='Sign up'
         />
       </form>
 
@@ -83,10 +75,7 @@ export default function SignupForm() {
         <div className="link-to-sign-in" onClick={login}>SIGN IN</div>
       </div>
 
-      <div className="close-modal" onClick={() => {
-        dispatch({ type: modal_act.CLOSE_MODAL })
-      }}>
-      </div>
+      <button onClick={() => setMode('')}>BacK</button>
     </>
 
   );

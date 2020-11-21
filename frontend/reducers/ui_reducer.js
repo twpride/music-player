@@ -2,8 +2,6 @@ import { combineReducers } from 'redux';
 
 export const modal_act = {
   NEW_PLAYLIST: 'NEW_PLAYLIST',
-  SIGNUP_M: 'SIGNUP_M',
-  USER_M: 'USER_M',
   CLOSE_MODAL: 'CLOSE_MODAL'
 }
 const modal = (state = null, action) => {

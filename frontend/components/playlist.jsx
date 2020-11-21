@@ -4,7 +4,7 @@ import React, { useEffect, useCallback, useState } from 'react';
 
 import { getSongUrl, getPlaylist } from '../actions/actions'
 import { moveTrack } from '../util/api_util'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import update from 'immutability-helper'
 import { Card } from './card'
@@ -18,22 +18,14 @@ export default function Playlist() {
 
   const dispatch = useDispatch();
 
-
   const playSong = (song_id, track_no) => (e) => {
-    dispatch({type:ent_act.LOAD_TRACK, track:[id, track_no]})
+    dispatch({ type: ent_act.LOAD_TRACK, track: [id, track_no] })
     dispatch(getSongUrl(song_id))
   }
 
   const playlist = useSelector(state => state.entities.playlistD[id])
   const songD = useSelector(state => state.entities.songD)
   const [cards, setCards] = useState(null)
-
-  // useEffect(() => {
-  //   if (!playlist) {
-  //     dispatch(getPlaylist(id))
-  //   }
-  // }, [])
-
   useEffect(() => {
     if (!playlist) {
       dispatch(getPlaylist(id))
@@ -57,6 +49,8 @@ export default function Playlist() {
     },
     [cards],
   )
+
+  const track = useSelector(state => state.player.track);
 
   const setPrev = (start, index) => {
     const req = {}
@@ -84,6 +78,17 @@ export default function Playlist() {
 
     moveTrack(req) // update db
     dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist: cards }) // update store
+
+    const tr = track[1];
+    let newtr = [...track];
+    if (tr == start) {
+      newtr[1] = index;
+    } else if (start < tr && index >= tr) {
+      newtr[1] -= 1;
+    } else if (start > tr && index <= tr) {
+      newtr[1] += 1;
+    }
+    dispatch({ type: ent_act.LOAD_TRACK, track: newtr })
   };
 
   return (
@@ -91,6 +96,7 @@ export default function Playlist() {
       <DndProvider backend={HTML5Backend} >
         {cards && cards.map(([song_id, entry_id, prev], index) => (
           <Card
+            song_id={song_id}
             key={entry_id}
             index={index}
             id={entry_id}

@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import burgerIcon from '../icons/burger.svg'
+import styled from 'styled-components'
 const style = {
   border: '2px solid lightgrey',
   padding: '1',
@@ -7,7 +9,33 @@ const style = {
   backgroundColor: 'white',
   cursor: 'move',
 }
-export const Card = ({ id, text, index, moveCard, setPrev, playSong}) => {
+
+
+const CardDiv = styled.div`
+  td {
+    height: 4em;
+    &:not(:nth-child(2)) {
+      width:3em;
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    &:nth-child(2) {
+      div {
+        overflow:hidden;
+        white-space: nowrap;
+        &:nth-child(1) {
+          color: #606060;
+        }
+      }
+    }
+  }
+`
+
+
+export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, prev }) => {
   const ref = useRef(null)
   const [start, setStart] = useState(null)
 
@@ -42,8 +70,8 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong}) => {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-    begin() { 
-      setStart(index) 
+    begin() {
+      setStart(index)
     },
     end() {
       console.log(start)
@@ -55,8 +83,15 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong}) => {
 
   drag(drop(ref))
   return (
-    <div ref={ref} style={{ ...style, opacity }} onDoubleClick={playSong}>
-      {text ? text.title : "false"}
-    </div>
+    <CardDiv ref={ref} style={{ ...style, opacity }} onDoubleClick={playSong}>
+      <td><div>{index + 1}</div></td>
+      <td>
+        <div>{text.artist}&nbsp;</div>
+        <div>{text.title}&nbsp;</div>
+      </td>
+      <td>
+        <div><img src={burgerIcon} /></div>
+      </td>
+    </CardDiv>
   )
 }
