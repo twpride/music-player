@@ -31,7 +31,11 @@ const playlistD = (state = {}, action) => {
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
-      return { ...state, playlistTitleD: action.playlistTitleD };
+      return {
+        ...state, playlistTitleD: {
+          ...state.playlistTitleD, ...action.playlistTitleD
+        }
+      };
     case ent_act.APPEND_PLAYLIST:
       return {
         ...state,

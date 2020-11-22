@@ -36,7 +36,7 @@ export default function PlaylistD() {
       <div className="scrollable">
         <PlaylistDiv>
           <div onClick={() => dispatch({ type: modal_act.NEW_PLAYLIST })}> New Playlist</div>
-          {titleD && titleD.map((pl, index) => (
+          {titleD && Object.values(titleD).map((pl, index) => (
             <Link key={index} to={`/playlist_D/${pl.id}`}>
               {pl.title}
             </Link>

@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/move_track', song.move_track),
     path('api/post_songs', song.post_songs),
     path('api/edit_songs', song.edit_songs),
+    path('api/new_playlist', song.new_playlist),
     re_path(r'^.*$', auth.RootView.as_view()),
     # path('__debug__/', include(debug_toolbar.urls)),
 ]

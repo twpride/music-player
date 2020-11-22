@@ -8,9 +8,15 @@ from django.core import serializers
 from .models import Song, Playlist, Entry
 import json
 
+
 def song_d(request):
   if request.method == "GET":
-    return JsonResponse({x["id"]:x for x in Song.objects.values('id','title','artist','album')}, safe=False)
+    return JsonResponse(
+        {
+            x["id"]: x
+            for x in Song.objects.values('id', 'title', 'artist', 'album')
+        },
+        safe=False)
 
 
 def edit_songs(request):
@@ -18,7 +24,7 @@ def edit_songs(request):
   ids = req.pop('ids').split(',')
   Song.objects.filter(pk__in=ids).update(**req)
   return JsonResponse(
-    { x['id']: x for x in 
+    { x['id']: x for x in
       Song.objects
           .filter(pk__in=ids)
           .values('id', 'title', 'artist', 'album')
@@ -38,12 +44,15 @@ def post_songs(request):
                           safe=False,
                           status=422)
     res.append(song)
-  idx = Song.objects.count()
+  idx = Song.objects.latest('id').id
   Song.objects.bulk_create(res)
-  return JsonResponse({
-        x["id"]: x for x in Song.objects.filter(pk__gt=idx).values('id', 'title', 'artist', 'album')
+  return JsonResponse(
+      {
+          x["id"]: x for x in Song.objects.filter(
+              pk__gt=idx).values('id', 'title', 'artist', 'album')
       },
       safe=False)
+
 
 def song(request, id):
   if request.method == "GET":
@@ -62,13 +71,23 @@ def song(request, id):
       'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
 
-
-
 def playlist_d(request):
   if request.method == "POST":
     req = request.POST.get('title')
     Playlist.objects.create(title=req)
-  return JsonResponse(list(Playlist.objects.values()), safe=False)
+  # return JsonResponse(list(Playlist.objects.values()), safe=False)
+  return JsonResponse(
+    {
+      x["id"]: x 
+      for x in Playlist.objects.values('id', 'title')
+    }
+    , safe=False)
+
+def new_playlist(request):
+  req = request.POST.get('title')
+  Playlist.objects.create(title=req)
+  res = model_to_dict(Playlist.objects.last(), fields=['id','title'])
+  return JsonResponse({res['id']:res}, safe=False)
 
 
 def playlist(request, id):

@@ -6,6 +6,7 @@ import burgerIcon from '../icons/burger.svg'
 
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
+import { ent_act } from '../reducers/root_reducer'
 import Header from './header'
 
 const Table = styled.table`
@@ -45,7 +46,8 @@ const Table = styled.table`
 export default function SongD() {
   const dispatch = useDispatch();
 
-  const playSong = (id) => (e) => {
+  const playSong = (id, i) => (e) => {
+    dispatch({ type: ent_act.LOAD_TRACK, track: [null, i] })
     dispatch(getSongUrl(id))
   }
 
@@ -63,7 +65,7 @@ export default function SongD() {
         <Table >
           <tbody>
             {Object.values(songD).map((song, i) => (
-              <tr key={i} onClick={playSong(song.id)}>
+              <tr key={i} onClick={playSong(song.id, i)}>
                 <td><div>{i + 1}</div></td>
                 <td>
                   <div>{song.artist}&nbsp;</div>

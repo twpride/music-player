@@ -49,14 +49,21 @@ export const getSongUrl = id => (
   })
 );
 
+// export const createPlaylist = playlist => (
+//   fetch('/api/playlist_d/', {
+//     method: 'POST',
+//     body: playlist,
+//     headers: fetchHeader(),
+//   })
+// );
+
 export const createPlaylist = playlist => (
-  fetch('/api/playlist_d/', {
+  fetch('/api/new_playlist', {
     method: 'POST',
     body: playlist,
     headers: fetchHeader(),
   })
 );
-
 export const addTrack = (playlist, song) => (
   fetch(`/api/add_track/${playlist}/${song}`, {
     method: 'POST',

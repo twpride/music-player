@@ -59,7 +59,7 @@ export default function SelectPlaylist(props) {
       <div className="login-form-container">
         <h1 className="login-signup">Edit Song</h1>
 
-        {playlistD.playlistTitleD && playlistD.playlistTitleD.map((pl, index) => (
+        {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
           <div key={index} onClick={click(pl.id)}>{pl.title}</div>
         ))}
 

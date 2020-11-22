@@ -30,7 +30,7 @@ export default function NewPlaylist() {
     const res = await createPlaylist(playlistTitle)
     if (res.ok) {
       const playlistTitleD = await res.json()
-      const id = playlistTitleD[playlistTitleD.length - 1].id
+      const id = Object.values(playlistTitleD)[0].id
       dispatch({ type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD })
       dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist: [] }) // update store
     } else {
