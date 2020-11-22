@@ -28,7 +28,7 @@ const AppDiv = styled.div`
 
   .scrollable {
     height:95%;
-    overflow:scroll;
+    overflow-y:auto;
     z-index:1;
   }
 `
@@ -44,6 +44,7 @@ const App = () => {
       .then(playlistTitleD => dispatch(
         { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
       ));
+    
   }, [])
   return (
     <AppDiv id="appdiv">

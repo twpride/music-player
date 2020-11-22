@@ -9,10 +9,7 @@ import { logout } from '../util/session_api_util'
 import { useLocation} from 'react-router-dom';
 
 const HeaderDiv = styled.div`
-a.logo{
-  margin-left: 10px;
-  margin-right: 10px;
-}
+
 
   display: flex;
   align-items: center;
@@ -23,18 +20,7 @@ a.logo{
   z-index: 10;
   border:solid black 1px;
 
-.modalclass {
-  z-index: 10;
-}
 
-.nav-logo {
-  height: 48px;
-  width: 48px;
-}
-
-img.logo {
-  width: 80px;
-}
 `
 
 export default function Header() {
