@@ -29,7 +29,7 @@ export default function SelectPlaylist(props) {
 
   const playlistD = useSelector(state => state.entities.playlistD)
 
-  const handleSubmit = (playlist_id) => (e) => {
+  const click = (playlist_id) => (e) => {
     e.preventDefault();
     // dispatch({
     //   type: ent_act.APPEND_PLAYLIST,
@@ -60,7 +60,7 @@ export default function SelectPlaylist(props) {
         <h1 className="login-signup">Edit Song</h1>
 
         {playlistD.playlistTitleD && playlistD.playlistTitleD.map((pl, index) => (
-          <div key={index} onClick={handleSubmit(pl.id)}>{pl.title}</div>
+          <div key={index} onClick={click(pl.id)}>{pl.title}</div>
         ))}
 
       </div>

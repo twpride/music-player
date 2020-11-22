@@ -14,7 +14,6 @@ const Table = styled.table`
   table-layout: fixed;
   border-collapse: collapse;
   width: 100%;
-
   tr {
     &:hover {
       background-color: #F0F0F0;

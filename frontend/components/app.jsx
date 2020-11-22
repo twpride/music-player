@@ -27,8 +27,9 @@ const AppDiv = styled.div`
   width:100%;
 
   .scrollable {
-    height:90%;
+    height:95%;
     overflow:scroll;
+    z-index:1;
   }
 `
 const App = () => {
