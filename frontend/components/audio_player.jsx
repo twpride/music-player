@@ -5,48 +5,42 @@ import styled from 'styled-components'
 import { ent_act } from "../reducers/root_reducer"
 import { getSongUrl } from '../actions/actions'
 
+import next from '../icons/next.svg'; import play from '../icons/play.svg';
+import pause from '../icons/pause.svg'; import prev from '../icons/prev.svg';
+import volume from '../icons/volume.svg'; import queue from '../icons/queue.svg';
+
 const ProgressBar = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 60%;
-  height: 50px;
-  .track-total {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 1px;
-    padding: 11.5px 0;
-    z-index: 1;
-    cursor: pointer;
-  }
+  width: 90%;
+  height: 20px;
+  cursor: pointer;
   .track-elapsed {
-    height: 1px;
-    align-self: flex-start;
+    height: 2px;
     background-color: #CE1141;
   }
   .track-remaining {
-    height: 1px;
-    align-self: flex-start;
+    height: 2px;
     background-color: grey;
   }
   .thumb-container {
-    width: auto;
-    height: 50px;
+    height: 100%;
+    width:0;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
+    z-index:10;
   }
   .thumb {
-    // display: none;
+    /* display: none; */
     border-radius: 50%;
     background-color: rgb(173, 15, 55);
-    width: 9px;
-    height: 9px;
-    margin-top: 0.8px;
+    width: 10px;
+    height: 10px;
   }
 `
+const ControlDiv = styled.div``
 
 
 export default function AudioPlayer() {
@@ -94,23 +88,28 @@ export default function AudioPlayer() {
       this.updateTime(globalAudioTime)
     }
   }
-
-  const currentProgress = 50;
+   const [playing, setPlaying] = useState(false)
+  const currentProgress = 30;
   return (
     <>
 
       <ProgressBar>
-        <div className='track-total'>
-          <div className='track-elapsed' style={{ width: `${currentProgress}%` }}></div>
-          <div className='thumb-container' >
-            <div className='thumb'></div>
-          </div>
-          <div className='track-remaining' style={{ width: `${100 - currentProgress}%` }}></div>
+        <div className='track-elapsed' style={{ width: `${currentProgress}%` }}></div>
+        <div className='thumb-container' >
+          <div className='thumb'></div>
         </div>
+        <div className='track-remaining' style={{ width: `${100 - currentProgress}%` }}></div>
       </ProgressBar>
+      <ControlDiv>
+        <img src={prev} />
+        {playing ? <img src={pause} /> : <img src={play} />}
+        <img src={next} />
+      </ControlDiv>
 
+      <img src={volume} />
+      <img src={queue} />
       <audio
-        controls autoPlay src={songUrl}
+        autoPlay src={songUrl}
         onEnded={playNext}
       />
 
