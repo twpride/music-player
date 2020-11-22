@@ -13,6 +13,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
+import Header from './header'
 
 export default function Playlist() {
   let { id } = useParams();
@@ -80,6 +81,7 @@ export default function Playlist() {
     moveTrack(req) // update db
     dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist: cards }) // update store
 
+    if (!track) return;
     const tr = track[1];
     let newtr = [...track];
     if (tr == start) {
@@ -93,23 +95,27 @@ export default function Playlist() {
   };
 
   return (
-    <div>
-      <DndProvider backend={TouchBackend} >
-        {cards && cards.map(([song_id, entry_id, prev], index) => (
-          <Card
-            song_id={song_id}
-            key={entry_id}
-            index={index}
-            id={entry_id}
-            prev={prev}
-            text={songD[song_id]}
-            moveCard={moveCard}
-            setPrev={setPrev}
-            playSong={playSong(song_id, index)}
-          />
-        ))}
-      </DndProvider>
-    </div>
+
+    <>
+      <Header />
+      <div className="scrollable">
+        <DndProvider backend={TouchBackend} >
+          {cards && cards.map(([song_id, entry_id, prev], index) => (
+            <Card
+              song_id={song_id}
+              key={entry_id}
+              index={index}
+              id={entry_id}
+              prev={prev}
+              text={songD[song_id]}
+              moveCard={moveCard}
+              setPrev={setPrev}
+              playSong={playSong(song_id, index)}
+            />
+          ))}
+        </DndProvider>
+      </div>
+    </>
   )
 };
 

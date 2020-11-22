@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { ProtectedRoute } from '../util/route_util'
 import styled from 'styled-components'
 
-import Navbar from './navbar';
-import Header from './header'
-import UploadForm from './upload_form';
 import SongD from './songD';
+import UploadForm from './upload_form';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
+import AudioPlayer from './audio_player'
+import Navbar from './navbar';
 import Modal from './modal'
 import ContextMenu from './contextMenu'
+
 import LoginForm from './login_form'
 import SignupForm from './signup_form'
-import AudioPlayer from './audio_player'
 
+import { getSongD, getPlaylistTitleD } from '../util/api_util'
+import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
+import { ent_act } from "../reducers/root_reducer"
 
 const AppDiv = styled.div`
   display: flex;
@@ -30,18 +32,27 @@ const AppDiv = styled.div`
   }
 `
 const App = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    getSongD()
+      .then(response => response.json())
+      .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }));
+
+    getPlaylistTitleD()
+      .then(response => response.json())
+      .then(playlistTitleD => dispatch(
+        { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
+      ));
+  }, [])
   return (
     <AppDiv id="appdiv">
-      <Route path='/' component={Header} />
-      <div className="scrollable">
-        <Switch>
-          <Route exact path='/' component={SongD} />
-          <Route exact path='/upload' component={UploadForm} />
-          <Route path='/playlist_d/:id' component={Playlist} />
-          <Route path='/playlist_d/' component={PlaylistD} />
-        </Switch>
-      </div>
-      <AudioPlayer/>
+      <Switch>
+        <Route exact path='/' component={SongD} />
+        <Route exact path='/upload' component={UploadForm} />
+        <Route path='/playlist_d/:id' component={Playlist} />
+        <Route path='/playlist_d/' component={PlaylistD} />
+      </Switch>
+      <AudioPlayer />
       <Navbar />
       <Modal />
       <ContextMenu />

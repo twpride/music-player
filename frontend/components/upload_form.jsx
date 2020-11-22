@@ -1,14 +1,14 @@
-import { connect} from 'react-redux';
-
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { postSongs } from '../actions/actions'
 
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 
-const UploadFormX = ({ logout, openModal, postSongs }) => {
+export default function UploadForm() {
 
   const [urls, setUrls] = useState('');
+  const dispatch = useDispatch()
 
   const loadSong = e => {
     const music = e.currentTarget.files[0]
@@ -32,11 +32,11 @@ const UploadFormX = ({ logout, openModal, postSongs }) => {
       })
     )
 
-    postSongs(songs)
+    dispatch(postSongs(songs))
   }
 
   return (
-    <div>
+    <div className='scrollable'>
       <form id="songForm" onSubmit={submitSong}>
         <input type="file" name="waveform" onChange={loadSong} multiple></input>
 
@@ -49,7 +49,6 @@ const UploadFormX = ({ logout, openModal, postSongs }) => {
             rows="5" cols="43" wrap="hard"
           />
         </div>
-
         {/* {this.renderErrors()} */}
         <input className="submit-button"
           type="submit"
@@ -59,35 +58,5 @@ const UploadFormX = ({ logout, openModal, postSongs }) => {
     </div>
   )
 };
-
-const mapStateToProps = ({ entities }) => ({
-  // currentUser: session.currentUser
-  menu: entities.menu
-});
-
-const mapDispatchToProps = dispatch => ({
-  logout: () => dispatch(logout()),
-  postSongs: (songs) => dispatch(postSongs(songs)),
-  openModal: modal => dispatch(openModal(modal)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadFormX);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

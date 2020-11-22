@@ -6,6 +6,7 @@ import burgerIcon from '../icons/burger.svg'
 
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
+import Header from './header'
 
 const Table = styled.table`
   font-size: .9em;
@@ -57,22 +58,27 @@ export default function SongD() {
   const songD = useSelector(state => state.entities.songD)
 
   return (
-    <Table>
-      <tbody>
-        {Object.values(songD).map((song, i) => (
-          <tr key={i} onClick={playSong(song.id)}>
-            <td><div>{i + 1}</div></td>
-            <td>
-              <div>{song.artist}&nbsp;</div>
-              <div>{song.title}&nbsp;</div>
-            </td>
-            <td onClick={launchBurger(song.id)}>
-              <div><img src={burgerIcon} /></div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+    <>
+      <Header />
+      <div className="scrollable">
+        <Table >
+          <tbody>
+            {Object.values(songD).map((song, i) => (
+              <tr key={i} onClick={playSong(song.id)}>
+                <td><div>{i + 1}</div></td>
+                <td>
+                  <div>{song.artist}&nbsp;</div>
+                  <div>{song.title}&nbsp;</div>
+                </td>
+                <td onClick={launchBurger(song.id)}>
+                  <div><img src={burgerIcon} /></div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </>
   )
 };
 

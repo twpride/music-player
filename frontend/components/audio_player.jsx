@@ -2,88 +2,58 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 
-import { getSongD, getPlaylistTitleD } from '../util/api_util'
 import { ent_act } from "../reducers/root_reducer"
 import { getSongUrl } from '../actions/actions'
-const PlayerDiv = styled.div`
 
+const ProgressBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+  height: 50px;
+  .track-total {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 1px;
+    padding: 11.5px 0;
+    z-index: 1;
+    cursor: pointer;
+  }
+  .track-elapsed {
+    height: 1px;
+    align-self: flex-start;
+    background-color: #CE1141;
+  }
+  .track-remaining {
+    height: 1px;
+    align-self: flex-start;
+    background-color: grey;
+  }
+  .thumb-container {
+    width: auto;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .thumb {
+    // display: none;
+    border-radius: 50%;
+    background-color: rgb(173, 15, 55);
+    width: 9px;
+    height: 9px;
+    margin-top: 0.8px;
+  }
 `
 
-const Slider = styled.input`
-input[type='range'] {
-  -webkit-appearance: none;
-  background-color: #ddd;
-  height: 20px;
-  overflow: hidden;
-  width: 400px;
-}
-
-input[type='range']::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
-  height: 20px;
-}
-
-
-  &[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 2px;
-    width: 2px;
-    background: pink;
-    margin-top: -5px;
-    border-radius: 50%;
-  }
-  &:hover {
-    &[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      height: 15px;
-      width: 15px;
-      background: pink;
-      margin-top: -5px;
-      border-radius: 50%;
-    }
-  }  
-
-
-
-
-  &[type="range"]::-moz-range-progress {
-    background: tomato;
-    height: 2px;
-  }
-
-
-  &[type="range"]::-moz-range-thumb {
-    height: 0px;
-    width: 0px;
-    background: pink;
-    margin-top: -5px;
-    border-radius: 50%;
-  }
-
-  &:active:hover {
-    &[type="range"]::-moz-range-thumb {
-      height: 10px;
-      width: 10px;
-      background: pink;
-      margin-top: -5px;
-      border-radius: 50%;
-    }
-  }  
-`
 
 export default function AudioPlayer() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    getSongD()
-      .then(response => response.json())
-      .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }));
-
-    getPlaylistTitleD()
-      .then(response => response.json())
-      .then(playlistTitleD => dispatch(
-        { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
-      ));
+    window.aud = document.querySelector('audio')
   }, [])
 
   const songUrl = useSelector(state => state.player.songUrl)
@@ -114,11 +84,36 @@ export default function AudioPlayer() {
     setTime(e.target.value)
   }
 
-  return (
-    <PlayerDiv>
+  function handleTimeUpdate(e) {
+    const globalAudioTime = e.target.currentTime;
+    if (!this.state.down) {
+      this.setState({ currentProgress: (globalAudioTime / audio.currentSong.duration) * 100 }, () => {
+        this.updateTime(globalAudioTime);
+      })
+    } else {
+      this.updateTime(globalAudioTime)
+    }
+  }
 
-      <audio controls src={songUrl} onEnded={playNext} autoPlay />
-      <Slider type="range" min="0" max="200" value={time} step="1" onChange={handleProgress} />
-    </PlayerDiv>
+  const currentProgress = 50;
+  return (
+    <>
+
+      <ProgressBar>
+        <div className='track-total'>
+          <div className='track-elapsed' style={{ width: `${currentProgress}%` }}></div>
+          <div className='thumb-container' >
+            <div className='thumb'></div>
+          </div>
+          <div className='track-remaining' style={{ width: `${100 - currentProgress}%` }}></div>
+        </div>
+      </ProgressBar>
+
+      <audio
+        controls autoPlay src={songUrl}
+        onEnded={playNext}
+      />
+
+    </>
   )
 };

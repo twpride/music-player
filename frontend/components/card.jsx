@@ -2,27 +2,29 @@ import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import burgerIcon from '../icons/burger.svg'
 import styled from 'styled-components'
-const style = {
-  border: '2px solid lightgrey',
-  padding: '1',
-  marginBottom: '0px',
-  backgroundColor: 'white',
-  cursor: 'move',
-}
-
 
 const CardDiv = styled.div`
-  td {
+  font-size: .9em;
+  font-family: Sans-Serif;
+  display:flex;
+  flex-direction:row;
+  align-items: center;
+  max-width: 100%;
+  >div {
     height: 4em;
+    opacity: ${props=>props.isDragging ? 0.4 : 1};
+
     &:not(:nth-child(2)) {
-      width:3em;
-      div {
+      min-width:3em;
         display: flex;
         justify-content: center;
         align-items: center;
-      }
     }
     &:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width:22.5em;
       div {
         overflow:hidden;
         white-space: nowrap;
@@ -65,6 +67,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
       item.index = hoverIndex
     },
   })
+
   const [{ isDragging }, drag] = useDrag({
     item: { type: 'card', id, index },
     collect: (monitor) => ({
@@ -79,19 +82,19 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
       setPrev(start, index)
     }
   })
-  const opacity = isDragging ? 0.4 : 1
 
   drag(drop(ref))
+
   return (
-    <CardDiv ref={ref} style={{ ...style, opacity }} onDoubleClick={playSong}>
-      <td><div>{index + 1}</div></td>
-      <td>
-        <div>{text.artist}&nbsp;</div>
-        <div>{text.title}&nbsp;</div>
-      </td>
-      <td>
-        <div><img src={burgerIcon} /></div>
-      </td>
+    <CardDiv ref={ref} isDragging={isDragging} onDoubleClick={playSong}>
+      <div>{index + 1}</div>
+      <div>
+        <div>{text && text.artist}&nbsp;</div>
+        <div>{text && text.title}&nbsp;</div>
+      </div>
+      <div>
+        <img src={burgerIcon} />
+      </div>
     </CardDiv>
   )
 }
