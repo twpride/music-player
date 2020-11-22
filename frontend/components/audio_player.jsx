@@ -133,22 +133,21 @@ export default function AudioPlayer() {
   const playlistD = useSelector(state => state.entities.playlistD)
   const track = useSelector(state => state.player.track)
 
-  const playNext = () => {
+  const skip = (dir) => () => {
+    if (!track) return
     const newtr = [...track];
-    newtr[1] += 1;
-    let song_id;
-    if (song_id = playlist_dir[newtr[0]][newtr[1]]) {
-      dispatch(getSongUrl(song_id[0]));
+    newtr[1] += dir;
+    let song;
+    if (
+      newtr[0] &&
+      (song = playlist_dir[newtr[0]][newtr[1]])
+    ) {
+      dispatch(getSongUrl(song[0]));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
-    }
-  };
-
-  const playPrev = () => {
-    const newtr = [...track];
-    newtr[1] -= 1;
-    let song_id;
-    if (song_id = playlist_dir[newtr[0]][newtr[1]]) {
-      dispatch(getSongUrl(song_id[0]));
+    } else if (
+      song = Object.values(songD)[newtr[1]]
+    ) {
+      dispatch(getSongUrl(song.id));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     }
   };
@@ -230,6 +229,28 @@ export default function AudioPlayer() {
     }
   }
 
+  const SongInfo = () => {
+    let title = '';
+    let artist = '';
+
+    if (track) {
+      let song;
+      if (track[0]) {
+        song = songD[playlistD[track[0]][track[1]][0]];
+      } else {
+        song = Object.values(songD)[track[1]]
+      }
+      artist = song.artist;
+      title = song.title;
+    }
+    return (
+      <div className='song-info'>
+        <div>{artist}&nbsp;</div>
+        <div>{title}&nbsp;</div>
+      </div>
+    )
+  }
+
   return (
     <>
       <PlayerDiv>
@@ -244,9 +265,9 @@ export default function AudioPlayer() {
 
         <div className='control'>
           <div></div>
-          {/* <img src={prev} onClick={playPrev} /> */}
+          <img src={prev} onClick={skip(-1)} />
           <PlayButton />
-          {/* <img src={next} onClick={playNext} /> */}
+          <img src={next} onClick={skip(1)} />
         </div>
 
         {duration &&
@@ -254,19 +275,12 @@ export default function AudioPlayer() {
             {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
           </div>
         }
-        <div className='song-info'>
-          <div>{track && songD[playlistD[track[0]][track[1]][0]].artist}&nbsp;</div>
-          <div>{track && songD[playlistD[track[0]][track[1]][0]].title}&nbsp;</div>
-        </div>
-        <div>
-          {/* <img src={volume} /> */}
-          {/* <div></div> */}
-          {/* <img src={queue} /> */}
-        </div>
+        <SongInfo />
+
       </PlayerDiv>
       <audio
         autoPlay src={songUrl}
-        onEnded={playNext}
+        onEnded={skip(1)}
         onTimeUpdate={handleTimeUpdate}
       />
     </>
