@@ -73,7 +73,7 @@ const PlayerDiv = styled.div`
       height: 20px;
       width: 20px;
     }
-    img:nth-of-type(2) {
+    .play-button {
       height: 30px;
       width: 30px;
       margin:0 10px 0 10px;
@@ -167,6 +167,7 @@ export default function AudioPlayer() {
     aud.currentTime = prog * duration[0];
     setDown(false);
     document.removeEventListener('mousemove', updateDrag);
+    document.removeEventListener('touchmove', updateDrag);
     document.removeEventListener('mouseup', handleMouseUp);
   };
 
@@ -189,19 +190,20 @@ export default function AudioPlayer() {
       setDown(true);
       document.addEventListener('mouseup', handleMouseUp);
       document.addEventListener('mousemove', updateDrag);
+      document.addEventListener('touchmove', updateDrag);
     },
   }
   const PlayButton = () => {
     const aud = document.querySelector('audio');
     if (!aud || aud.paused) {
-      return <img src={play}
+      return <img src={play} className='play-button'
         onClick={() => {
           if (aud.emptied) return;
           aud.play();
           setPlaying(true);
         }} />
     } else {
-      return <img src={pause}
+      return <img src={pause} className='play-button'
         onClick={() => {
           aud.pause();
           setPlaying(false);
@@ -223,9 +225,9 @@ export default function AudioPlayer() {
 
         <div className='control'>
           <div></div>
-          <img src={prev} onClick={playPrev} />
-          <PlayButton/>
-          <img src={next} onClick={playNext} />
+          {/* <img src={prev} onClick={playPrev} /> */}
+          <PlayButton />
+          {/* <img src={next} onClick={playNext} /> */}
         </div>
 
         {duration &&
@@ -238,9 +240,9 @@ export default function AudioPlayer() {
           <div>{track && songD[playlistD[track[0]][track[1]][0]].title}&nbsp;</div>
         </div>
         <div>
-          <img src={volume} />
-          <div></div>
-          <img src={queue} />
+          {/* <img src={volume} /> */}
+          {/* <div></div> */}
+          {/* <img src={queue} /> */}
         </div>
       </PlayerDiv>
       <audio
