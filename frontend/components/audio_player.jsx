@@ -177,12 +177,12 @@ export default function AudioPlayer() {
   //   document.removeEventListener('touchmove', updateDrag);
   //   document.removeEventListener('touchend', handleMouseUp);
   // };
-  // const updateDrag = (e) => {
-  //   const prog = e.clientX / winWidth;
-  //   setProgress(prog);
+  const updateDrag = (e) => {
+    const prog = e.clientX / winWidth;
+    setProgress(prog);
 
 
-  // };
+  };
 
   const ProgressBarHandler = {
     onMouseDown: (e) => {
