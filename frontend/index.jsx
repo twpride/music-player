@@ -9,7 +9,7 @@ import logger from 'redux-logger';
 import App from './components/app';
 import rootReducer from './reducers/root_reducer.js';
 
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';V
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const configureStore = (preloadedState={}) => (
   createStore(
