@@ -9,36 +9,41 @@ import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import Header from './header'
 
-const CardDiv = styled.div`
+export const CardDiv = styled.div`
   font-size: .9em;
   font-family: Sans-Serif;
   display:flex;
   flex-direction:row;
   /* justify-content: space-between; */
   align-items: center;
-  width: 100%;
+  max-width: 100%;
   >div {
     height: 4em;
     opacity: ${props=>props.isDragging ? 0.4 : 1};
 
-    &:not(:nth-child(2)) {
-      min-width:3em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     &:nth-child(2) {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-width:22.5em; */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow:hidden;
+      /* justify-self: flex-start; */
       div {
-        overflow:hidden;
         white-space: nowrap;
         &:nth-child(1) {
           color: #606060;
         }
       }
+    }
+
+    &:not(:nth-child(2)) {
+      min-width:3em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &:last-of-type {
+      margin-left: auto;
     }
   }
 `

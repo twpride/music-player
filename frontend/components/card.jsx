@@ -5,39 +5,7 @@ import burgerIcon from '../icons/burger.svg'
 import styled from 'styled-components'
 import { context_act } from '../reducers/ui_reducer'
 
-const CardDiv = styled.div`
-  font-size: .9em;
-  font-family: Sans-Serif;
-  display:flex;
-  flex-direction:row;
-  /* justify-content: space-between; */
-  align-items: center;
-  width: 100%;
-  >div {
-    height: 4em;
-    opacity: ${props=>props.isDragging ? 0.4 : 1};
-
-    &:not(:nth-child(2)) {
-      min-width:3em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    &:nth-child(2) {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-width:22.5em; */
-      div {
-        overflow:hidden;
-        white-space: nowrap;
-        &:nth-child(1) {
-          color: #606060;
-        }
-      }
-    }
-  }
-`
+import {CardDiv} from './songD'
 
 
 export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, prev }) => {
