@@ -1,15 +1,14 @@
 import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch } from 'react-redux';
-import burgerIcon from '../icons/burger.svg'
-import dragHandle from '../icons/draghandle.svg'
 import { context_act } from '../reducers/ui_reducer'
+import { CardDiv } from './songD'
 
-import {CardDiv} from './songD'
-import {MdDragHandle} from 'react-icons/md'
+import dragIcon from '../icons/draghandle.svg';
+import burgerIcon from '../icons/burger.svg';
 
 export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, draggable }) => {
-  
+
   const dispatch = useDispatch();
   const ref = useRef(null)
   const [start, setStart] = useState(null)
@@ -78,9 +77,9 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, dr
       </div> */}
       <div ref={ref} onClick={launchBurger(song_id)}>
         {draggable ?
-        <MdDragHandle style={{color:"gray", height:'24px', width:'24px'}}/>
-        :
-        <img src={burgerIcon} />
+          <img src={dragIcon} style={{ color: "gray", height: '24px', width: '24px' }} />
+          :
+          <img src={burgerIcon} />
         }
       </div>
     </CardDiv>

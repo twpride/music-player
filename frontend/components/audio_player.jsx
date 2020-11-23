@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import { ent_act } from "../reducers/root_reducer"
 import { getSongUrl } from '../actions/actions'
 
-import next from '../icons/next.svg'; import play from '../icons/play.svg';
-import pause from '../icons/pause.svg'; import prev from '../icons/prev.svg';
-import volume from '../icons/volume.svg'; import queue from '../icons/queue.svg';
+
+import playIcon from '../icons/play.svg';
+import pauseIcon from '../icons/pause.svg';
 
 const convertSecsToMins = seconds => {
   let mins = Math.floor(seconds / 60).toString();
@@ -65,10 +65,6 @@ const PlayerDiv = styled.div`
   .control {
     display:flex;
     align-items:center;
-    img {
-      height: 20px;
-      width: 20px;
-    }
     .play-button {
       height: 30px;
       width: 30px;
@@ -223,14 +219,14 @@ export default function AudioPlayer() {
   const PlayButton = () => {
     const aud = document.querySelector('audio');
     if (!aud || aud.paused) {
-      return <img src={play} className='play-button'
+      return <img src={playIcon} className='play-button'
         onClick={() => {
           if (aud.emptied) return;
           aud.play();
           setPlaying(true);
         }} />
     } else {
-      return <img src={pause} className='play-button'
+      return <img src={pauseIcon} className='play-button'
         onClick={() => {
           aud.pause();
           setPlaying(false);

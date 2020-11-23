@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { session_act } from '../reducers/session_reducer';
 import { logout } from '../util/session_api_util'
 
+
 import add from '../icons/add.svg'
 import collection from '../icons/collection.svg'
 import playlist from '../icons/playlist.svg'
@@ -19,6 +20,10 @@ const NavbarDiv = styled.div`
     color:black;
     text-decoration: none;
     width:60px;
+    svg {
+      width:24px;
+      height:24px;
+    }
   }
 
   display: flex;
