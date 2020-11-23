@@ -23,7 +23,7 @@ const HeaderDiv = styled.div`
 
 `
 
-export default function Header() {
+export default function Header({action,state}) {
   const dispatch = useDispatch()
   let location = useLocation()
   const currentUser = useSelector(state => state.session.currentUser)
@@ -38,7 +38,10 @@ export default function Header() {
   // }
   return (
     <HeaderDiv className="nav">
-    
+    <button onClick={()=>{
+      if (state) {action(false)}
+      else action(true)
+    }}></button>
     </HeaderDiv>
   )
 };

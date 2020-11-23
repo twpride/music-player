@@ -8,7 +8,7 @@ import { context_act } from '../reducers/ui_reducer'
 import {CardDiv} from './songD'
 import {MdDragHandle} from 'react-icons/md'
 
-export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, prev }) => {
+export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, draggable }) => {
   
   const dispatch = useDispatch();
   const ref = useRef(null)
@@ -41,7 +41,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
     },
   })
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, preview] = useDrag({
     item: { type: 'card', id, index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -54,20 +54,19 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
       console.log(index)
       setPrev(start, index)
     },
-    canDrag(draggable) {
-
-    }
+    canDrag: () => draggable
   })
 
   drag(drop(ref))
 
   const launchBurger = (id) => (e) => {
+    if (draggable) return
     e.stopPropagation()
     dispatch({ type: context_act.SONG_BURGER_C, id })
   }
 
   return (
-    <CardDiv isDragging={isDragging} onDoubleClick={playSong}>
+    <CardDiv isDragging={isDragging} onDoubleClick={playSong} >
       <div ref={ref}>{index + 1}</div>
       <div>
         <div>{text && text.artist}&nbsp;</div>
@@ -76,8 +75,12 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
       {/* <div onClick={launchBurger(song_id)}>
         <img src={burgerIcon} />
       </div> */}
-      <div ref={ref}>
+      <div ref={ref} onClick={launchBurger(song_id)}>
+        {draggable ?
         <MdDragHandle style={{color:"gray", height:'24px', width:'24px'}}/>
+        :
+        <img src={burgerIcon} />
+        }
       </div>
     </CardDiv>
   )

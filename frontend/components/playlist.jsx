@@ -54,7 +54,8 @@ export default function Playlist() {
   )
 
   const track = useSelector(state => state.player.track);
-
+  
+  const [draggable, setDraggable] = useState(true)
   const setPrev = (start, index) => {
     const req = {}
 
@@ -98,7 +99,7 @@ export default function Playlist() {
   return (
 
     <>
-      <Header />
+      <Header action={setDraggable} state={draggable}/>
       <div className="scrollable">
         <DndProvider backend={TouchBackend} >
           {cards && cards.map(([song_id, entry_id, prev], index) => (
@@ -107,11 +108,11 @@ export default function Playlist() {
               key={entry_id}
               index={index}
               id={entry_id}
-              prev={prev}
               text={songD[song_id]}
               moveCard={moveCard}
               setPrev={setPrev}
               playSong={playSong(song_id, index)}
+              draggable={draggable}
             />
           ))}
         </DndProvider>
