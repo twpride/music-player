@@ -9,6 +9,8 @@ import logger from 'redux-logger';
 import App from './components/app';
 import rootReducer from './reducers/root_reducer.js';
 
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';V
+
 const configureStore = (preloadedState={}) => (
   createStore(
     rootReducer,
@@ -42,3 +44,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
 });
+
+serviceWorkerRegistration.register();
