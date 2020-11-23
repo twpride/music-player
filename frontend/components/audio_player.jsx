@@ -169,18 +169,24 @@ export default function AudioPlayer() {
     document.removeEventListener('mousemove', updateDrag);
     document.removeEventListener('mouseup', handleMouseUp);
   };
-  // const handleTouchEnd = (e) => {
-  //   const aud = document.querySelector('audio');
-  //   const prog = e.clientX / winWidth;
-  //   setProgress(prog);
-
-  //   aud.currentTime = prog * duration[0];
-  //   setDown(false);
-  //   document.removeEventListener('touchmove', updateDrag);
-  //   document.removeEventListener('touchend', handleMouseUp);
-  // };
+  const handleTouchEnd = (e) => {
+    const aud = document.querySelector('audio');
+    // console.log('end',e.changedTouches[0])
+    const prog = e.changedTouches[0].clientX / winWidth;
+    setProgress(prog);
+    // console.log(prog)
+    aud.currentTime = prog * duration[0];
+    setDown(false);
+    document.removeEventListener('touchmove', updateDrag);
+    document.removeEventListener('touchend', handleTouchEnd);
+  };
   const updateDrag = (e) => {
-    const prog = e.clientX / winWidth;
+    let prog;
+    if (!e.clientX) {
+      prog = e.touches[0].clientX / winWidth;
+    } else {
+      prog = e.clientX / winWidth;
+    }
     setProgress(prog);
 
 
@@ -188,6 +194,7 @@ export default function AudioPlayer() {
 
   const ProgressBarHandler = {
     onMouseDown: (e) => {
+      if (!e.clientX) return
       e.stopPropagation()
       e.preventDefault()
       if (!duration) return;
@@ -199,18 +206,19 @@ export default function AudioPlayer() {
       document.addEventListener('mouseup', handleMouseUp);
       document.addEventListener('mousemove', updateDrag);
     },
-    // ontouchstart: (e) => {
-    //   e.stopPropagation()
-    //   e.preventDefault()
-    //   if (!duration) return;
-    //   setWinWidth(window.innerWidth);
-    //   setProgress(e.clientX / winWidth);
+    onTouchStart: (e) => {
+      e.stopPropagation()
+      // e.preventDefault()
+      if (!duration) return;
+      // console.log('touchh', e.touches[0].clientX)
+      setWinWidth(window.innerWidth);
+      setProgress(e.touches[0].clientX / winWidth);
 
 
-    //   setDown(true);
-    //   document.addEventListener('touchend', handleTouchEnd);
-    //   document.addEventListener('touchmove', updateDrag);
-    // },
+      setDown(true);
+      document.addEventListener('touchend', handleTouchEnd);
+      document.addEventListener('touchmove', updateDrag);
+    },
   }
   const PlayButton = () => {
     const aud = document.querySelector('audio');

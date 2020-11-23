@@ -21,6 +21,8 @@ export default function Playlist() {
   const dispatch = useDispatch();
 
   const playSong = (song_id, track_no) => (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     dispatch({ type: ent_act.LOAD_TRACK, track: [id, track_no] })
     dispatch(getSongUrl(song_id))
   }
@@ -101,7 +103,7 @@ export default function Playlist() {
     <>
       <Header action={setDraggable} state={draggable}/>
       <div className="scrollable">
-        <DndProvider backend={TouchBackend} >
+        <DndProvider backend={TouchBackend} options={{enableMouseEvents:true}}>
           {cards && cards.map(([song_id, entry_id, prev], index) => (
             <Card
               song_id={song_id}

@@ -60,13 +60,14 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, dr
   drag(drop(ref))
 
   const launchBurger = (id) => (e) => {
-    if (draggable) return
+    e.preventDefault()
     e.stopPropagation()
+    if (draggable) return
     dispatch({ type: context_act.SONG_BURGER_C, id })
   }
 
   return (
-    <CardDiv isDragging={isDragging} onDoubleClick={playSong} >
+    <CardDiv isDragging={isDragging} onClick={playSong} >
       <div ref={ref}>{index + 1}</div>
       <div>
         <div>{text && text.artist}&nbsp;</div>
