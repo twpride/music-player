@@ -103,7 +103,9 @@ export default function Playlist() {
     <>
       <Header action={setDraggable} state={draggable}/>
       <div className="scrollable">
-        <DndProvider backend={TouchBackend} options={{enableMouseEvents:true}}>
+        <DndProvider backend={TouchBackend} 
+        // options={{enableMouseEvents:true}}
+        >
           {cards && cards.map(([song_id, entry_id, prev], index) => (
             <Card
               song_id={song_id}

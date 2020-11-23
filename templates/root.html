@@ -13,6 +13,7 @@
   <div id="root">
     Frontend not working
   </div>
+  <link rel="manifest" href="{% static "manifest.webmanifest" %}">
   <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
   <script type="text/javascript"> window.currentUser = {{ response | safe }} </script>
   <script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
