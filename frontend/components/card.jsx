@@ -2,9 +2,11 @@ import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch } from 'react-redux';
 import burgerIcon from '../icons/burger.svg'
+import dragHandle from '../icons/draghandle.svg'
 import { context_act } from '../reducers/ui_reducer'
 
 import {CardDiv} from './songD'
+import {MdDragHandle} from 'react-icons/md'
 
 export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, prev }) => {
   
@@ -51,6 +53,9 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
       console.log(start)
       console.log(index)
       setPrev(start, index)
+    },
+    canDrag(draggable) {
+
     }
   })
 
@@ -62,14 +67,17 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
   }
 
   return (
-    <CardDiv ref={ref} isDragging={isDragging} onDoubleClick={playSong}>
-      <div>{index + 1}</div>
+    <CardDiv isDragging={isDragging} onDoubleClick={playSong}>
+      <div ref={ref}>{index + 1}</div>
       <div>
         <div>{text && text.artist}&nbsp;</div>
         <div>{text && text.title}&nbsp;</div>
       </div>
-      <div onClick={launchBurger(song_id)}>
+      {/* <div onClick={launchBurger(song_id)}>
         <img src={burgerIcon} />
+      </div> */}
+      <div ref={ref}>
+        <MdDragHandle style={{color:"gray", height:'24px', width:'24px'}}/>
       </div>
     </CardDiv>
   )
