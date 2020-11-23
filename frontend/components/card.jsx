@@ -2,11 +2,9 @@ import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch } from 'react-redux';
 import burgerIcon from '../icons/burger.svg'
-import styled from 'styled-components'
 import { context_act } from '../reducers/ui_reducer'
 
 import {CardDiv} from './songD'
-
 
 export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, prev }) => {
   

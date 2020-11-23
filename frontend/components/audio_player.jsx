@@ -60,12 +60,9 @@ const PlayerDiv = styled.div`
 
   display:flex;
   align-items:center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   position: relative;
   .control {
-    div {
-      width:5px;
-    }
     display:flex;
     align-items:center;
     img {
@@ -75,18 +72,23 @@ const PlayerDiv = styled.div`
     .play-button {
       height: 30px;
       width: 30px;
-      margin:0 10px 0 10px;
+      margin:0 12px;
     }
   }
   .song-info {
+    margin-left:19px;
+    margin-right:19px;
     font-size:.9em;
     overflow:hidden;
-    white-space: nowrap
+    white-space: nowrap;
+    div:nth-of-type(1) {
+      color: #777777;
+    }
   }
   .time-info {
     font-size:.7em;
   }
-  div:last-child{
+  /* div:last-child{
     display:flex;
     >img {
       height: 26px;
@@ -95,7 +97,7 @@ const PlayerDiv = styled.div`
     div {
       width:10px;
     }
-  }
+  } */
 `
 
 
@@ -263,10 +265,9 @@ export default function AudioPlayer() {
         </ProgressBar>
 
         <div className='control'>
-          <div></div>
-          <img src={prev} onClick={skip(-1)} />
+          {/* <img src={prev} onClick={skip(-1)} /> */}
           <PlayButton />
-          <img src={next} onClick={skip(1)} />
+          {/* <img src={next} onClick={skip(1)} /> */}
         </div>
 
         {duration &&

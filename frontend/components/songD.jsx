@@ -11,12 +11,9 @@ import Header from './header'
 
 export const CardDiv = styled.div`
   font-size: .9em;
-  font-family: Sans-Serif;
   display:flex;
   flex-direction:row;
-  /* justify-content: space-between; */
   align-items: center;
-  max-width: 100%;
   >div {
     height: 4em;
     opacity: ${props=>props.isDragging ? 0.4 : 1};
@@ -25,13 +22,11 @@ export const CardDiv = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
+      
       overflow:hidden;
-      /* justify-self: flex-start; */
-      div {
-        white-space: nowrap;
-        &:nth-child(1) {
-          color: #606060;
-        }
+      white-space: nowrap;
+      div:nth-child(1) {
+        color: #777777;
       }
     }
 
