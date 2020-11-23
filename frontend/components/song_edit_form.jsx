@@ -21,6 +21,37 @@ const renderErrors = () => {
   );
 }
 
+const SongEditDiv = styled.div`
+  .field {
+    text-transform: capitalize;
+    font-size: .7em;
+    color: gray;
+  }
+
+  input[type=text] {
+    margin-bottom: 1em;
+    width:100%;
+  }
+
+  .spacer {
+    height: 1em;
+  }
+
+  .button-box {
+    display:flex;
+    justify-content: flex-end;
+  }
+
+  input[type=submit], button{
+    cursor:pointer;
+    background-color: white;
+    border: 0;
+    text-transform: uppercase;
+    font-size: .9em;
+    color: #CE1141;
+  }
+
+`
 
 export default function SongEditForm(props) {
 
@@ -35,37 +66,37 @@ export default function SongEditForm(props) {
     const song = new FormData(document.getElementById('songEditForm'));
     song.append('ids', JSON.stringify(props.id))
     dispatch(editSongs(song))
+    dispatch({ type: context_act.CLOSE_CONTEXT })
   }
 
   return (
-    <>
-      <div className="login-form-container">
-        <h1 className="login-signup">Edit Song</h1>
-
-        <form onSubmit={handleSubmit} className="login-form-box" id="songEditForm">
-
-          {Object.entries(songState).filter(e => e[0] != 'id').map(
-            (field, i) => (
-              <div key={i} className="login-input">
-                <div className="field">{field[0]}</div>
-                <input type="text"
-                  {...useTextField(...field)} //useTextField to load preloaded text
-                />
-              </div>
-            )
-          )}
-
-          {/* {renderErrors()} */}
+    <SongEditDiv>
+      <div className="title">Edit Song</div>
+      <div className="spacer"></div>
+      <form onSubmit={handleSubmit} id="songEditForm">
+        {Object.entries(songState).filter(e => e[0] != 'id').map(
+          (field, i) => (
+            <div key={i} className="login-input">
+              <div className="field">{field[0]}</div>
+              <input type="text"
+                {...useTextField(...field)} //useTextField to load preloaded text
+              />
+            </div>
+          )
+        )}
+        {/* {renderErrors()} */}
+        <div className="spacer"></div>
+        <div className='button-box'>
+          <button className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
+            Cancel
+          </button>
           <input className="submit-button"
-            type="submit"
+            type="submit" value="Done"
           />
-        </form>
+        </div>
+      </form>
 
-      </div>
+    </ SongEditDiv>
 
-      <div className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
-        X
-      </div>
-    </>
   );
 }

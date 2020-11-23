@@ -8,22 +8,7 @@ import {useSelector} from 'react-redux'
 
 
 import {context_act} from '../reducers/ui_reducer'
-
-
-const ModalDiv = styled.div`
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 25%;
-  height: 50vh;
-  width: 100vw;
-  background-color: beige;
-  z-index: 1;
-
-  .field {
-    text-transform: capitalize;
-  }
-`
+import {ModalDiv} from './modal'
 
 export default function ContextMenu() {
   const contextMenu = useSelector(state => state.ui.contextMenu);

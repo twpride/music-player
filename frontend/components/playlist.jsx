@@ -28,6 +28,7 @@ export default function Playlist() {
   const playlist = useSelector(state => state.entities.playlistD[id])
   const songD = useSelector(state => state.entities.songD)
   const [cards, setCards] = useState(null)
+  
   useEffect(() => {
     if (!playlist) {
       dispatch(getPlaylist(id))

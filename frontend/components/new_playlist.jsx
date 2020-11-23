@@ -49,21 +49,15 @@ export default function NewPlaylist() {
       <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
         <div className="login-input">
           <div>Title</div>
-          <input type="text"
-            name="title"
-          />
+          <input type="text" name="title" />
         </div>
         {renderErrors()}
-        <input className="submit-button"
-          value='Create'
-          type="submit"
-        />
+        <input className="submit-button" value='Create' type="submit" />
       </form>
 
-      <div className="close-modal" onClick={closeModals}>
-        X
-      </div>
-
+      <button className="close-modal" onClick={closeModals}>
+        Cancel
+      </button>
     </>
   );
 }

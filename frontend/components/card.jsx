@@ -1,15 +1,18 @@
 import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import { useDispatch } from 'react-redux';
 import burgerIcon from '../icons/burger.svg'
 import styled from 'styled-components'
+import { context_act } from '../reducers/ui_reducer'
 
 const CardDiv = styled.div`
   font-size: .9em;
   font-family: Sans-Serif;
   display:flex;
   flex-direction:row;
+  /* justify-content: space-between; */
   align-items: center;
-  max-width: 100%;
+  width: 100%;
   >div {
     height: 4em;
     opacity: ${props=>props.isDragging ? 0.4 : 1};
@@ -24,7 +27,7 @@ const CardDiv = styled.div`
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width:22.5em;
+        min-width:22.5em; */
       div {
         overflow:hidden;
         white-space: nowrap;
@@ -38,6 +41,8 @@ const CardDiv = styled.div`
 
 
 export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, prev }) => {
+  
+  const dispatch = useDispatch();
   const ref = useRef(null)
   const [start, setStart] = useState(null)
 
@@ -85,6 +90,11 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
 
   drag(drop(ref))
 
+  const launchBurger = (id) => (e) => {
+    e.stopPropagation()
+    dispatch({ type: context_act.SONG_BURGER_C, id })
+  }
+
   return (
     <CardDiv ref={ref} isDragging={isDragging} onDoubleClick={playSong}>
       <div>{index + 1}</div>
@@ -92,7 +102,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pr
         <div>{text && text.artist}&nbsp;</div>
         <div>{text && text.title}&nbsp;</div>
       </div>
-      <div>
+      <div onClick={launchBurger(song_id)}>
         <img src={burgerIcon} />
       </div>
     </CardDiv>

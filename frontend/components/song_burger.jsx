@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from 'react';
 
 
+import styled from 'styled-components'
 import { context_act } from '../reducers/ui_reducer'
 
 
@@ -18,7 +19,12 @@ const renderErrors = () => {
   );
 }
 
+export const BurgerDiv = styled.div`
+  .burger-list {
+    margin-bottom: 1em;
+  }
 
+`
 export default function SongBurger(props) {
 
   const dispatch = useDispatch();
@@ -34,9 +40,9 @@ export default function SongBurger(props) {
   }
 
   return (
-    <>
+    <BurgerDiv>
       {Object.entries(burgerList).map(([name, cb], i) => (
-        <div key={i} onClick={cb}>
+        <div key={i} onClick={cb} className="burger-list">
           {name}
         </div>
       ))}
@@ -44,6 +50,6 @@ export default function SongBurger(props) {
         { type: context_act.CLOSE_CONTEXT })}>
         X
       </div>
-    </>
+    </BurgerDiv>
   );
 }

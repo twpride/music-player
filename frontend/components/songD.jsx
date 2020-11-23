@@ -9,29 +9,29 @@ import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import Header from './header'
 
-const Table = styled.table`
+const CardDiv = styled.div`
   font-size: .9em;
   font-family: Sans-Serif;
-  table-layout: fixed;
-  border-collapse: collapse;
+  display:flex;
+  flex-direction:row;
+  /* justify-content: space-between; */
+  align-items: center;
   width: 100%;
-  tr {
-    &:hover {
-      background-color: #F0F0F0;
-    }
-  }
-  
-  td {
+  >div {
     height: 4em;
+    opacity: ${props=>props.isDragging ? 0.4 : 1};
+
     &:not(:nth-child(2)) {
-      width:3em;
-      div {
+      min-width:3em;
         display: flex;
         justify-content: center;
         align-items: center;
-      }
     }
     &:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width:22.5em; */
       div {
         overflow:hidden;
         white-space: nowrap;
@@ -42,7 +42,6 @@ const Table = styled.table`
     }
   }
 `
-
 export default function SongD() {
   const dispatch = useDispatch();
 
@@ -62,22 +61,18 @@ export default function SongD() {
     <>
       <Header />
       <div className="scrollable">
-        <Table >
-          <tbody>
-            {Object.values(songD).map((song, i) => (
-              <tr key={i} onClick={playSong(song.id, i)}>
-                <td><div>{i + 1}</div></td>
-                <td>
-                  <div>{song.artist}&nbsp;</div>
-                  <div>{song.title}&nbsp;</div>
-                </td>
-                <td onClick={launchBurger(song.id)}>
-                  <div><img src={burgerIcon} /></div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        {Object.values(songD).map((song, i) => (
+          <CardDiv key={i} onClick={playSong(song.id, i)}>
+            <div><div>{i + 1}</div></div>
+            <div>
+              <div>{song.artist}&nbsp;</div>
+              <div>{song.title}&nbsp;</div>
+            </div>
+            <div onClick={launchBurger(song.id)}>
+              <div><img src={burgerIcon} /></div>
+            </div>
+          </CardDiv>
+        ))}
       </div>
     </>
   )

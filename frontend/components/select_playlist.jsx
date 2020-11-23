@@ -22,6 +22,10 @@ const renderErrors = () => {
   );
 }
 
+const SelectDiv = styled.div`
+  
+
+`
 
 export default function SelectPlaylist(props) {
 
@@ -55,19 +59,16 @@ export default function SelectPlaylist(props) {
   }
 
   return (
-    <>
-      <div className="login-form-container">
-        <h1 className="login-signup">Edit Song</h1>
+    <SelectDiv>
+      <div className="title">Select playlist</div>
 
-        {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
-          <div key={index} onClick={click(pl.id)}>{pl.title}</div>
-        ))}
-
-      </div>
+      {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
+        <div key={index} onClick={click(pl.id)}>{pl.title}</div>
+      ))}
 
       <div className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
         X
       </div>
-    </>
+    </SelectDiv>
   );
 }

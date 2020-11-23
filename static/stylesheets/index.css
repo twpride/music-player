@@ -18,3 +18,15 @@ html, body, #root{
   box-sizing: border-box;
 }
 
+input[type=text] {
+  /* flex: 0 0 100%; */
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(69,20,0,.2);
+  outline: none;
+}
+
+input[type=text]:focus {
+  border-color:#333;
+}
+

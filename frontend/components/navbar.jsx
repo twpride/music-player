@@ -29,7 +29,6 @@ const NavbarDiv = styled.div`
   width: 100%;
   border-top: 1px solid lightgrey;
 
-
 `
 
 export default function Navbar() {

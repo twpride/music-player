@@ -5,18 +5,19 @@ import NewPlaylist from './new_playlist';
 import { useSelector } from 'react-redux'
 import { modal_act } from '../reducers/ui_reducer'
 
-const ModalDiv = styled.div`
-  display: block;
+export const ModalDiv = styled.div`
   position: absolute;
-  left: 0;
-  top: 25%;
-  height: 50vh;
-  width: 100vw;
-  background-color: beige;
+  left: 1.5em;
+  right: 1.5em;
+  top: 10%;
+  background-color: white;
+  border: solid lightgrey 1px;
   z-index: 1;
+  padding:1em;
 
-  .field {
-    text-transform: capitalize;
+  .title {
+    font-size: 1em;
+    font-weight: 600;
   }
 `
 export default function Modal() {
