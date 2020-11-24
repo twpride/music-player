@@ -137,13 +137,10 @@ export default function AudioPlayer() {
     aud.addEventListener('loadedmetadata', (e) => {
       const sec = e.target.duration;
       setDuration([sec, convertSecsToMins(sec)])
-    });
 
-    aud.addEventListener('loadeddata', (e) => {
-      const sec = e.target.duration;
-      setDuration([sec, convertSecsToMins(sec)])
       let title = '';
       let artist = '';
+      console.log(track)
       if (track) {
         let song;
         if (track[0]) {
@@ -151,14 +148,21 @@ export default function AudioPlayer() {
         } else {
           song = Object.values(songD)[track[1]]
         }
+        console.log(song)
         artist = song.artist;
         title = song.title;
       }
       if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
+        navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
+        navigator.mediaSession.setActionHandler('nexttrack', skip(1));
       }
-      navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
-      navigator.mediaSession.setActionHandler('nexttrack', skip(1));
+
+    });
+
+    aud.addEventListener('loadeddata', (e) => {
+
+
     });
 
   }, [])
@@ -258,6 +262,7 @@ export default function AudioPlayer() {
   const SongInfo = () => {
     let title = '';
     let artist = '';
+    // console.log(track)
     if (track) {
       let song;
       if (track[0]) {
