@@ -111,33 +111,6 @@ export default function AudioPlayer() {
   const playlistD = useSelector(state => state.entities.playlistD)
   const track = useSelector(state => state.player.track)
 
-  useEffect(() => {
-    const aud = document.querySelector('audio')
-    window.aud = aud;
-    aud.addEventListener('loadedmetadata', (e) => {
-      const sec = e.target.duration;
-      setDuration([sec, convertSecsToMins(sec)])
-
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: 'Unforgettable',
-          artist: 'Nat King Cole',
-          album: 'The Ultimate Collection (Remastered)',
-        });
-      }
-      
-    });
-  }, [])
-
-  useLayoutEffect(() => {
-    function updateSize() {
-      setWinWidth(window.innerWidth)
-    }
-    document.addEventListener('resize', updateSize)
-    updateSize()
-    return () => document.removeEventListener('resize', setWinWidth);
-  })
-
   const skip = (dir) => () => {
     if (!track) return
     const newtr = [...track];
@@ -156,6 +129,48 @@ export default function AudioPlayer() {
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     }
   };
+
+
+  useEffect(() => {
+    const aud = document.querySelector('audio')
+    window.aud = aud;
+    aud.addEventListener('loadedmetadata', (e) => {
+      const sec = e.target.duration;
+      setDuration([sec, convertSecsToMins(sec)])
+    });
+
+    aud.addEventListener('loadeddata', (e) => {
+      const sec = e.target.duration;
+      setDuration([sec, convertSecsToMins(sec)])
+      let title = '';
+      let artist = '';
+      if (track) {
+        let song;
+        if (track[0]) {
+          song = songD[playlistD[track[0]][track[1]][0]];
+        } else {
+          song = Object.values(songD)[track[1]]
+        }
+        artist = song.artist;
+        title = song.title;
+      }
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
+      }
+      navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
+      navigator.mediaSession.setActionHandler('nexttrack', skip(1));
+    });
+
+  }, [])
+
+  useLayoutEffect(() => {
+    function updateSize() {
+      setWinWidth(window.innerWidth)
+    }
+    document.addEventListener('resize', updateSize)
+    updateSize()
+    return () => document.removeEventListener('resize', setWinWidth);
+  })
 
   function handleTimeUpdate(e) {
     if (duration && !down) {
@@ -243,7 +258,6 @@ export default function AudioPlayer() {
   const SongInfo = () => {
     let title = '';
     let artist = '';
-
     if (track) {
       let song;
       if (track[0]) {
