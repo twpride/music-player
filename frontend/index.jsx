@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -10,7 +10,7 @@ import App from './components/app';
 import rootReducer from './reducers/root_reducer.js';
 
 
-const configureStore = (preloadedState={}) => (
+const configureStore = (preloadedState = {}) => (
   createStore(
     rootReducer,
     preloadedState,
@@ -21,7 +21,7 @@ const configureStore = (preloadedState={}) => (
 const Root = ({ store }) => (
   <Provider store={store}>
     <BrowserRouter>
-      <App store={store}/>
+      <App store={store} />
     </BrowserRouter>
   </Provider>
 );
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.store = store
-  
+
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
 });
