@@ -138,8 +138,8 @@ export default function AudioPlayer() {
       const sec = e.target.duration;
       setDuration([sec, convertSecsToMins(sec)])
 
-      let title = '';
-      let artist = '';
+      let title = 'asdf';
+      let artist = 'qwer';
       console.log(track)
       if (track) {
         let song;
