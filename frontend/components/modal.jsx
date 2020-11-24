@@ -7,18 +7,16 @@ import { modal_act } from '../reducers/ui_reducer'
 
 export const ModalDiv = styled.div`
   position: absolute;
-  left: 1.5em;
-  right: 1.5em;
-  top: 10%;
-  background-color: white;
-  border: solid lightgrey 1px;
-  z-index: 1;
+  height: 100%;
+  width:100%;
+  z-index: 20;
   padding:1em;
+  background-color: rgba(0,0,0,0.5)
 
-  .title {
+  /* .title {
     font-size: 1em;
     font-weight: 600;
-  }
+  } */
 `
 export default function Modal() {
   const modal = useSelector(state => state.ui.modal);

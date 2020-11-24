@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components'
 import SongEditForm from './song_edit_form';
 import SongBurger from './song_burger';
 import SelectPlaylist from './select_playlist';
-import {useSelector} from 'react-redux'
- 
+import { useDispatch, useSelector } from 'react-redux'
 
 
-import {context_act} from '../reducers/ui_reducer'
-import {ModalDiv} from './modal'
+
+import { context_act } from '../reducers/ui_reducer'
+import { ModalDiv } from './modal'
 
 export default function ContextMenu() {
+  const dispatch = useDispatch()
+  // useEffect(() => {
+  //   function closeModal(e) {
+  //     e.preventDefault()
+  //     dispatch({ type: context_act.CLOSE_CONTEXT })
+  //   }
+  //   document.addEventListener('mousedown', closeModal)
+
+  //   return () => document.removeEventListener('mousedown', closeModal)
+  // })
+
+
+
   const contextMenu = useSelector(state => state.ui.contextMenu);
   if (!contextMenu) {
     return null;
@@ -29,5 +42,7 @@ export default function ContextMenu() {
     default:
       return null;
   }
-  return <ModalDiv><Component id={contextMenu.id} /></ModalDiv>
+  return <ModalDiv onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
+    <Component id={contextMenu.id} />
+  </ModalDiv>
 }

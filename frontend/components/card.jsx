@@ -72,9 +72,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, dr
         <div>{text && text.artist}&nbsp;</div>
         <div>{text && text.title}&nbsp;</div>
       </div>
-      {/* <div onClick={launchBurger(song_id)}>
-        <img src={burgerIcon} />
-      </div> */}
+
       <div ref={ref} onClick={launchBurger(song_id)}>
         {draggable ?
           <img src={dragIcon} style={{ color: "gray", height: '24px', width: '24px' }} />

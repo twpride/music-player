@@ -22,6 +22,12 @@ const renderErrors = () => {
 }
 
 const SongEditDiv = styled.div`
+  position:absolute;
+  left:0;
+  right: 0;
+  bottom:0;
+  padding: 1em;
+  background-color:white;
   .field {
     text-transform: capitalize;
     font-size: .7em;
@@ -70,7 +76,7 @@ export default function SongEditForm(props) {
   }
 
   return (
-    <SongEditDiv>
+    <SongEditDiv onClick={(e) => e.stopPropagation()}>
       <div className="title">Edit Song</div>
       <div className="spacer"></div>
       <form onSubmit={handleSubmit} id="songEditForm">

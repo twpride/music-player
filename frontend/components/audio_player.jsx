@@ -255,8 +255,8 @@ export default function AudioPlayer() {
     }
     return (
       <div className='song-info'>
-        <div>{artist}&nbsp;</div>
-        <div>{title}&nbsp;</div>
+        <div>{artist}</div>
+        <div>{title}</div>
       </div>
     )
   }
