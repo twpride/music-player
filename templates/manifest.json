@@ -1,4 +1,3 @@
-{% load static %}
 {
   "background_color": "purple",
   "description": "Description",
