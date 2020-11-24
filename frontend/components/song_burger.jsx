@@ -24,10 +24,10 @@ const renderErrors = () => {
 
 export const BurgerDiv = styled.div`
   position:absolute;
-  left:1em;
-  right:1em;
-  top:20%;
-  background-color:red;
+  left:0;
+  right: 0;
+  bottom:0;
+  background-color:white;
   .burger-text {
     display: flex;
     /* justify-content: enter; */
