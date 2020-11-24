@@ -39,11 +39,12 @@ urlpatterns = [
     path('api/post_songs', song.post_songs),
     path('api/edit_songs', song.edit_songs),
     path('api/new_playlist', song.new_playlist),
-    re_path(r'^.*$', auth.RootView.as_view()),
     path(
-        'service-worker.js',
-        TemplateView.as_view(template_name="sw.js", content_type='application/javascript'),
-        name='sw.js',
+        'manifest.json',
+        TemplateView.as_view(template_name="manifest.json",
+                             content_type='application/manifest+json'),
+        name='manifest',
     ),
+    re_path(r'^.*$', auth.RootView.as_view()),
     # path('__debug__/', include(debug_toolbar.urls)),
 ]
