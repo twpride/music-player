@@ -23,7 +23,7 @@ from django.conf.urls.static import static
 import debug_toolbar
 from django.views.generic.base import RedirectView
 from django.urls import re_path
-# from django.views.generic import TemplateView
+from django.views.generic import TemplateView
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -40,10 +40,10 @@ urlpatterns = [
     path('api/edit_songs', song.edit_songs),
     path('api/new_playlist', song.new_playlist),
     re_path(r'^.*$', auth.RootView.as_view()),
-    # path(
-    #     'sw.js',
-    #     TemplateView.as_view(template_name="sw.js", content_type='application/javascript'),
-    #     name='sw.js',
-    # ),
+    path(
+        'service-worker.js',
+        TemplateView.as_view(template_name="sw.js", content_type='application/javascript'),
+        name='sw.js',
+    ),
     # path('__debug__/', include(debug_toolbar.urls)),
 ]
