@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { ent_act } from "../reducers/root_reducer"
 import { getSongUrl } from '../actions/actions'
 
-
 import playIcon from '../icons/play.svg';
 import pauseIcon from '../icons/pause.svg';
 
@@ -84,18 +83,7 @@ const PlayerDiv = styled.div`
   .time-info {
     font-size:.7em;
   }
-  /* div:last-child{
-    display:flex;
-    >img {
-      height: 26px;
-      width: 26px;
-    }
-    div {
-      width:10px;
-    }
-  } */
 `
-
 
 
 export default function AudioPlayer() {
@@ -130,7 +118,6 @@ export default function AudioPlayer() {
     }
   };
 
-
   useEffect(() => {
     const aud = document.querySelector('audio')
     window.aud = aud;
@@ -139,7 +126,6 @@ export default function AudioPlayer() {
       setDuration([sec, convertSecsToMins(sec)])
     });
   }, [])
-
 
   useEffect(() => {
     let title = '';
@@ -188,17 +174,17 @@ export default function AudioPlayer() {
     document.removeEventListener('mousemove', updateDrag);
     document.removeEventListener('mouseup', handleMouseUp);
   };
+
   const handleTouchEnd = (e) => {
     const aud = document.querySelector('audio');
-    // console.log('end',e.changedTouches[0])
     const prog = e.changedTouches[0].clientX / winWidth;
     setProgress(prog);
-    // console.log(prog)
     aud.currentTime = prog * duration[0];
     setDown(false);
     document.removeEventListener('touchmove', updateDrag);
     document.removeEventListener('touchend', handleTouchEnd);
   };
+
   const updateDrag = (e) => {
     let prog;
     if (!e.clientX) {
@@ -207,8 +193,6 @@ export default function AudioPlayer() {
       prog = e.clientX / winWidth;
     }
     setProgress(prog);
-
-
   };
 
   const ProgressBarHandler = {

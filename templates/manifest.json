@@ -2,7 +2,7 @@
 {
   "background_color": "#CE1141",
   "description": "Description",
-  "display": "fullscreen",
+  "display": "standalone",
   "icons": [
     {
       "src": "{% static 'icon/logo192.png' %}",
