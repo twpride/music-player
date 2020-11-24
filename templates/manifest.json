@@ -1,6 +1,6 @@
 {% load static %}
 {
-  "background_color": "purple",
+  "background_color": "#CE1141",
   "description": "Description",
   "display": "fullscreen",
   "icons": [
@@ -18,5 +18,5 @@
   "name": "Music Player One",
   "short_name": "Music Player",
   "start_url": "../",
-  "prefer_related_applications": "true"
+  "prefer_related_applications": true
 }
