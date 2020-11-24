@@ -3,9 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   {% csrf_token %}
   {% load static %}
+  <link rel="manifest" href="{% static "manifest.webmanifest" %}">
   <title>Document</title>
 </head>
 
@@ -13,10 +14,13 @@
   <div id="root">
     Frontend not working
   </div>
-  <link rel="manifest" href="{% static "manifest.webmanifest" %}">
-  <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
-  <script type="text/javascript"> window.currentUser = {{ response | safe }} </script>
-  <script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
 </body>
+<script src="/sw.js"></script>
+<link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
+<script type="text/javascript"> window.currentUser = {{ response | safe }} </script>
+<script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
+<script type="text/javascript" >
+  registerServiceWorker()
+</script>
 
 </html>
