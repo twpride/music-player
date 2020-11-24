@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { editSongs } from '../actions/actions'
 import { useTextField } from '../util/hooks'
 import { context_act } from '../reducers/ui_reducer'
+import { useEffect } from 'react';
 
 
 
@@ -57,6 +58,7 @@ const SongEditDiv = styled.div`
     color: #CE1141;
   }
 
+
 `
 
 export default function SongEditForm(props) {
@@ -65,6 +67,9 @@ export default function SongEditForm(props) {
 
   const songState = useSelector(state => state.entities.songD[props.id]);
 
+  useEffect(()=>{
+    document.getElementsByName('title')[0].focus()
+  },[])
 
 
   const handleSubmit = (e) => {
