@@ -44,7 +44,7 @@ INSTALLED_APPS = [
   # 'django.contrib.sessions', # db based caching
   # 'django.contrib.messages',
   'django.contrib.staticfiles', # needed for collect static
-  'debug_toolbar',
+  # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
