@@ -7,7 +7,6 @@
   <link rel="manifest" href="manifest.json">
   {% csrf_token %}
   {% load static %}
-  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
   <title>Document</title>
 </head>
 
@@ -16,6 +15,7 @@
     Frontend not working
   </div>
 </body>
+
 <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
 <script type="text/javascript"> window.currentUser = {{ response | safe }} </script>
 <script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>

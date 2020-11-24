@@ -104,7 +104,12 @@ export default function AudioPlayer() {
   const [duration, setDuration] = useState(null)
   const [progress, setProgress] = useState(0)
   const [down, setDown] = useState(false)
-  const [playing, setPlaying] = useState(false)
+
+  const songUrl = useSelector(state => state.player.songUrl)
+  const playlist_dir = useSelector(state => state.entities.playlistD)
+  const songD = useSelector(state => state.entities.songD)
+  const playlistD = useSelector(state => state.entities.playlistD)
+  const track = useSelector(state => state.player.track)
 
   useEffect(() => {
     const aud = document.querySelector('audio')
@@ -112,6 +117,15 @@ export default function AudioPlayer() {
     aud.addEventListener('loadedmetadata', (e) => {
       const sec = e.target.duration;
       setDuration([sec, convertSecsToMins(sec)])
+
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: 'Unforgettable',
+          artist: 'Nat King Cole',
+          album: 'The Ultimate Collection (Remastered)',
+        });
+      }
+      
     });
   }, [])
 
@@ -123,12 +137,6 @@ export default function AudioPlayer() {
     updateSize()
     return () => document.removeEventListener('resize', setWinWidth);
   })
-
-  const songUrl = useSelector(state => state.player.songUrl)
-  const playlist_dir = useSelector(state => state.entities.playlistD)
-  const songD = useSelector(state => state.entities.songD)
-  const playlistD = useSelector(state => state.entities.playlistD)
-  const track = useSelector(state => state.player.track)
 
   const skip = (dir) => () => {
     if (!track) return
@@ -223,13 +231,11 @@ export default function AudioPlayer() {
         onClick={() => {
           if (aud.emptied) return;
           aud.play();
-          setPlaying(true);
         }} />
     } else {
       return <img src={pauseIcon} className='play-button'
         onClick={() => {
           aud.pause();
-          setPlaying(false);
         }} />
     }
   }
