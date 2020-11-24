@@ -27,7 +27,7 @@ export const BurgerDiv = styled.div`
   left:1em;
   right:1em;
   top:20%;
-  background-color:white;
+  background-color:red;
   .burger-text {
     display: flex;
     /* justify-content: enter; */
