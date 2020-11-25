@@ -147,7 +147,7 @@ export default function AudioPlayer() {
       navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
       navigator.mediaSession.setActionHandler('nexttrack', skip(1));
     }
-  }, [track])
+  }, [track, playlistD]) // remount when new track or when playlist is modified
 
   useLayoutEffect(() => {
     function updateSize() {
@@ -242,7 +242,6 @@ export default function AudioPlayer() {
   const SongInfo = () => {
     let title = '';
     let artist = '';
-    // console.log(track)
     if (track) {
       let song;
       if (track[0]) {

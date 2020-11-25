@@ -70,6 +70,16 @@ def song(request, id): #get , delete
     url = connection.Bucket(bucket).meta.client.generate_presigned_url(
       'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
+  
+
+
+
+
+
+
+
+
+
 
 def playlist_d(request): # post, get
   if request.method == "POST":
@@ -115,9 +125,7 @@ def move_track(request):
 
 def delete_track(request):
   req = json.loads(request.body.decode('utf-8'))
-  # breakpoint()
   if 'next' in req:
-    # breakpoint()
     r = Entry.objects.get(id=req['next'])
     r.prev_id = req['prev'] 
     r.save()

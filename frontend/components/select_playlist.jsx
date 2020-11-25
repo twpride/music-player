@@ -23,9 +23,23 @@ const renderErrors = () => {
 }
 
 const SelectDiv = styled.div`
-  
+  position:absolute;
+  left:0;
+  right: 0;
+  bottom:0;
+  background-color:white;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  .playlist-row {
+    padding: 1em 1em;
+    font-size: 0.9em;
+  }
 
 `
+
+
+
 
 export default function SelectPlaylist() {
 
@@ -55,15 +69,12 @@ export default function SelectPlaylist() {
 
   return (
     <SelectDiv>
-      <div className="title">Select playlist</div>
+      <div className="title">Add to playlist</div>
 
       {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
-        <div key={index} onClick={clickAddTrack(pl.id)}>{pl.title}</div>
+        <div key={index} className="playlist-row" onClick={clickAddTrack(pl.id)}>{pl.title}</div>
       ))}
 
-      <div className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
-        X
-      </div>
     </SelectDiv>
   );
 }
