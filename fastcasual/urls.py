@@ -36,9 +36,9 @@ urlpatterns = [
     path('api/playlist_d/<int:id>', song.playlist),
     path('api/add_track/<int:playlist_id>/<int:song_id>', song.add_track),
     path('api/move_track', song.move_track),
+    path('api/delete_track', song.delete_track),
     path('api/post_songs', song.post_songs),
     path('api/edit_songs', song.edit_songs),
-    path('api/new_playlist', song.new_playlist),
     path(
         'manifest.json',
         TemplateView.as_view(template_name="manifest.json",

@@ -12,7 +12,9 @@ export const ent_act = {
   UPDATE_PLAYLIST: "UPDATE_PLAYLIST",
   RECEIVE_PLAYLIST_TITLE_D: "RECEIVE_PLAYLIST_TITLE",
   APPEND_PLAYLIST: "APPEND_PLAYLIST",
-  LOAD_TRACK: "LOAD_TRACK"
+  LOAD_TRACK: "LOAD_TRACK",
+  DELETE_PLAYLIST: "DELETE_PLAYLIST",
+  REMOVE_FROM_PLAYLIST: "REMOVE_FROM_PLAYLIST",
 }
 
 const songD = (state = [], action) => {
@@ -29,7 +31,7 @@ const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.RECEIVE_PLAYLIST:
-      return { ...state, [action.id]: action.playlist };
+      return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
       return {
         ...state, playlistTitleD: {
@@ -41,6 +43,16 @@ const playlistD = (state = {}, action) => {
         ...state,
         [action.playlist_id]: [...state[action.playlist_id], ...action.tracks]
       }
+    case ent_act.DELETE_PLAYLIST:
+      const newSt = { ...state, playlistTitleD: { ...state.playlistTitleD } }
+      delete newSt.playlistTitleD[action.playlist_id]
+      delete newSt[action.playlist_id]
+      return newSt
+    case ent_act.REMOVE_FROM_PLAYLIST:
+      const newpl = [...state[action.pl_id]]
+      newpl.splice(action.idx,1)
+      return { ...state, [action.pl_id]:newpl}
+      
     default:
       return state;
   }

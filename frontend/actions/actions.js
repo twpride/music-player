@@ -37,8 +37,8 @@ export const getPlaylistTitleD = () => dispatch => (
     ))
 )
 
-export const getPlaylist = id => async dispatch => {
-  const response = await APIUtil.getPlaylist(id)
+export const getPlaylist = playlist_id => async dispatch => {
+  const response = await APIUtil.getPlaylist(playlist_id)
   const linkedList = await response.json()
   let playlist = [];
   let map = new Map();
@@ -62,7 +62,7 @@ export const getPlaylist = id => async dispatch => {
     playlist.push(nextItem);
     currentId = nextItem[1];
   }
-  dispatch({ type: ent_act.RECEIVE_PLAYLIST, id, playlist })
+  dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
 }
 
 

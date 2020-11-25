@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { postSongs } from '../actions/actions'
 
+import {HeaderDiv} from './app'
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 
 export default function UploadForm() {
@@ -36,6 +37,10 @@ export default function UploadForm() {
   }
 
   return (
+    <>
+    <HeaderDiv>
+    <div className="title">Upload Songs</div>
+    </HeaderDiv>
     <div className='scrollable'>
       <form id="songForm" onSubmit={submitSong}>
         <input type="file" name="waveform" onChange={loadSong} multiple></input>
@@ -56,6 +61,7 @@ export default function UploadForm() {
         />
       </form>
     </div>
+    </>
   )
 };
 

@@ -27,22 +27,17 @@ const SelectDiv = styled.div`
 
 `
 
-export default function SelectPlaylist(props) {
+export default function SelectPlaylist() {
 
   const dispatch = useDispatch();
 
   const playlistD = useSelector(state => state.entities.playlistD)
+  const contextMenu = useSelector(state => state.ui.contextMenu)
 
-  const click = (playlist_id) => (e) => {
+  const clickAddTrack = (playlist_id) => (e) => {
     e.preventDefault();
-    // dispatch({
-    //   type: ent_act.APPEND_PLAYLIST,
-    //   playlist_id, tracks:[[props.id]]
-    // })
-
-
-    // playlist entry schema "song_id", "Entry_pk","prev_id"
-    addTrack(playlist_id, props.id)
+    // Entry schema "song_id", "Entry_pk","prev_id"
+    addTrack(playlist_id, contextMenu.song_id)
       .then(res => res.json()) // Entry_pk of added track
       .then(entry_pk => {
         let prevId = null;
@@ -53,7 +48,7 @@ export default function SelectPlaylist(props) {
 
         dispatch({
           type: ent_act.APPEND_PLAYLIST,
-          playlist_id, tracks: [[props.id, entry_pk, prevId]]
+          playlist_id, tracks: [[contextMenu.song_id, entry_pk, prevId]]
         })
       })
   }
@@ -63,7 +58,7 @@ export default function SelectPlaylist(props) {
       <div className="title">Select playlist</div>
 
       {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
-        <div key={index} onClick={click(pl.id)}>{pl.title}</div>
+        <div key={index} onClick={clickAddTrack(pl.id)}>{pl.title}</div>
       ))}
 
       <div className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>

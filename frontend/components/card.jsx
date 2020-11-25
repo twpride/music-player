@@ -7,7 +7,7 @@ import { CardDiv } from './songD'
 import dragIcon from '../icons/draghandle.svg';
 import burgerIcon from '../icons/burger.svg';
 
-export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, draggable }) => {
+export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, playlist_id}) => {
 
   const dispatch = useDispatch();
   const ref = useRef(null)
@@ -52,8 +52,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, dr
       console.log(start)
       console.log(index)
       setPrev(start, index)
-    },
-    canDrag: () => draggable
+    }
   })
 
   drag(drop(ref))
@@ -61,8 +60,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, dr
   const launchBurger = (id) => (e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (draggable) return
-    dispatch({ type: context_act.SONG_BURGER_C, id })
+    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id, index})
   }
 
   return (
@@ -73,12 +71,8 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, dr
         <div>{text && text.title}&nbsp;</div>
       </div>
 
-      <div ref={ref} onClick={launchBurger(song_id)}>
-        {draggable ?
-          <img src={dragIcon} style={{ color: "gray", height: '24px', width: '24px' }} />
-          :
-          <img src={burgerIcon} />
-        }
+      <div onClick={launchBurger(song_id)}>
+        <img src={burgerIcon} />
       </div>
     </CardDiv>
   )

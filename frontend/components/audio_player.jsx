@@ -7,6 +7,8 @@ import { getSongUrl } from '../actions/actions'
 
 import playIcon from '../icons/play.svg';
 import pauseIcon from '../icons/pause.svg';
+import prev from '../icons/prev.svg';
+import next from '../icons/next.svg';
 
 const convertSecsToMins = seconds => {
   let mins = Math.floor(seconds / 60).toString();
@@ -137,12 +139,10 @@ export default function AudioPlayer() {
       } else {
         song = Object.values(songD)[track[1]]
       }
-      console.log(song)
       artist = song.artist;
       title = song.title;
     }
     if ('mediaSession' in navigator) {
-      console.log("tryhere")
       navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
       navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
       navigator.mediaSession.setActionHandler('nexttrack', skip(1));
@@ -274,9 +274,9 @@ export default function AudioPlayer() {
         </ProgressBar>
 
         <div className='control'>
-          {/* <img src={prev} onClick={skip(-1)} /> */}
+          <img src={prev} onClick={skip(-1)} />
           <PlayButton />
-          {/* <img src={next} onClick={skip(1)} /> */}
+          <img src={next} onClick={skip(1)} />
         </div>
 
         {duration &&

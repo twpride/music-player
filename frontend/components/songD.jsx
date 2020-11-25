@@ -8,7 +8,8 @@ import burgerIcon from '../icons/burger.svg';
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
-import Header from './header'
+import {HeaderDiv} from './app'
+
 
 export const CardDiv = styled.div`
   font-size: .9em;
@@ -51,16 +52,18 @@ export default function SongD() {
     dispatch(getSongUrl(id))
   }
 
-  const launchBurger = (id) => (e) => {
+  const launchBurger = (song_id) => (e) => {
     e.stopPropagation()
-    dispatch({ type: context_act.SONG_BURGER_C, id })
+    dispatch({ type: context_act.SONG_BURGER_C, song_id , playlist_id: null})
   }
 
   const songD = useSelector(state => state.entities.songD)
 
   return (
     <>
-      <Header />
+      <HeaderDiv>
+      <div className="title">Songs</div>
+      </HeaderDiv>
       <div className="scrollable">
         {Object.values(songD).map((song, i) => (
           <CardDiv key={i} onClick={playSong(song.id, i)}>

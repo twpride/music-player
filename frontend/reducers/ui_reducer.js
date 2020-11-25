@@ -23,12 +23,18 @@ export const context_act = {
 }
 const contextMenu = (state = null, action) => {
   Object.freeze(state);
-  const type = context_act[action.type];
-  if (type) {
-    if (type === context_act.CLOSE_CONTEXT) return null
-    else return action;
-  } else {
-    return state
+
+  switch (action.type) {
+    case context_act.SONG_EDIT_C:
+      return {...state, type:action.type}
+    case context_act.SONG_BURGER_C:
+      return action
+    case context_act.CLOSE_CONTEXT:
+      return null
+    case context_act.SELECT_PLAYLIST_C:
+      return {...state, type:action.type}
+    default:
+      return state;
   }
 };
 

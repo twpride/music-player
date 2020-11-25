@@ -61,11 +61,12 @@ const SongEditDiv = styled.div`
 
 `
 
-export default function SongEditForm(props) {
+export default function SongEditForm() {
 
   const dispatch = useDispatch();
 
-  const songState = useSelector(state => state.entities.songD[props.id]);
+  const songD = useSelector(state => state.entities.songD);
+  const contextMenu = useSelector(state => state.ui.contextMenu);
 
   useEffect(()=>{
     document.getElementsByName('title')[0].focus()
@@ -75,17 +76,17 @@ export default function SongEditForm(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const song = new FormData(document.getElementById('songEditForm'));
-    song.append('ids', JSON.stringify(props.id))
+    song.append('ids', JSON.stringify(contextMenu.song_id))
     dispatch(editSongs(song))
     dispatch({ type: context_act.CLOSE_CONTEXT })
   }
-
+  
   return (
     <SongEditDiv onClick={(e) => e.stopPropagation()}>
       <div className="title">Edit Song</div>
       <div className="spacer"></div>
       <form onSubmit={handleSubmit} id="songEditForm">
-        {Object.entries(songState).filter(e => e[0] != 'id').map(
+        {Object.entries(songD[contextMenu.song_id]).filter(e => e[0] != 'id').map(
           (field, i) => (
             <div key={i} className="login-input">
               <div className="field">{field[0]}</div>

@@ -7,7 +7,7 @@ import { getPlaylistTitleD } from '../actions/actions'
 import { modal_act } from '../reducers/ui_reducer'
 
 import { Link } from 'react-router-dom'
-import Header from './header'
+import {HeaderDiv} from './app'
 
 const PlaylistDiv = styled.div`
   display: flex;
@@ -32,7 +32,9 @@ export default function PlaylistD() {
 
   return (
     <>
-      <Header></Header>
+      <HeaderDiv>
+        <div className="title">Playlists</div>
+      </HeaderDiv>
       <div className="scrollable">
         <PlaylistDiv>
           <div onClick={() => dispatch({ type: modal_act.NEW_PLAYLIST })}> New Playlist</div>

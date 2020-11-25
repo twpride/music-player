@@ -43,6 +43,6 @@ export default function ContextMenu() {
       return null;
   }
   return <ModalDiv onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
-    <Component id={contextMenu.id} />
+    <Component />
   </ModalDiv>
 }

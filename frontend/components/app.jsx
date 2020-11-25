@@ -32,6 +32,24 @@ const AppDiv = styled.div`
     z-index:1;
   }
 `
+
+export const HeaderDiv = styled.div`
+
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+
+  min-height: 50px;
+  width: 100%;
+  z-index: 10;
+  box-shadow: 0 3px 4px 0 rgba(0,0,0,0.03), 0 3px 3px -2px rgba(0,0,0,0.03), 0 1px 8px 0 rgba(0,0,0,0.05);
+
+  .title {
+    justify-self:center;
+  }
+`
+
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -51,7 +69,7 @@ const App = () => {
       <Switch>
         <Route exact path='/' component={SongD} />
         <Route exact path='/upload' component={UploadForm} />
-        <Route path='/playlist_d/:id' component={Playlist} />
+        <Route path='/playlist_d/:playlist_id' component={Playlist} />
         <Route path='/playlist_d/' component={PlaylistD} />
       </Switch>
       <AudioPlayer />

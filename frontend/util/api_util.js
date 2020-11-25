@@ -49,27 +49,22 @@ export const getSongUrl = id => (
   })
 );
 
-// export const createPlaylist = playlist => (
-//   fetch('/api/playlist_d/', {
-//     method: 'POST',
-//     body: playlist,
-//     headers: fetchHeader(),
-//   })
-// );
-
 export const createPlaylist = playlist => (
-  fetch('/api/new_playlist', {
+  fetch('/api/playlist_d/', {
     method: 'POST',
     body: playlist,
     headers: fetchHeader(),
   })
 );
+
 export const addTrack = (playlist, song) => (
   fetch(`/api/add_track/${playlist}/${song}`, {
     method: 'POST',
     headers: fetchHeader(),
   })
 );
+
+
 
 export const getPlaylistTitleD = () => (
   fetch('/api/playlist_d/', {
@@ -85,8 +80,24 @@ export const getPlaylist = (id) => (
   })
 );
 
+export const deletePlaylist = (id) => (
+  fetch(`/api/playlist_d/${id}`, {
+    method: 'DELETE',
+    headers: fetchHeader(),
+  })
+);
+
+
 export const moveTrack = req => (
   fetch('/api/move_track', {
+    method: 'POST',
+    body: JSON.stringify(req),
+    headers: fetchHeader(),
+  })
+);
+
+export const deleteTrack = req => (
+  fetch('/api/delete_track', {
     method: 'POST',
     body: JSON.stringify(req),
     headers: fetchHeader(),

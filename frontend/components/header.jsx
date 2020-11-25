@@ -18,12 +18,13 @@ const HeaderDiv = styled.div`
   justify-content: space-between;
   width: 100%;
   z-index: 10;
-  border:solid black 1px;
+  /* border-bottom:solid black 1px; */
 
+  box-shadow: 1px;
 
 `
 
-export default function Header({action,state}) {
+export default function Header({title}) {
   const dispatch = useDispatch()
   let location = useLocation()
   const currentUser = useSelector(state => state.session.currentUser)
@@ -38,10 +39,7 @@ export default function Header({action,state}) {
   // }
   return (
     <HeaderDiv className="nav">
-    <button onClick={()=>{
-      if (state) {action(false)}
-      else action(true)
-    }}></button>
+      <div>{title && title.title}</div>
     </HeaderDiv>
   )
 };

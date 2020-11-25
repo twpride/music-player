@@ -32,7 +32,7 @@ def edit_songs(request):
     safe=False)
 
 
-def post_songs(request):
+def post_songs(request): #post
   songs_to_post = json.loads(request.body.decode('utf-8'))
   res = []
   for _song in songs_to_post:
@@ -54,7 +54,7 @@ def post_songs(request):
       safe=False)
 
 
-def song(request, id):
+def song(request, id): #get , delete
   if request.method == "GET":
     import boto3.session
     from django.conf import settings
@@ -71,11 +71,12 @@ def song(request, id):
       'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
 
-def playlist_d(request):
+def playlist_d(request): # post, get
   if request.method == "POST":
     req = request.POST.get('title')
     Playlist.objects.create(title=req)
-  # return JsonResponse(list(Playlist.objects.values()), safe=False)
+    res = model_to_dict(Playlist.objects.last(), fields=['id','title'])
+    return JsonResponse({res['id']:res}, safe=False)
   return JsonResponse(
     {
       x["id"]: x 
@@ -83,21 +84,17 @@ def playlist_d(request):
     }
     , safe=False)
 
-def new_playlist(request):
-  req = request.POST.get('title')
-  Playlist.objects.create(title=req)
-  res = model_to_dict(Playlist.objects.last(), fields=['id','title'])
-  return JsonResponse({res['id']:res}, safe=False)
+def playlist(request, id):  # delete, get
+  if request.method == "DELETE":
+    Playlist.objects.get(id=id).delete()
+    return HttpResponse(status=204)
 
-
-def playlist(request, id):
-  # Entry.objects.filter(playlist_id=id).values_list("song_id","pk","prev_id")
   return JsonResponse(
     list(Entry.objects.filter(playlist_id=id)
                       .values_list("song_id", "pk","prev_id")), safe=False)
 
 
-def add_track(request, playlist_id=None, song_id=None):
+def add_track(request, playlist_id=None, song_id=None): # post
   playlist = Playlist.objects.get(pk=playlist_id)
   song = Song.objects.get(pk=song_id)
   new_entry = Entry.objects.create(playlist=playlist,
@@ -105,7 +102,7 @@ def add_track(request, playlist_id=None, song_id=None):
                                    prev_id=playlist.tail_id)
   playlist.tail_id = new_entry.pk
   playlist.save()
-  return JsonResponse(Entry.objects.count(), safe=False)
+  return JsonResponse(Entry.objects.last().id, safe=False)
 
 
 def move_track(request):
@@ -115,3 +112,14 @@ def move_track(request):
     entry.prev_id = req[str(entry.pk)]
   Entry.objects.bulk_update(res, ['prev_id'])
   return JsonResponse("sucess", safe=False)
+
+def delete_track(request):
+  req = json.loads(request.body.decode('utf-8'))
+  # breakpoint()
+  if 'next' in req:
+    # breakpoint()
+    r = Entry.objects.get(id=req['next'])
+    r.prev_id = req['prev'] 
+    r.save()
+  Entry.objects.get(id=req['target']).delete() 
+  return HttpResponse(status=204)
