@@ -13,14 +13,9 @@ class Song(models.Model):
 class Entry(models.Model):
   playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
   song = models.ForeignKey('Song', on_delete=models.CASCADE)
-  prev_id = models.IntegerField(blank=True, null=True)
-
-  # prev_ent = models.ForeignKey('self', on_delete=models.CASCADE,blank=True, null=True)
   prev_ent = models.ForeignKey( 'self', on_delete=models.SET_NULL, related_name="next_ent",blank=True, null=True)
 
 class Playlist(models.Model):
   title = models.CharField(max_length=100)
-  tail_id = models.IntegerField(blank=True, null=True)
   songs = models.ManyToManyField(Song, through=Entry)
-
   tail_ent = models.OneToOneField( Entry, on_delete=models.SET_NULL, related_name="idk",blank=True, null=True)

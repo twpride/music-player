@@ -88,26 +88,22 @@ def song(request, id):  #get , delete
       nxt = nxt.next_ent.first()
     
     prev = ent.prev_ent
-    prev_id = ent.prev_id
     while prev and prev.song.pk == id: 
       fam.append(prev.pk)
       prev = prev.prev_ent
-      prev_id = prev.prev_id
 
     if not nxt: 
       playlist = ent.playlist
-      playlist.tail_id = ent.prev_id
       playlist.tail_ent = ent.prev_ent 
       playlist.save()
       x.filter(pk__in=fam).delete()
     else:
       x.filter(pk__in=fam).delete()
       nxt.prev_ent = prev
-      nxt.prev_id = prev_id
       res.append(nxt)
     ign.update(fam)
 
-  Entry.objects.bulk_update(res, ['prev_id', 'prev_ent'])
+  Entry.objects.bulk_update(res, ['prev_ent'])
 
 
 def playlist_d(request):  # post, get
@@ -127,7 +123,7 @@ def playlist(request, id):  # delete, get
 
   return JsonResponse(list(
       Entry.objects.filter(playlist_id=id).values_list("song_id", "pk",
-                                                       "prev_id")),
+                                                       "prev_ent")),
                       safe=False)
 
 
@@ -136,9 +132,7 @@ def add_track(request, playlist_id=None, song_id=None):  # post
   song = Song.objects.get(pk=song_id)
   new_entry = Entry.objects.create(playlist=playlist,
                                    song=song,
-                                   prev_id=playlist.tail_id,
                                    prev_ent=playlist.tail_ent)
-  playlist.tail_id = new_entry.pk
 
   # breakpoint()
   playlist.tail_ent = new_entry
@@ -151,19 +145,17 @@ def move_track(request):
 
   if xxx:=req.pop('tail',False):
     pl = Playlist.objects.get(pk=xxx[0])
-    pl.tail_id = xxx[1]
     pl.tail_ent = Entry.objects.get(pk=xxx[1])
     pl.save()
   
   res = list(Entry.objects.filter(pk__in=req.keys()))
   for entry in res:
-    entry.prev_id = req[str(entry.pk)]
     if pk := req[str(entry.pk)]:
       entry.prev_ent = Entry.objects.get(pk=pk)
     else:
       entry.prev_ent = pk
     #### need to write tail corner case
-  Entry.objects.bulk_update(res, ['prev_id', 'prev_ent'])
+  Entry.objects.bulk_update(res, ['prev_ent'])
   return JsonResponse("sucess", safe=False)
 
 
@@ -172,12 +164,10 @@ def delete_track(request):
   target = Entry.objects.get(id=req['target'])
   if 'next' in req:
     r = Entry.objects.get(id=req['next'])
-    r.prev_id = req['prev']
     r.prev_ent = Entry.objects.get(pk=req['prev'])
     r.save()
   else:
     playlist = target.playlist
-    playlist.tail_id = target.prev_ent.pk
     playlist.tail_ent = target.prev_ent
     playlist.save()
   target.delete()

@@ -60,6 +60,7 @@ const PlayerDiv = styled.div`
   min-height:60px;
 
   display:flex;
+  
   align-items:center;
   /* justify-content: space-between; */
   position: relative;
@@ -113,7 +114,7 @@ export default function AudioPlayer() {
       song = playlist_dir[newtr[0]][newtr[1]]
       dispatch(getSongUrl(song[0]));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
-    } else if(
+    } else if (
       !newtr[0] &&
       (song = Object.values(songD)[newtr[1]])
     ) {
@@ -275,9 +276,10 @@ export default function AudioPlayer() {
         </ProgressBar>
 
         <div className='control'>
-          <img src={prev} onClick={skip(-1)} />
+          {winWidth > 500 && <img src={prev} onClick={skip(-1)} />}
           <PlayButton />
-          <img src={next} onClick={skip(1)} />
+          {winWidth > 500 && <img src={next} onClick={skip(1)} />}
+          
         </div>
 
         {duration &&
