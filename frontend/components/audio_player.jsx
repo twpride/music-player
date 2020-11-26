@@ -108,12 +108,14 @@ export default function AudioPlayer() {
     let song;
     if (
       newtr[0] &&
-      (song = playlist_dir[newtr[0]][newtr[1]])
+      (playlist_dir[newtr[0]][newtr[1]])
     ) {
+      song = playlist_dir[newtr[0]][newtr[1]]
       dispatch(getSongUrl(song[0]));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
-    } else if (
-      song = Object.values(songD)[newtr[1]]
+    } else if(
+      !newtr[0] &&
+      (song = Object.values(songD)[newtr[1]])
     ) {
       dispatch(getSongUrl(song.id));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });

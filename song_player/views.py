@@ -44,7 +44,10 @@ def post_songs(request): #post
                           safe=False,
                           status=422)
     res.append(song)
-  idx = Song.objects.latest('id').id
+  if last := Song.objects.last():
+    idx = last.id
+  else:
+    idx = 0
   Song.objects.bulk_create(res)
   return JsonResponse(
       {
@@ -71,14 +74,6 @@ def song(request, id): #get , delete
       'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
   
-
-
-
-
-
-
-
-
 
 
 def playlist_d(request): # post, get
