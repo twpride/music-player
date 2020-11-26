@@ -77,8 +77,12 @@ export default function Playlist() {
       } else if (start === 0) {
         req[cards[start][1]] = null
       }
-    } else if (dir < 0 && start + 1 < cards.length) {
-      req[cards[start + 1][1]] = cards[start][1]
+    } else if (dir < 0) {
+      if ( start + 1 < cards.length) {
+        req[cards[start + 1][1]] = cards[start][1]
+      } else {
+        req['tail'] = [playlist_id,cards[start][1]]
+      }
     }
 
     if (index > 0) {
@@ -87,8 +91,11 @@ export default function Playlist() {
       req[cards[index][1]] = null
     }
 
+
     if (index + 1 < cards.length) {
       req[cards[index + 1][1]] = cards[index][1]
+    } else {
+      req['tail'] = [playlist_id,cards[index][1]]
     }
 
     moveTrack(req) // update db

@@ -49,6 +49,13 @@ export const getSongUrl = id => (
   })
 );
 
+export const deleteSong = id => (
+  fetch(`/api/song_d/${id}`, {
+    method: 'DELETE',
+    headers: fetchHeader(),
+  })
+)
+
 export const createPlaylist = playlist => (
   fetch('/api/playlist_d/', {
     method: 'POST',

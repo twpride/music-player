@@ -8,7 +8,7 @@ import { ent_act } from '../reducers/root_reducer'
 import editIcon from '../icons/edit.svg'
 import addToPlaylist from '../icons/addToPlaylist.svg'
 import deleteIcon from '../icons/delete.svg'
-import {deleteTrack} from '../util/api_util'
+import {deleteTrack, deleteSong} from '../util/api_util'
 
 const renderErrors = () => {
   const errors = useSelector(state => state.errors);
@@ -86,7 +86,8 @@ export default function SongBurger(props) {
     },
     "Delete song": (e) => {
       e.stopPropagation()
-      console.log(3)
+      // console.log(3)
+      deleteSong(contextMenu.song_id)
     },
   }
   const icons = [
