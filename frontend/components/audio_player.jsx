@@ -94,6 +94,7 @@ export default function AudioPlayer() {
   const [winWidth, setWinWidth] = useState(window.innerWidh)
   const [duration, setDuration] = useState(null)
   const [progress, setProgress] = useState(0)
+  const [swipex, setSwipex] = useState(null)
   const [down, setDown] = useState(false)
 
   const songUrl = useSelector(state => state.player.songUrl)
@@ -217,7 +218,7 @@ export default function AudioPlayer() {
       // e.preventDefault()
       if (!duration) return;
       // console.log('touchh', e.touches[0].clientX)
-      setWinWidth(window.innerWidth);
+      // setWinWidth(window.innerWidth);
       setProgress(e.touches[0].clientX / winWidth);
 
 
@@ -226,6 +227,54 @@ export default function AudioPlayer() {
       document.addEventListener('touchmove', updateDrag);
     },
   }
+
+
+  const handleSwipeEnd = (e) => {
+    const dir = e.clientX - swipex;
+    if (dir>0) {
+      skip(1)()
+    } else {
+      skip(-1)()
+    }
+
+    document.removeEventListener('mouseup', handleSwipeEnd);
+  };
+
+  const handleTouchSwipeEnd = (e) => {
+    console.log('hereo')
+    const dir = e.changedTouches[0].clientX - swipex;
+    if (dir>0) {
+      skip(1)()
+    } else {
+      skip(-1)()
+    }
+
+    document.removeEventListener('touchend', handleTouchSwipeEnd);
+  };
+
+
+
+  const SwipeHandler = {
+    onMouseDown: (e) => {
+      if (!e.clientX) return
+      e.stopPropagation()
+      e.preventDefault()
+      if (!duration) return;
+      setSwipex(e.clientX);
+
+      document.addEventListener('mouseup', handleSwipeEnd);
+    },
+    onTouchStart: (e) => {
+      e.stopPropagation()
+      if (!duration) return;
+      console.log(e.touches[0].clientX)
+      setSwipex(e.touches[0].clientX);
+
+      document.addEventListener('touchend', handleTouchSwipeEnd);
+    },
+  }
+
+
   const PlayButton = () => {
     const aud = document.querySelector('audio');
     if (!aud || aud.paused) {
@@ -256,7 +305,7 @@ export default function AudioPlayer() {
       title = song.title;
     }
     return (
-      <div className='song-info'>
+      <div className='song-info'{...SwipeHandler}>
         <div>{artist}</div>
         <div>{title}</div>
       </div>
