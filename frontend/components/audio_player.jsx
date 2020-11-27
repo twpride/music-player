@@ -105,6 +105,7 @@ const PlayerDiv = styled.div`
 export default function AudioPlayer() {
   const dispatch = useDispatch()
   const [winWidth, setWinWidth] = useState(window.innerWidh)
+  window.win = winWidth
   const [duration, setDuration] = useState(null)
   const [progress, setProgress] = useState(0)
   const [swipex, setSwipex] = useState(null)
@@ -117,6 +118,8 @@ export default function AudioPlayer() {
   const songD = useSelector(state => state.entities.songD)
   const playlistD = useSelector(state => state.entities.playlistD)
   const track = useSelector(state => state.player.track)
+  // const paused = useSelector(state => state.player.paused)
+  const playing = useSelector(state => state.player.playing)
 
   const skip = (dir) => () => {
     if (!track) return
@@ -139,13 +142,35 @@ export default function AudioPlayer() {
     }
   };
 
+  
+  function updateSize() {
+    console.log('updateee')
+    setWinWidth(window.innerWidth)
+  }
+  function handleLoadedMeta(e) {
+    const sec = e.target.duration;
+    setDuration([sec, convertSecsToMins(sec)])
+  }
+  function handleSpace(e) {
+    if (e.key === " ") document.getElementsByClassName('play-button')[0].click()
+  }
   useEffect(() => {
     const aud = document.querySelector('audio')
     window.aud = aud;
-    aud.addEventListener('loadedmetadata', (e) => {
-      const sec = e.target.duration;
-      setDuration([sec, convertSecsToMins(sec)])
-    });
+
+    aud.addEventListener('loadedmetadata', handleLoadedMeta);
+
+    window.addEventListener('resize', updateSize)
+    updateSize()
+
+    document.addEventListener('keydown', handleSpace)
+
+    return () => {
+      aud.removeEventListener('loadedmetadata', handleLoadedMeta)
+      window.removeEventListener('resize', updateSize)
+      document.removeEventListener('keydown', handleSpace)
+    }
+
   }, [])
 
   useEffect(() => {
@@ -171,14 +196,6 @@ export default function AudioPlayer() {
     }
   }, [track, playlistD]) // remount when new track or when playlist is modified
 
-  useLayoutEffect(() => {
-    function updateSize() {
-      setWinWidth(window.innerWidth)
-    }
-    document.addEventListener('resize', updateSize)
-    updateSize()
-    return () => document.removeEventListener('resize', setWinWidth);
-  })
 
   function handleTimeUpdate(e) {
     if (duration && !down) {
@@ -210,7 +227,7 @@ export default function AudioPlayer() {
   const handleSwipeEnd = (e) => {
     document.removeEventListener('touchend', handleSwipeEnd);
     const dir = e.changedTouches[0].clientX - swipex;
-    if (Math.abs(dir)<100) return
+    if (Math.abs(dir) < 100) return
     if (dir > 0) {
       skip(-1)()
     } else {
@@ -279,13 +296,13 @@ export default function AudioPlayer() {
 
         <div className='control' >
           {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
-          {audioRef.current && audioRef.current.paused
+          {playing
             ?
-            <img src={playIcon} className='play-button'
+            <img src={pauseIcon} className='play-button'
               onClick={(e) => {
                 const aud = document.querySelector('audio');
-                if (aud.emptied) return;
-                aud.play();
+                aud.pause();
+                dispatch({ type: ent_act.SET_PAUSE })
               }}
               onTouchStart={(e) => {
                 e.stopPropagation()
@@ -293,10 +310,12 @@ export default function AudioPlayer() {
               }}
             />
             :
-            <img src={pauseIcon} className='play-button'
+            <img src={playIcon} className='play-button'
               onClick={(e) => {
                 const aud = document.querySelector('audio');
-                aud.pause();
+                if (aud.emptied) return;
+                aud.play();
+                dispatch({ type: ent_act.SET_PLAY })
               }}
               onTouchStart={(e) => {
                 e.stopPropagation()

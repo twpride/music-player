@@ -15,6 +15,9 @@ export const ent_act = {
   LOAD_TRACK: "LOAD_TRACK",
   DELETE_PLAYLIST: "DELETE_PLAYLIST",
   REMOVE_FROM_PLAYLIST: "REMOVE_FROM_PLAYLIST",
+  INIT_STORE: "INIT_STORE",
+  SET_PLAY: "SET_PLAY",
+  SET_PAUSE: "SET_PAUSE"
 }
 
 const songD = (state = [], action) => {
@@ -22,6 +25,8 @@ const songD = (state = [], action) => {
   switch (action.type) {
     case ent_act.RECEIVE_SONG_D:
       return { ...state, ...action.songD };
+    case ent_act.INIT_STORE:
+      return action.songD;
     default:
       return state;
   }
@@ -30,6 +35,8 @@ const songD = (state = [], action) => {
 const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
+    case ent_act.INIT_STORE:
+      return {...state, playlistTitleD: action.playlistTitleD};
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
@@ -66,6 +73,10 @@ const player = (state = [], action) => {
       return { ...state, songUrl: action.url };
     case ent_act.LOAD_TRACK:
       return { ...state, track: action.track };
+    case ent_act.SET_PLAY:
+      return { ...state, playing: true };
+    case ent_act.SET_PAUSE:
+      return { ...state, playing: false };
     default:
       return state;
   }

@@ -7,7 +7,7 @@ import { CardDiv } from './songD'
 import dragIcon from '../icons/draghandle.svg';
 import burgerIcon from '../icons/burger.svg';
 
-export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, playlist_id}) => {
+export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, playlist_id }) => {
 
   const dispatch = useDispatch();
   const ref = useRef(null)
@@ -60,12 +60,17 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
   const launchBurger = (id) => (e) => {
     e.preventDefault()
     e.stopPropagation()
-    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id, index})
+    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id, index })
   }
 
   return (
     <CardDiv isDragging={isDragging} onClick={playSong} >
-      <div ref={ref}>{index + 1}</div>
+      <div ref={ref}
+        className='noselect'
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }} >{index + 1}</div>
       <div>
         <div>{text && text.artist}&nbsp;</div>
         <div>{text && text.title}&nbsp;</div>

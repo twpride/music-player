@@ -17,6 +17,9 @@ import { ent_act } from '../reducers/root_reducer'
 import { HeaderDiv } from './app'
 import { useHistory} from 'react-router-dom'
 
+import { session_act } from '../reducers/session_reducer';
+import { logout } from '../util/session_api_util'
+
 export default function Playlist() {
   const history = useHistory();
   let { playlist_id } = useParams();
@@ -26,8 +29,10 @@ export default function Playlist() {
   const playSong = (song_id, track_no) => (e) => {
     e.preventDefault()
     e.stopPropagation()
+    if (document.getSelection().type === 'Range') return;
     dispatch({ type: ent_act.LOAD_TRACK, track: [playlist_id, track_no] })
     dispatch(getSongUrl(song_id))
+    dispatch({type:ent_act.SET_PLAY})
   }
 
   const playlistD = useSelector(state => state.entities.playlistD)
@@ -126,6 +131,14 @@ export default function Playlist() {
       <HeaderDiv>
         <div className='title'>{titleD && titleD[playlist_id].title}</div>
         <button onClick={clickDeletePlaylist}>Delete playlist</button>
+        <button onClick={
+          () => {
+            logout().then(
+              () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+            )
+          }
+        }>logout</button>
+
       </HeaderDiv>
       <div className="scrollable">
         <DndProvider backend={TouchBackend}

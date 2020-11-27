@@ -55,18 +55,15 @@ const App = () => {
   const currentUser = useSelector(state => state.session.currentUser)
 
   useEffect(() => {
-    console.log('yolo',currentUser)
-    getSongD()
-      .then(response => response.json())
-      .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }));
-
-    getPlaylistTitleD()
-      .then(response => response.json())
-      .then(playlistTitleD => dispatch(
-        { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
-      ));
-    
+    console.log('yolo', currentUser)
+    const fetchData = async () => {
+      const songD = await getSongD().then(response => response.json())
+      const playlistTitleD = await getPlaylistTitleD().then(response => response.json())
+      dispatch({ type: ent_act.INIT_STORE, songD, playlistTitleD })
+    }
+    fetchData()
   }, [])
+
   return (
     <AppDiv id="appdiv">
       <Switch>
@@ -105,11 +102,19 @@ export default function Splash() {
     dispatch(loginThunk(form))
   }
 
+  const demoScript2 = () => {
+    const form = new FormData();
+    form.append('email', 'asdf')
+    form.append('password', 'asdfasdf')
+    dispatch(loginThunk(form))
+  }
+
   const Choose = () => (
     <>
       <button onClick={() => setMode('login')}>Log in</button>
       <button onClick={() => setMode('signup')}>Sign up</button>
       <button onClick={demoScript}>Demo</button>
+      <button onClick={demoScript2}>Demo2</button>
     </>
   )
 

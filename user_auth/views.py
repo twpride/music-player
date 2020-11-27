@@ -74,7 +74,7 @@ class UserView(CustomView):
     try:
       self.user.full_clean()
     except:
-      return JsonResponse(["Invalid submisxion. Please try again."],
+      return JsonResponse(["Invalid submission. Please try again."],
                           safe=False,
                           status=422)
     self.user.save()
@@ -106,6 +106,7 @@ class SessionView(CustomView):
   def delete(self, request):
     if self.logged_in():
       self.log_out()
+      print("hereee")
       return HttpResponse(status=204)
     else:
       return JsonResponse({"msg": "Nobody signed in"}, status=404)

@@ -41,6 +41,9 @@ export const BurgerDiv = styled.div`
     flex-direction: row;
     width:100%;
   }
+  .burger-row:hover{
+    background-color: #F0F0F0; 
+  }
   .song-info {
     display: flex;
     flex-direction: column;

@@ -12,17 +12,6 @@ import { ModalDiv } from './modal'
 
 export default function ContextMenu() {
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   function closeModal(e) {
-  //     e.preventDefault()
-  //     dispatch({ type: context_act.CLOSE_CONTEXT })
-  //   }
-  //   document.addEventListener('mousedown', closeModal)
-
-  //   return () => document.removeEventListener('mousedown', closeModal)
-  // })
-
-
 
   const contextMenu = useSelector(state => state.ui.contextMenu);
   if (!contextMenu) {

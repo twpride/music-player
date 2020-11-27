@@ -17,6 +17,9 @@ export const CardDiv = styled.div`
   display:flex;
   flex-direction:row;
   align-items: center;
+  &:hover {
+      background-color: #F0F0F0;
+  }
   >div {
     height: 4em;
     opacity: ${props => props.isDragging ? 0.4 : 1};
@@ -44,13 +47,21 @@ export const CardDiv = styled.div`
       margin-left: auto;
     }
   }
+
+  .noselect{
+    user-select: none;  
+  }
 `
 export default function SongD() {
   const dispatch = useDispatch();
 
   const playSong = (id, i) => (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (document.getSelection().type === 'Range') return;
     dispatch({ type: ent_act.LOAD_TRACK, track: [null, i] })
     dispatch(getSongUrl(id))
+    dispatch({ type: ent_act.SET_PLAY })
   }
 
   const launchBurger = (song_id) => (e) => {
@@ -67,7 +78,12 @@ export default function SongD() {
         <button onClick={
           () => {
             logout().then(
-              () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+              () => {
+                dispatch({ type: ent_act.SET_PAUSE})
+                dispatch({ type: ent_act.LOAD_TRACK, track: null })
+                dispatch({ type: ent_act.RECEIVE_SONG_URL, url:"" })
+                dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+              }
             )
           }
         }>logout</button>
