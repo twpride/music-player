@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect , useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 
@@ -27,16 +27,18 @@ const ProgressBar = styled.div`
   top:-15px;
   z-index:10;
   overflow-x:hidden;
-
   cursor: pointer;
+
   .track-elapsed {
     height: 2px;
     background-color: #CE1141;
   }
+
   .track-remaining {
     height: 2px;
     background-color: grey;
   }
+
   .thumb-container {
     height: 100%;
     width:0;
@@ -46,6 +48,7 @@ const ProgressBar = styled.div`
     justify-content: center;
     z-index:5;
   }
+
   .thumb {
     /* display: none; */
     border-radius: 50%;
@@ -58,31 +61,41 @@ const ProgressBar = styled.div`
 const PlayerDiv = styled.div`
   height:60px;
   min-height:60px;
-
   display:flex;
-  
   align-items:center;
-  /* justify-content: space-between; */
   position: relative;
+
   .control {
     display:flex;
     align-items:center;
+    margin:0 6px;
+    cursor: pointer;
+
     .play-button {
-      height: 30px;
-      width: 30px;
-      margin:0 12px;
+      height: 32px;
+      width: 32px;
+      margin:0 6px;
+    }
+
+    .skip-button {
+      height: 24px;
+      width: 24px;
+      margin:0 6px;
     }
   }
+
   .song-info {
     margin-left:19px;
     margin-right:19px;
     font-size:.9em;
     overflow:hidden;
     white-space: nowrap;
+
     div:nth-of-type(1) {
       color: #777777;
     }
   }
+
   .time-info {
     font-size:.7em;
   }
@@ -96,6 +109,8 @@ export default function AudioPlayer() {
   const [progress, setProgress] = useState(0)
   const [swipex, setSwipex] = useState(null)
   const [down, setDown] = useState(false)
+  const [songInfo, setSongInfo] = useState(null)
+  const audioRef = useRef(null)
 
   const songUrl = useSelector(state => state.player.songUrl)
   const playlist_dir = useSelector(state => state.entities.playlistD)
@@ -145,6 +160,9 @@ export default function AudioPlayer() {
       }
       artist = song.artist;
       title = song.title;
+
+      setSongInfo(song)
+
     }
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
@@ -189,6 +207,19 @@ export default function AudioPlayer() {
     document.removeEventListener('touchend', handleTouchEnd);
   };
 
+  const handleSwipeEnd = (e) => {
+    const dir = e.changedTouches[0].clientX - swipex;
+    if (dir > 0) {
+      skip(1)()
+    } else {
+      skip(-1)()
+    }
+    setDown(false);
+    document.removeEventListener('touchend', handleSwipeEnd);
+  };
+
+
+
   const updateDrag = (e) => {
     let prog;
     if (!e.clientX) {
@@ -205,23 +236,15 @@ export default function AudioPlayer() {
       e.stopPropagation()
       e.preventDefault()
       if (!duration) return;
-      setWinWidth(window.innerWidth);
       setProgress(e.clientX / winWidth);
-
-
       setDown(true);
       document.addEventListener('mouseup', handleMouseUp);
       document.addEventListener('mousemove', updateDrag);
     },
     onTouchStart: (e) => {
       e.stopPropagation()
-      // e.preventDefault()
       if (!duration) return;
-      // console.log('touchh', e.touches[0].clientX)
-      // setWinWidth(window.innerWidth);
       setProgress(e.touches[0].clientX / winWidth);
-
-
       setDown(true);
       document.addEventListener('touchend', handleTouchEnd);
       document.addEventListener('touchmove', updateDrag);
@@ -229,92 +252,21 @@ export default function AudioPlayer() {
   }
 
 
-  const handleSwipeEnd = (e) => {
-    const dir = e.clientX - swipex;
-    if (dir>0) {
-      skip(1)()
-    } else {
-      skip(-1)()
-    }
-
-    document.removeEventListener('mouseup', handleSwipeEnd);
-  };
-
-  const handleTouchSwipeEnd = (e) => {
-    console.log('hereo')
-    const dir = e.changedTouches[0].clientX - swipex;
-    if (dir>0) {
-      skip(1)()
-    } else {
-      skip(-1)()
-    }
-
-    document.removeEventListener('touchend', handleTouchSwipeEnd);
-  };
-
-
-
   const SwipeHandler = {
-    onMouseDown: (e) => {
-      if (!e.clientX) return
-      e.stopPropagation()
-      e.preventDefault()
-      if (!duration) return;
-      setSwipex(e.clientX);
-
-      document.addEventListener('mouseup', handleSwipeEnd);
-    },
     onTouchStart: (e) => {
-      e.stopPropagation()
+      if (!e.touches[0]) return
       if (!duration) return;
+      e.stopPropagation()
       console.log(e.touches[0].clientX)
       setSwipex(e.touches[0].clientX);
-
-      document.addEventListener('touchend', handleTouchSwipeEnd);
+      document.addEventListener('touchend', handleSwipeEnd);
     },
   }
 
-
-  const PlayButton = () => {
-    const aud = document.querySelector('audio');
-    if (!aud || aud.paused) {
-      return <img src={playIcon} className='play-button'
-        onClick={() => {
-          if (aud.emptied) return;
-          aud.play();
-        }} />
-    } else {
-      return <img src={pauseIcon} className='play-button'
-        onClick={() => {
-          aud.pause();
-        }} />
-    }
-  }
-
-  const SongInfo = () => {
-    let title = '';
-    let artist = '';
-    if (track) {
-      let song;
-      if (track[0]) {
-        song = songD[playlistD[track[0]][track[1]][0]];
-      } else {
-        song = Object.values(songD)[track[1]]
-      }
-      artist = song.artist;
-      title = song.title;
-    }
-    return (
-      <div className='song-info'{...SwipeHandler}>
-        <div>{artist}</div>
-        <div>{title}</div>
-      </div>
-    )
-  }
 
   return (
     <>
-      <PlayerDiv>
+      <PlayerDiv {...SwipeHandler}>
 
         <ProgressBar {...ProgressBarHandler}>
           <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
@@ -324,11 +276,25 @@ export default function AudioPlayer() {
           <div className='track-remaining' style={{ width: `${100 - progress * 100}%` }} />
         </ProgressBar>
 
-        <div className='control'>
-          {winWidth > 500 && <img src={prev} onClick={skip(-1)} />}
-          <PlayButton />
-          {winWidth > 500 && <img src={next} onClick={skip(1)} />}
-          
+        <div className='control' >
+          {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button'/>}
+          {audioRef.current && audioRef.current.paused ? <img src={playIcon} className='play-button'
+            onClick={() => {
+              const aud = document.querySelector('audio');
+              if (aud.emptied) return;
+              aud.play();
+            }} /> :
+            <img src={pauseIcon} className='play-button'
+              onClick={(e) => {
+                const aud = document.querySelector('audio');
+                e.stopPropagation()
+                e.preventDefault()
+                aud.pause();
+              }} />
+          }
+
+          {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button'/>}
+
         </div>
 
         {duration &&
@@ -336,13 +302,16 @@ export default function AudioPlayer() {
             {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
           </div>
         }
-        <SongInfo />
-
+        <div className='song-info'>
+          <div>{songInfo && songInfo.artist}</div>
+          <div>{songInfo && songInfo.title}</div>
+        </div>
       </PlayerDiv>
       <audio
         autoPlay src={songUrl}
         onEnded={skip(1)}
         onTimeUpdate={handleTimeUpdate}
+        ref={audioRef}
       />
     </>
   )
