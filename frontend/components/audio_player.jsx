@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect , useRef} from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 
@@ -277,24 +277,33 @@ export default function AudioPlayer() {
         </ProgressBar>
 
         <div className='control' >
-          {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button'/>}
-          {audioRef.current && audioRef.current.paused ? <img src={playIcon} className='play-button'
-            onClick={() => {
-              const aud = document.querySelector('audio');
-              if (aud.emptied) return;
-              aud.play();
-            }} /> :
+          {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
+          {audioRef.current && audioRef.current.paused
+            ?
+            <img src={playIcon} className='play-button'
+              onClick={(e) => {
+                const aud = document.querySelector('audio');
+                if (aud.emptied) return;
+                aud.play();
+              }}
+              onTouchStart={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+              }}
+            />
+            :
             <img src={pauseIcon} className='play-button'
               onClick={(e) => {
                 const aud = document.querySelector('audio');
+                aud.pause();
+              }}
+              onTouchStart={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
-                aud.pause();
-              }} />
+              }}
+            />
           }
-
-          {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button'/>}
-
+          {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
         </div>
 
         {duration &&
