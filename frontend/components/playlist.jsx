@@ -4,18 +4,18 @@ import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components'
 
 import { getSongUrl, getPlaylist } from '../actions/actions'
-import { moveTrack, deletePlaylist} from '../util/api_util'
+import { moveTrack, deletePlaylist } from '../util/api_util'
 // import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import update from 'immutability-helper'
 import { Card } from './card'
 
 import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+// import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
 import { HeaderDiv } from './app'
-import { useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { session_act } from '../reducers/session_reducer';
 import { logout } from '../util/session_api_util'
@@ -32,7 +32,7 @@ export default function Playlist() {
     if (document.getSelection().type === 'Range') return;
     dispatch({ type: ent_act.LOAD_TRACK, track: [playlist_id, track_no] })
     dispatch(getSongUrl(song_id))
-    dispatch({type:ent_act.SET_PLAY})
+    dispatch({ type: ent_act.SET_PLAY })
   }
 
   const playlistD = useSelector(state => state.entities.playlistD)
@@ -83,10 +83,10 @@ export default function Playlist() {
         req[cards[start][1]] = null
       }
     } else if (dir < 0) {
-      if ( start + 1 < cards.length) {
+      if (start + 1 < cards.length) {
         req[cards[start + 1][1]] = cards[start][1]
       } else {
-        req['tail'] = [playlist_id,cards[start][1]]
+        req['tail'] = [playlist_id, cards[start][1]]
       }
     }
 
@@ -100,7 +100,7 @@ export default function Playlist() {
     if (index + 1 < cards.length) {
       req[cards[index + 1][1]] = cards[index][1]
     } else {
-      req['tail'] = [playlist_id,cards[index][1]]
+      req['tail'] = [playlist_id, cards[index][1]]
     }
 
     moveTrack(req) // update db
@@ -121,7 +121,7 @@ export default function Playlist() {
 
   function clickDeletePlaylist() {
     deletePlaylist(playlist_id)
-    dispatch({type:ent_act.DELETE_PLAYLIST, playlist_id})
+    dispatch({ type: ent_act.DELETE_PLAYLIST, playlist_id })
     history.push("/playlist_d/");
   }
 
@@ -130,13 +130,14 @@ export default function Playlist() {
     <>
       <HeaderDiv>
         <div className='title'>{titleD && titleD[playlist_id].title}</div>
+
         <button onClick={clickDeletePlaylist}>Delete playlist</button>
-        <button onClick={
-          () => {
-            logout().then(
-              () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-            )
-          }
+
+        <button onClick={() => {
+          logout().then(
+            () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+          )
+        }
         }>logout</button>
 
       </HeaderDiv>
