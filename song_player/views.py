@@ -6,17 +6,39 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
 from .models import Song, Playlist, Entry
+from user_auth.models import User
 import json
 
+def getUser(req):
+  token = req.session.get('session_token', None)
+  return User.objects.filter(session_token=token)[0]
 
 def song_d(request):
+  usr = getUser(request)
+  
   if request.method == "GET":
     return JsonResponse(
-        {
-            x["id"]: x
-            for x in Song.objects.values('id', 'title', 'artist', 'album')
-        },
-        safe=False)
+      {
+        x["id"]: x for x in 
+        Song.objects.filter(user_id=usr.id).values('id', 'title', 'artist', 'album')
+      },
+      safe=False)
+
+def playlist_d(request):  # post, get
+  usr = getUser(request)
+
+  if request.method == "POST":
+    req = request.POST.get('title')
+    Playlist.objects.create(title=req, user=usr)
+    res = model_to_dict(Playlist.objects.last(), fields=['id', 'title'])
+    return JsonResponse({res['id']: res}, safe=False)
+
+  return JsonResponse(
+    {
+      x["id"]: x for x in 
+      Playlist.objects.filter(user_id=usr.id).values('id', 'title')
+    },
+    safe=False)
 
 
 def edit_songs(request):
@@ -32,11 +54,13 @@ def edit_songs(request):
 
 
 def post_songs(request):  #post
+  usr = getUser(request)
+
   songs_to_post = json.loads(request.body.decode('utf-8'))
   res = []
   # breakpoint()
   for _song in songs_to_post:
-    song = Song(title=_song['Key'], filename=_song['Key'])
+    song = Song(title=_song['Key'], filename=_song['Key'], user=usr)
     try:
       song.full_clean()
     except:
@@ -76,25 +100,24 @@ def song(request, id):  #get , delete
     return JsonResponse(url, safe=False)
 
   x = Song.objects.get(pk=id).entry_set.all()
-  # breakpoint()
   res = []
   ign = set()
   for ent in x:
     if ent.pk in ign: continue
     fam=[ent.pk]
     nxt = ent.next_ent.first()
-    while nxt and nxt.song.pk == id: 
+    while nxt and nxt.song.pk == id:
       fam.append(nxt.pk)
       nxt = nxt.next_ent.first()
-    
+
     prev = ent.prev_ent
-    while prev and prev.song.pk == id: 
+    while prev and prev.song.pk == id:
       fam.append(prev.pk)
       prev = prev.prev_ent
 
-    if not nxt: 
+    if not nxt:
       playlist = ent.playlist
-      playlist.tail_ent = ent.prev_ent 
+      playlist.tail_ent = ent.prev_ent
       playlist.save()
       x.filter(pk__in=fam).delete()
     else:
@@ -106,14 +129,7 @@ def song(request, id):  #get , delete
   Entry.objects.bulk_update(res, ['prev_ent'])
 
 
-def playlist_d(request):  # post, get
-  if request.method == "POST":
-    req = request.POST.get('title')
-    Playlist.objects.create(title=req)
-    res = model_to_dict(Playlist.objects.last(), fields=['id', 'title'])
-    return JsonResponse({res['id']: res}, safe=False)
-  return JsonResponse(
-      {x["id"]: x for x in Playlist.objects.values('id', 'title')}, safe=False)
+
 
 
 def playlist(request, id):  # delete, get
@@ -147,7 +163,7 @@ def move_track(request):
     pl = Playlist.objects.get(pk=xxx[0])
     pl.tail_ent = Entry.objects.get(pk=xxx[1])
     pl.save()
-  
+
   res = list(Entry.objects.filter(pk__in=req.keys()))
   for entry in res:
     if pk := req[str(entry.pk)]:

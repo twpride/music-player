@@ -39,8 +39,8 @@ class User(models.Model):
     return self.session_token
 
   def find_by_credentials(email, password):
-    if (user :=
-        User.objects.filter(email=email)) and user[0].is_password(password):
+    if ((user := User.objects.filter(email=email)) and
+        user[0].is_password(password)):
       return user
 
   def is_password(self, password):

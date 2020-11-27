@@ -18,6 +18,24 @@ const fetchHeader = () => ({
   "X-CSRFToken": getCookie('csrftoken'),
 })
 
+
+export const getSongD = () => (
+  fetch('/api/song_d/', {
+    method: 'GET',
+    headers: fetchHeader(),
+  })
+);
+
+
+export const getPlaylistTitleD = () => (
+  fetch('/api/playlist_d/', {
+    method: 'GET',
+    headers: fetchHeader(),
+  })
+);
+
+
+
 export const postSongs = songs => (
   fetch('/api/post_songs', {
     method: 'POST',
@@ -35,12 +53,6 @@ export const editSongs = (song) => (
 );
 
 
-export const getSongD = () => (
-  fetch('/api/song_d/', {
-    method: 'GET',
-    headers: fetchHeader(),
-  })
-);
 
 export const getSongUrl = id => (
   fetch(`/api/song_d/${id}`, {
@@ -71,14 +83,6 @@ export const addTrack = (playlist, song) => (
   })
 );
 
-
-
-export const getPlaylistTitleD = () => (
-  fetch('/api/playlist_d/', {
-    method: 'GET',
-    headers: fetchHeader(),
-  })
-);
 
 export const getPlaylist = (id) => (
   fetch(`/api/playlist_d/${id}`, {

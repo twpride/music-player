@@ -52,7 +52,10 @@ export const HeaderDiv = styled.div`
 
 const App = () => {
   const dispatch = useDispatch()
+  const currentUser = useSelector(state => state.session.currentUser)
+
   useEffect(() => {
+    console.log('yolo',currentUser)
     getSongD()
       .then(response => response.json())
       .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }));

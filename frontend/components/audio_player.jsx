@@ -208,14 +208,15 @@ export default function AudioPlayer() {
   };
 
   const handleSwipeEnd = (e) => {
+    document.removeEventListener('touchend', handleSwipeEnd);
     const dir = e.changedTouches[0].clientX - swipex;
+    if (Math.abs(dir)<100) return
     if (dir > 0) {
       skip(-1)()
     } else {
       skip(1)()
     }
     setDown(false);
-    document.removeEventListener('touchend', handleSwipeEnd);
   };
 
 

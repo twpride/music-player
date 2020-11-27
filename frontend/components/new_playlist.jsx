@@ -25,7 +25,7 @@ export default function NewPlaylist() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const playlistTitle = new FormData(document.getElementById('loginForm'));
+    const playlistTitle = new FormData(document.getElementById('createPlaylist'));
 
     const res = await createPlaylist(playlistTitle)
     if (res.ok) {
@@ -46,7 +46,7 @@ export default function NewPlaylist() {
     <>
       <h1 className="login-signup">Create new playlist</h1>
 
-      <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
+      <form onSubmit={handleSubmit} className="login-form-box" id="createPlaylist">
         <div className="login-input">
           <div>Title</div>
           <input type="text" name="title" />

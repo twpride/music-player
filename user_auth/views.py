@@ -52,9 +52,8 @@ class RootView(CustomView):
   def get(self, request):
     cur = self.get_current_user()
     res = {}
-    if cur:
-      res['currentUser'] = 'loggedin'
-      res['id'] = 69
+    if self.get_current_user():
+      res = model_to_dict(self.current_user, fields=['id', 'email'])
     context = {'response': json.dumps(res)}
     return render(request, 'root.html', context)
 
@@ -95,7 +94,9 @@ class SessionView(CustomView):
     self.user = User.find_by_credentials(email, password)
     if self.user:
       self.log_in(self.user[0])
-      return HttpResponse(status=204)
+      # return HttpResponse(status=204)
+      response = model_to_dict(self.current_user, fields=['id', 'email'])
+      return JsonResponse(response)
     else:
       return JsonResponse(
           ["The email or password you entered isn't quite right."],
