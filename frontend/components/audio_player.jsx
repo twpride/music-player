@@ -210,9 +210,9 @@ export default function AudioPlayer() {
   const handleSwipeEnd = (e) => {
     const dir = e.changedTouches[0].clientX - swipex;
     if (dir > 0) {
-      skip(1)()
-    } else {
       skip(-1)()
+    } else {
+      skip(1)()
     }
     setDown(false);
     document.removeEventListener('touchend', handleSwipeEnd);
