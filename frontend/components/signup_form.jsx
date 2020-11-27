@@ -33,8 +33,8 @@ export default function SignupForm({ setMode }) {
     const res = await signup(user)
 
     if (res.ok) {
-      const currentUser = await res.json()
-      dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
+      // const currentUser = await res.json()
+      dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser:"somone" })
     } else {
       const errors = await res.json()
       dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })

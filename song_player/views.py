@@ -156,7 +156,7 @@ def move_track(request):
       entry.prev_ent = pk
     #### need to write tail corner case
   Entry.objects.bulk_update(res, ['prev_ent'])
-  return JsonResponse("sucess", safe=False)
+  return HttpResponse(status=204)
 
 
 def delete_track(request):

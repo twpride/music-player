@@ -53,7 +53,8 @@ class RootView(CustomView):
     cur = self.get_current_user()
     res = {}
     if cur:
-      res['firstName'] = 'loggedin'
+      res['currentUser'] = 'loggedin'
+      res['id'] = 69
     context = {'response': json.dumps(res)}
     return render(request, 'root.html', context)
 

@@ -69,7 +69,7 @@ export const getPlaylist = playlist_id => async dispatch => {
 export const loginThunk = user => async dispatch => {
   const res = await login(user);
   if (res.ok) {
-    dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser });
+    dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser:"someone" });
     dispatch({ type: modal_act.CLOSE_MODAL });
   } else {
     dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors });
