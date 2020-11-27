@@ -8,8 +8,9 @@ import burgerIcon from '../icons/burger.svg';
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
-import {HeaderDiv} from './app'
-
+import { HeaderDiv } from './app'
+import { session_act } from '../reducers/session_reducer';
+import { logout } from '../util/session_api_util'
 
 export const CardDiv = styled.div`
   font-size: .9em;
@@ -54,7 +55,7 @@ export default function SongD() {
 
   const launchBurger = (song_id) => (e) => {
     e.stopPropagation()
-    dispatch({ type: context_act.SONG_BURGER_C, song_id , playlist_id: null})
+    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null })
   }
 
   const songD = useSelector(state => state.entities.songD)
@@ -62,7 +63,14 @@ export default function SongD() {
   return (
     <>
       <HeaderDiv>
-      <div className="title">Songs</div>
+        <div className="title">Songs</div>
+        <button onClick={
+          () => {
+            logout().then(
+              () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+            )
+          }
+        }>logout</button>
       </HeaderDiv>
       <div className="scrollable">
         {Object.values(songD).map((song, i) => (

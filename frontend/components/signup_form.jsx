@@ -22,9 +22,6 @@ export default function SignupForm({ setMode }) {
   const fields = {// dbname: print name
     email: 'Email',
     password: 'Password',
-    firstName: 'First Name',
-    lastName: 'Last Name',
-    phoneNumber: 'Mobile Number'
   }
 
   async function handleSubmit(e) {

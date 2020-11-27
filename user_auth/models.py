@@ -14,9 +14,6 @@ class User(models.Model):
   email = models.CharField(max_length=100, unique=True)
   password_digest = models.CharField(max_length=100)
   session_token = models.CharField(max_length=100)
-  first_name = models.CharField(max_length=100)
-  last_name = models.CharField(max_length=100)
-  phone_number = models.CharField(max_length=10)
   ph = PasswordHasher()
 
   def pre_init(**kwargs):

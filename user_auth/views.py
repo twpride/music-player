@@ -51,12 +51,10 @@ class RootView(CustomView):
 
   def get(self, request):
     cur = self.get_current_user()
+    res = {}
     if cur:
-      response = model_to_dict(cur, fields=['id', 'first_name'])
-      response['firstName'] = response.pop('first_name')
-    else:
-      response = {}
-    context = {'response': json.dumps(response)}
+      res['firstName'] = 'loggedin'
+    context = {'response': json.dumps(res)}
     return render(request, 'root.html', context)
 
 
@@ -81,7 +79,7 @@ class UserView(CustomView):
                           status=422)
     self.user.save()
     self.log_in(self.user)
-    return self.success()
+    return HttpResponse(status=204)
 
 
 class SessionView(CustomView):
@@ -96,7 +94,7 @@ class SessionView(CustomView):
     self.user = User.find_by_credentials(email, password)
     if self.user:
       self.log_in(self.user[0])
-      return self.success()
+      return HttpResponse(status=204)
     else:
       return JsonResponse(
           ["The email or password you entered isn't quite right."],
@@ -106,6 +104,6 @@ class SessionView(CustomView):
   def delete(self, request):
     if self.logged_in():
       self.log_out()
-      return self.success()
+      return HttpResponse(status=204)
     else:
       return JsonResponse({"msg": "Nobody signed in"}, status=404)
