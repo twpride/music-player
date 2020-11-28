@@ -6,11 +6,96 @@ import SongBurger from './song_burger';
 import PlaylistBurger from './playlist_burger';
 import SelectPlaylist from './select_playlist';
 import { useDispatch, useSelector } from 'react-redux'
-
-
-
 import { context_act } from '../reducers/ui_reducer'
-import { ModalDiv } from './modal'
+import NewPlaylist from './new_playlist';
+
+const ModalDiv = styled.div`
+  position: absolute;
+  height: 100%;
+  width:100%;
+  z-index: 20;
+  padding:1em;
+  background-color: rgba(0,0,0,0.5);
+
+  /* .title {
+    font-size: 1em;
+    font-weight: 600;
+  } */
+`
+
+export const ContextFormWrap = styled.div`
+  position:absolute;
+  left:0;
+  right: 0;
+  bottom:0;
+  padding: 1em;
+  background-color:white;
+  .field {
+    text-transform: capitalize;
+    font-size: .7em;
+    color: gray;
+  }
+
+  input[type=text] {
+    margin-bottom: 1em;
+    width:100%;
+  }
+
+  .spacer {
+    height: 1em;
+  }
+
+  .button-box {
+    display:flex;
+    justify-content: flex-end;
+  }
+
+  input[type=submit], button{
+    cursor:pointer;
+    background-color: white;
+    border: 0;
+    text-transform: uppercase;
+    font-size: .9em;
+    color: #CE1141;
+  }
+  
+  .title {
+    font-weight:700;
+  }
+
+`
+
+export const BurgerDiv = styled.div`
+  position:absolute;
+  left:0;
+  right: 0;
+  bottom:0;
+  background-color:white;
+  .burger-text {
+    display: flex;
+    /* justify-content: enter; */
+    margin-left:1em;
+    align-items: center;
+  }
+  .burger-row {
+    padding: 1em 1em;
+    display:flex;
+    flex-direction: row;
+    width:100%;
+  }
+  .burger-row:hover{
+    background-color: #F0F0F0; 
+  }
+  .song-info {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center */
+    font-size:.9em;
+    padding: 1em 1em;
+    border-bottom: 1px lightgrey solid;
+  }
+
+`
 
 export default function ContextMenu() {
   const dispatch = useDispatch()
@@ -35,6 +120,9 @@ export default function ContextMenu() {
       break;
     case context_act.SELECT_PLAYLIST_C:
       Component = SelectPlaylist;
+      break;
+    case context_act.NEW_PLAYLIST:
+      Component = NewPlaylist;
       break;
     default:
       return null;

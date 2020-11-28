@@ -1,7 +1,6 @@
 import * as APIUtil from '../util/api_util';
 import { login } from '../util/session_api_util';
 import { session_act } from '../reducers/session_reducer'
-import { modal_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 
 
@@ -77,7 +76,6 @@ export const loginThunk = user => async dispatch => {
   if (res.ok) {
     const currentUser = await res.json();
     dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser });
-    dispatch({ type: modal_act.CLOSE_MODAL });
   } else {
     const errors = await res.json();
     dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors });

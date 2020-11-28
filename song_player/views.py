@@ -43,6 +43,14 @@ def playlist_d(request):  # post, get
       },
       safe=False)
 
+def edit_playlist(request):
+  req = request.POST.dict()
+  pl = Playlist.objects.get(pk=req['id'])
+  pl.title = req['title']
+  pl.save()
+  res = model_to_dict(pl, fields=['id', 'title'])
+  return JsonResponse({res['id']: res}, safe=False)
+
 
 def edit_songs(request):
   req = request.POST.dict()
@@ -54,17 +62,6 @@ def edit_songs(request):
               pk__in=ids).values('id', 'title', 'artist', 'album')
       },
       safe=False)
-
-
-def edit_playlist(request):
-  req = request.POST.dict()
-  breakpoint()
-  pl = Playlist.objects.get(pk=req['id'])
-  pl.title = req['title']
-  pl.save()
-  res = model_to_dict(pl, fields=['id', 'title'])
-  return JsonResponse({res['id']: res}, safe=False)
-
 
 
 def post_songs(request):  #post

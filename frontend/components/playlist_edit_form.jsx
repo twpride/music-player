@@ -6,8 +6,7 @@ import { editPlaylist } from '../actions/actions'
 import { useTextField } from '../util/hooks'
 import { context_act } from '../reducers/ui_reducer'
 import { useEffect } from 'react';
-
-
+import {ContextFormWrap} from './contextMenu'
 
 const renderErrors = () => {
   const errors = useSelector(state => state.errors);
@@ -22,44 +21,13 @@ const renderErrors = () => {
   );
 }
 
-const SongEditDiv = styled.div`
-  position:absolute;
-  left:0;
-  right: 0;
-  bottom:0;
-  padding: 1em;
-  background-color:white;
-  .field {
-    text-transform: capitalize;
-    font-size: .7em;
-    color: gray;
+// weird syntax to deal with cyclic import
+// https://github.com/styled-components/styled-components/issues/1449#issuecomment-420087359
+const PlaylistEditDiv = styled(props => <ContextFormWrap {...props} />)` 
+  #id {
+    display:none;
   }
-
-  input[type=text] {
-    margin-bottom: 1em;
-    width:100%;
-  }
-
-  .spacer {
-    height: 1em;
-  }
-
-  .button-box {
-    display:flex;
-    justify-content: flex-end;
-  }
-
-  input[type=submit], button{
-    cursor:pointer;
-    background-color: white;
-    border: 0;
-    text-transform: uppercase;
-    font-size: .9em;
-    color: #CE1141;
-  }
-
-
-`
+`;
 
 export default function PlaylistEditForm() {
 
@@ -81,16 +49,15 @@ export default function PlaylistEditForm() {
   }
   
   return (
-    <SongEditDiv onClick={(e) => e.stopPropagation()}>
-      <div className="title">Edit Playlist</div>
+    <PlaylistEditDiv onClick={(e) => e.stopPropagation()}>
+    {/* <ContextFormWrap onClick={(e) => e.stopPropagation()}> */}
+      <div className="title">Rename playlist</div>
       <div className="spacer"></div>
       <form onSubmit={handleSubmit} id="songEditForm">
         {Object.entries(titleD[contextMenu.playlist_id]).map(
           (field, i) => (
-            <div key={i} className="login-input">
-              <div className="field">{field[0]}</div>
-              <input type="text"
-                {...useTextField(...field)} //useTextField to load preloaded text
+            <div key={i} className="login-input" id={field[0]}>
+              <input type="text" {...useTextField(...field)} //useTextField to load preloaded text
               />
             </div>
           )
@@ -106,8 +73,8 @@ export default function PlaylistEditForm() {
           />
         </div>
       </form>
-
-    </ SongEditDiv>
+    {/* </ContextFormWrap> */}
+    </ PlaylistEditDiv>
 
   );
 }

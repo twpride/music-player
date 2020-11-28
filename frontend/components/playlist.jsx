@@ -122,7 +122,7 @@ export default function Playlist() {
   return (
 
     <>
-      <Header title={titleD[playlist_id].title} />
+      <Header title={titleD && titleD[playlist_id].title} />
 
       <div className="scrollable">
         <DndProvider backend={TouchBackend}

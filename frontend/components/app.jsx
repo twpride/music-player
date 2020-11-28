@@ -9,7 +9,6 @@ import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import AudioPlayer from './audio_player'
 import Navbar from './navbar';
-import Modal from './modal'
 import ContextMenu from './contextMenu'
 
 import LoginForm from './login_form'
@@ -30,6 +29,8 @@ const AppDiv = styled.div`
     height:95%;
     overflow-y:auto;
     z-index:1;
+    /* max-width:500px;
+    margin: 0 auto; */
   }
 `
 
@@ -39,7 +40,6 @@ const App = () => {
   const currentUser = useSelector(state => state.session.currentUser)
 
   useEffect(() => {
-    console.log('yolo', currentUser)
     const fetchData = async () => {
       const songD = await getSongD().then(response => response.json())
       const playlistTitleD = await getPlaylistTitleD().then(response => response.json())
@@ -58,7 +58,6 @@ const App = () => {
       </Switch>
       <AudioPlayer />
       <Navbar />
-      <Modal />
       <ContextMenu />
     </AppDiv>
   )

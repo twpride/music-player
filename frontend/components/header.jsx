@@ -3,17 +3,18 @@ import React, { } from 'react';
 
 import styled from 'styled-components'
 
-import { useLocation} from 'react-router-dom';
 import { session_act } from '../reducers/session_reducer';
+import { ent_act } from '../reducers/root_reducer';
 import { logout } from '../util/session_api_util'
 
 export const HeaderDiv = styled.div`
-
+  padding: 0 1.2em;
   display: flex;
   flex-direction: row;
   align-items:center;
-  justify-content: center;
-
+  justify-content: space-between;
+  font-size:1.2em;
+  font-weight: 600;
   min-height: 50px;
   width: 100%;
   z-index: 10;
@@ -24,20 +25,24 @@ export const HeaderDiv = styled.div`
   }
 `
 
-export default function Header({title}) {
+export default function Header({ title }) {
   const dispatch = useDispatch()
-  let location = useLocation()
   const currentUser = useSelector(state => state.session.currentUser)
 
   return (
     <HeaderDiv className="nav">
       <div className='title'>{title}</div>
       <button onClick={() => {
-          logout().then(
-            () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-          )
-        }
-        }>logout</button>
+        logout().then(
+          () => {
+            dispatch({ type: ent_act.SET_PAUSE})
+            dispatch({ type: ent_act.LOAD_TRACK, track: null })
+            dispatch({ type: ent_act.RECEIVE_SONG_URL, url:"" })
+            dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+          }
+        )
+      }
+      }>logout</button>
     </HeaderDiv>
   )
 };

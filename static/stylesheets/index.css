@@ -18,7 +18,7 @@ html, body, #root{
   box-sizing: border-box;
 }
 
-input[type=text], input[type=password]
+input[type=text], input[type=password] {
   /* flex: 0 0 100%; */
   background-color: transparent;
   border: 0;
@@ -30,3 +30,7 @@ input[type=text]:focus {
   border-color:#333;
 }
 
+a {
+  text-decoration: none;
+  color:black;
+}

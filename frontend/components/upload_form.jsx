@@ -10,12 +10,24 @@ const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?ur
 const UploadFormEle = styled.form`
   display:flex;
   flex-direction:column;
-  align-items: center;
   justify-content:center;
-  margin-top:1em;
+  margin: 1em 1.5em;
   textarea {
-    width: 100%;
     resize: none;
+  }
+  input[type=submit], button{
+    cursor:pointer;
+    background-color: white;
+    border: 0;
+    padding: 0;
+    color: #CE1141;
+    font-size: 1em;
+  }
+  .button-box {
+    display:flex;
+  }
+  >div {
+    height: 4em;
   }
 `
 
@@ -55,19 +67,20 @@ export default function UploadForm() {
       <div className='scrollable'>
         <UploadFormEle id="songForm" onSubmit={submitSong}>
           {/* <input type="file" name="waveform" onChange={loadSong} multiple></input> */}
-
-          <div>Url</div>
           <textarea type="text"
             name="url"
             value={urls}
+            placeholder="Youtube URLs"
             onChange={e => setUrls(e.currentTarget.value)}
-          rows="5" wrap="hard"
+            rows="5" wrap="hard"
           />
           {/* {this.renderErrors()} */}
-          <input className="submit-button"
-            type="submit"
-            value="Upload"
-          />
+          <div className='button-box'>
+            <input className="submit-button"
+              type="submit"
+              value="Upload"
+            />
+          </div>
         </UploadFormEle>
       </div>
     </>

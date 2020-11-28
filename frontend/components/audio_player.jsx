@@ -105,20 +105,17 @@ const PlayerDiv = styled.div`
 export default function AudioPlayer() {
   const dispatch = useDispatch()
   const [winWidth, setWinWidth] = useState(window.innerWidh)
-  window.win = winWidth
   const [duration, setDuration] = useState(null)
   const [progress, setProgress] = useState(0)
   const [swipex, setSwipex] = useState(null)
   const [down, setDown] = useState(false)
   const [songInfo, setSongInfo] = useState(null)
-  const audioRef = useRef(null)
 
   const songUrl = useSelector(state => state.player.songUrl)
   const playlist_dir = useSelector(state => state.entities.playlistD)
   const songD = useSelector(state => state.entities.songD)
   const playlistD = useSelector(state => state.entities.playlistD)
   const track = useSelector(state => state.player.track)
-  // const paused = useSelector(state => state.player.paused)
   const playing = useSelector(state => state.player.playing)
 
   const skip = (dir) => () => {
@@ -142,9 +139,8 @@ export default function AudioPlayer() {
     }
   };
 
-  
+
   function updateSize() {
-    console.log('updateee')
     setWinWidth(window.innerWidth)
   }
   function handleLoadedMeta(e) {
@@ -152,6 +148,7 @@ export default function AudioPlayer() {
     setDuration([sec, convertSecsToMins(sec)])
   }
   function handleSpace(e) {
+    if (e.target.type === 'text') return;
     if (e.key === " ") document.getElementsByClassName('play-button')[0].click()
   }
   useEffect(() => {
@@ -275,73 +272,69 @@ export default function AudioPlayer() {
       if (!e.touches[0]) return
       if (!duration) return;
       e.stopPropagation()
-      console.log(e.touches[0].clientX)
       setSwipex(e.touches[0].clientX);
       document.addEventListener('touchend', handleSwipeEnd);
     },
   }
 
 
-  return (
-    <>
-      <PlayerDiv {...SwipeHandler}>
+  return <>
+    <PlayerDiv {...SwipeHandler}>
 
-        <ProgressBar {...ProgressBarHandler}>
-          <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
-          <div className='thumb-container' >
-            <div className='thumb' />
-          </div>
-          <div className='track-remaining' style={{ width: `${100 - progress * 100}%` }} />
-        </ProgressBar>
-
-        <div className='control' >
-          {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
-          {playing
-            ?
-            <img src={pauseIcon} className='play-button'
-              onClick={(e) => {
-                const aud = document.querySelector('audio');
-                aud.pause();
-                dispatch({ type: ent_act.SET_PAUSE })
-              }}
-              onTouchStart={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-              }}
-            />
-            :
-            <img src={playIcon} className='play-button'
-              onClick={(e) => {
-                const aud = document.querySelector('audio');
-                if (aud.emptied) return;
-                aud.play();
-                dispatch({ type: ent_act.SET_PLAY })
-              }}
-              onTouchStart={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-              }}
-            />
-          }
-          {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
+      <ProgressBar {...ProgressBarHandler}>
+        <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
+        <div className='thumb-container' >
+          <div className='thumb' />
         </div>
+        <div className='track-remaining' style={{ width: `${100 - progress * 100}%` }} />
+      </ProgressBar>
 
-        {duration &&
-          <div className='time-info'>
-            {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
-          </div>
+      <div className='control' >
+        {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
+        {playing
+          ?
+          <img src={pauseIcon} className='play-button'
+            onClick={(e) => {
+              const aud = document.querySelector('audio');
+              aud.pause();
+              dispatch({ type: ent_act.SET_PAUSE })
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+          />
+          :
+          <img src={playIcon} className='play-button'
+            onClick={(e) => {
+              const aud = document.querySelector('audio');
+              if (aud.emptied) return;
+              aud.play();
+              dispatch({ type: ent_act.SET_PLAY })
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation()
+              e.preventDefault()
+            }}
+          />
         }
-        <div className='song-info'>
-          <div>{songInfo && songInfo.artist}</div>
-          <div>{songInfo && songInfo.title}</div>
+        {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
+      </div>
+
+      {duration &&
+        <div className='time-info'>
+          {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
         </div>
-      </PlayerDiv>
-      <audio
-        autoPlay src={songUrl}
-        onEnded={skip(1)}
-        onTimeUpdate={handleTimeUpdate}
-        ref={audioRef}
-      />
-    </>
-  )
+      }
+      <div className='song-info'>
+        <div>{songInfo && songInfo.artist}</div>
+        <div>{songInfo && songInfo.title}</div>
+      </div>
+    </PlayerDiv>
+    <audio
+      autoPlay src={songUrl}
+      onEnded={skip(1)}
+      onTimeUpdate={handleTimeUpdate}
+    />
+  </>
 };

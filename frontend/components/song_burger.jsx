@@ -9,6 +9,7 @@ import editIcon from '../icons/edit.svg'
 import addToPlaylist from '../icons/addToPlaylist.svg'
 import deleteIcon from '../icons/delete.svg'
 import {deleteTrack, deleteSong} from '../util/api_util'
+import {BurgerDiv} from './contextMenu'
 
 const renderErrors = () => {
   const errors = useSelector(state => state.errors);
@@ -23,40 +24,15 @@ const renderErrors = () => {
   );
 }
 
-export const BurgerDiv = styled.div`
-  position:absolute;
-  left:0;
-  right: 0;
-  bottom:0;
-  background-color:white;
-  .burger-text {
-    display: flex;
-    /* justify-content: enter; */
-    margin-left:1em;
-    align-items: center;
-  }
-  .burger-row {
-    padding: 1em 1em;
-    display:flex;
-    flex-direction: row;
-    width:100%;
-  }
-  .burger-row:hover{
-    background-color: #F0F0F0; 
-  }
+const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
   .song-info {
-    display: flex;
-    flex-direction: column;
-    /* align-items: center */
-    font-size:.9em;
-    padding: 1em 1em;
     div:nth-child(1) {
       color: #777777;
     }
-    border-bottom: 1px lightgrey solid;
   }
+`;
 
-`
+
 export default function SongBurger(props) {
 
   const dispatch = useDispatch();
@@ -89,8 +65,8 @@ export default function SongBurger(props) {
     },
     "Delete song": (e) => {
       e.stopPropagation()
-      // console.log(3)
       deleteSong(contextMenu.song_id)
+      dispatch({ type: context_act.CLOSE_CONTEXT })
     },
   }
   const icons = [
@@ -98,7 +74,7 @@ export default function SongBurger(props) {
   ]
 
   return (
-    <BurgerDiv>
+    <PlaylistBurger>
       <div className='song-info'>
         <div>{songD[contextMenu.song_id].artist}</div>
         <div>{songD[contextMenu.song_id].title}</div>
@@ -111,6 +87,6 @@ export default function SongBurger(props) {
           </div>
         </div>
       ))}
-    </BurgerDiv>
+    </PlaylistBurger>
   );
 }

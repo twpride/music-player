@@ -7,7 +7,7 @@ import { useTextField } from '../util/hooks'
 import { context_act } from '../reducers/ui_reducer'
 import { useEffect } from 'react';
 
-
+import {ContextFormWrap} from './contextMenu';
 
 const renderErrors = () => {
   const errors = useSelector(state => state.errors);
@@ -22,7 +22,7 @@ const renderErrors = () => {
   );
 }
 
-const SongEditDiv = styled.div`
+export const SongEditDiv = styled.div`
   position:absolute;
   left:0;
   right: 0;
@@ -82,7 +82,7 @@ export default function SongEditForm() {
   }
   
   return (
-    <SongEditDiv onClick={(e) => e.stopPropagation()}>
+    <ContextFormWrap onClick={(e) => e.stopPropagation()}>
       <div className="title">Edit Song</div>
       <div className="spacer"></div>
       <form onSubmit={handleSubmit} id="songEditForm">
@@ -108,7 +108,7 @@ export default function SongEditForm() {
         </div>
       </form>
 
-    </ SongEditDiv>
+    </ ContextFormWrap>
 
   );
 }

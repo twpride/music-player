@@ -49,8 +49,8 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
       setStart(index)
     },
     end() {
-      console.log(start)
-      console.log(index)
+      // console.log(start)
+      // console.log(index)
       setPrev(start, index)
     }
   })
