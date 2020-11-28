@@ -205,6 +205,8 @@ export default function AudioPlayer() {
   }
 
   const handleMouseUp = (e) => {
+      e.stopPropagation()
+      // e.preventDefault()
     const aud = document.querySelector('audio');
     const prog = e.clientX / winWidth;
     setProgress(prog);
@@ -216,6 +218,8 @@ export default function AudioPlayer() {
   };
 
   const handleTouchEnd = (e) => {
+      e.stopPropagation()
+      // e.preventDefault()
     const aud = document.querySelector('audio');
     const prog = e.changedTouches[0].clientX / winWidth;
     setProgress(prog);
@@ -240,7 +244,7 @@ export default function AudioPlayer() {
     onMouseDown: (e) => {
       if (!e.clientX) return
       e.stopPropagation()
-      e.preventDefault()
+      // e.preventDefault()
       if (!duration) return;
       setProgress(e.clientX / winWidth);
       setDown(true);
@@ -249,6 +253,7 @@ export default function AudioPlayer() {
     },
     onTouchStart: (e) => {
       e.stopPropagation()
+      // e.preventDefault()
       if (!duration) return;
       setProgress(e.touches[0].clientX / winWidth);
       setDown(true);
@@ -259,60 +264,47 @@ export default function AudioPlayer() {
 
 
 
+  const [start, setStart] = useState(null)
 
-  // const handleTouchMove = useCallback(
-  //   event => {
-  //     console.log(
-  //       event.touches[0].clientY,
-  //       startY
-  //     );
-  //     if (event.touches[0].clientY) {
-  //       if (!startY) {
-  //         setStartY(event.touches[0].clientY)
-  //       } else {
-  //         if (event.touches[0].clientY > startY) {
-  //           console.log("IS GREATER");
-  //         }
-  //       }
-  //     }
-  //   },
-  //   [startY]
-  // );
-
-  const [startY, setStartY] = useState(null)
-
-  const handleTouchStart = useCallback(event => {
-    setStartY(event.touches[0].clientY)
-  }, []);
-
+  const handleTouchStart = e => setStart(e.touches[0].clientX)
 
   const handleTouchEndx = useCallback(
     e => {
+      const dir = e.changedTouches[0].clientX - start;
+      setStart(null)
       console.log(
-        'end',
-        startY,
-        e.changedTouches[0].clientY,
+        dir,
+        start,
+        e.changedTouches[0].clientX,
       );
-      // setStartY(null)
+      if (Math.abs(dir) < 100) {
+        const pl_id = track[0]
+        if (pl_id) {
+          history.push(`/playlist_D/${pl_id}`)
+        } else {
+          history.push('')
+        }
+      } else if (dir > 0) {
+        skip(-1)()
+      } else {
+        skip(1)()
+      }
     },
-    [startY]
+    [start]
   );
 
   useEffect(() => {
-    // window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEndx);
+    const playerdiv = document.getElementById('playerdiv')
+    playerdiv.addEventListener("touchend", handleTouchEndx);
     return () => {
-      // window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEndx);
+      playerdiv.removeEventListener("touchend", handleTouchEndx);
     };
-  // }, [handleTouchMove, handleTouchEndx]);
   }, [handleTouchEndx]);
 
 
 
   return <>
-    <PlayerDiv onTouchStart={handleTouchStart}>
-      {/* <PlayerDiv>  */}
+    <PlayerDiv id='playerdiv' onTouchStart={handleTouchStart}>
 
       <ProgressBar {...ProgressBarHandler}>
         <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
@@ -328,6 +320,7 @@ export default function AudioPlayer() {
           ?
           <img src={pauseIcon} className='play-button'
             onClick={(e) => {
+              e.stopPropagation()
               const aud = document.querySelector('audio');
               aud.pause();
               dispatch({ type: ent_act.SET_PAUSE })
@@ -339,6 +332,7 @@ export default function AudioPlayer() {
           :
           <img src={playIcon} className='play-button'
             onClick={(e) => {
+              e.stopPropagation()
               const aud = document.querySelector('audio');
               if (aud.emptied) return;
               aud.play();
