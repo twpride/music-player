@@ -2,19 +2,49 @@ import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
 import { signup } from '../util/session_api_util'
 import { session_act } from '../reducers/session_reducer'
+import styled from 'styled-components'
 
-function renderErrors() {
+export function renderErrors() {
   const errors = useSelector(state => state.errors.session)
   return (
-    <>
+    <div className='error'>
       {errors.map((error, i) => (
         <div key={`error-${i}`} className="form-error">
           {error}
         </div>
       ))}
-    </>
+    </div>
   );
 }
+
+export const SessionDiv = styled.div`
+  
+  display:flex;
+  flex-direction: column;
+
+  .spacer {
+    height:1em;
+  }
+  .splash-buttons-box {
+    padding: 1em 0;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    .error {
+      position: absolute;
+      top: 3em; 
+    }
+  }
+
+  .title {
+    align-self:center;
+    font-size:1.2em;
+    font-weight:600;
+  }
+
+
+`
 
 export default function SignupForm({ setMode }) {
   const dispatch = useDispatch()
@@ -48,8 +78,9 @@ export default function SignupForm({ setMode }) {
   }
 
   return (
-    <>
-      <h1 className="login-signup">CREATE AN ACCOUNT</h1>
+    <SessionDiv>
+      <div className="title">Sign up</div>
+      <div className='spacer'></div>
       <form onSubmit={handleSubmit} className="login-form-box" id="signup-form">
 
         {Object.entries(fields).map(
@@ -61,19 +92,18 @@ export default function SignupForm({ setMode }) {
           )
         )}
 
-        {renderErrors()}
-        <input className="submit-button"
-          type="submit" value='Sign up'
-        />
+        <div className='splash-buttons-box'>
+          {renderErrors()}
+          <button onClick={() => setMode('')}>Back</button>
+          <input className="submit-button"
+            type="submit" value='Submit'
+          />
+        </div>
       </form>
 
-      <div className="sign-in-redirect">
-        <div className="heading">ALREADY A MEMBER?</div>
-        <div className="link-to-sign-in" onClick={login}>SIGN IN</div>
-      </div>
+      {/* <button className="link-to-sign-in" onClick={login}>Log in</button> */}
 
-      <button onClick={() => setMode('')}>BacK</button>
-    </>
+    </SessionDiv>
 
   );
 }

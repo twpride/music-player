@@ -36,13 +36,11 @@ const PlaylistTitleDiv = styled.div`
 
 `
 
-const NewPlaylistDiv = styled.div`
+const NewPlaylistDiv = styled.button`
   margin-left: 1.5em;
   height:4em;
   display:flex;
   align-items:center;
-  cursor: pointer;
-  color: #CE1141;
 `
 
 export default function PlaylistD() {
@@ -76,7 +74,7 @@ export default function PlaylistD() {
           </PlaylistTitleDiv>
         </Link>
       ))}
-      <NewPlaylistDiv className="button"
+      <NewPlaylistDiv
         onClick={() => dispatch({ type: context_act.NEW_PLAYLIST })}>
         New playlist
       </NewPlaylistDiv>

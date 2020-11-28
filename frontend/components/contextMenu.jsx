@@ -28,7 +28,7 @@ export const ContextFormWrap = styled.div`
   left:0;
   right: 0;
   bottom:0;
-  padding: 1em;
+  padding: 1.5em;
   background-color:white;
   .field {
     text-transform: capitalize;
@@ -50,19 +50,13 @@ export const ContextFormWrap = styled.div`
     justify-content: flex-end;
   }
 
-  input[type=submit], button{
-    cursor:pointer;
-    background-color: white;
-    border: 0;
-    text-transform: uppercase;
-    font-size: .9em;
-    color: #CE1141;
-  }
-  
   .title {
     font-weight:700;
   }
 
+  input[type=submit], button{
+    margin-left:3em;
+  }
 `
 
 export const BurgerDiv = styled.div`
@@ -79,6 +73,7 @@ export const BurgerDiv = styled.div`
   }
   .burger-row {
     padding: 1em 1em;
+    /* height:4em; */
     display:flex;
     flex-direction: row;
     width:100%;
@@ -94,7 +89,11 @@ export const BurgerDiv = styled.div`
     padding: 1em 1em;
     border-bottom: 1px lightgrey solid;
   }
-
+  
+  img {
+    height:24px;
+    width:24px;
+  }
 `
 
 export default function ContextMenu() {

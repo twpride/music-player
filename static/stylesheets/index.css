@@ -34,3 +34,12 @@ a {
   text-decoration: none;
   color:black;
 }
+
+input[type=submit], button{
+  cursor:pointer;
+  background-color: white;
+  border: 0;
+  padding: 0;
+  font-size: 1em;
+  color: #CE1141;
+}

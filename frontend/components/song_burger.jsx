@@ -11,19 +11,6 @@ import deleteIcon from '../icons/delete.svg'
 import {deleteTrack, deleteSong} from '../util/api_util'
 import {BurgerDiv} from './contextMenu'
 
-const renderErrors = () => {
-  const errors = useSelector(state => state.errors);
-  return (
-    <>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`} className="form-error">
-          {error}
-        </div>
-      ))}
-    </>
-  );
-}
-
 const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
   .song-info {
     div:nth-child(1) {
@@ -33,7 +20,7 @@ const PlaylistBurger = styled(props => <BurgerDiv {...props} />)`
 `;
 
 
-export default function SongBurger(props) {
+export default function SongBurger() {
 
   const dispatch = useDispatch();
   const songD = useSelector(state => state.entities.songD)
@@ -72,6 +59,11 @@ export default function SongBurger(props) {
   const icons = [
     editIcon, addToPlaylist, deleteIcon, deleteIcon
   ]
+
+  if (!contextMenu.playlist_id) {
+    delete burgerList['Remove from playlist'];
+    icons.splice(2,1);
+  }
 
   return (
     <PlaylistBurger>

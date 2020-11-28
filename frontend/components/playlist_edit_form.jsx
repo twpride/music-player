@@ -8,18 +8,6 @@ import { context_act } from '../reducers/ui_reducer'
 import { useEffect } from 'react';
 import {ContextFormWrap} from './contextMenu'
 
-const renderErrors = () => {
-  const errors = useSelector(state => state.errors);
-  return (
-    <>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`} className="form-error">
-          {error}
-        </div>
-      ))}
-    </>
-  );
-}
 
 // weird syntax to deal with cyclic import
 // https://github.com/styled-components/styled-components/issues/1449#issuecomment-420087359

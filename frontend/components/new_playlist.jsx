@@ -1,24 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { ent_act } from '../reducers/root_reducer'
 import { context_act} from '../reducers/ui_reducer'
 import { createPlaylist } from '../util/api_util'
-const renderErrors = () => {
-  const errors = useSelector(state => state.errors.session)
-  return (
-    <>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`} className="form-error">
-          {error}
-        </div>
-      ))}
-    </>
-  );
-}
+
 import { ContextFormWrap } from './contextMenu'
 export default function NewPlaylist() {
 
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    document.getElementsByName('title')[0].focus()
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +36,7 @@ export default function NewPlaylist() {
   return (
     <ContextFormWrap onClick={(e) => e.stopPropagation()}>
       <div className="title">Create new playlist</div>
-
+      <div className="spacer"></div>
       <form onSubmit={handleSubmit} className="login-form-box" id="createPlaylist">
         <div className="login-input">
           <div className='field'>Title</div>

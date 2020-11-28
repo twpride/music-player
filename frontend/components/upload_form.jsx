@@ -15,16 +15,10 @@ const UploadFormEle = styled.form`
   textarea {
     resize: none;
   }
-  input[type=submit], button{
-    cursor:pointer;
-    background-color: white;
-    border: 0;
-    padding: 0;
-    color: #CE1141;
-    font-size: 1em;
-  }
+
   .button-box {
     display:flex;
+    font-size:1em;
   }
   >div {
     height: 4em;

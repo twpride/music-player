@@ -18,7 +18,7 @@ import { getSongD, getPlaylistTitleD } from '../util/api_util'
 import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
-
+import { session_act } from '../reducers/session_reducer'
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -70,9 +70,8 @@ const SplashDiv = styled.div`
   justify-content: center;
   height:100%;
   >button {
-    margin: 0.7em;
+    margin: 1.5em;
   }
-
 `
 export default function Splash() {
   const [mode, setMode] = useState(null)
@@ -85,6 +84,10 @@ export default function Splash() {
     dispatch(loginThunk(form))
   }
 
+  useEffect(()=> {
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors:[] })
+  })
+
   const demoScript2 = () => {
     const form = new FormData();
     form.append('email', 'asdf')
@@ -96,8 +99,8 @@ export default function Splash() {
     <>
       <button onClick={() => setMode('login')}>Log in</button>
       <button onClick={() => setMode('signup')}>Sign up</button>
-      <button onClick={demoScript}>Demo</button>
-      <button onClick={demoScript2}>Demo2</button>
+      <button onClick={demoScript}>Demo User 1</button>
+      <button onClick={demoScript2}>Demo User 2</button>
     </>
   )
 

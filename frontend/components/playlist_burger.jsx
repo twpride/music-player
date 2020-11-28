@@ -36,12 +36,12 @@ export default function PlaylistBurger(props) {
       e.stopPropagation()
       dispatch({ type: context_act.PLAYLIST_EDIT_C })
     },
-    "Add to playlist": (e) => {
-      e.stopPropagation()
-    },
-    "Remove from playlist": (e) => {
-      e.stopPropagation()
-    },
+    // "Add to playlist": (e) => {
+    //   e.stopPropagation()
+    // },
+    // "Remove from playlist": (e) => {
+    //   e.stopPropagation()
+    // },
     "Delete Playlist": (e) => {
       e.stopPropagation()
       deletePlaylist(contextMenu.playlist_id)
@@ -50,7 +50,10 @@ export default function PlaylistBurger(props) {
     },
   }
   const icons = [
-    editIcon, addToPlaylist, deleteIcon, deleteIcon
+    editIcon, 
+    // addToPlaylist,
+    deleteIcon,
+    // deleteIcon
   ]
 
   return (

@@ -8,20 +8,19 @@ import { ent_act } from '../reducers/root_reducer';
 import { logout } from '../util/session_api_util'
 
 export const HeaderDiv = styled.div`
-  padding: 0 1.2em;
+  padding: 0 1.4em;
   display: flex;
   flex-direction: row;
   align-items:center;
   justify-content: space-between;
-  font-size:1.2em;
   font-weight: 600;
   min-height: 50px;
   width: 100%;
   z-index: 10;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,0.03), 0 3px 3px -2px rgba(0,0,0,0.03), 0 1px 8px 0 rgba(0,0,0,0.05);
-
+  /* box-shadow: 0 3px 4px 0 rgba(0,0,0,0.03), 0 3px 3px -2px rgba(0,0,0,0.03), 0 1px 8px 0 rgba(0,0,0,0.05); */
+  border-bottom: 1px solid lightgrey;
   .title {
-    justify-self:center;
+    font-size:1.2em;
   }
 `
 
@@ -42,7 +41,7 @@ export default function Header({ title }) {
           }
         )
       }
-      }>logout</button>
+      }>Log out</button>
     </HeaderDiv>
   )
 };

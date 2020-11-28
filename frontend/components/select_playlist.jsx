@@ -2,25 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 import styled from 'styled-components'
 
-import { editSongs } from '../actions/actions'
-import { useTextField } from '../util/hooks'
-import { context_act } from '../reducers/ui_reducer'
 
 import { addTrack } from '../util/api_util'
 import { ent_act } from '../reducers/root_reducer';
-
-const renderErrors = () => {
-  const errors = useSelector(state => state.errors);
-  return (
-    <>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`} className="form-error">
-          {error}
-        </div>
-      ))}
-    </>
-  );
-}
 
 const SelectDiv = styled.div`
   position:absolute;
@@ -30,11 +14,24 @@ const SelectDiv = styled.div`
   background-color:white;
   display:flex;
   flex-direction: column;
-  align-items:center;
+  align-items:flex-start;
+  padding:1.5em;
+
   .playlist-row {
-    padding: 1em 1em;
-    font-size: 0.9em;
+    /* font-size: 0.9em; */
+    height:4em;
+    font-size: 1em;
+    display:flex;
+    align-items: center;
+    cursor: pointer;
   }
+  .spacer {
+    height: 1em;
+  }
+  .title {
+    font-weight:700;
+  }
+
 
 `
 
@@ -70,7 +67,7 @@ export default function SelectPlaylist() {
   return (
     <SelectDiv>
       <div className="title">Add to playlist</div>
-
+      <div className="spacer"></div>
       {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
         <div key={index} className="playlist-row" onClick={clickAddTrack(pl.id)}>{pl.title}</div>
       ))}

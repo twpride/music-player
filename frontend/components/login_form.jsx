@@ -4,19 +4,8 @@ import React, { useState } from 'react';
 import { session_act } from '../reducers/session_reducer'
 // import { login } from "../util/session_api_util" //option await
 import { loginThunk } from '../actions/actions' //option thunk (more portable)
+import {SessionDiv, renderErrors} from './signup_form'
 
-const renderErrors = () => {
-  const errors = useSelector(state => state.errors.session)
-  return (
-    <>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`} className="form-error">
-          {error}
-        </div>
-      ))}
-    </>
-  );
-}
 
 export default function LoginForm({ setMode }) {
 
@@ -51,8 +40,9 @@ export default function LoginForm({ setMode }) {
 
 
   return (
-    <>
-      <h1 className="login-signup">LOG IN</h1>
+    <SessionDiv>
+      <div className="title">Log in</div>
+      <div className='spacer'></div>
       <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
         <div className="login-input">
           <div>Email</div>
@@ -70,19 +60,18 @@ export default function LoginForm({ setMode }) {
             name="password"
           />
         </div>
-        {renderErrors()}
-        <input id='login' className="submit-button"
-          type="submit" value='Log in'
-        />
+        <div className='splash-buttons-box'>
+          {renderErrors()}
+          <button onClick={() => setMode('')}>Back</button>
+          <input id='login' className="submit-button"
+            type="submit" value='Log in'
+          />
+        </div>
       </form>
 
-      <div className="create-account">
-        <div className="heading">NOT A MEMBER?</div>
-        <div className="button" onClick={signUp}>
-          CREATE AN ACCOUNT
-          </div>
-      </div>
-      <button onClick={() => setMode('')}>BacK</button>
-    </>
+      {/* <button onClick={signUp}>
+          Create an account
+        </button> */}
+    </SessionDiv>
   );
 }

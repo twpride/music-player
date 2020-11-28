@@ -9,57 +9,8 @@ import { useEffect } from 'react';
 
 import {ContextFormWrap} from './contextMenu';
 
-const renderErrors = () => {
-  const errors = useSelector(state => state.errors);
-  return (
-    <>
-      {errors.map((error, i) => (
-        <div key={`error-${i}`} className="form-error">
-          {error}
-        </div>
-      ))}
-    </>
-  );
-}
-
-export const SongEditDiv = styled.div`
-  position:absolute;
-  left:0;
-  right: 0;
-  bottom:0;
-  padding: 1em;
-  background-color:white;
-  .field {
-    text-transform: capitalize;
-    font-size: .7em;
-    color: gray;
-  }
-
-  input[type=text] {
-    margin-bottom: 1em;
-    width:100%;
-  }
-
-  .spacer {
-    height: 1em;
-  }
-
-  .button-box {
-    display:flex;
-    justify-content: flex-end;
-  }
-
-  input[type=submit], button{
-    cursor:pointer;
-    background-color: white;
-    border: 0;
-    text-transform: uppercase;
-    font-size: .9em;
-    color: #CE1141;
-  }
 
 
-`
 
 export default function SongEditForm() {
 
