@@ -102,6 +102,8 @@ const PlayerDiv = styled.div`
   }
   .noselect{
     user-select: none;  
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
   }
 `
 
