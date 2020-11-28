@@ -9,6 +9,8 @@ import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import Header from './header'
+import PlayingIcon from '../icons/playing.gif'
+import PausedIcon from '../icons/paused.gif'
 
 
 export const CardDiv = styled.div`
@@ -46,14 +48,30 @@ export const CardDiv = styled.div`
       margin-left: auto;
     }
   }
-
+  img.equalizer {
+    height:14px;
+  }
   .noselect{
     user-select: none;  
   }
 `
+
+export const Equalizer = ({track, pl_id, index, playing}) => {
+  if (track && track[0]===pl_id && track[1]===index) {
+    if (playing) {
+      return <img className='equalizer' src={PlayingIcon}></img>
+    } else {
+      return <img className='equalizer' src={PausedIcon}></img>
+    }
+  } else {
+    return index + 1
+  } 
+}
+
 export default function SongD() {
   const dispatch = useDispatch();
-
+  const track = useSelector(state => state.player.track)
+  const playing = useSelector(state => state.player.playing)
   const playSong = (id, i) => (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -76,7 +94,14 @@ export default function SongD() {
       <div className="scrollable">
         {Object.values(songD).map((song, i) => (
           <CardDiv key={i} onClick={playSong(song.id, i)}>
-            <div><div>{i + 1}</div></div>
+            <div>
+              <Equalizer 
+                track={track}
+                pl_id={null}
+                index={i}
+                playing={playing}
+              />
+            </div>
             <div>
               <div>{song.artist}&nbsp;</div>
               <div>{song.title}&nbsp;</div>

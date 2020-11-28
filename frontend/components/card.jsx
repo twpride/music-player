@@ -1,14 +1,15 @@
 import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { context_act } from '../reducers/ui_reducer'
-import { CardDiv } from './songD'
+import { CardDiv, Equalizer } from './songD'
 
-import dragIcon from '../icons/draghandle.svg';
 import burgerIcon from '../icons/burger.svg';
 
 export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, playlist_id }) => {
 
+  const track = useSelector(state => state.player.track)
+  const playing = useSelector(state => state.player.playing)
   const dispatch = useDispatch();
   const ref = useRef(null)
   const [start, setStart] = useState(null)
@@ -70,7 +71,14 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
-        }} >{index + 1}</div>
+        }} >
+        <Equalizer
+          track={track}
+          pl_id={playlist_id}
+          index={index}
+          playing={playing}
+        />
+      </div>
       <div>
         <div>{text && text.artist}&nbsp;</div>
         <div>{text && text.title}&nbsp;</div>

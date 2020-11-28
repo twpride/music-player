@@ -52,7 +52,7 @@ const ProgressBar = styled.div`
   .thumb {
     /* display: none; */
     border-radius: 50%;
-    background-color: rgb(173, 15, 55);
+    background-color: #ad0f37;
     width: 10px;
     height: 10px;
   }
