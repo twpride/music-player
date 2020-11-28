@@ -100,6 +100,9 @@ const PlayerDiv = styled.div`
   .time-info {
     font-size:.7em;
   }
+  .noselect{
+    user-select: none;  
+  }
 `
 
 
@@ -205,8 +208,8 @@ export default function AudioPlayer() {
   }
 
   const handleMouseUp = (e) => {
-      e.stopPropagation()
-      // e.preventDefault()
+    e.stopPropagation()
+    // e.preventDefault()
     const aud = document.querySelector('audio');
     const prog = e.clientX / winWidth;
     setProgress(prog);
@@ -218,8 +221,8 @@ export default function AudioPlayer() {
   };
 
   const handleTouchEnd = (e) => {
-      e.stopPropagation()
-      // e.preventDefault()
+    e.stopPropagation()
+    // e.preventDefault()
     const aud = document.querySelector('audio');
     const prog = e.changedTouches[0].clientX / winWidth;
     setProgress(prog);
@@ -266,7 +269,9 @@ export default function AudioPlayer() {
 
   const [start, setStart] = useState(null)
 
-  const handleTouchStart = e => setStart(e.touches[0].clientX)
+  const handleTouchStart = e => {
+    setStart(e.touches[0].clientX)
+  }
 
   const handleTouchEndx = useCallback(
     e => {
@@ -351,7 +356,7 @@ export default function AudioPlayer() {
           {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
         </div>
       }
-      <div className='song-info'>
+      <div className='song-info noselect'>
         <div>{songInfo && songInfo.artist}</div>
         <div>{songInfo && songInfo.title}</div>
       </div>
