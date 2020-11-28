@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect, useRef, useCallback} from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -259,75 +259,60 @@ export default function AudioPlayer() {
 
 
 
-  const [touchState, setTouchState] = useState({
-    touchStartYPosition: 0,
-    isDragging: false,
-    touchYPosition: 0
-  });
+
+  // const handleTouchMove = useCallback(
+  //   event => {
+  //     console.log(
+  //       event.touches[0].clientY,
+  //       startY
+  //     );
+  //     if (event.touches[0].clientY) {
+  //       if (!startY) {
+  //         setStartY(event.touches[0].clientY)
+  //       } else {
+  //         if (event.touches[0].clientY > startY) {
+  //           console.log("IS GREATER");
+  //         }
+  //       }
+  //     }
+  //   },
+  //   [startY]
+  // );
+
+  const [startY, setStartY] = useState(null)
 
   const handleTouchStart = useCallback(event => {
-    setTouchState(prevState => ({ ...prevState, isDragging: true }));
+    setStartY(event.touches[0].clientY)
   }, []);
 
-  const handleTouchMove = useCallback(
-    event => {
-      console.log(
-        touchState.touchStartYPosition,
-        event.touches[0].clientY,
-        touchState.touchYPosition
-      );
-      // if (touchState.isDragging === true && event.touches[0].clientY) {
-      if (event.touches[0].clientY) {
-        if (!touchState.touchStartYPosition) {
-          setTouchState(prevTouchState => ({
-            ...prevTouchState,
-            touchStartYPosition: event.touches[0].clientY
-          }));
-        } else {
-          if (event.touches[0].clientY > touchState.touchStartYPosition) {
-            console.log("IS GREATER");
-            setTouchState(prevTouchState => ({
-              ...prevTouchState,
-              touchYPosition: touchState.touchYPosition + 1
-            }));
-          }
-        }
-      }
-    },
-    [
-      touchState.isDragging,
-      touchState.touchStartYPosition,
-
-    ]
-  );
 
   const handleTouchEndx = useCallback(
-    event => {
-      if (touchState.isDragging) {
-        setTouchState(prevState => ({
-          ...prevState,
-          isDragging: false,
-          touchStartYPosition: 0
-        }));
-      }
+    e => {
+      console.log(
+        'end',
+        startY,
+        e.changedTouches[0].clientY,
+      );
+      // setStartY(null)
     },
-    [touchState.isDragging, touchState.touchStartYPosition]
+    [startY]
   );
 
   useEffect(() => {
-    window.addEventListener("touchmove", handleTouchMove);
+    // window.addEventListener("touchmove", handleTouchMove);
     window.addEventListener("touchend", handleTouchEndx);
     return () => {
-      window.removeEventListener("touchmove", handleTouchMove);
+      // window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEndx);
     };
-  }, [handleTouchMove, handleTouchEndx]);
+  // }, [handleTouchMove, handleTouchEndx]);
+  }, [handleTouchEndx]);
 
 
 
   return <>
     <PlayerDiv onTouchStart={handleTouchStart}>
-    {/* <PlayerDiv>  */}
+      {/* <PlayerDiv>  */}
 
       <ProgressBar {...ProgressBarHandler}>
         <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
