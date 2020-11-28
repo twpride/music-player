@@ -278,12 +278,9 @@ export default function AudioPlayer() {
   const handleTouchEndx = useCallback(
     e => {
       const dir = e.changedTouches[0].clientX - start;
+      // console.log( dir, start, e.changedTouches[0].clientX);
+      if (!start) return;
       setStart(null)
-      console.log(
-        dir,
-        start,
-        e.changedTouches[0].clientX,
-      );
       if (Math.abs(dir) < 100) {
         const pl_id = track[0]
         if (pl_id) {
