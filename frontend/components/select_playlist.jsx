@@ -52,7 +52,7 @@ export default function SelectPlaylist() {
       .then(res => res.json()) // Entry_pk of added track
       .then(entry_pk => {
         let prevId = null;
-        if (playlistD[playlist_id].length) {
+        if (playlistD[playlist_id] && playlistD[playlist_id].length) {
           const lastIdx = playlistD[playlist_id].length - 1;
           prevId = playlistD[playlist_id][lastIdx][1];
         }

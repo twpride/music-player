@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef, useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { ent_act } from "../reducers/root_reducer"
@@ -103,20 +104,23 @@ const PlayerDiv = styled.div`
 
 
 export default function AudioPlayer() {
-  const dispatch = useDispatch()
-  const [winWidth, setWinWidth] = useState(window.innerWidh)
-  const [duration, setDuration] = useState(null)
-  const [progress, setProgress] = useState(0)
-  const [swipex, setSwipex] = useState(null)
-  const [down, setDown] = useState(false)
-  const [songInfo, setSongInfo] = useState(null)
+  const dispatch = useDispatch();
+  const [winWidth, setWinWidth] = useState(window.innerWidh);
+  const [duration, setDuration] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [swipex, setSwipex] = useState(null);
+  const [swipexEnd, setSwipexEnd] = useState(null);
+  const [down, setDown] = useState(false);
+  const [songInfo, setSongInfo] = useState(null);
 
-  const songUrl = useSelector(state => state.player.songUrl)
-  const playlist_dir = useSelector(state => state.entities.playlistD)
-  const songD = useSelector(state => state.entities.songD)
-  const playlistD = useSelector(state => state.entities.playlistD)
-  const track = useSelector(state => state.player.track)
-  const playing = useSelector(state => state.player.playing)
+  const songUrl = useSelector(state => state.player.songUrl);
+  const playlist_dir = useSelector(state => state.entities.playlistD);
+  const songD = useSelector(state => state.entities.songD);
+  const playlistD = useSelector(state => state.entities.playlistD);
+  const track = useSelector(state => state.player.track);
+  const playing = useSelector(state => state.player.playing);
+
+  const history = useHistory();
 
   const skip = (dir) => () => {
     if (!track) return
@@ -221,19 +225,6 @@ export default function AudioPlayer() {
     document.removeEventListener('touchend', handleTouchEnd);
   };
 
-  const handleSwipeEnd = (e) => {
-    document.removeEventListener('touchend', handleSwipeEnd);
-    const dir = e.changedTouches[0].clientX - swipex;
-    if (Math.abs(dir) < 100) return
-    if (dir > 0) {
-      skip(-1)()
-    } else {
-      skip(1)()
-    }
-    setDown(false);
-  };
-
-
 
   const updateDrag = (e) => {
     let prog;
@@ -267,19 +258,76 @@ export default function AudioPlayer() {
   }
 
 
-  const SwipeHandler = {
-    onTouchStart: (e) => {
-      if (!e.touches[0]) return
-      if (!duration) return;
-      e.stopPropagation()
-      setSwipex(e.touches[0].clientX);
-      document.addEventListener('touchend', handleSwipeEnd);
+
+  const [touchState, setTouchState] = useState({
+    touchStartYPosition: 0,
+    isDragging: false,
+    touchYPosition: 0
+  });
+
+  const handleTouchStart = useCallback(event => {
+    setTouchState(prevState => ({ ...prevState, isDragging: true }));
+  }, []);
+
+  const handleTouchMove = useCallback(
+    event => {
+      console.log(
+        touchState.touchStartYPosition,
+        event.touches[0].clientY,
+        touchState.touchYPosition
+      );
+      // if (touchState.isDragging === true && event.touches[0].clientY) {
+      if (event.touches[0].clientY) {
+        if (!touchState.touchStartYPosition) {
+          setTouchState(prevTouchState => ({
+            ...prevTouchState,
+            touchStartYPosition: event.touches[0].clientY
+          }));
+        } else {
+          if (event.touches[0].clientY > touchState.touchStartYPosition) {
+            console.log("IS GREATER");
+            setTouchState(prevTouchState => ({
+              ...prevTouchState,
+              touchYPosition: touchState.touchYPosition + 1
+            }));
+          }
+        }
+      }
     },
-  }
+    [
+      touchState.isDragging,
+      touchState.touchStartYPosition,
+
+    ]
+  );
+
+  const handleTouchEndx = useCallback(
+    event => {
+      if (touchState.isDragging) {
+        setTouchState(prevState => ({
+          ...prevState,
+          isDragging: false,
+          touchStartYPosition: 0
+        }));
+      }
+    },
+    [touchState.isDragging, touchState.touchStartYPosition]
+  );
+
+  useEffect(() => {
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleTouchEndx);
+    return () => {
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEndx);
+    };
+  }, [handleTouchMove, handleTouchEndx]);
+
 
 
   return <>
-    <PlayerDiv {...SwipeHandler}>
+    <PlayerDiv onTouchStart={handleTouchStart}>
+    {/* <PlayerDiv>  */}
 
       <ProgressBar {...ProgressBarHandler}>
         <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
@@ -301,7 +349,6 @@ export default function AudioPlayer() {
             }}
             onTouchStart={(e) => {
               e.stopPropagation()
-              e.preventDefault()
             }}
           />
           :
@@ -314,7 +361,6 @@ export default function AudioPlayer() {
             }}
             onTouchStart={(e) => {
               e.stopPropagation()
-              e.preventDefault()
             }}
           />
         }
