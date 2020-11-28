@@ -76,6 +76,14 @@ export const createPlaylist = playlist => (
   })
 );
 
+export const editPlaylist = playlist => (
+  fetch('/api/edit_playlist', {
+    method: 'POST',
+    body: playlist,
+    headers: fetchHeader(),
+  })
+);
+
 export const addTrack = (playlist, song) => (
   fetch(`/api/add_track/${playlist}/${song}`, {
     method: 'POST',

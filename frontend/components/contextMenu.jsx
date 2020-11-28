@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components'
 import SongEditForm from './song_edit_form';
+import PlaylistEditForm from './playlist_edit_form';
 import SongBurger from './song_burger';
+import PlaylistBurger from './playlist_burger';
 import SelectPlaylist from './select_playlist';
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -24,6 +26,12 @@ export default function ContextMenu() {
       break;
     case context_act.SONG_EDIT_C:
       Component = SongEditForm;
+      break;
+    case context_act.PLAYLIST_BURGER_C:
+      Component = PlaylistBurger;
+      break;
+    case context_act.PLAYLIST_EDIT_C:
+      Component = PlaylistEditForm;
       break;
     case context_act.SELECT_PLAYLIST_C:
       Component = SelectPlaylist;

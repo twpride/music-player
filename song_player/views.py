@@ -9,20 +9,23 @@ from .models import Song, Playlist, Entry
 from user_auth.models import User
 import json
 
+
 def getUser(req):
   token = req.session.get('session_token', None)
   return User.objects.filter(session_token=token)[0]
 
+
 def song_d(request):
   usr = getUser(request)
-  
+
   if request.method == "GET":
     return JsonResponse(
-      {
-        x["id"]: x for x in 
-        Song.objects.filter(user_id=usr.id).values('id', 'title', 'artist', 'album')
-      },
-      safe=False)
+        {
+            x["id"]: x for x in Song.objects.filter(
+                user_id=usr.id).values('id', 'title', 'artist', 'album')
+        },
+        safe=False)
+
 
 def playlist_d(request):  # post, get
   usr = getUser(request)
@@ -34,11 +37,11 @@ def playlist_d(request):  # post, get
     return JsonResponse({res['id']: res}, safe=False)
 
   return JsonResponse(
-    {
-      x["id"]: x for x in 
-      Playlist.objects.filter(user_id=usr.id).values('id', 'title')
-    },
-    safe=False)
+      {
+          x["id"]: x for x in Playlist.objects.filter(
+              user_id=usr.id).values('id', 'title')
+      },
+      safe=False)
 
 
 def edit_songs(request):
@@ -51,6 +54,17 @@ def edit_songs(request):
               pk__in=ids).values('id', 'title', 'artist', 'album')
       },
       safe=False)
+
+
+def edit_playlist(request):
+  req = request.POST.dict()
+  breakpoint()
+  pl = Playlist.objects.get(pk=req['id'])
+  pl.title = req['title']
+  pl.save()
+  res = model_to_dict(pl, fields=['id', 'title'])
+  return JsonResponse({res['id']: res}, safe=False)
+
 
 
 def post_songs(request):  #post
@@ -103,8 +117,9 @@ def song(request, id):  #get , delete
   res = []
   ign = set()
   for ent in x:
-    if ent.pk in ign: continue
-    fam=[ent.pk]
+    if ent.pk in ign:
+      continue
+    fam = [ent.pk]
     nxt = ent.next_ent.first()
     while nxt and nxt.song.pk == id:
       fam.append(nxt.pk)
@@ -127,9 +142,6 @@ def song(request, id):  #get , delete
     ign.update(fam)
 
   Entry.objects.bulk_update(res, ['prev_ent'])
-
-
-
 
 
 def playlist(request, id):  # delete, get
@@ -159,7 +171,7 @@ def add_track(request, playlist_id=None, song_id=None):  # post
 def move_track(request):
   req = json.loads(request.body.decode('utf-8'))
 
-  if xxx:=req.pop('tail',False):
+  if xxx := req.pop('tail', False):
     pl = Playlist.objects.get(pk=xxx[0])
     pl.tail_ent = Entry.objects.get(pk=xxx[1])
     pl.save()

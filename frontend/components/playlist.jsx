@@ -14,11 +14,10 @@ import { DndProvider } from 'react-dnd'
 // import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
-import { HeaderDiv } from './app'
+import Header from './header'
 import { useHistory } from 'react-router-dom'
 
-import { session_act } from '../reducers/session_reducer';
-import { logout } from '../util/session_api_util'
+
 
 export default function Playlist() {
   const history = useHistory();
@@ -119,28 +118,12 @@ export default function Playlist() {
     dispatch({ type: ent_act.LOAD_TRACK, track: newtr })
   };
 
-  function clickDeletePlaylist() {
-    deletePlaylist(playlist_id)
-    dispatch({ type: ent_act.DELETE_PLAYLIST, playlist_id })
-    history.push("/playlist_d/");
-  }
 
   return (
 
     <>
-      <HeaderDiv>
-        <div className='title'>{titleD && titleD[playlist_id].title}</div>
+      <Header title={titleD[playlist_id].title} />
 
-        <button onClick={clickDeletePlaylist}>Delete playlist</button>
-
-        <button onClick={() => {
-          logout().then(
-            () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-          )
-        }
-        }>logout</button>
-
-      </HeaderDiv>
       <div className="scrollable">
         <DndProvider backend={TouchBackend}
           options={{ enableMouseEvents: true }}

@@ -17,6 +17,12 @@ export const editSongs = song => dispatch => (
     .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }))
 )
 
+export const editPlaylist = playlistEdit => dispatch => (
+  APIUtil.editPlaylist(playlistEdit)
+    .then(response => response.json())
+    .then(playlistTitleD => dispatch({ type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD}))
+)
+
 export const getSongD = () => dispatch => (
   APIUtil.getSongD()
     .then(response => response.json())

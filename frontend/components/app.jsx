@@ -33,22 +33,6 @@ const AppDiv = styled.div`
   }
 `
 
-export const HeaderDiv = styled.div`
-
-  display: flex;
-  flex-direction: row;
-  align-items:center;
-  justify-content: center;
-
-  min-height: 50px;
-  width: 100%;
-  z-index: 10;
-  box-shadow: 0 3px 4px 0 rgba(0,0,0,0.03), 0 3px 3px -2px rgba(0,0,0,0.03), 0 1px 8px 0 rgba(0,0,0,0.05);
-
-  .title {
-    justify-self:center;
-  }
-`
 
 const App = () => {
   const dispatch = useDispatch()

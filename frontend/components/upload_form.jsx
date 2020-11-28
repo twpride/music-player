@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 
-import { HeaderDiv } from './app'
+import Header from './header'
 // const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
 
@@ -51,9 +51,7 @@ export default function UploadForm() {
 
   return (
     <>
-      <HeaderDiv>
-        <div className="title">Upload Songs</div>
-      </HeaderDiv>
+      <Header title='Upload Songs' />
       <div className='scrollable'>
         <UploadFormEle id="songForm" onSubmit={submitSong}>
           {/* <input type="file" name="waveform" onChange={loadSong} multiple></input> */}

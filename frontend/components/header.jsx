@@ -1,45 +1,43 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
 import React, { } from 'react';
 
 import styled from 'styled-components'
+
+import { useLocation} from 'react-router-dom';
 import { session_act } from '../reducers/session_reducer';
 import { logout } from '../util/session_api_util'
 
-import { useLocation} from 'react-router-dom';
-
-const HeaderDiv = styled.div`
-
+export const HeaderDiv = styled.div`
 
   display: flex;
-  align-items: center;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
 
   min-height: 50px;
-  justify-content: space-between;
   width: 100%;
   z-index: 10;
-  /* border-bottom:solid black 1px; */
+  box-shadow: 0 3px 4px 0 rgba(0,0,0,0.03), 0 3px 3px -2px rgba(0,0,0,0.03), 0 1px 8px 0 rgba(0,0,0,0.05);
 
-  box-shadow: 1px;
-
+  .title {
+    justify-self:center;
+  }
 `
 
 export default function Header({title}) {
   const dispatch = useDispatch()
   let location = useLocation()
   const currentUser = useSelector(state => state.session.currentUser)
-  const logout_call = () => {
-    logout().then(
-      () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-    )
-  }
-  // const path = location.pathname.split('/')
-  // if (path[2]) {
 
-  // }
   return (
     <HeaderDiv className="nav">
-      <div>{title && title.title}</div>
+      <div className='title'>{title}</div>
+      <button onClick={() => {
+          logout().then(
+            () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
+          )
+        }
+        }>logout</button>
     </HeaderDiv>
   )
 };

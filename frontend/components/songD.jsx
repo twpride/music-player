@@ -8,9 +8,8 @@ import burgerIcon from '../icons/burger.svg';
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
-import { HeaderDiv } from './app'
-import { session_act } from '../reducers/session_reducer';
-import { logout } from '../util/session_api_util'
+import Header from './header'
+
 
 export const CardDiv = styled.div`
   font-size: .9em;
@@ -73,21 +72,7 @@ export default function SongD() {
 
   return (
     <>
-      <HeaderDiv>
-        <div className="title">Songs</div>
-        <button onClick={
-          () => {
-            logout().then(
-              () => {
-                dispatch({ type: ent_act.SET_PAUSE})
-                dispatch({ type: ent_act.LOAD_TRACK, track: null })
-                dispatch({ type: ent_act.RECEIVE_SONG_URL, url:"" })
-                dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-              }
-            )
-          }
-        }>logout</button>
-      </HeaderDiv>
+      <Header title='Songs'/>
       <div className="scrollable">
         {Object.values(songD).map((song, i) => (
           <CardDiv key={i} onClick={playSong(song.id, i)}>
