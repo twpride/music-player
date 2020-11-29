@@ -110,39 +110,45 @@ def song(request, id):  #get , delete
         'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
 
-  y = Song.objects.get(pk=id)
-  x= y.entry_set.all()
-  res = []
-  ign = set()
-  for ent in x:
-    if ent.pk in ign:
+  song_to_delete = Song.objects.get(pk=id)
+  affected_entries = song_to_delete.entry_set.all()
+
+  ent_to_upd = []
+  ent_to_del = set()
+  plist_to_upd = []
+  for ent in affected_entries:
+    if ent.pk in ent_to_del:
       continue
-    # fam = [ent.pk]
-    ign.add(ent.pk)
+
+    ent_to_del.add(ent.pk)
+
+    # try:
+    #   nxt = ent.next_ent
+    # except ent.DoesNotExist:
+    #   nxt = None
     nxt = ent.next_ent.first()
     while nxt and nxt.song.pk == id:
-      # fam.append(nxt.pk)
-      ign.add(nxt.pk)
+      ent_to_del.add(nxt.pk)
+      # nxt = nxt.next_ent
       nxt = nxt.next_ent.first()
 
     prev = ent.prev_ent
     while prev and prev.song.pk == id:
-      # fam.append(prev.pk)
-      ign.add(prev.pk)
+      ent_to_del.add(prev.pk)
       prev = prev.prev_ent
 
-    # x.filter(pk__in=fam).delete()
     if not nxt:
       playlist = ent.playlist
       playlist.tail_ent = ent.prev_ent
-      playlist.save()
+      plist_to_upd.append(playlist)
     else:
       nxt.prev_ent = prev
-      res.append(nxt)
-    # ign.update(fam)
-  Entry.objects.filter(pk__in=ign).delete()
-  Entry.objects.bulk_update(res, ['prev_ent'])
-  y.delete()
+      ent_to_upd.append(nxt)
+  
+  Playlist.objects.bulk_update(plist_to_upd, ['tail_ent'])
+  Entry.objects.filter(pk__in=ent_to_del).delete()
+  Entry.objects.bulk_update(ent_to_upd, ['prev_ent'])
+  song_to_delete.delete()
 
 
 def playlist(request, id):  # delete, get
@@ -172,17 +178,17 @@ def add_track(request, playlist_id=None, song_id=None):  # post
 def move_track(request):
   req = json.loads(request.body.decode('utf-8'))
 
-  if xxx := req.pop('tail', False):
-    pl = Playlist.objects.get(pk=xxx[0])
-    pl.tail_ent = Entry.objects.get(pk=xxx[1])
+  if tail := req.pop('tail', False):
+    pl = Playlist.objects.get(pk=tail[0])
+    pl.tail_ent = Entry.objects.get(pk=tail[1])
     pl.save()
 
   res = list(Entry.objects.filter(pk__in=req.keys()))
   for entry in res:
     if pk := req[str(entry.pk)]:
       entry.prev_ent = Entry.objects.get(pk=pk)
-    else:
-      entry.prev_ent = pk
+    else: 
+      entry.prev_ent = None
     #### need to write tail corner case
   Entry.objects.bulk_update(res, ['prev_ent'])
   return HttpResponse(status=204)

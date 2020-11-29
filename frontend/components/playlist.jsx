@@ -73,15 +73,16 @@ export default function Playlist() {
 
   const setPrev = (start, index) => {
     const req = {}
-
     const dir = index - start
+    if (dir === 0) return;
+
     if (dir > 0) {
       if (start > 0) {
         req[cards[start][1]] = cards[start - 1][1]
       } else if (start === 0) {
         req[cards[start][1]] = null
       }
-    } else if (dir < 0) {
+    } else { // dir < 0
       if (start + 1 < cards.length) {
         req[cards[start + 1][1]] = cards[start][1]
       } else {
@@ -89,17 +90,17 @@ export default function Playlist() {
       }
     }
 
-    if (index > 0) {
-      req[cards[index][1]] = cards[index - 1][1]
-    } else if (index === 0) {
-      req[cards[index][1]] = null
-    }
-
-
     if (index + 1 < cards.length) {
       req[cards[index + 1][1]] = cards[index][1]
     } else {
       req['tail'] = [playlist_id, cards[index][1]]
+    }
+
+
+    if (index > 0) {
+      req[cards[index][1]] = cards[index - 1][1]
+    } else if (index === 0) {
+      req[cards[index][1]] = null
     }
 
     moveTrack(req) // update db

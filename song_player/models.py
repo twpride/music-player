@@ -17,6 +17,7 @@ class Entry(models.Model):
   playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
   song = models.ForeignKey(Song, on_delete=models.CASCADE)
   prev_ent = models.ForeignKey('self',
+  # prev_ent = models.OneToOneField('self',
                                on_delete=models.SET_NULL,
                                related_name="next_ent",
                                blank=True,
