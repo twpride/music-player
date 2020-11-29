@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 import styled from 'styled-components'
 
-
+import {getPlaylist} from '../actions/actions'
 import { addTrack } from '../util/api_util'
 import { ent_act } from '../reducers/root_reducer';
 
@@ -31,11 +31,7 @@ const SelectDiv = styled.div`
   .title {
     font-weight:700;
   }
-
-
 `
-
-
 
 
 export default function SelectPlaylist() {
@@ -48,19 +44,23 @@ export default function SelectPlaylist() {
   const clickAddTrack = (playlist_id) => (e) => {
     e.preventDefault();
     // Entry schema "song_id", "Entry_pk","prev_id"
+
     addTrack(playlist_id, contextMenu.song_id)
       .then(res => res.json()) // Entry_pk of added track
       .then(entry_pk => {
-        let prevId = null;
-        if (playlistD[playlist_id] && playlistD[playlist_id].length) {
-          const lastIdx = playlistD[playlist_id].length - 1;
-          prevId = playlistD[playlist_id][lastIdx][1];
+        if (!playlistD[playlist_id]) {
+          dispatch(getPlaylist(playlist_id))
+        } else {
+          let prevId = null;
+          if (playlistD[playlist_id] && playlistD[playlist_id].length) {
+            const lastIdx = playlistD[playlist_id].length - 1;
+            prevId = playlistD[playlist_id][lastIdx][1];
+          }
+          dispatch({
+            type: ent_act.APPEND_PLAYLIST,
+            playlist_id, tracks: [[contextMenu.song_id, entry_pk, prevId]]
+          })
         }
-
-        dispatch({
-          type: ent_act.APPEND_PLAYLIST,
-          playlist_id, tracks: [[contextMenu.song_id, entry_pk, prevId]]
-        })
       })
   }
 

@@ -26,6 +26,7 @@ export default function SongBurger() {
   const songD = useSelector(state => state.entities.songD)
   const contextMenu = useSelector(state => state.ui.contextMenu)
   const playlistD = useSelector(state => state.entities.playlistD)
+  const track = useSelector(state => state.player.track)
 
   const burgerList = {
     "Edit song": (e) => {
@@ -47,12 +48,15 @@ export default function SongBurger() {
       }
 
       deleteTrack(req)
-
       dispatch({ type: ent_act.REMOVE_FROM_PLAYLIST, idx:contextMenu.index, pl_id: contextMenu.playlist_id })
+      dispatch({ type: context_act.CLOSE_CONTEXT })
     },
     "Delete song": (e) => {
       e.stopPropagation()
-      deleteSong(contextMenu.song_id)
+      const active_pl = track ? track[0] : null;
+      deleteSong(contextMenu.song_id, active_pl, contextMenu.playlist_id)
+
+      // dispatch({ type: ent_act.DELETE_SONG, song_id: contextMenu.song_id})
       dispatch({ type: context_act.CLOSE_CONTEXT })
     },
   }

@@ -14,8 +14,8 @@ const UploadFormEle = styled.form`
   justify-content:center;
   margin: 1em 1.5em;
   textarea {
-    resize: none;
-    height:1.3em;
+    /* resize: none; */
+    height:1.5em;
   }
 
   .button-box {

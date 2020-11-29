@@ -109,7 +109,7 @@ def song(request, id):  #get , delete
     url = connection.Bucket(bucket).meta.client.generate_presigned_url(
         'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
-
+  breakpoint()
   song_to_delete = Song.objects.get(pk=id)
   affected_entries = song_to_delete.entry_set.all()
 

@@ -17,7 +17,8 @@ export const ent_act = {
   REMOVE_FROM_PLAYLIST: "REMOVE_FROM_PLAYLIST",
   INIT_STORE: "INIT_STORE",
   SET_PLAY: "SET_PLAY",
-  SET_PAUSE: "SET_PAUSE"
+  SET_PAUSE: "SET_PAUSE",
+  DELETE_SONG: 'DELETE_SONG'
 }
 
 const songD = (state = [], action) => {
@@ -27,6 +28,10 @@ const songD = (state = [], action) => {
       return { ...state, ...action.songD };
     case ent_act.INIT_STORE:
       return action.songD;
+    case ent_act.DELETE_SONG:
+      const newSongD = {...state};
+      delete newSongD[action.song_id];
+      return newSongD;
     default:
       return state;
   }
