@@ -110,35 +110,39 @@ def song(request, id):  #get , delete
         'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
 
-  x = Song.objects.get(pk=id).entry_set.all()
+  y = Song.objects.get(pk=id)
+  x= y.entry_set.all()
   res = []
   ign = set()
   for ent in x:
     if ent.pk in ign:
       continue
-    fam = [ent.pk]
+    # fam = [ent.pk]
+    ign.add(ent.pk)
     nxt = ent.next_ent.first()
     while nxt and nxt.song.pk == id:
-      fam.append(nxt.pk)
+      # fam.append(nxt.pk)
+      ign.add(nxt.pk)
       nxt = nxt.next_ent.first()
 
     prev = ent.prev_ent
     while prev and prev.song.pk == id:
-      fam.append(prev.pk)
+      # fam.append(prev.pk)
+      ign.add(prev.pk)
       prev = prev.prev_ent
 
+    # x.filter(pk__in=fam).delete()
     if not nxt:
       playlist = ent.playlist
       playlist.tail_ent = ent.prev_ent
       playlist.save()
-      x.filter(pk__in=fam).delete()
     else:
-      x.filter(pk__in=fam).delete()
       nxt.prev_ent = prev
       res.append(nxt)
-    ign.update(fam)
-
+    # ign.update(fam)
+  Entry.objects.filter(pk__in=ign).delete()
   Entry.objects.bulk_update(res, ['prev_ent'])
+  y.delete()
 
 
 def playlist(request, id):  # delete, get

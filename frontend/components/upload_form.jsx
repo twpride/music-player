@@ -15,6 +15,7 @@ const UploadFormEle = styled.form`
   margin: 1em 1.5em;
   textarea {
     resize: none;
+    height:1.3em;
   }
 
   .button-box {
@@ -65,9 +66,9 @@ export default function UploadForm() {
           <textarea type="text"
             name="url"
             value={urls}
-            placeholder="Youtube URLs"
+            placeholder="https://www.youtube.com/watch?v=....."
             onChange={e => setUrls(e.currentTarget.value)}
-            rows="5" wrap="hard"
+            rows="1" wrap="hard"
           />
           {/* {this.renderErrors()} */}
           <div className='button-box'>
