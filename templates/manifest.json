@@ -1,6 +1,7 @@
 {% load static %}
 {
   "background_color": "#CE1141",
+  "theme_color": "white",
   "description": "Description",
   "display": "standalone",
   "icons": [
