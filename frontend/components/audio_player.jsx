@@ -32,7 +32,7 @@ const ProgressBar = styled.div`
 
   .track-elapsed {
     height: 2px;
-    background-color: #CE1141;
+    background-color: #ad0f37;
   }
 
   .track-remaining {
