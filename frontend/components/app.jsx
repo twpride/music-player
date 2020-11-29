@@ -26,7 +26,7 @@ const AppDiv = styled.div`
   width:100%;
 
   .scrollable {
-    height:80%;
+    height:95%;
     overflow-y:auto;
     z-index:1;
     /* max-width:500px;
