@@ -24,6 +24,7 @@ input[type=text], input[type=password] {
   border: 0;
   border-bottom: 1px solid rgba(69,20,0,.2);
   outline: none;
+  font-size: 16px;
 }
 
 input[type=text]:focus {
@@ -42,4 +43,8 @@ input[type=submit], button{
   padding: 0;
   font-size: 1em;
   color: #CE1141;
+}
+
+textarea {
+  font-size: 16px;
 }
