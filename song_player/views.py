@@ -111,6 +111,7 @@ def song(request, id):  #get , delete
     return JsonResponse(url, safe=False)
   breakpoint()
   req = json.loads(request.body.decode('utf-8'))
+  req = json.loads(request.body.decode('utf-8'))
   song_to_delete = Song.objects.get(pk=id)
   affected_entries = song_to_delete.entry_set.all()
 
