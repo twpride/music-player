@@ -110,6 +110,7 @@ def song(request, id):  #get , delete
         'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
   breakpoint()
+  req = json.loads(request.body.decode('utf-8'))
   song_to_delete = Song.objects.get(pk=id)
   affected_entries = song_to_delete.entry_set.all()
 
