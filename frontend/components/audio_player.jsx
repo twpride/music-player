@@ -113,8 +113,6 @@ export default function AudioPlayer() {
   const [winWidth, setWinWidth] = useState(window.innerWidh);
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(0);
-  const [swipex, setSwipex] = useState(null);
-  const [swipexEnd, setSwipexEnd] = useState(null);
   const [down, setDown] = useState(false);
   const [songInfo, setSongInfo] = useState(null);
 
@@ -154,7 +152,7 @@ export default function AudioPlayer() {
   }
   function handleLoadedMeta(e) {
     let sec;
-    if (window.webkitAudioContext) {
+    if (window.webkitAudioContext) { // webkit audio doubles song duration with silent second half
       sec = e.target.duration/2;
     } else {
       sec = e.target.duration;
@@ -209,11 +207,13 @@ export default function AudioPlayer() {
 
 
   function handleTimeUpdate(e) {
-    if (duration && !down) {
-      if (window.webkitAudioContext && e.target.currentTime / duration[0]>=1) {
-        skip(1)()
-      }
-      setProgress(e.target.currentTime / duration[0]);
+    const prog = e.target.currentTime / duration[0];
+    if (window.webkitAudioContext && prog>=1) {
+      skip(1)()
+    }
+    // if (duration && !down) {
+    if (!down) {
+      setProgress(prog);
     }
   }
 
