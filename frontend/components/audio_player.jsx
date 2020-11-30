@@ -153,7 +153,12 @@ export default function AudioPlayer() {
     setWinWidth(window.innerWidth)
   }
   function handleLoadedMeta(e) {
-    const sec = e.target.duration/2;
+    let sec;
+    if (window.webkitAudioContext) {
+      sec = e.target.duration/2;
+    } else {
+      sec = e.target.duration;
+    }
     setDuration([sec, convertSecsToMins(sec)])
   }
   function handleSpace(e) {
@@ -205,7 +210,7 @@ export default function AudioPlayer() {
 
   function handleTimeUpdate(e) {
     if (duration && !down) {
-      if (e.target.currentTime / duration[0]>=1) {
+      if (window.webkitAudioContext && e.target.currentTime / duration[0]>=1) {
         skip(1)()
       }
       setProgress(e.target.currentTime / duration[0]);
@@ -363,9 +368,9 @@ export default function AudioPlayer() {
         <div>{songInfo && songInfo.title}</div>
       </div>
     </PlayerDiv>
-    {window.webkitAudioContext ? "safari" : "not"}
+    {/* {window.webkitAudioContext ? "safari" : "not"} */}
     <audio
-      controls
+      // controls
       autoPlay src={songUrl}
       onEnded={skip(1)}
       onTimeUpdate={handleTimeUpdate}
