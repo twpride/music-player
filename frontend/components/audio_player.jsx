@@ -211,7 +211,6 @@ export default function AudioPlayer() {
     if (window.webkitAudioContext && prog>=1) {
       skip(1)()
     }
-    // if (duration && !down) {
     if (!down) {
       setProgress(prog);
     }
@@ -368,7 +367,6 @@ export default function AudioPlayer() {
         <div>{songInfo && songInfo.title}</div>
       </div>
     </PlayerDiv>
-    {/* {window.webkitAudioContext ? "safari" : "not"} */}
     <audio
       // controls
       autoPlay src={songUrl}
