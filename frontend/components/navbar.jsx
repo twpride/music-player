@@ -13,22 +13,22 @@ import playlist from '../icons/playlist.svg'
 import ytdl from 'ytdl-core'
 
 
-interface YtdlBrowserOptions {
-    proxyUrl: string; // Ex: 'https://cors-anywhere.herokuapp.com/'
-    proxyquireStubs?: any;
-}
+// interface YtdlBrowserOptions {
+//     proxyUrl: string; // Ex: 'https://cors-anywhere.herokuapp.com/'
+//     proxyquireStubs?: any;
+// }
  
-module.exports = (options: YtdlBrowserOptions) => {
-    return proxyquire('ytdl-core', {
-        miniget(url, opts){
-            return realMiniget(options.proxyUrl + url, opts);
-        },
-        m3u8stream(url, opts){
-            return m3u8stream(options.proxyUrl + url, opts);
-        },
-        ...(options.proxyquireStubs || {})
-    });
-};
+// module.exports = (options: YtdlBrowserOptions) => {
+//     return proxyquire('ytdl-core', {
+//         miniget(url, opts){
+//             return realMiniget(options.proxyUrl + url, opts);
+//         },
+//         m3u8stream(url, opts){
+//             return m3u8stream(options.proxyUrl + url, opts);
+//         },
+//         ...(options.proxyquireStubs || {})
+//     });
+// };
 
 
 
