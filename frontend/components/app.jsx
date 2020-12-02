@@ -8,9 +8,11 @@ import UploadForm from './upload_form';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import AudioPlayer from './audio_player'
+import Visualizer from './visualizer'
 import Navbar from './navbar';
 import ContextMenu from './contextMenu'
 
+import Header from './header'
 import LoginForm from './login_form'
 import SignupForm from './signup_form'
 
@@ -26,11 +28,19 @@ const AppDiv = styled.div`
   width:100%;
 
   .scrollable {
-    height:95%;
-    overflow-y:auto;
     z-index:1;
     /* max-width:500px;
     margin: 0 auto; */
+    overflow-y:auto;
+  }
+
+  .box {
+    overflow-y:hidden;
+    height:100%;
+    display:flex;
+    flex-direction: row;
+    justify-content:flex-end;
+
   }
 `
 
@@ -50,12 +60,15 @@ const App = () => {
 
   return (
     <AppDiv id="appdiv">
-      <Switch>
-        <Route exact path='/' component={SongD} />
-        <Route exact path='/upload' component={UploadForm} />
-        <Route path='/playlist_d/:playlist_id' component={Playlist} />
-        <Route path='/playlist_d/' component={PlaylistD} />
-      </Switch>
+      <Header title='Songs' />
+      <div className='box'>
+        {/* <Visualizer/> */}
+        <Switch>
+          <Route exact path='/' component={SongD} />
+          <Route path='/playlist_d/:playlist_id' component={Playlist} />
+          <Route path='/playlist_d/' component={PlaylistD} />
+        </Switch>
+      </div>
       <AudioPlayer />
       <Navbar />
       <ContextMenu />
@@ -84,8 +97,8 @@ export default function Splash() {
     dispatch(loginThunk(form))
   }
 
-  useEffect(()=> {
-    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors:[] })
+  useEffect(() => {
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
   })
 
   const demoScript2 = () => {

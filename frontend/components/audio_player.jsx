@@ -369,6 +369,7 @@ export default function AudioPlayer() {
     </PlayerDiv>
     <audio
       // controls
+      crossorigin="use-credentials"
       autoPlay src={songUrl}
       onEnded={skip(1)}
       onTimeUpdate={handleTimeUpdate}

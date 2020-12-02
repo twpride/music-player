@@ -8,9 +8,9 @@ import burgerIcon from '../icons/burger.svg';
 import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
-import Header from './header'
 import PlayingIcon from '../icons/playing.gif'
 import PausedIcon from '../icons/paused.gif'
+
 
 
 export const CardDiv = styled.div`
@@ -56,8 +56,8 @@ export const CardDiv = styled.div`
   }
 `
 
-export const Equalizer = ({track, pl_id, index, playing}) => {
-  if (track && track[0]===pl_id && track[1]===index) {
+export const Equalizer = ({ track, pl_id, index, playing }) => {
+  if (track && track[0] === pl_id && track[1] === index) {
     if (playing) {
       return <img className='equalizer' src={PlayingIcon}></img>
     } else {
@@ -65,8 +65,17 @@ export const Equalizer = ({track, pl_id, index, playing}) => {
     }
   } else {
     return index + 1
-  } 
+  }
 }
+
+
+
+
+
+
+
+
+
 
 export default function SongD() {
   const dispatch = useDispatch();
@@ -89,13 +98,12 @@ export default function SongD() {
   const songD = useSelector(state => state.entities.songD)
 
   return (
-    <>
-      <Header title='Songs'/>
+
       <div className="scrollable">
         {Object.values(songD).map((song, i) => (
           <CardDiv key={i} onClick={playSong(song.id, i)}>
             <div>
-              <Equalizer 
+              <Equalizer
                 track={track}
                 pl_id={null}
                 index={i}
@@ -112,7 +120,6 @@ export default function SongD() {
           </CardDiv>
         ))}
       </div>
-    </>
   )
 };
 
