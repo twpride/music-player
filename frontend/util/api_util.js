@@ -123,3 +123,19 @@ export const deleteTrack = req => (
     headers: fetchHeader(),
   })
 );
+
+export const getPostUrls = req => (
+  fetch('/api/get_post_urls', {
+    method: 'POST',
+    body: JSON.stringify(req),
+    headers: fetchHeader(),
+  })
+);
+
+export const createSongs = files => (
+  fetch('/api/create_songs', {
+    method: 'POST',
+    body: files,
+    headers: fetchHeader(),
+  })
+);

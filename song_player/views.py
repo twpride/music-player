@@ -71,7 +71,7 @@ def post_songs(request):  #post
   res = []
   # breakpoint()
   for _song in songs_to_post:
-    song = Song(title=_song['Key'], filename=_song['Key'], user=usr)
+    song = Song(title=_song, filename=_song, user=usr)
     try:
       song.full_clean()
     except:
@@ -83,6 +83,7 @@ def post_songs(request):  #post
     idx = last.id
   else:
     idx = 0
+  
   Song.objects.bulk_create(res)
   return JsonResponse(
       {
@@ -91,6 +92,39 @@ def post_songs(request):  #post
       },
       safe=False)
 
+
+def create_songs(request):
+  breakpoint()
+
+def get_post_urls(request):  #get , delete
+  req = json.loads(request.body.decode('utf-8'))
+  import boto3.session
+  from django.conf import settings
+  session = boto3.session.Session()
+  connection = session.resource(
+      's3',
+      aws_access_key_id=getattr(settings, "AWS_ACCESS_KEY_ID", None),
+      aws_secret_access_key=getattr(settings, "AWS_SECRET_ACCESS_KEY", None),
+  )
+  bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
+  res = []
+  for filename in req:
+    url = connection.Bucket(bucket).meta.client.generate_presigned_post(
+      bucket, filename,  Fields=None, Conditions=None, ExpiresIn=3600
+    )
+    # params = {}
+    # bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
+    # params['Bucket'] = bucket
+    # params['Key'] = filename
+
+    # url = connection.Bucket(bucket).meta.client.generate_presigned_url(
+    #     ClientMethod="put_object",
+    #     Params=params,
+    #     ExpiresIn=3600,
+    #     HttpMethod="POST")
+
+    res.append(url)
+  return JsonResponse(res, safe=False)
 
 def song(request, id):  #get , delete
   if request.method == "GET":
@@ -145,7 +179,7 @@ def song(request, id):  #get , delete
     else:
       nxt.prev_ent = prev
       ent_to_upd.append(nxt)
-  
+
   Playlist.objects.bulk_update(plist_to_upd, ['tail_ent'])
   Entry.objects.filter(pk__in=ent_to_del).delete()
   Entry.objects.bulk_update(ent_to_upd, ['prev_ent'])
@@ -188,7 +222,7 @@ def move_track(request):
   for entry in res:
     if pk := req[str(entry.pk)]:
       entry.prev_ent = Entry.objects.get(pk=pk)
-    else: 
+    else:
       entry.prev_ent = None
     #### need to write tail corner case
   Entry.objects.bulk_update(res, ['prev_ent'])
