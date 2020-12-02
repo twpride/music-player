@@ -48,6 +48,8 @@ const AppDiv = styled.div`
 const App = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
+  const [audSource, setAudSource] = useState(null);
+  window.audSource=audSource
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,14 +64,14 @@ const App = () => {
     <AppDiv id="appdiv">
       <Header title='Songs' />
       <div className='box'>
-        {/* <Visualizer/> */}
+        {audSource && <Visualizer audSource={audSource}/>}
         <Switch>
           <Route exact path='/' component={SongD} />
           <Route path='/playlist_d/:playlist_id' component={Playlist} />
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
       </div>
-      <AudioPlayer />
+      <AudioPlayer setAudSource={setAudSource}/>
       <Navbar />
       <ContextMenu />
     </AppDiv>

@@ -1,14 +1,7 @@
 
 
-import React, { useEffect, useState, useLayoutEffect, useRef, useCallback, createRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, createRef } from 'react';
 import styled from 'styled-components'
-
-
-
-
-
-
 
 
 import butterchurn from 'butterchurn'
@@ -17,48 +10,36 @@ import butterchurnPresets from 'butterchurn-presets'
 
 const VisualizerDiv = styled.div``
 
-export default function Visualizer() {
+export default function Visualizer({audSource}) {
+
+
+  let presets = {};
+  Object.assign(presets, butterchurnPresets.getPresets());
+  const presetArr = Object.values(presets)
+
   let visualizer;
   let canvas = createRef()
+
   useEffect(() => {
 
-
-
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)()
-    audioGainNode = audioCtx.createGain()
-    audioSourceNode = null
-
-
-
-
-    const aud = document.querySelector('audio')
-    visualizer = butterchurn.createVisualizer(aud.context, canvas.current, {
+    visualizer = butterchurn.createVisualizer(audSource.context, canvas.current , {
       width: 400,
       height: 400,
-    })
+      pixelRatio: window.devicePixelRatio || 1,
+      textureRatio: 1,
+    });
+
+    visualizer.loadPreset(presetArr[0], 0)
+
+
+    visualizer.connectAudio(audSource)
+    startRenderer()
   }, [])
 
-  useEffect(()=>{
-    if (props.audioSourceNode !== prevProps.audioSourceNode) {
-      this.updateAudioSource()
-    }
-
-    if (props.isPlaying !== prevProps.isPlaying) {
-      this.updatePlaying()
-    }
-
-    if (props.width !== prevProps.width || props.height !== prevProps.height) {
-      this.visualizer.setRendererSize(props.width, props.height)
-    }
-
-    if (props.presetKey !== prevProps.presetKey) {
-      this.visualizer.loadPreset(this.presets[props.presetKey], 1) // 2nd arg is # of seconds to blend presets
-    }
-
-    if (this.audioGainNode && props.sensitivity !== prevProps.sensitivity) {
-      this.audioGainNode.gain.setValueAtTime(props.sensitivity, this.audioGainNode.context.currentTime)
-    }
-  })
+  function startRenderer() {
+    requestAnimationFrame(() => startRenderer());
+    visualizer.render();
+  }
 
   return <VisualizerDiv>
     <canvas

@@ -108,7 +108,7 @@ const PlayerDiv = styled.div`
 `
 
 
-export default function AudioPlayer() {
+export default function AudioPlayer({setAudSource}) {
   const dispatch = useDispatch();
   const [winWidth, setWinWidth] = useState(window.innerWidh);
   const [duration, setDuration] = useState(null);
@@ -173,6 +173,18 @@ export default function AudioPlayer() {
     updateSize()
 
     document.addEventListener('keydown', handleSpace)
+
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)()
+    const source = ctx.createMediaElementSource(aud) 
+
+    const delayedSource = ctx.createDelay();
+    delayedSource.delayTime.value = 0.26;
+    source.connect(delayedSource)
+
+    setAudSource(delayedSource)
+    delayedSource.connect(ctx.destination)
+
 
     return () => {
       aud.removeEventListener('loadedmetadata', handleLoadedMeta)
@@ -369,7 +381,7 @@ export default function AudioPlayer() {
     </PlayerDiv>
     <audio
       // controls
-      crossOrigin="use-credentials"
+      crossOrigin="anonymous"
       autoPlay src={songUrl}
       onEnded={skip(1)}
       onTimeUpdate={handleTimeUpdate}
