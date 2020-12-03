@@ -9,6 +9,7 @@ class Song(models.Model):
   artist = models.CharField(max_length=100, blank=True)
   album = models.CharField(max_length=100, blank=True)
   filename = models.CharField(max_length=255, blank=True)
+  album_art_url = models.CharField(max_length=255, blank=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   # waveform = models.FileField(upload_to='./media/songs')
 

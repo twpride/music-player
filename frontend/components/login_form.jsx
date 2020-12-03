@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import { session_act } from '../reducers/session_reducer'
 // import { login } from "../util/session_api_util" //option await
@@ -8,7 +8,7 @@ import {SessionDiv, renderErrors} from './signup_form'
 
 
 export default function LoginForm({ setMode }) {
-
+  const form = useRef(null)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,9 +21,7 @@ export default function LoginForm({ setMode }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData(document.getElementById('loginForm'));
-
-    dispatch(loginThunk(form)) // option thunk
+    dispatch(loginThunk(new FormData(form.current))) // option thunk
 
     // // option await
     // const res = await login(form)

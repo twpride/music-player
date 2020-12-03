@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { useRef } from 'react';
 import { signup } from '../util/session_api_util'
 import { session_act } from '../reducers/session_reducer'
 import styled from 'styled-components'
@@ -48,7 +48,7 @@ export const SessionDiv = styled.div`
 
 export default function SignupForm({ setMode }) {
   const dispatch = useDispatch()
-
+  const form = useRef(null)
   const fields = {// dbname: print name
     email: 'Email',
     password: 'Password',
@@ -56,8 +56,7 @@ export default function SignupForm({ setMode }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const sf = document.getElementById('signup-form')
-    const user = new FormData(sf);
+    const user = new FormData(form.current);
     // dispatch(signup(user))
 
     const res = await signup(user)
@@ -81,7 +80,7 @@ export default function SignupForm({ setMode }) {
     <SessionDiv>
       <div className="title">Sign up</div>
       <div className='spacer'></div>
-      <form onSubmit={handleSubmit} className="login-form-box" id="signup-form">
+      <form onSubmit={handleSubmit} ref={form} className="login-form-box" id="signup-form">
 
         {Object.entries(fields).map(
           (field, i) => ( // field = [dbname, print name]

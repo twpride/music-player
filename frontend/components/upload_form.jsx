@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
@@ -44,6 +44,7 @@ const UploadFormDiv = styled.div`
 export default function UploadForm() {
 
   const [urls, setUrls] = useState('');
+  const form = useRef(null)
   const dispatch = useDispatch()
 
   const loadSong = e => {
@@ -52,8 +53,7 @@ export default function UploadForm() {
 
   const submitSong = async e => {
     e.preventDefault();
-    const myForm = document.getElementById('songForm');
-    const formData = new FormData(myForm);
+    const formData = new FormData(form.current);
 
     //upload local songs
     const waveforms = formData.getAll('waveform')
@@ -101,7 +101,7 @@ export default function UploadForm() {
     <UploadFormDiv onClick={(e) => e.stopPropagation()}>
       <div>Upload Songs</div>
       <br></br>
-      <form id="songForm" onSubmit={submitSong}>
+      <form id="songForm" ref={form} onSubmit={submitSong}>
         <input type="file" name="waveform" onChange={loadSong} multiple></input>
         <textarea type="text"
           name="url"

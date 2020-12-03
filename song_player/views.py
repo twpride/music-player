@@ -22,7 +22,7 @@ def song_d(request):
     return JsonResponse(
         {
             x["id"]: x for x in Song.objects.filter(
-                user_id=usr.id).values('id', 'title', 'artist', 'album')
+                user_id=usr.id).values('id', 'title', 'artist', 'album', 'album_art_url')
         },
         safe=False)
 
@@ -55,11 +55,37 @@ def edit_playlist(request):
 def edit_songs(request):
   req = request.POST.dict()
   ids = req.pop('ids').split(',')
-  Song.objects.filter(pk__in=ids).update(**req)
+
+  qs = Song.objects.filter(pk__in=ids)
+  
+  if not req['album_art_url'] and req['artist']:
+    import requests
+    import re
+    import xml.etree.ElementTree as ET
+
+    quer = f'https://musicbrainz.org/ws/2/recording?query=%27{req["title"]}%27%20AND%20artist:%27{req["artist"]}%27'
+    resp = requests.get(quer)
+    
+    removed_ns = re.sub(' xmlns="[^"]+"', '', resp.text, count=2)
+    root = ET.fromstring(removed_ns)
+    
+    acc_rel_type = set(['Album','Single','EP'])
+    for el in root.iter('release-group'):
+      if 'type' in el.attrib and el.attrib['type'] in acc_rel_type:
+        rel_id = el.attrib['id']
+        
+        new_req = requests.get(f'http://coverartarchive.org/release-group/{rel_id}')
+        if new_req.ok:
+          cover_art_json = json.loads(new_req.text)
+          req['album_art_url'] = cover_art_json['images'][0]['image']
+        break
+
+  qs.update(**req)
+
   return JsonResponse(
       {
           x['id']: x for x in Song.objects.filter(
-              pk__in=ids).values('id', 'title', 'artist', 'album')
+              pk__in=ids).values('id', 'title', 'artist', 'album', 'album_art_url')
       },
       safe=False)
 
@@ -88,7 +114,7 @@ def post_songs(request):  #post
   return JsonResponse(
       {
           x["id"]: x for x in Song.objects.filter(
-              pk__gt=idx).values('id', 'title', 'artist', 'album')
+              pk__gt=idx).values('id', 'title', 'artist', 'album', 'album_art_url')
       },
       safe=False)
 

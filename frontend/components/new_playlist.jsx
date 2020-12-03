@@ -5,8 +5,9 @@ import { context_act} from '../reducers/ui_reducer'
 import { createPlaylist } from '../util/api_util'
 
 import { ContextFormWrap } from './contextMenu'
+import { useRef } from 'react';
 export default function NewPlaylist() {
-
+  const form = useRef(null)
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -15,7 +16,7 @@ export default function NewPlaylist() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const playlistTitle = new FormData(document.getElementById('createPlaylist'));
+    const playlistTitle = new FormData(form.current);
 
     const res = await createPlaylist(playlistTitle)
     if (res.ok) {
@@ -37,7 +38,7 @@ export default function NewPlaylist() {
     <ContextFormWrap onClick={(e) => e.stopPropagation()}>
       <div className="title">Create new playlist</div>
       <div className="spacer"></div>
-      <form onSubmit={handleSubmit} className="login-form-box" id="createPlaylist">
+      <form onSubmit={handleSubmit} ref={form} className="login-form-box" id="createPlaylist">
         <div className="login-input">
           <div className='field'>Title</div>
           <input type="text" name="title" />

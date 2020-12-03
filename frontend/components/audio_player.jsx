@@ -108,7 +108,7 @@ const PlayerDiv = styled.div`
 `
 
 
-export default function AudioPlayer({setAudSource}) {
+export default function AudioPlayer({ setAudSource }) {
   const dispatch = useDispatch();
   const [winWidth, setWinWidth] = useState(window.innerWidh);
   const [duration, setDuration] = useState(null);
@@ -123,6 +123,7 @@ export default function AudioPlayer({setAudSource}) {
   const track = useSelector(state => state.player.track);
   const playing = useSelector(state => state.player.playing);
 
+  const aud = useRef()
   const history = useHistory();
 
   const skip = (dir) => () => {
@@ -153,7 +154,7 @@ export default function AudioPlayer({setAudSource}) {
   function handleLoadedMeta(e) {
     let sec;
     if (window.webkitAudioContext) { // webkit audio doubles song duration with silent second half
-      sec = e.target.duration/2;
+      sec = e.target.duration / 2;
     } else {
       sec = e.target.duration;
     }
@@ -161,13 +162,13 @@ export default function AudioPlayer({setAudSource}) {
   }
   function handleSpace(e) {
     if (e.target.type === 'text') return;
-    if (e.key === " ") document.getElementsByClassName('play-button')[0].click()
+    // if (e.key === " ") document.getElementsByClassName('play-button')[0].click()
+    if (e.key === " ") onPlayClick()
   }
   useEffect(() => {
-    const aud = document.querySelector('audio')
-    window.aud = aud;
+    window.aud = aud.current;
 
-    aud.addEventListener('loadedmetadata', handleLoadedMeta);
+    aud.current.addEventListener('loadedmetadata', handleLoadedMeta);
 
     window.addEventListener('resize', updateSize)
     updateSize()
@@ -176,18 +177,18 @@ export default function AudioPlayer({setAudSource}) {
 
 
     const ctx = new (window.AudioContext || window.webkitAudioContext)()
-    const source = ctx.createMediaElementSource(aud) 
+    const source = ctx.createMediaElementSource(aud.current)
 
-    const delayedSource = ctx.createDelay();
-    delayedSource.delayTime.value = 0.26;
-    source.connect(delayedSource)
+    const analyser = ctx.createAnalyzer();
+    analyser.fftSize = 32;
+    source.connect(analyser)
 
-    setAudSource(delayedSource)
-    delayedSource.connect(ctx.destination)
+    setAudSource(analyser)
+    source.connect(ctx.destination)
 
 
     return () => {
-      aud.removeEventListener('loadedmetadata', handleLoadedMeta)
+      aud.current.removeEventListener('loadedmetadata', handleLoadedMeta)
       window.removeEventListener('resize', updateSize)
       document.removeEventListener('keydown', handleSpace)
     }
@@ -220,7 +221,7 @@ export default function AudioPlayer({setAudSource}) {
 
   function handleTimeUpdate(e) {
     const prog = e.target.currentTime / duration[0];
-    if (window.webkitAudioContext && prog>=1) {
+    if (window.webkitAudioContext && prog >= 1) {
       skip(1)()
     }
     if (!down) {
@@ -231,11 +232,10 @@ export default function AudioPlayer({setAudSource}) {
   const handleMouseUp = (e) => {
     e.stopPropagation()
     // e.preventDefault()
-    const aud = document.querySelector('audio');
     const prog = e.clientX / winWidth;
     setProgress(prog);
 
-    aud.currentTime = prog * duration[0];
+    aud.current.currentTime = prog * duration[0];
     setDown(false);
     document.removeEventListener('mousemove', updateDrag);
     document.removeEventListener('mouseup', handleMouseUp);
@@ -244,10 +244,9 @@ export default function AudioPlayer({setAudSource}) {
   const handleTouchEnd = (e) => {
     e.stopPropagation()
     // e.preventDefault()
-    const aud = document.querySelector('audio');
     const prog = e.changedTouches[0].clientX / winWidth;
     setProgress(prog);
-    aud.currentTime = prog * duration[0];
+    aud.current.currentTime = prog * duration[0];
     setDown(false);
     document.removeEventListener('touchmove', updateDrag);
     document.removeEventListener('touchend', handleTouchEnd);
@@ -316,18 +315,26 @@ export default function AudioPlayer({setAudSource}) {
     [start]
   );
 
+  const playerdiv = useRef(null)
   useEffect(() => {
-    const playerdiv = document.getElementById('playerdiv')
-    playerdiv.addEventListener("touchend", handleTouchEndx);
+    playerdiv.current.addEventListener("touchend", handleTouchEndx);
     return () => {
-      playerdiv.removeEventListener("touchend", handleTouchEndx);
+      playerdiv.current.removeEventListener("touchend", handleTouchEndx);
     };
   }, [handleTouchEndx]);
 
-
+  function onPlayClick() {
+    if (!aud.current.paused) {
+      aud.current.pause();
+      dispatch({ type: ent_act.SET_PAUSE })
+    } else if (!aud.current.emptied) {
+      aud.current.play();
+      dispatch({ type: ent_act.SET_PLAY })
+    }
+  }
 
   return <>
-    <PlayerDiv id='playerdiv' onTouchStart={handleTouchStart}>
+    <PlayerDiv ref={playerdiv} onTouchStart={handleTouchStart}>
 
       <ProgressBar {...ProgressBarHandler}>
         <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
@@ -339,33 +346,12 @@ export default function AudioPlayer({setAudSource}) {
 
       <div className='control' >
         {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
-        {playing
-          ?
-          <img src={pauseIcon} className='play-button'
-            onClick={(e) => {
-              e.stopPropagation()
-              const aud = document.querySelector('audio');
-              aud.pause();
-              dispatch({ type: ent_act.SET_PAUSE })
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation()
-            }}
-          />
-          :
-          <img src={playIcon} className='play-button'
-            onClick={(e) => {
-              e.stopPropagation()
-              const aud = document.querySelector('audio');
-              if (aud.emptied) return;
-              aud.play();
-              dispatch({ type: ent_act.SET_PLAY })
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation()
-            }}
-          />
-        }
+        <img src={playing ? pauseIcon : playIcon} className='play-button'
+          onClick={onPlayClick}
+          onTouchStart={(e) => {
+            e.stopPropagation()
+          }}
+        />
         {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
       </div>
 
@@ -381,6 +367,7 @@ export default function AudioPlayer({setAudSource}) {
     </PlayerDiv>
     <audio
       // controls
+      ref={aud}
       crossOrigin="anonymous"
       autoPlay src={songUrl}
       onEnded={skip(1)}

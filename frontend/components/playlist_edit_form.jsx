@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components'
 
 import { editPlaylist } from '../actions/actions'
@@ -20,7 +20,7 @@ const PlaylistEditDiv = styled(props => <ContextFormWrap {...props} />)`
 export default function PlaylistEditForm() {
 
   const dispatch = useDispatch();
-
+  const form = useRef(null)
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD);
   const contextMenu = useSelector(state => state.ui.contextMenu);
 
@@ -31,7 +31,7 @@ export default function PlaylistEditForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = new FormData(document.getElementById('songEditForm'));
+    const form = new FormData(form.current);
     dispatch(editPlaylist(form))
     dispatch({ type: context_act.CLOSE_CONTEXT })
   }
@@ -41,7 +41,7 @@ export default function PlaylistEditForm() {
     {/* <ContextFormWrap onClick={(e) => e.stopPropagation()}> */}
       <div className="title">Rename playlist</div>
       <div className="spacer"></div>
-      <form onSubmit={handleSubmit} id="songEditForm">
+      <form onSubmit={handleSubmit} ref={form} id="songEditForm">
         {Object.entries(titleD[contextMenu.playlist_id]).map(
           (field, i) => (
             <div key={i} className="login-input" id={field[0]}>

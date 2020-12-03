@@ -1,40 +1,45 @@
 
 
-import React, { useEffect, createRef } from 'react';
+import React, { useEffect, createRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
-
-
-import butterchurn from 'butterchurn'
-import butterchurnPresets from 'butterchurn-presets'
 
 
 const VisualizerDiv = styled.div``
 
 export default function Visualizer({audSource}) {
 
-
-  let presets = {};
-  Object.assign(presets, butterchurnPresets.getPresets());
-  const presetArr = Object.values(presets)
+  const songD = useSelector(state => state.entities.songD);
+  const playlistD = useSelector(state => state.entities.playlistD);
+  const track = useSelector(state => state.player.track);
 
   let visualizer;
-  let canvas = createRef()
+  let canvas = createRef();
 
+  let [albumArt, setAlbumArt] = useState(null);
   useEffect(() => {
+    // visualizer = butterchurn.createVisualizer(audSource.context, canvas.current , {
+    //   width: 400,
+    //   height: 400,
+    //   pixelRatio: window.devicePixelRatio || 1,
+    //   textureRatio: 1,
+    // });
 
-    visualizer = butterchurn.createVisualizer(audSource.context, canvas.current , {
-      width: 400,
-      height: 400,
-      pixelRatio: window.devicePixelRatio || 1,
-      textureRatio: 1,
-    });
-
-    visualizer.loadPreset(presetArr[0], 0)
+    // visualizer.loadPreset(presetArr[2], 0)
 
 
-    visualizer.connectAudio(audSource)
-    startRenderer()
-  }, [])
+    // visualizer.connectAudio(audSource)
+    // startRenderer()
+    if (track) {
+      let song;
+      if (track[0]) {
+        song = songD[playlistD[track[0]][track[1]][0]];
+      } else {
+        song = Object.values(songD)[track[1]]
+      }
+      setAlbumArt(song.album_art_url)
+    }
+  }, [track])
 
   function startRenderer() {
     requestAnimationFrame(() => startRenderer());
@@ -42,10 +47,11 @@ export default function Visualizer({audSource}) {
   }
 
   return <VisualizerDiv>
-    <canvas
+    {/* <canvas
       width={400}
       height={400}
       ref={canvas}
-    />
+    /> */}
+    <img src={albumArt}/>
   </VisualizerDiv>
 }
