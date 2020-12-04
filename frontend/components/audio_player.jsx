@@ -179,8 +179,8 @@ export default function AudioPlayer({ setAudSource }) {
     const ctx = new (window.AudioContext || window.webkitAudioContext)()
     const source = ctx.createMediaElementSource(aud.current)
 
-    const analyser = ctx.createAnalyzer();
-    analyser.fftSize = 32;
+    const analyser = ctx.createAnalyser();
+    // analyser.fftSize = 32;
     source.connect(analyser)
 
     setAudSource(analyser)
