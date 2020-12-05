@@ -19,6 +19,8 @@ export default function Visualizer({ audSource }) {
   const track = useSelector(state => state.player.track);
 
   audSource[0].fftSize = 8192;
+  audSource[0].minDecibels = -50;
+  audSource[0].maxDecibels = 0;
   const bufferLength = audSource[0].frequencyBinCount
   const totalFreqRange = audSource[0].context.sampleRate / 2;
   const cellFreqPitch = totalFreqRange / (bufferLength - 1)
@@ -35,7 +37,7 @@ export default function Visualizer({ audSource }) {
 
   const logFreqRange = logMaxFreq-logMinFreq;
 
-  const [plot_w, plot_h] = [1000, 600]
+  const [plot_w, plot_h] = [1000, 1500]
 
   let cellXCoord = new Uint16Array(maxIdx - minIdx + 1)
   for (let i = 0; i < cellXCoord.length; i++) {
@@ -71,37 +73,25 @@ export default function Visualizer({ audSource }) {
 
 
   useEffect(() => {
-
-    console.log(dataArray.length, 'hereee')
-
-
-
     startRenderer()
   }, [])
 
   function startRenderer() {
-    let canvas = canvasRef.current;
     requestAnimationFrame(startRenderer);
     audSource[0].getByteFrequencyData(dataArray)
 
     const ctx = canvas.getContext("2d")
-    const h = canvas.height
-    const w = canvas.width
     ctx.fillStyle = 'rgb(0, 0, 0)';
-    ctx.fillRect(0, 0, w, h);
-    var barHeight;
-
+    ctx.fillRect(0, 0, plot_w, plot_h);
     ctx.strokeStyle = "white";
 
     ctx.beginPath();
-    for (var i = minIdx; i <= maxIdx; i++) {
+    ctx.moveTo(cellXCoord[0], plot_h - dataArray[minIdx]);
+    for (var i = minIdx+1; i <= maxIdx; i++) {
       const x = cellXCoord[i-minIdx] 
-      barHeight = dataArray[i] / 2;
-      ctx.moveTo(x, h);
-      ctx.lineTo(x, h - barHeight);
+      ctx.lineTo(x, plot_h - dataArray[i]);
     }
     ctx.stroke()
-
   }
 
   return <VisualizerDiv>
