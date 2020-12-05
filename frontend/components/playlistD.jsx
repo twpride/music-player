@@ -61,9 +61,7 @@ export default function PlaylistD() {
     dispatch({ type: context_act.PLAYLIST_BURGER_C, playlist_id })
   }
 
-  return <>
-    <Header title='Playlists' />
-    <div className="scrollable">
+  return <div className="scrollable">
       {titleD && Object.values(titleD).map((pl, index) => (
         <Link key={index} to={`/playlist_D/${pl.id}`}>
           <PlaylistTitleDiv className='row'  >
@@ -79,7 +77,6 @@ export default function PlaylistD() {
         New playlist
       </NewPlaylistDiv>
     </div>
-  </>
 };
 
 

@@ -108,9 +108,8 @@ const PlayerDiv = styled.div`
 `
 
 
-export default function AudioPlayer({ setAudSource }) {
+export default function AudioPlayer({winWidth}) {
   const dispatch = useDispatch();
-  const [winWidth, setWinWidth] = useState(window.innerWidh);
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(0);
   const [down, setDown] = useState(false);
@@ -148,9 +147,6 @@ export default function AudioPlayer({ setAudSource }) {
   };
 
 
-  function updateSize() {
-    setWinWidth(window.innerWidth)
-  }
   function handleLoadedMeta(e) {
     let sec;
     if (window.webkitAudioContext) { // webkit audio doubles song duration with silent second half
@@ -170,28 +166,9 @@ export default function AudioPlayer({ setAudSource }) {
 
     aud.current.addEventListener('loadedmetadata', handleLoadedMeta);
 
-    window.addEventListener('resize', updateSize)
-    updateSize()
 
     document.addEventListener('keydown', handleSpace)
 
-
-    const ctx = new (window.AudioContext || window.webkitAudioContext)()
-    const source = ctx.createMediaElementSource(aud.current)
-
-		const analyzer = [ ctx.createAnalyser(), ctx.createAnalyser() ];
-		const splitter = ctx.createChannelSplitter(2);
- 		const merger   = ctx.createChannelMerger(2);
-		for ( let i = 0; i < 2; i++ ) {
-			splitter.connect(analyzer[ i ], i );
-			analyzer[ i ].connect(merger, 0, i );
-		}
-    source.connect(splitter)
-
-
-    source.connect(ctx.destination)
-
-    setAudSource(analyzer)
 
     return () => {
       aud.current.removeEventListener('loadedmetadata', handleLoadedMeta)

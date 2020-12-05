@@ -18,7 +18,8 @@ export const ent_act = {
   INIT_STORE: "INIT_STORE",
   SET_PLAY: "SET_PLAY",
   SET_PAUSE: "SET_PAUSE",
-  DELETE_SONG: 'DELETE_SONG'
+  DELETE_SONG: 'DELETE_SONG',
+  RESET_PLAYLISTS:'RESET_PLAYLISTS'
 }
 
 const songD = (state = [], action) => {
@@ -29,8 +30,16 @@ const songD = (state = [], action) => {
     case ent_act.INIT_STORE:
       return action.songD;
     case ent_act.DELETE_SONG:
-      const newSongD = {...state};
+      const newSongD = { ...state };
       delete newSongD[action.song_id];
+
+
+
+    //   const newpl = [...state[action.pl_id]]
+    //   newpl.splice(action.idx, 1)
+    //   return { ...state, [action.pl_id]: newpl }
+
+
       return newSongD;
     default:
       return state;
@@ -41,7 +50,7 @@ const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.INIT_STORE:
-      return {...state, playlistTitleD: action.playlistTitleD};
+      return { ...state, playlistTitleD: action.playlistTitleD };
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
@@ -62,9 +71,12 @@ const playlistD = (state = {}, action) => {
       return newSt
     case ent_act.REMOVE_FROM_PLAYLIST:
       const newpl = [...state[action.pl_id]]
-      newpl.splice(action.idx,1)
-      return { ...state, [action.pl_id]:newpl}
-      
+      newpl.splice(action.idx, 1)
+      return { ...state, [action.pl_id]: newpl }
+    case ent_act.RESET_PLAYLISTS:
+      const st = { ...state}
+      action.pls_to_reset.forEach( id => delete st[id])
+      return st
     default:
       return state;
   }

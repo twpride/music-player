@@ -122,29 +122,25 @@ export default function Playlist() {
 
   return (
 
-    <>
-      <Header title={titleD && titleD[playlist_id].title} />
-
-      <div className="scrollable">
-        <DndProvider backend={TouchBackend}
-          options={{ enableMouseEvents: true }}
-        >
-          {cards && cards.map(([song_id, entry_id, prev], index) => (
-            <Card
-              song_id={song_id}
-              key={entry_id} // for react internal diff 
-              index={index} // for current list order
-              id={entry_id} // entry id
-              playlist_id={playlist_id} // playlist id
-              text={songD[song_id]} // title and name text
-              moveCard={moveCard}
-              setPrev={setPrev}
-              playSong={playSong(song_id, index)}
-            />
-          ))}
-        </DndProvider>
-      </div>
-    </>
+    <div className="scrollable">
+      <DndProvider backend={TouchBackend}
+        options={{ enableMouseEvents: true }}
+      >
+        {cards && cards.map(([song_id, entry_id, prev], index) => (
+          <Card
+            song_id={song_id}
+            key={entry_id} // for react internal diff 
+            index={index} // for current list order
+            id={entry_id} // entry id
+            playlist_id={playlist_id} // playlist id
+            text={songD[song_id]} // title and name text
+            moveCard={moveCard}
+            setPrev={setPrev}
+            playSong={playSong(song_id, index)}
+          />
+        ))}
+      </DndProvider>
+    </div>
   )
 };
 

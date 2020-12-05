@@ -1,22 +1,28 @@
 
 
-import React, { useEffect, useRef, createRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components'
 
 
-const AlbumArtImg = styled.img`
-  max-width:500px;
-  object-fit:scale-down;
-  margin:auto;
-/* flex-grow:1; */
+const AlbumArtDiv = styled.div`
+  flex:.6 .6 60%;
+  display:flex;
+  /* flex-direction:column; */
+  /* justify-content:center; */
+  /* align-content:center; */
+  img {
+    width:100%;
+    height:auto;
+    margin: auto;
+    max-width:700px;
+  }
 `
 
-export default function Visualizer({  }) {
+export default function AlbumArt() {
   const songD = useSelector(state => state.entities.songD);
   const playlistD = useSelector(state => state.entities.playlistD);
   const track = useSelector(state => state.player.track);
-
 
   let [albumArt, setAlbumArt] = useState(null);
 
@@ -32,8 +38,8 @@ export default function Visualizer({  }) {
     }
   }, [track])
 
-
-
-  return <AlbumArtImg src={albumArt} />
+  return <AlbumArtDiv>
+    <img src={albumArt} />
+    </AlbumArtDiv>
 
 }

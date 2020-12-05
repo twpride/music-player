@@ -8,8 +8,9 @@ import { ent_act } from '../reducers/root_reducer'
 import editIcon from '../icons/edit.svg'
 import addToPlaylist from '../icons/addToPlaylist.svg'
 import deleteIcon from '../icons/delete.svg'
-import {deleteTrack, deleteSong} from '../util/api_util'
-import {BurgerDiv} from './contextMenu'
+import { deleteTrack, deleteSong } from '../util/api_util'
+import { BurgerDiv } from './contextMenu'
+import { orderPlaylist } from '../actions/actions'
 
 const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
   .song-info {
@@ -41,22 +42,37 @@ export default function SongBurger() {
       e.stopPropagation()
       // Each row in playlist is Entry instance, Entry schema "song_id", "Entry_pk","prev_id"
       const playlist = playlistD[contextMenu.playlist_id]
-      const req = {target:playlist[contextMenu.index][1]}
+      const req = { target: playlist[contextMenu.index][1] }
       if (contextMenu.index != playlist.length - 1) {
         req['prev'] = playlist[contextMenu.index][2]
         req['next'] = playlist[contextMenu.index + 1][1]
       }
 
       deleteTrack(req)
-      dispatch({ type: ent_act.REMOVE_FROM_PLAYLIST, idx:contextMenu.index, pl_id: contextMenu.playlist_id })
+      dispatch({ type: ent_act.REMOVE_FROM_PLAYLIST, idx: contextMenu.index, pl_id: contextMenu.playlist_id })
       dispatch({ type: context_act.CLOSE_CONTEXT })
     },
-    "Delete song": (e) => {
+    "Delete song": async (e) => {
       e.stopPropagation()
-      const active_pl = track ? track[0] : null;
-      deleteSong(contextMenu.song_id, active_pl, contextMenu.playlist_id)
 
-      // dispatch({ type: ent_act.DELETE_SONG, song_id: contextMenu.song_id})
+      const song_id = contextMenu.song_id;
+      dispatch({ type: ent_act.DELETE_SONG, song_id })
+
+      const active_pls = []
+      if (contextMenu.playlist_id) active_pls.push(contextMenu.playlist_id)
+      if (track && track[0]) active_pls.push(track[0])
+
+      const resp = await deleteSong(song_id, active_pls)
+      const json = await resp.json()
+
+      json.fetched_pls.forEach( (pl, idx) => {
+        const playlist = orderPlaylist(pl);
+        const playlist_id = active_pls[idx];
+        dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
+      })
+      
+      const pls_to_reset = json.dirty_pls.filter(ent => !active_pls.includes(ent))
+      dispatch({ type: ent_act.RESET_PLAYLISTS, pls_to_reset })
       dispatch({ type: context_act.CLOSE_CONTEXT })
     },
   }
@@ -66,7 +82,7 @@ export default function SongBurger() {
 
   if (!contextMenu.playlist_id) {
     delete burgerList['Remove from playlist'];
-    icons.splice(2,1);
+    icons.splice(2, 1);
   }
 
   return (

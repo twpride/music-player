@@ -4,11 +4,10 @@ import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components'
 
 import SongD from './songD';
-import UploadForm from './upload_form';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import AudioPlayer from './audio_player'
-import Visualizer from './visualizer'
+import AlbumArt from './album_art'
 import Navbar from './navbar';
 import ContextMenu from './contextMenu'
 
@@ -29,9 +28,10 @@ const AppDiv = styled.div`
 
   .scrollable {
     z-index:1;
-    /* min-width:400px; */
+    min-width:375px;
     /* margin: 0 auto; */
     overflow-y:auto;
+    flex: 1 .4 40%;
   }
 
   .box {
@@ -39,8 +39,7 @@ const AppDiv = styled.div`
     height:100%;
     display:flex;
     flex-direction: row;
-    /* justify-content:flex-end; */
-
+    justify-content:flex-end;
   }
 `
 
@@ -48,9 +47,9 @@ const AppDiv = styled.div`
 const App = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
-  const [audSource, setAudSource] = useState(null);
-  window.audSource=audSource
 
+  const [winWidth, setWinWidth] = useState(window.innerWidth);
+  window.winWith = winWidth;
   useEffect(() => {
     const fetchData = async () => {
       const songD = await getSongD().then(response => response.json())
@@ -58,20 +57,22 @@ const App = () => {
       dispatch({ type: ent_act.INIT_STORE, songD, playlistTitleD })
     }
     fetchData()
+
+    window.addEventListener('resize', ()=>setWinWidth(window.innerWidth))
   }, [])
 
   return (
     <AppDiv id="appdiv">
       <Header title='Songs' />
       <div className='box'>
-        {audSource && <Visualizer audSource={audSource}/>}
+        {winWidth>800 && <AlbumArt />}
         <Switch>
           <Route exact path='/' component={SongD} />
           <Route path='/playlist_d/:playlist_id' component={Playlist} />
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
       </div>
-      <AudioPlayer setAudSource={setAudSource}/>
+      <AudioPlayer winWidth={winWidth}/>
       <Navbar />
       <ContextMenu />
     </AppDiv>

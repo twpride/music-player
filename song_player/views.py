@@ -169,10 +169,12 @@ def song(request, id):  #get , delete
     url = connection.Bucket(bucket).meta.client.generate_presigned_url(
         'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
-  breakpoint()
-  req = json.loads(request.body.decode('utf-8'))
+
+  pls_to_fetch = json.loads(request.body.decode('utf-8'))['active_pls']
+
   song_to_delete = Song.objects.get(pk=id)
   affected_entries = song_to_delete.entry_set.all()
+  dirty_pls = set()
 
   ent_to_upd = []
   ent_to_del = set()
@@ -180,17 +182,12 @@ def song(request, id):  #get , delete
   for ent in affected_entries:
     if ent.pk in ent_to_del:
       continue
-
+    dirty_pls.add(ent.playlist_id)
     ent_to_del.add(ent.pk)
 
-    # try:
-    #   nxt = ent.next_ent
-    # except ent.DoesNotExist:
-    #   nxt = None
     nxt = ent.next_ent.first()
     while nxt and nxt.song.pk == id:
       ent_to_del.add(nxt.pk)
-      # nxt = nxt.next_ent
       nxt = nxt.next_ent.first()
 
     prev = ent.prev_ent
@@ -210,6 +207,14 @@ def song(request, id):  #get , delete
   Entry.objects.filter(pk__in=ent_to_del).delete()
   Entry.objects.bulk_update(ent_to_upd, ['prev_ent'])
   song_to_delete.delete()
+  # return HttpResponse(status=204)
+  res = []
+  for pl in pls_to_fetch:
+    res.append(list(
+      Entry.objects.filter(playlist_id=id).values_list("song_id", "pk",
+                                                       "prev_ent")))
+  
+  return JsonResponse({'fetched_pls':res,'dirty_pls':dirty_pls}, safe=False)
 
 
 def playlist(request, id):  # delete, get

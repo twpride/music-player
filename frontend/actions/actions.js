@@ -42,13 +42,19 @@ export const getPlaylistTitleD = () => dispatch => (
     ))
 )
 
+
 export const getPlaylist = playlist_id => async dispatch => {
   const response = await APIUtil.getPlaylist(playlist_id)
   const linkedList = await response.json()
+  const playlist = orderPlaylist(linkedList)
+
+  dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
+}
+
+export const orderPlaylist = (linkedList) => {
   let playlist = [];
   let map = new Map();
   let currentId = null;
-
   // index the linked list by previous_item_id 
   // we use prev because we rely on prev==null to identify list head
   for (let i = 0; i < linkedList.length; i++) {
@@ -60,16 +66,14 @@ export const getPlaylist = playlist_id => async dispatch => {
       map.set(item[2], i);
     }
   }
-
   while (playlist.length < linkedList.length) {
     // get the item with a previous item ID referencing the current item
     let nextItem = linkedList[map.get(currentId)];
     playlist.push(nextItem);
     currentId = nextItem[1];
   }
-  dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
+  return playlist
 }
-
 
 export const loginThunk = user => async dispatch => {
   const res = await login(user);
