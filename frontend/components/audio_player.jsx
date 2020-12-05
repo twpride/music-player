@@ -179,13 +179,19 @@ export default function AudioPlayer({ setAudSource }) {
     const ctx = new (window.AudioContext || window.webkitAudioContext)()
     const source = ctx.createMediaElementSource(aud.current)
 
-    const analyser = ctx.createAnalyser();
-    // analyser.fftSize = 32;
-    source.connect(analyser)
+		const analyzer = [ ctx.createAnalyser(), ctx.createAnalyser() ];
+		const splitter = ctx.createChannelSplitter(2);
+ 		const merger   = ctx.createChannelMerger(2);
+		for ( let i = 0; i < 2; i++ ) {
+			splitter.connect(analyzer[ i ], i );
+			analyzer[ i ].connect(merger, 0, i );
+		}
+    source.connect(splitter)
 
-    setAudSource(analyser)
+
     source.connect(ctx.destination)
 
+    setAudSource(analyzer)
 
     return () => {
       aud.current.removeEventListener('loadedmetadata', handleLoadedMeta)

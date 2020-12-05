@@ -39,7 +39,7 @@ const AppDiv = styled.div`
     height:100%;
     display:flex;
     flex-direction: row;
-    justify-content:flex-end;
+    /* justify-content:flex-end; */
 
   }
 `
