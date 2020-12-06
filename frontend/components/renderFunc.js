@@ -59,6 +59,7 @@ export default function renderFunc(start) {
 
 
   const aud = document.getElementById('audio')
+  aud.disconnect()
   // var AudioContext = window.webkitAudioContext;
   var AudioContext = window.AudioContext
   // var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -74,6 +75,11 @@ export default function renderFunc(start) {
     this.ctx.fillStyle = "lightgrey";
     this.setCanvas()
   }, 200).bind(this))
+
+  window.addEventListener("beforeunload", function(event) { 
+
+   });
+
 }
 
 renderFunc.prototype.setCanvas = function () {
