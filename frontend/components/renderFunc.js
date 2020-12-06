@@ -1,22 +1,22 @@
 import { throttle } from '../util/throttle'
 export default function renderFunc(start) {
-  this.start= start;
-  this.minFreq = 200;
-  const maxFreq = 2000;
-  const fftSize = 4096;
-  const minDecibels = -60;
-  const maxDecibels = 0;
+  // this.start= start;
+  // this.minFreq = 200;
+  // const maxFreq = 2000;
+  // const fftSize = 4096;
+  // const minDecibels = -60;
+  // const maxDecibels = 0;
 
-  const aud = document.getElementById('audio')
-  this.container = document.getElementById('container')
-  this.canvas = document.createElement('canvas')
-  this.canvas.width = this.container.clientWidth;
-  this.canvas.height = this.container.clientHeight;
-  this.ctx = this.canvas.getContext("2d")
-  this.container.appendChild(this.canvas)
+  // const aud = document.getElementById('audio')
+  // this.container = document.getElementById('container')
+  // this.canvas = document.createElement('canvas')
+  // this.canvas.width = this.container.clientWidth;
+  // this.canvas.height = this.container.clientHeight;
+  // this.ctx = this.canvas.getContext("2d")
+  // this.container.appendChild(this.canvas)
 
-  const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  const source = audctx.createMediaElementSource(aud)
+  // const audctx = new (window.AudioContext || window.webkitAudioContext)()
+  // const source = audctx.createMediaElementSource(aud)
   // const splitter = audctx.createChannelSplitter(2);
   // this.analyzer = [];
   // for (let i = 0; i < 2; i++) {
@@ -58,8 +58,9 @@ export default function renderFunc(start) {
   // // ctx.stroke()
 
 
-  // const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  // const source = audctx.createMediaElementSource(aud)
+  const aud = document.getElementById('audio')
+  const audctx = new (window.AudioContext || window.webkitAudioContext)()
+  const source = audctx.createMediaElementSource(aud)
   source.connect(audctx.destination)
 
   window.addEventListener('resize', throttle(() => {
