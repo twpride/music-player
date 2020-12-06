@@ -1,5 +1,6 @@
 import { throttle } from '../util/throttle'
-export default function renderFunc() {
+export default function renderFunc(start) {
+  this.start= start;
   this.minFreq = 200;
   const maxFreq = 2000;
   const fftSize = 4096;
@@ -92,6 +93,7 @@ renderFunc.prototype.startRenderer = function () {
   this.ctx.closePath()
   this.ctx.fill()
   this.ctx.stroke()
-  // this.ctx.font = "30px Arial";
+  this.ctx.font = "30px Arial";
+  this.ctx.fillText(Date.now()-this.start,100,50)
   requestAnimationFrame(this.startRenderer.bind(this));
 }

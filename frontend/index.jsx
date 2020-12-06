@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
   
-  new renderFunc().startRenderer()
+  new renderFunc(Date.now()).startRenderer()
+  // new renderFunc().startRenderer()
  
 });
