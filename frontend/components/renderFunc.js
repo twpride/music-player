@@ -1,34 +1,34 @@
 import { throttle } from '../util/throttle'
 export default function renderFunc(start) {
-  // this.start= start;
-  // this.minFreq = 200;
-  // const maxFreq = 2000;
-  // const fftSize = 4096;
-  // const minDecibels = -60;
-  // const maxDecibels = 0;
+  this.start= start;
+  this.minFreq = 200;
+  const maxFreq = 2000;
+  const fftSize = 4096;
+  const minDecibels = -60;
+  const maxDecibels = 0;
 
-  // const aud = document.getElementById('audio')
-  // this.container = document.getElementById('container')
-  // this.canvas = document.createElement('canvas')
-  // this.canvas.width = this.container.clientWidth;
-  // this.canvas.height = this.container.clientHeight;
-  // this.ctx = this.canvas.getContext("2d")
-  // this.container.appendChild(this.canvas)
+  const aud = document.getElementById('audio')
+  this.container = document.getElementById('container')
+  this.canvas = document.createElement('canvas')
+  this.canvas.width = this.container.clientWidth;
+  this.canvas.height = this.container.clientHeight;
+  this.ctx = this.canvas.getContext("2d")
+  this.container.appendChild(this.canvas)
 
-  // const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  // const source = audctx.createMediaElementSource(aud)
-  // const splitter = audctx.createChannelSplitter(2);
-  // this.analyzer = [];
-  // for (let i = 0; i < 2; i++) {
-  //   const _analyzer = audctx.createAnalyser();
-  //   _analyzer.fftSize = fftSize;
-  //   _analyzer.minDecibels = minDecibels;
-  //   _analyzer.maxDecibels = maxDecibels;
-  //   splitter.connect(_analyzer, i);
-  //   this.analyzer.push(_analyzer)
-  // }
+  const audctx = new (window.AudioContext || window.webkitAudioContext)()
+  const source = audctx.createMediaElementSource(aud)
+  const splitter = audctx.createChannelSplitter(2);
+  this.analyzer = [];
+  for (let i = 0; i < 2; i++) {
+    const _analyzer = audctx.createAnalyser();
+    _analyzer.fftSize = fftSize;
+    _analyzer.minDecibels = minDecibels;
+    _analyzer.maxDecibels = maxDecibels;
+    splitter.connect(_analyzer, i);
+    this.analyzer.push(_analyzer)
+  }
   // const delay = audctx.createDelay(0.26)
-  // source.connect(splitter)
+  source.connect(splitter)
   // source.connect(delay)
   // delay.connect(audctx.destination)
 
