@@ -7,7 +7,7 @@ export default function renderFunc(start) {
   const minDecibels = -60;
   const maxDecibels = 0;
 
-  const aud = document.getElementById('audio')
+  // const aud = document.getElementById('audio')
   this.container = document.getElementById('container')
   this.canvas = document.createElement('canvas')
   this.canvas.width = this.container.clientWidth;
@@ -58,14 +58,14 @@ export default function renderFunc(start) {
   // // ctx.stroke()
 
 
-  // const aud = document.getElementById('audio')
+  const aud = document.getElementById('audio')
   // var AudioContext = window.webkitAudioContext;
-  // // var AudioContext = window.AudioContext;
-  // // var AudioContext = window.AudioContext || window.webkitAudioContext;
-  // var audctx = new AudioContext();
-  // // const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  // const source = audctx.createMediaElementSource(aud)
-  // // source.connect(audctx.destination)
+  var AudioContext = window.AudioContext
+  // var AudioContext = window.AudioContext || window.webkitAudioContext;
+  var audctx = new AudioContext();
+  // const audctx = new (window.AudioContext || window.webkitAudioContext)()
+  const source = audctx.createMediaElementSource(aud)
+  source.connect(audctx.destination)
 
   window.addEventListener('resize', throttle(() => {
     console.log(this)
