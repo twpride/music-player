@@ -28,7 +28,7 @@ export default function renderFunc(start) {
     this.analyzer.push(_analyzer)
   }
   // const delay = audctx.createDelay(0.26)
-  source.connect(splitter)
+  // source.connect(splitter)
   // source.connect(delay)
   // delay.connect(audctx.destination)
 
