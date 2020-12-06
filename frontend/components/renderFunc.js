@@ -27,10 +27,10 @@ export default function renderFunc(start) {
     splitter.connect(_analyzer, i);
     this.analyzer.push(_analyzer)
   }
-  const delay = audctx.createDelay(0.26)
+  // const delay = audctx.createDelay(0.26)
   source.connect(splitter)
-  source.connect(delay)
-  delay.connect(audctx.destination)
+  // source.connect(delay)
+  // delay.connect(audctx.destination)
 
   const bufferLength = this.analyzer[0].frequencyBinCount
   const totalFreqRange = this.analyzer[0].context.sampleRate / 2;
