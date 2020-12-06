@@ -350,6 +350,7 @@ export default function AudioPlayer({winWidth}) {
     </PlayerDiv>
     <audio
       // controls
+      id='audio'
       ref={aud}
       crossOrigin="anonymous"
       autoPlay src={songUrl}

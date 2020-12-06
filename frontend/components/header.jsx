@@ -16,11 +16,19 @@ export const HeaderDiv = styled.div`
   font-weight: 600;
   min-height: 50px;
   width: 100%;
-  z-index: 10;
+  position:relative;
   /* box-shadow: 0 3px 4px 0 rgba(0,0,0,0.03), 0 3px 3px -2px rgba(0,0,0,0.03), 0 1px 8px 0 rgba(0,0,0,0.05); */
-  border-bottom: 1px solid lightgrey;
+  /* border-bottom: 1px solid lightgrey; */
   .title {
     font-size:1.2em;
+  }
+  #container {
+    z-index:-10;
+    position:absolute;
+    bottom:-30px;
+    height:60px;
+    left:0;
+    width:100%;
   }
 `
 
@@ -31,6 +39,7 @@ export default function Header({ title }) {
   return (
     <HeaderDiv className="nav">
       <div className='title'>{title}</div>
+      <div id="container"></div>
       <button onClick={() => {
         logout().then(
           () => {

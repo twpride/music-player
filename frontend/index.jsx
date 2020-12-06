@@ -8,6 +8,7 @@ import logger from 'redux-logger';
 
 import App from './components/app';
 import rootReducer from './reducers/root_reducer.js';
+import renderFunc from './components/renderFunc'
 
 
 const configureStore = (preloadedState = {}) => (
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
-
+  
+  renderFunc()
  
 });

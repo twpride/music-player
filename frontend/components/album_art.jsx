@@ -17,6 +17,8 @@ const AlbumArtDiv = styled.div`
     margin: auto;
     max-width:700px;
   }
+
+
 `
 
 export default function AlbumArt() {
