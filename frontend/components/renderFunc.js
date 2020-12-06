@@ -58,8 +58,8 @@ export default function renderFunc(start) {
   // // ctx.stroke()
 
 
-  const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  const source = audctx.createMediaElementSource(aud)
+  // const audctx = new (window.AudioContext || window.webkitAudioContext)()
+  // const source = audctx.createMediaElementSource(aud)
   source.connect(audctx.destination)
 
   window.addEventListener('resize', throttle(() => {
