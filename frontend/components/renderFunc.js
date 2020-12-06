@@ -6,14 +6,13 @@ export default function renderFunc() {
   const minDecibels = -60;
   const maxDecibels = 0;
 
-
   const aud = document.getElementById('audio')
-  const container = document.getElementById('container')
+  this.container = document.getElementById('container')
   this.canvas = document.createElement('canvas')
-  this.canvas.width = container.clientWidth;
-  this.canvas.height = container.clientHeight;
-  this.ctx = canvas.getContext("2d")
-  container.appendChild(canvas)
+  this.canvas.width = this.container.clientWidth;
+  this.canvas.height = this.container.clientHeight;
+  this.ctx = this.canvas.getContext("2d")
+  this.container.appendChild(this.canvas)
 
   const audctx = new (window.AudioContext || window.webkitAudioContext)()
   const source = audctx.createMediaElementSource(aud)
@@ -35,40 +34,38 @@ export default function renderFunc() {
   const bufferLength = this.analyzer[0].frequencyBinCount
   const totalFreqRange = this.analyzer[0].context.sampleRate / 2;
   this.cellFreqPitch = totalFreqRange / (bufferLength - 1)
-  this.minIdx = Math.floor(minFreq / this.cellFreqPitch)
+  this.minIdx = Math.floor(this.minFreq / this.cellFreqPitch)
   this.maxIdx = Math.floor(maxFreq / this.cellFreqPitch)
-  this.logMinFreq = Math.log(minFreq);
+  this.logMinFreq = Math.log(this.minFreq);
   this.logMaxFreq = Math.log(maxFreq);
   this.logFreqRange = this.logMaxFreq - this.logMinFreq;
 
-  this.cellXCoord = new Int16Array(maxIdx - minIdx + 1)
-  for (let i = 0; i < cellXCoord.length; i++) {
-    const logFreqCoord = Math.log(minFreq + i * cellFreqPitch) - logMinFreq
-    this.cellXCoord[i] = Math.floor(logFreqCoord / this.logFreqRange * canvas.width)
+  this.cellXCoord = new Int16Array(this.maxIdx - this.minIdx + 1)
+  for (let i = 0; i < this.cellXCoord.length; i++) {
+    const logFreqCoord = Math.log(this.minFreq + i * this.cellFreqPitch) - this.logMinFreq
+    this.cellXCoord[i] = Math.floor(logFreqCoord / this.logFreqRange * this.canvas.width)
   }
 
-  console.log(cellXCoord.length, "cost")
-  let dataArray = new Uint8Array(bufferLength)
+  console.log(this.cellXCoord.length, "cost")
+  this.dataArray = new Uint8Array(bufferLength)
   // ctx.strokeStyle = "#ad0f37";
-  ctx.strokeStyle = "lightgrey";
-  ctx.fillStyle = "lightgrey";
+  this.ctx.strokeStyle = "lightgrey";
+  this.ctx.fillStyle = "lightgrey";
   // ctx.beginPath();
   // ctx.moveTo(0,0);
   // ctx.lineTo(canvas.width, canvas.height);
   // ctx.stroke()
-  const something = "asdf"
-  console.log(this, 'isitdef')
-  function onResize() {
-    console.log(canvas.width, 'asdfasdf?????')
-    throttle(() => {
-      console.log(container.clientWidth, 'qwerqwer')
-      canvas.width = container.clientWidth;
-    }, 500)()
-  }
-  window.addEventListener('resize', onResize.bind("anything?"))
+
+  window.addEventListener('resize', throttle(() => {
+    console.log(this)
+    this.canvas.width = this.container.clientWidth;
+    this.ctx.strokeStyle = "lightgrey";
+    this.ctx.fillStyle = "lightgrey";
+    this.setCanvas()
+  }, 200).bind(this))
 }
 
-renderFunc.setCanvas = function () {
+renderFunc.prototype.setCanvas = function () {
   for (let i = 0; i < this.cellXCoord.length; i++) {
     const logFreqCoord = Math.log(this.minFreq + i * this.cellFreqPitch) - this.logMinFreq
     this.cellXCoord[i] = Math.floor(logFreqCoord / this.logFreqRange * this.canvas.width)
@@ -89,13 +86,12 @@ renderFunc.prototype.startRenderer = function () {
   this.analyzer[1].getByteFrequencyData(this.dataArray)
   for (var i = this.maxIdx; i >= this.minIdx; i--) {
     const x = this.cellXCoord[i - this.minIdx]
-    this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8);
+    this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8 );
   }
 
   this.ctx.closePath()
   this.ctx.fill()
   this.ctx.stroke()
-  this.ctx.font = "30px Arial";
-  this.ctx.fillText(this.canvas.width, 100, 50);
-  requestAnimationFrame(this.startRenderer);
+  // this.ctx.font = "30px Arial";
+  requestAnimationFrame(this.startRenderer.bind(this));
 }

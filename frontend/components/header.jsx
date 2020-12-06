@@ -21,14 +21,18 @@ export const HeaderDiv = styled.div`
   /* border-bottom: 1px solid lightgrey; */
   .title {
     font-size:1.2em;
+    z-index:4;
   }
   #container {
-    z-index:-10;
+    z-index:2;
     position:absolute;
     bottom:-30px;
     height:60px;
     left:0;
     width:100%;
+  }
+  button {
+    z-index:10;
   }
 `
 
