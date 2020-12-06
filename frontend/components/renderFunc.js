@@ -1,19 +1,19 @@
 import { throttle } from '../util/throttle'
 export default function renderFunc(start) {
-  // this.start= start;
-  // this.minFreq = 200;
-  // const maxFreq = 2000;
-  // const fftSize = 4096;
-  // const minDecibels = -60;
-  // const maxDecibels = 0;
+  this.start= start;
+  this.minFreq = 200;
+  const maxFreq = 2000;
+  const fftSize = 4096;
+  const minDecibels = -60;
+  const maxDecibels = 0;
 
-  // const aud = document.getElementById('audio')
-  // this.container = document.getElementById('container')
-  // this.canvas = document.createElement('canvas')
-  // this.canvas.width = this.container.clientWidth;
-  // this.canvas.height = this.container.clientHeight;
-  // this.ctx = this.canvas.getContext("2d")
-  // this.container.appendChild(this.canvas)
+  const aud = document.getElementById('audio')
+  this.container = document.getElementById('container')
+  this.canvas = document.createElement('canvas')
+  this.canvas.width = this.container.clientWidth;
+  this.canvas.height = this.container.clientHeight;
+  this.ctx = this.canvas.getContext("2d")
+  this.container.appendChild(this.canvas)
 
   // const audctx = new (window.AudioContext || window.webkitAudioContext)()
   // const source = audctx.createMediaElementSource(aud)
@@ -58,14 +58,14 @@ export default function renderFunc(start) {
   // // ctx.stroke()
 
 
-  const aud = document.getElementById('audio')
+  // const aud = document.getElementById('audio')
   // var AudioContext = window.webkitAudioContext;
-  var AudioContext = window.AudioContext;
-  // var AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audctx = new AudioContext();
-  // const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  const source = audctx.createMediaElementSource(aud)
-  source.connect(audctx.destination)
+  // // var AudioContext = window.AudioContext;
+  // // var AudioContext = window.AudioContext || window.webkitAudioContext;
+  // var audctx = new AudioContext();
+  // // const audctx = new (window.AudioContext || window.webkitAudioContext)()
+  // const source = audctx.createMediaElementSource(aud)
+  // // source.connect(audctx.destination)
 
   window.addEventListener('resize', throttle(() => {
     console.log(this)
@@ -85,25 +85,28 @@ renderFunc.prototype.setCanvas = function () {
 
 renderFunc.prototype.startRenderer = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  this.ctx.beginPath();
-  this.ctx.moveTo(0, this.canvas.height / 2);
+  // this.ctx.beginPath();
+  // this.ctx.moveTo(0, this.canvas.height / 2);
 
-  this.analyzer[0].getByteFrequencyData(this.dataArray)
-  for (var i = this.minIdx; i <= this.maxIdx; i++) {
-    const x = this.cellXCoord[i - this.minIdx]
-    this.ctx.lineTo(x, this.canvas.height / 2 - this.dataArray[i] / 8);
-  }
+  // this.analyzer[0].getByteFrequencyData(this.dataArray)
+  // for (var i = this.minIdx; i <= this.maxIdx; i++) {
+  //   const x = this.cellXCoord[i - this.minIdx]
+  //   this.ctx.lineTo(x, this.canvas.height / 2 - this.dataArray[i] / 8);
+  // }
 
-  this.analyzer[1].getByteFrequencyData(this.dataArray)
-  for (var i = this.maxIdx; i >= this.minIdx; i--) {
-    const x = this.cellXCoord[i - this.minIdx]
-    this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8 );
-  }
+  // this.analyzer[1].getByteFrequencyData(this.dataArray)
+  // for (var i = this.maxIdx; i >= this.minIdx; i--) {
+  //   const x = this.cellXCoord[i - this.minIdx]
+  //   this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8 );
+  // }
 
-  this.ctx.closePath()
-  this.ctx.fill()
-  this.ctx.stroke()
+  // this.ctx.closePath()
+  // this.ctx.fill()
+  // this.ctx.stroke()
+  console.log('heree')
   this.ctx.font = "30px Arial";
-  this.ctx.fillText(Date.now()-this.start,100,50)
+  // this.ctx.fillText(Date.now()-this.start,100,50)
+  this.ctx.fillText(window.AudioContext,100,20)
+  this.ctx.fillText(window.webkitAudioContext,100,40)
   requestAnimationFrame(this.startRenderer.bind(this));
 }
