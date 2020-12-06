@@ -71,8 +71,7 @@ export default function renderFunc(start) {
   }, 200).bind(this))
 
   window.addEventListener("beforeunload", function(event) { 
-    this.source.disconnect()
-    this.source = null;
+    this.audctx.close()
     console.log('hereeeeeexxx')
    });
 
