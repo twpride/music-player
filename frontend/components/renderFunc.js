@@ -17,22 +17,22 @@ export default function renderFunc(start) {
   this.ctx = this.canvas.getContext("2d")
   this.container.appendChild(this.canvas)
 
-  const audctx = new (window.AudioContext || window.webkitAudioContext)()
-  const source = audctx.createMediaElementSource(aud)
-  const splitter = audctx.createChannelSplitter(2);
+  this.audctx = new (window.AudioContext || window.webkitAudioContext)()
+  const source = this.audctx.createMediaElementSource(aud)
+  const splitter = this.audctx.createChannelSplitter(2);
   this.analyzer = [];
   for (let i = 0; i < 2; i++) {
-    const _analyzer = audctx.createAnalyser();
+    const _analyzer = this.audctx.createAnalyser();
     _analyzer.fftSize = fftSize;
     _analyzer.minDecibels = minDecibels;
     _analyzer.maxDecibels = maxDecibels;
     splitter.connect(_analyzer, i);
     this.analyzer.push(_analyzer)
   }
-  const delay = audctx.createDelay(0.26)
+  const delay = this.audctx.createDelay(0.26)
   source.connect(splitter)
   source.connect(delay)
-  delay.connect(audctx.destination)
+  delay.connect(this.audctx.destination)
 
   const bufferLength = this.analyzer[0].frequencyBinCount
   const totalFreqRange = this.analyzer[0].context.sampleRate / 2;
@@ -70,10 +70,15 @@ export default function renderFunc(start) {
     this.setCanvas()
   }, 200).bind(this))
 
-  window.addEventListener("beforeunload", function(event) { 
-    this.audctx.close()
-    console.log('hereeeeeexxx')
-   });
+    window.onbeforeunload = function (e) {
+      this.audctx.close()
+      return true;
+    };
+  // window.addEventListener("beforeunload", function(event) { 
+  //   this.audctx.close()
+  //   console.log('hereeeeeexxx')
+  //  });
+
 
 }
 

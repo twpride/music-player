@@ -47,5 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const xxx = new renderFunc(Date.now())
   xxx.startRenderer()
   // new renderFunc().startRenderer()
- 
+  window.onbeforeunload = function (e) {
+    console.log(xxx.audctx)
+    xxx.audctx.close();
+    // return true;
+  }; 
 });
