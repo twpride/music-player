@@ -17,7 +17,7 @@ export default function renderFunc(start) {
 
   const audctx = new (window.AudioContext || window.webkitAudioContext)()
   const source = audctx.createMediaElementSource(aud)
-  const splitter = audctx.createChannelSplitter(2);
+  // const splitter = audctx.createChannelSplitter(2);
   // this.analyzer = [];
   // for (let i = 0; i < 2; i++) {
   //   const _analyzer = audctx.createAnalyser();
