@@ -18,15 +18,15 @@ export default function renderFunc(start) {
   const audctx = new (window.AudioContext || window.webkitAudioContext)()
   const source = audctx.createMediaElementSource(aud)
   const splitter = audctx.createChannelSplitter(2);
-  this.analyzer = [];
-  for (let i = 0; i < 2; i++) {
-    const _analyzer = audctx.createAnalyser();
-    _analyzer.fftSize = fftSize;
-    _analyzer.minDecibels = minDecibels;
-    _analyzer.maxDecibels = maxDecibels;
-    splitter.connect(_analyzer, i);
-    this.analyzer.push(_analyzer)
-  }
+  // this.analyzer = [];
+  // for (let i = 0; i < 2; i++) {
+  //   const _analyzer = audctx.createAnalyser();
+  //   _analyzer.fftSize = fftSize;
+  //   _analyzer.minDecibels = minDecibels;
+  //   _analyzer.maxDecibels = maxDecibels;
+  //   splitter.connect(_analyzer, i);
+  //   this.analyzer.push(_analyzer)
+  // }
   // const delay = audctx.createDelay(0.26)
   // source.connect(splitter)
   // source.connect(delay)
