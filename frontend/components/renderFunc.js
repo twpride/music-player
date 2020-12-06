@@ -59,7 +59,9 @@ export default function renderFunc(start) {
 
 
   const aud = document.getElementById('audio')
-  var AudioContext = window.AudioContext || window.webkitAudioContext;
+  // var AudioContext = window.webkitAudioContext;
+  var AudioContext = window.AudioContext;
+  // var AudioContext = window.AudioContext || window.webkitAudioContext;
   var audctx = new AudioContext();
   // const audctx = new (window.AudioContext || window.webkitAudioContext)()
   const source = audctx.createMediaElementSource(aud)
