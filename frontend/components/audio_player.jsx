@@ -161,7 +161,6 @@ export default function AudioPlayer({winWidth}) {
   }
   function handleSpace(e) {
     if (e.target.type === 'text') return;
-    // if (e.key === " ") document.getElementsByClassName('play-button')[0].click()
     if (e.key === " ") onPlayClick()
   }
   useEffect(() => {
@@ -279,8 +278,8 @@ export default function AudioPlayer({winWidth}) {
     setStart(e.touches[0].clientX)
   }
 
-  // const handleSwipeEnd = e => {
-  const handleSwipeEnd = useCallback(e => {
+  const handleSwipeEnd = e => {
+  // const handleSwipeEnd = useCallback(e => {
       const dir = e.changedTouches[0].clientX - start;
       // console.log( dir, start, e.changedTouches[0].clientX);
       // if (!start) return;
@@ -298,7 +297,7 @@ export default function AudioPlayer({winWidth}) {
         skip(1)()
       }
     }
-  ,[start])
+  // ,[start])
 
   const playerdiv = useRef(null)
   useEffect(() => {
