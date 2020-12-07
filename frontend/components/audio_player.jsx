@@ -62,9 +62,13 @@ const ProgressBar = styled.div`
 const PlayerDiv = styled.div`
   height:60px;
   min-height:60px;
+  position: relative;
+`
+
+const SwipeDiv = styled.div`
   display:flex;
   align-items:center;
-  position: relative;
+  height:100%;
 
   .control {
     display:flex;
@@ -105,15 +109,16 @@ const PlayerDiv = styled.div`
     -webkit-user-select: none; 
     -moz-user-select: none; 
   }
+
 `
 
-
-export default function AudioPlayer({winWidth}) {
+export default function AudioPlayer({ winWidth }) {
   const dispatch = useDispatch();
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(0);
   const [down, setDown] = useState(false);
   const [songInfo, setSongInfo] = useState(null);
+  const [start, setStart] = useState(null)
 
   const songUrl = useSelector(state => state.player.songUrl);
   const playlist_dir = useSelector(state => state.entities.playlistD);
@@ -123,7 +128,49 @@ export default function AudioPlayer({winWidth}) {
   const playing = useSelector(state => state.player.playing);
 
   const aud = useRef()
+  const playerdiv = useRef(null)
   const history = useHistory();
+
+  useEffect(() => {
+    window.aud = aud.current;
+
+    aud.current.addEventListener('loadedmetadata', handleLoadedMeta);
+    document.addEventListener('keydown', handleSpace)
+    return () => {
+      aud.current.removeEventListener('loadedmetadata', handleLoadedMeta)
+      document.removeEventListener('keydown', handleSpace)
+    }
+  }, [])
+
+  useEffect(() => {
+    playerdiv.current.addEventListener("touchend", handleSwipeEnd);
+    return () => {
+      playerdiv.current.removeEventListener("touchend", handleSwipeEnd);
+    };
+  }, [start]);
+
+  useEffect(() => {
+    let title = '';
+    let artist = '';
+    if (track) {
+      let song;
+      if (track[0]) {
+        song = songD[playlistD[track[0]][track[1]][0]];
+      } else {
+        song = Object.values(songD)[track[1]]
+      }
+      artist = song.artist;
+      title = song.title;
+
+      setSongInfo(song)
+
+    }
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
+      navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
+      navigator.mediaSession.setActionHandler('nexttrack', skip(1));
+    }
+  }, [track, playlistD]) // remount when new track or when playlist is modified
 
   const skip = (dir) => () => {
     if (!track) return
@@ -149,7 +196,6 @@ export default function AudioPlayer({winWidth}) {
     dispatch({ type: ent_act.SET_PLAY })
   };
 
-
   function handleLoadedMeta(e) {
     let sec;
     if (window.webkitAudioContext) { // webkit audio doubles song duration with silent second half
@@ -161,47 +207,11 @@ export default function AudioPlayer({winWidth}) {
   }
   function handleSpace(e) {
     if (e.target.type === 'text') return;
-    if (e.key === " ") onPlayClick()
+    if (e.key === " ") {
+      e.preventDefault()
+      onPlayClick()
+    }
   }
-  useEffect(() => {
-    window.aud = aud.current;
-
-    aud.current.addEventListener('loadedmetadata', handleLoadedMeta);
-
-
-    document.addEventListener('keydown', handleSpace)
-
-
-    return () => {
-      aud.current.removeEventListener('loadedmetadata', handleLoadedMeta)
-      document.removeEventListener('keydown', handleSpace)
-    }
-
-  }, [])
-
-  useEffect(() => {
-    let title = '';
-    let artist = '';
-    if (track) {
-      let song;
-      if (track[0]) {
-        song = songD[playlistD[track[0]][track[1]][0]];
-      } else {
-        song = Object.values(songD)[track[1]]
-      }
-      artist = song.artist;
-      title = song.title;
-
-      setSongInfo(song)
-
-    }
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
-      navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
-      navigator.mediaSession.setActionHandler('nexttrack', skip(1));
-    }
-  }, [track, playlistD]) // remount when new track or when playlist is modified
-
 
   function handleTimeUpdate(e) {
     const prog = e.target.currentTime / duration[0];
@@ -236,7 +246,6 @@ export default function AudioPlayer({winWidth}) {
     document.removeEventListener('touchend', handleTouchEnd);
   };
 
-
   const updateDrag = (e) => {
     let prog;
     if (!e.clientX) {
@@ -269,42 +278,30 @@ export default function AudioPlayer({winWidth}) {
     },
   }
 
-
-
-  const [start, setStart] = useState(null)
-
-  const handleTouchStart = e => {
+  const handleSwipeStart = e => {
     setStart(e.touches[0].clientX)
   }
 
   const handleSwipeEnd = e => {
-  // const handleSwipeEnd = useCallback(e => {
-      const dir = e.changedTouches[0].clientX - start;
-      // console.log( dir, start, e.changedTouches[0].clientX);
-      // if (!start) return;
-      setStart(null)
-      if (Math.abs(dir) < 100) {
-        const pl_id = track[0]
-        if (pl_id) {
-          history.push(`/playlist_D/${pl_id}`)
-        } else {
-          history.push('')
-        }
-      } else if (dir > 0) {
-        skip(-1)()
+    // const handleSwipeEnd = useCallback(e => {
+    const dir = e.changedTouches[0].clientX - start;
+    // console.log( dir, start, e.changedTouches[0].clientX);
+    // if (!start) return;
+    setStart(null)
+    if (Math.abs(dir) < 100) {
+      const pl_id = track[0]
+      if (pl_id) {
+        history.push(`/playlist_D/${pl_id}`)
       } else {
-        skip(1)()
+        history.push('')
       }
+    } else if (dir > 0) {
+      skip(-1)()
+    } else {
+      skip(1)()
     }
+  }
   // ,[start])
-
-  const playerdiv = useRef(null)
-  useEffect(() => {
-    playerdiv.current.addEventListener("touchend", handleSwipeEnd);
-    return () => {
-      playerdiv.current.removeEventListener("touchend", handleSwipeEnd);
-    };
-  }, [start]);
 
   function onPlayClick() {
     if (!aud.current.paused) {
@@ -317,8 +314,7 @@ export default function AudioPlayer({winWidth}) {
   }
 
   return <>
-    <PlayerDiv ref={playerdiv} onTouchStart={handleTouchStart}>
-
+    <PlayerDiv >
       <ProgressBar {...ProgressBarHandler}>
         <div className='track-elapsed' style={{ width: `${progress * 100}%` }} />
         <div className='thumb-container' >
@@ -326,27 +322,28 @@ export default function AudioPlayer({winWidth}) {
         </div>
         <div className='track-remaining' style={{ width: `${100 - progress * 100}%` }} />
       </ProgressBar>
-
-      <div className='control' >
-        {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
-        <img src={playing ? pauseIcon : playIcon} className='play-button'
-          onClick={onPlayClick}
-          onTouchStart={(e) => {
-            e.stopPropagation()
-          }}
-        />
-        {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
-      </div>
-
-      {duration &&
-        <div className='time-info'>
-          {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
+      <SwipeDiv ref={playerdiv} onTouchStart={handleSwipeStart}>
+        <div className='control' >
+          {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
+          <img src={playing ? pauseIcon : playIcon} className='play-button'
+            onClick={onPlayClick}
+            onTouchStart={(e) => {
+              e.stopPropagation()
+            }}
+          />
+          {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
         </div>
-      }
-      <div className='song-info noselect'>
-        <div>{songInfo && songInfo.artist}</div>
-        <div>{songInfo && songInfo.title}</div>
-      </div>
+
+        {duration &&
+          <div className='time-info'>
+            {`${convertSecsToMins(progress * duration[0])}`}/{duration[1]}
+          </div>
+        }
+        <div className='song-info noselect'>
+          <div>{songInfo && songInfo.artist}</div>
+          <div>{songInfo && songInfo.title}</div>
+        </div>
+      </SwipeDiv>
     </PlayerDiv>
     <audio
       // controls

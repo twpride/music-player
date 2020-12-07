@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import styled from 'styled-components'
 
@@ -41,35 +41,22 @@ export default function Header({ title }) {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
 
-  // const containerRef = useRef()
-  // const visualizer = useRef(new AudioVisualizer(containerRef.current))
+  const containerRef = useRef()
 
-  const canvasRef = useRef()
   useEffect(() => {
-    const visualizer = new AudioVisualizer(canvasRef.current)
-    visualizer.startRenderer()
-
     function resumeAudioCtx(e) {
       visualizer.audctx.resume()
       window.removeEventListener('touchend', resumeAudioCtx)
     }
+    const visualizer = new AudioVisualizer(containerRef.current)
+    visualizer.startRenderer()
     window.addEventListener('touchend', resumeAudioCtx)
-
-
   }, [])
-
-  // visualizer.current.startRenderer()
-
-
-
-
-
 
   return (
     <HeaderDiv className="nav">
       <div className='title'>{title}</div>
-      {/* <div id="container" ref={containerRef}> </div> */}
-      <canvas id='canvas' ref={canvasRef}></canvas>
+      <div id="container" ref={containerRef}> </div>
       <button onClick={() => {
         logout().then(
           () => {

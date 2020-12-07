@@ -1,5 +1,7 @@
 import { throttle } from '../util/throttle'
-export default function AudioVisualizer(canvas) {
+export default function 
+
+AudioVisualizer(container) {
   this.minFreq = 200;
   this.maxFreq = 2000;
   this.fftSize = 4096;
@@ -7,18 +9,14 @@ export default function AudioVisualizer(canvas) {
   this.maxDecibels = 0;
 
   const aud = document.getElementById('audio')
-  // this.container = document.getElementById('container')
-  // this.canvas = document.createElement('canvas')
-  // const aud = aud
-  // this.container = container
-  // this.canvas = canvas
-  this.canvas = canvas;
+  this.canvas = document.createElement('canvas')
+  this.container = container
   this.canvas.width = 800;
   this.canvas.height = 90;
-  // this.canvas.width = this.container.clientWidth;
-  // this.canvas.height = this.container.clientHeight;
+  this.canvas.width = this.container.clientWidth;
+  this.canvas.height = this.container.clientHeight;
   this.ctx = this.canvas.getContext("2d")
-  // this.container.appendChild(this.canvas)
+  this.container.appendChild(this.canvas)
 
   this.audctx = new (window.AudioContext || window.webkitAudioContext)()
   this.source = this.audctx.createMediaElementSource(aud)
@@ -58,7 +56,6 @@ export default function AudioVisualizer(canvas) {
   this.ctx.fillStyle = "lightgrey";
 
   window.addEventListener('resize', throttle(() => {
-    console.log(this)
     this.canvas.width = this.container.clientWidth;
     this.ctx.strokeStyle = "lightgrey";
     this.ctx.fillStyle = "lightgrey";
