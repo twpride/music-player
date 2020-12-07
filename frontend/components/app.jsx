@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components'
@@ -20,6 +20,10 @@ import { ProtectedRoute, AuthRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
 import { session_act } from '../reducers/session_reducer'
+
+
+import AudioVisualizer from './renderFunc'
+
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,6 +64,9 @@ const App = () => {
 
     window.addEventListener('resize', ()=>setWinWidth(window.innerWidth))
   }, [])
+
+
+  // const visualizer = useRef(new AudioVisualizer())
 
   return (
     <AppDiv id="appdiv">

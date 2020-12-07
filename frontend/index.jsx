@@ -44,12 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
  
-  const visualizer = new AudioVisualizer()
-  visualizer.startRenderer()
+  // const visualizer = new AudioVisualizer()
+  // visualizer.startRenderer()
 
-  function resumeAudioCtx(e) {
-    visualizer.audctx.resume()
-    window.removeEventListener('touchend', resumeAudioCtx)
-  }
-  window.addEventListener('touchend',resumeAudioCtx)
+  // function resumeAudioCtx(e) {
+  //   visualizer.audctx.resume()
+  //   window.removeEventListener('touchend', resumeAudioCtx)
+  // }
+  // window.addEventListener('touchend',resumeAudioCtx)
 });

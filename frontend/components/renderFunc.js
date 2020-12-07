@@ -1,5 +1,5 @@
 import { throttle } from '../util/throttle'
-export default function AudioVisualizer() {
+export default function AudioVisualizer(canvas) {
   this.minFreq = 200;
   this.maxFreq = 2000;
   this.fftSize = 4096;
@@ -7,12 +7,18 @@ export default function AudioVisualizer() {
   this.maxDecibels = 0;
 
   const aud = document.getElementById('audio')
-  this.container = document.getElementById('container')
-  this.canvas = document.createElement('canvas')
-  this.canvas.width = this.container.clientWidth;
-  this.canvas.height = this.container.clientHeight;
+  // this.container = document.getElementById('container')
+  // this.canvas = document.createElement('canvas')
+  // const aud = aud
+  // this.container = container
+  // this.canvas = canvas
+  this.canvas = canvas;
+  this.canvas.width = 800;
+  this.canvas.height = 90;
+  // this.canvas.width = this.container.clientWidth;
+  // this.canvas.height = this.container.clientHeight;
   this.ctx = this.canvas.getContext("2d")
-  this.container.appendChild(this.canvas)
+  // this.container.appendChild(this.canvas)
 
   this.audctx = new (window.AudioContext || window.webkitAudioContext)()
   this.source = this.audctx.createMediaElementSource(aud)
