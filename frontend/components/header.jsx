@@ -45,12 +45,20 @@ export default function Header({ title }) {
   // const visualizer = useRef(new AudioVisualizer(containerRef.current))
 
   const canvasRef = useRef()
-  useEffect( ()=> {
-    new AudioVisualizer(canvasRef.current).startRenderer()
+  useEffect(() => {
+    const visualizer = new AudioVisualizer(canvasRef.current)
+    visualizer.startRenderer()
 
-  },[])
+    function resumeAudioCtx(e) {
+      visualizer.audctx.resume()
+      window.removeEventListener('touchend', resumeAudioCtx)
+    }
+    window.addEventListener('touchend', resumeAudioCtx)
 
-    // visualizer.current.startRenderer()
+
+  }, [])
+
+  // visualizer.current.startRenderer()
 
 
 
@@ -65,9 +73,9 @@ export default function Header({ title }) {
       <button onClick={() => {
         logout().then(
           () => {
-            dispatch({ type: ent_act.SET_PAUSE})
+            dispatch({ type: ent_act.SET_PAUSE })
             dispatch({ type: ent_act.LOAD_TRACK, track: null })
-            dispatch({ type: ent_act.RECEIVE_SONG_URL, url:"" })
+            dispatch({ type: ent_act.RECEIVE_SONG_URL, url: "" })
             dispatch({ type: session_act.LOGOUT_CURRENT_USER })
           }
         )

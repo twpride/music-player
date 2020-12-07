@@ -174,7 +174,6 @@ export default function AudioPlayer({winWidth}) {
 
     return () => {
       aud.current.removeEventListener('loadedmetadata', handleLoadedMeta)
-      window.removeEventListener('resize', updateSize)
       document.removeEventListener('keydown', handleSpace)
     }
 

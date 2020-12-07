@@ -22,7 +22,7 @@ const configureStore = (preloadedState = {}) => (
 const Root = ({ store }) => (
   <Provider store={store}>
     <BrowserRouter>
-      <App store={store} />
+      <App />
     </BrowserRouter>
   </Provider>
 );
