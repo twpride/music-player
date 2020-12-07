@@ -136,14 +136,17 @@ export default function AudioPlayer({winWidth}) {
     ) {
       song = playlist_dir[newtr[0]][newtr[1]]
       dispatch(getSongUrl(song[0]));
+      console.log('hereo')
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     } else if (
       !newtr[0] &&
       (song = Object.values(songD)[newtr[1]])
     ) {
       dispatch(getSongUrl(song.id));
+      console.log('hereo2')
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     }
+    dispatch({ type: ent_act.SET_PLAY })
   };
 
 
@@ -276,11 +279,11 @@ export default function AudioPlayer({winWidth}) {
     setStart(e.touches[0].clientX)
   }
 
-  const handleTouchEndx = useCallback(
-    e => {
+  // const handleSwipeEnd = e => {
+  const handleSwipeEnd = useCallback(e => {
       const dir = e.changedTouches[0].clientX - start;
       // console.log( dir, start, e.changedTouches[0].clientX);
-      if (!start) return;
+      // if (!start) return;
       setStart(null)
       if (Math.abs(dir) < 100) {
         const pl_id = track[0]
@@ -294,17 +297,16 @@ export default function AudioPlayer({winWidth}) {
       } else {
         skip(1)()
       }
-    },
-    [start]
-  );
+    }
+  ,[start])
 
   const playerdiv = useRef(null)
   useEffect(() => {
-    playerdiv.current.addEventListener("touchend", handleTouchEndx);
+    playerdiv.current.addEventListener("touchend", handleSwipeEnd);
     return () => {
-      playerdiv.current.removeEventListener("touchend", handleTouchEndx);
+      playerdiv.current.removeEventListener("touchend", handleSwipeEnd);
     };
-  }, [handleTouchEndx]);
+  }, [start]);
 
   function onPlayClick() {
     if (!aud.current.paused) {

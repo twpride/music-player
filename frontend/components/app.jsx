@@ -16,7 +16,7 @@ import LoginForm from './login_form'
 import SignupForm from './signup_form'
 
 import { getSongD, getPlaylistTitleD } from '../util/api_util'
-import { ProtectedRoute } from '../util/route_util'
+import { ProtectedRoute, AuthRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
 import { session_act } from '../reducers/session_reducer'
@@ -136,7 +136,8 @@ export default function Splash() {
     <>
       <SplashDiv>
         <ProtectedRoute exact path='/' component={App} />
-        {!currentUser && <Comp setMode={setMode} />}
+        <AuthRoute path='/' component={Comp} setMode={setMode}/>
+        {/* {!currentUser && <Comp setMode={setMode} />} */}
       </SplashDiv>
     </>
   )

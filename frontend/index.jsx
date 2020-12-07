@@ -47,7 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const visualizer = new AudioVisualizer()
   visualizer.startRenderer()
 
-  window.ontouchend = function(e) {
+  function resumeAudioCtx(e) {
     visualizer.audctx.resume()
+    window.removeEventListener('touchend', resumeAudioCtx)
   }
+  window.addEventListener('touchend',resumeAudioCtx)
 });
