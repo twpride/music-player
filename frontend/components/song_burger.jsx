@@ -62,6 +62,7 @@ export default function SongBurger() {
       if (contextMenu.playlist_id) active_pls.push(contextMenu.playlist_id)
       if (track && track[0]) active_pls.push(track[0])
 
+      dispatch({ type: context_act.CLOSE_CONTEXT })
       const resp = await deleteSong(song_id, active_pls)
       const json = await resp.json()
 
@@ -73,7 +74,6 @@ export default function SongBurger() {
       
       const pls_to_reset = json.dirty_pls.filter(ent => !active_pls.includes(ent))
       dispatch({ type: ent_act.RESET_PLAYLISTS, pls_to_reset })
-      dispatch({ type: context_act.CLOSE_CONTEXT })
     },
   }
   const icons = [

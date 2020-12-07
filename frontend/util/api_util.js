@@ -64,7 +64,7 @@ export const getSongUrl = id => (
 export const deleteSong = (id, active_pls) => (
   fetch(`/api/song_d/${id}`, {
     method: 'DELETE',
-    body: {active_pls},
+    body: JSON.stringify(active_pls),
     headers: fetchHeader(),
   })
 )

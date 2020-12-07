@@ -44,6 +44,7 @@ export const getPlaylistTitleD = () => dispatch => (
 
 
 export const getPlaylist = playlist_id => async dispatch => {
+  console.log('ajaxing')
   const response = await APIUtil.getPlaylist(playlist_id)
   const linkedList = await response.json()
   const playlist = orderPlaylist(linkedList)

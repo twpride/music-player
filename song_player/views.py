@@ -169,8 +169,8 @@ def song(request, id):  #get , delete
     url = connection.Bucket(bucket).meta.client.generate_presigned_url(
         'get_object', Params=params, ExpiresIn=3600)
     return JsonResponse(url, safe=False)
-
-  pls_to_fetch = json.loads(request.body.decode('utf-8'))['active_pls']
+  
+  pls_to_fetch = json.loads(request.body.decode('utf-8'))
 
   song_to_delete = Song.objects.get(pk=id)
   affected_entries = song_to_delete.entry_set.all()
@@ -211,10 +211,10 @@ def song(request, id):  #get , delete
   res = []
   for pl in pls_to_fetch:
     res.append(list(
-      Entry.objects.filter(playlist_id=id).values_list("song_id", "pk",
+      Entry.objects.filter(playlist_id=pl).values_list("song_id", "pk",
                                                        "prev_ent")))
   
-  return JsonResponse({'fetched_pls':res,'dirty_pls':dirty_pls}, safe=False)
+  return JsonResponse({'fetched_pls':res,'dirty_pls':list(dirty_pls)}, safe=False)
 
 
 def playlist(request, id):  # delete, get
