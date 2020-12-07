@@ -8,7 +8,7 @@ import logger from 'redux-logger';
 
 import App from './components/app';
 import rootReducer from './reducers/root_reducer.js';
-import renderFunc from './components/renderFunc'
+import AudioVisualizer from './components/renderFunc'
 
 
 const configureStore = (preloadedState = {}) => (
@@ -43,13 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const root = document.getElementById('root');
   ReactDOM.render(<Root store={store} />, root);
-  
-  const xxx = new renderFunc(Date.now())
-  xxx.startRenderer()
-  // new renderFunc().startRenderer()
-  window.onbeforeunload = function (e) {
-    console.log(xxx.audctx)
-    xxx.audctx.close();
-    // return true;
-  }; 
+ 
+  const visualizer = new AudioVisualizer()
+  visualizer.startRenderer()
+
+  window.ontouchend = function(e) {
+    visualizer.audctx.resume()
+  }
 });

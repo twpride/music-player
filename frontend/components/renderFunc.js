@@ -1,15 +1,12 @@
 import { throttle } from '../util/throttle'
-export default function renderFunc(start) {
-  console.log("hereeeeee")
-  this.start= start;
+export default function AudioVisualizer() {
   this.minFreq = 200;
-  const maxFreq = 2000;
-  const fftSize = 4096;
-  const minDecibels = -60;
-  const maxDecibels = 0;
+  this.maxFreq = 2000;
+  this.fftSize = 4096;
+  this.minDecibels = -60;
+  this.maxDecibels = 0;
 
   const aud = document.getElementById('audio')
-  // aud.disconnect()
   this.container = document.getElementById('container')
   this.canvas = document.createElement('canvas')
   this.canvas.width = this.container.clientWidth;
@@ -18,29 +15,29 @@ export default function renderFunc(start) {
   this.container.appendChild(this.canvas)
 
   this.audctx = new (window.AudioContext || window.webkitAudioContext)()
-  const source = this.audctx.createMediaElementSource(aud)
+  this.source = this.audctx.createMediaElementSource(aud)
   const splitter = this.audctx.createChannelSplitter(2);
   this.analyzer = [];
   for (let i = 0; i < 2; i++) {
     const _analyzer = this.audctx.createAnalyser();
-    _analyzer.fftSize = fftSize;
-    _analyzer.minDecibels = minDecibels;
-    _analyzer.maxDecibels = maxDecibels;
+    _analyzer.fftSize = this.fftSize;
+    _analyzer.minDecibels = this.minDecibels;
+    _analyzer.maxDecibels = this.maxDecibels;
     splitter.connect(_analyzer, i);
     this.analyzer.push(_analyzer)
   }
   const delay = this.audctx.createDelay(0.26)
-  source.connect(splitter)
-  source.connect(delay)
-  delay.connect(this.audctx.destination)
+  this.source.connect(splitter)
+  this.source.connect(delay)
+  delay.connect(this.audctx.destination) 
 
   const bufferLength = this.analyzer[0].frequencyBinCount
   const totalFreqRange = this.analyzer[0].context.sampleRate / 2;
   this.cellFreqPitch = totalFreqRange / (bufferLength - 1)
   this.minIdx = Math.floor(this.minFreq / this.cellFreqPitch)
-  this.maxIdx = Math.floor(maxFreq / this.cellFreqPitch)
+  this.maxIdx = Math.floor(this.maxFreq / this.cellFreqPitch)
   this.logMinFreq = Math.log(this.minFreq);
-  this.logMaxFreq = Math.log(maxFreq);
+  this.logMaxFreq = Math.log(this.maxFreq);
   this.logFreqRange = this.logMaxFreq - this.logMinFreq;
 
   this.cellXCoord = new Int16Array(this.maxIdx - this.minIdx + 1)
@@ -51,16 +48,8 @@ export default function renderFunc(start) {
 
   console.log(this.cellXCoord.length, "cost")
   this.dataArray = new Uint8Array(bufferLength)
-  // ctx.strokeStyle = "#ad0f37";
   this.ctx.strokeStyle = "lightgrey";
   this.ctx.fillStyle = "lightgrey";
-  // ctx.beginPath();
-  // ctx.moveTo(0,0);
-  // ctx.lineTo(canvas.width, canvas.height);
-  // ctx.stroke()
-
-
-
 
   window.addEventListener('resize', throttle(() => {
     console.log(this)
@@ -70,26 +59,17 @@ export default function renderFunc(start) {
     this.setCanvas()
   }, 200).bind(this))
 
-    window.onbeforeunload = function (e) {
-      this.audctx.close()
-      return true;
-    };
-  // window.addEventListener("beforeunload", function(event) { 
-  //   this.audctx.close()
-  //   console.log('hereeeeeexxx')
-  //  });
-
-
 }
 
-renderFunc.prototype.setCanvas = function () {
+
+AudioVisualizer.prototype.setCanvas = function () {
   for (let i = 0; i < this.cellXCoord.length; i++) {
     const logFreqCoord = Math.log(this.minFreq + i * this.cellFreqPitch) - this.logMinFreq
     this.cellXCoord[i] = Math.floor(logFreqCoord / this.logFreqRange * this.canvas.width)
   }
 }
 
-renderFunc.prototype.startRenderer = function () {
+AudioVisualizer.prototype.startRenderer = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.beginPath();
   this.ctx.moveTo(0, this.canvas.height / 2);
@@ -109,10 +89,9 @@ renderFunc.prototype.startRenderer = function () {
   this.ctx.closePath()
   this.ctx.fill()
   this.ctx.stroke()
-  // console.log('heree')
+
   // this.ctx.font = "30px Arial";
-  // // this.ctx.fillText(Date.now()-this.start,100,50)
-  // this.ctx.fillText(window.AudioContext,100,20)
-  // this.ctx.fillText(window.webkitAudioContext,100,40)
+  // this.ctx.fillText(Date.now(),100,50)
+
   requestAnimationFrame(this.startRenderer.bind(this));
 }
