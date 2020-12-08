@@ -1,7 +1,5 @@
 import { throttle } from '../util/throttle'
-export default function 
-
-AudioVisualizer(container) {
+export default function AudioVisualizer(container) {
   this.minFreq = 200;
   this.maxFreq = 2000;
   this.fftSize = 4096;
@@ -11,10 +9,9 @@ AudioVisualizer(container) {
   const aud = document.getElementById('audio')
   this.canvas = document.createElement('canvas')
   this.container = container
-  this.canvas.width = 800;
-  this.canvas.height = 90;
   this.canvas.width = this.container.clientWidth;
   this.canvas.height = this.container.clientHeight;
+  this.midline = Math.floor(this.canvas.height/2);
   this.ctx = this.canvas.getContext("2d")
   this.container.appendChild(this.canvas)
 
@@ -33,7 +30,7 @@ AudioVisualizer(container) {
   const delay = this.audctx.createDelay(0.26)
   this.source.connect(splitter)
   this.source.connect(delay)
-  delay.connect(this.audctx.destination) 
+  delay.connect(this.audctx.destination)
 
   const bufferLength = this.analyzer[0].frequencyBinCount
   const totalFreqRange = this.analyzer[0].context.sampleRate / 2;
@@ -52,18 +49,20 @@ AudioVisualizer(container) {
 
   console.log(this.cellXCoord.length, "cost")
   this.dataArray = new Uint8Array(bufferLength)
-  this.ctx.strokeStyle = "lightgrey";
+  this.dataArray2 = new Uint8Array(bufferLength)
+  // this.ctx.strokeStyle = "lightgrey";
+  this.ctx.strokeStyle = "#ad0f37";
   this.ctx.fillStyle = "lightgrey";
 
   window.addEventListener('resize', throttle(() => {
     this.canvas.width = this.container.clientWidth;
-    this.ctx.strokeStyle = "lightgrey";
+    // this.ctx.strokeStyle = "lightgrey";
+    this.ctx.strokeStyle = "#ad0f37";
     this.ctx.fillStyle = "lightgrey";
     this.setCanvas()
   }, 200).bind(this))
 
 }
-
 
 AudioVisualizer.prototype.setCanvas = function () {
   for (let i = 0; i < this.cellXCoord.length; i++) {
@@ -75,26 +74,42 @@ AudioVisualizer.prototype.setCanvas = function () {
 AudioVisualizer.prototype.startRenderer = function () {
   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   this.ctx.beginPath();
-  this.ctx.moveTo(0, this.canvas.height / 2);
 
   this.analyzer[0].getByteFrequencyData(this.dataArray)
+  this.analyzer[1].getByteFrequencyData(this.dataArray2)
   for (var i = this.minIdx; i <= this.maxIdx; i++) {
     const x = this.cellXCoord[i - this.minIdx]
-    this.ctx.lineTo(x, this.canvas.height / 2 - this.dataArray[i] / 8);
+    this.ctx.moveTo(x, this.midline - (this.dataArray[i]>>>3));
+    this.ctx.lineTo(x, this.midline + (this.dataArray2[i]>>>3));
   }
-
-  this.analyzer[1].getByteFrequencyData(this.dataArray)
-  for (var i = this.maxIdx; i >= this.minIdx; i--) {
-    const x = this.cellXCoord[i - this.minIdx]
-    this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8 );
-  }
-
-  this.ctx.closePath()
-  this.ctx.fill()
-  this.ctx.stroke()
-
   // this.ctx.font = "30px Arial";
   // this.ctx.fillText(Date.now(),100,50)
 
+  this.ctx.stroke()
   requestAnimationFrame(this.startRenderer.bind(this));
 }
+// AudioVisualizer.prototype.startRenderer = function () {
+//   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+//   this.ctx.beginPath();
+//   this.ctx.moveTo(0, this.canvas.height / 2);
+
+//   this.analyzer[0].getByteFrequencyData(this.dataArray)
+//   for (var i = this.minIdx; i <= this.maxIdx; i++) {
+//     const x = this.cellXCoord[i - this.minIdx]
+//     this.ctx.lineTo(x, this.canvas.height / 2 - this.dataArray[i] / 8);
+//   }
+
+//   this.analyzer[1].getByteFrequencyData(this.dataArray)
+//   for (var i = this.maxIdx; i >= this.minIdx; i--) {
+//     const x = this.cellXCoord[i - this.minIdx]
+//     this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8);
+//   }
+
+//   this.ctx.closePath()
+//   this.ctx.fill()
+
+//   // this.ctx.font = "30px Arial";
+//   // this.ctx.fillText(Date.now(),100,50)
+
+//   requestAnimationFrame(this.startRenderer.bind(this));
+// }

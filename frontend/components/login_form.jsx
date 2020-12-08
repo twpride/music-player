@@ -41,7 +41,7 @@ export default function LoginForm({ setMode }) {
     <SessionDiv>
       <div className="title">Log in</div>
       <div className='spacer'></div>
-      <form onSubmit={handleSubmit} className="login-form-box" id="loginForm">
+      <form onSubmit={handleSubmit} className="login-form-box" id="loginForm" ref={form}>
         <div className="login-input">
           <div>Email</div>
           <input type="text"

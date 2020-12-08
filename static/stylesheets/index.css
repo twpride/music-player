@@ -22,7 +22,7 @@ input[type=text], input[type=password] {
   /* flex: 0 0 100%; */
   background-color: transparent;
   border: 0;
-  border-bottom: 1px solid rgba(69,20,0,.2);
+  border-bottom: 1px solid lightgrey;
   outline: none;
   font-size: 16px;
 }
@@ -42,9 +42,12 @@ input[type=submit], button{
   border: 0;
   padding: 0;
   font-size: 1em;
-  color: #CE1141;
+  color: #ad0f37;
 }
 
 textarea {
   font-size: 16px;
 }
+
+
+

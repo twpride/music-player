@@ -22,7 +22,7 @@ import { ent_act } from "../reducers/root_reducer"
 import { session_act } from '../reducers/session_reducer'
 
 
-import AudioVisualizer from './renderFunc'
+import AudioVisualizer from './audio_visualizer'
 
 const AppDiv = styled.div`
   display: flex;
