@@ -68,15 +68,6 @@ export const Equalizer = ({ track, pl_id, index, playing }) => {
   }
 }
 
-
-
-
-
-
-
-
-
-
 export default function SongD() {
   const dispatch = useDispatch();
   const track = useSelector(state => state.player.track)

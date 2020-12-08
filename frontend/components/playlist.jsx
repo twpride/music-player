@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components'
 
-import { getSongUrl, getPlaylist } from '../actions/actions'
-import { moveTrack, deletePlaylist } from '../util/api_util'
+import { getSongUrl, orderPlaylist } from '../actions/actions'
+import { moveTrack, deletePlaylist, getPlaylist } from '../util/api_util'
 // import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import update from 'immutability-helper'
@@ -19,11 +19,19 @@ import { useHistory } from 'react-router-dom'
 
 
 
+
 export default function Playlist() {
-  const history = useHistory();
-  let { playlist_id } = useParams();
+  const [cards, setCards] = useState(null)
 
   const dispatch = useDispatch();
+  const track = useSelector(state => state.player.track);
+  const playlistD = useSelector(state => state.entities.playlistD)
+  // const playlistD = useSelector(state => state.entities.playlistD)
+  const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
+  const songD = useSelector(state => state.entities.songD)
+
+  const history = useHistory();
+  let { playlist_id } = useParams();
 
   const playSong = (song_id, track_no) => (e) => {
     e.preventDefault()
@@ -34,26 +42,32 @@ export default function Playlist() {
     dispatch({ type: ent_act.SET_PLAY })
   }
 
-  const playlistD = useSelector(state => state.entities.playlistD)
-  const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
-  const songD = useSelector(state => state.entities.songD)
-  const [cards, setCards] = useState(null)
 
   useEffect(() => {
-    dispatch(getPlaylist(playlist_id))
+    const fetchPlaylist = async () => {
+      if (!playlistD[playlist_id]) {
+        // console.log('ajaxing')
+        const response = await getPlaylist(playlist_id)
+        const linkedList = await response.json()
+        const playlist = orderPlaylist(linkedList)
+        setCards([...playlist])
+        dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
+      } else {
+        setCards([...playlistD[playlist_id]])
+      }
+    }
+    fetchPlaylist()
   }, [])
+
   useEffect(() => {
-    // if (!playlist) {
-    //   dispatch(getPlaylist(playlist_id))
-    // } else if (!cards) {
-    //   setCards([...playlist])
-    // }
     if (playlistD[playlist_id]) {
       setCards([...playlistD[playlist_id]])
     }
   }, [playlistD])
 
+
   const moveCard = useCallback(
+  // const moveCard = 
     (dragIndex, hoverIndex) => {
       setCards(
         update(cards,
@@ -65,13 +79,13 @@ export default function Playlist() {
           }
         )
       )
-    },
-    [cards],
+    }
+    ,[cards],
   )
 
-  const track = useSelector(state => state.player.track);
-
-  const setPrev = (start, index) => {
+  const setPrev = useCallback(
+  // const setPrev = 
+  (start, index) => {
     const req = {}
     const dir = index - start
     if (dir === 0) return;
@@ -106,18 +120,21 @@ export default function Playlist() {
     moveTrack(req) // update db
     dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist: cards }) // update store
 
-    if (!track) return;
-    const tr = track[1];
-    let newtr = [...track];
-    if (tr == start) {
-      newtr[1] = index;
-    } else if (start < tr && index >= tr) {
-      newtr[1] -= 1;
-    } else if (start > tr && index <= tr) {
-      newtr[1] += 1;
+    // if (!track) return;
+    if (track && track[0]==playlist_id) {
+      const tr = track[1];
+      let newtr = [...track];
+      if (tr == start) {
+        newtr[1] = index;
+      } else if (start < tr && index >= tr) {
+        newtr[1] -= 1;
+      } else if (start > tr && index <= tr) {
+        newtr[1] += 1;
+      }
+      dispatch({ type: ent_act.LOAD_TRACK, track: newtr })
     }
-    dispatch({ type: ent_act.LOAD_TRACK, track: newtr })
-  };
+  // };
+  },[cards])
 
 
   return (

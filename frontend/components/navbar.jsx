@@ -14,7 +14,7 @@ import { context_act } from '../reducers/ui_reducer';
 
 
 const NavbarDiv = styled.div`
-  a {
+  a, .upload-button{
     display:flex;
     flex-direction:column;
     align-items: center;
@@ -58,10 +58,10 @@ export default function Navbar() {
         Log out
       </div> */}
 
-      <button onClick={() => dispatch({ type: context_act.UPLOAD_SONGS })}>
+      <div className='upload-button' onClick={() => dispatch({ type: context_act.UPLOAD_SONGS })}>
         <img src={add} />
         <div>Upload</div>
-      </button>
+      </div>
 
       <Link to="/playlist_d/">
         <img src={playlist} />

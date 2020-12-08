@@ -43,14 +43,35 @@ export const getPlaylistTitleD = () => dispatch => (
 )
 
 
+export const loginThunk = user => async dispatch => {
+  const res = await login(user);
+  if (res.ok) {
+    const currentUser = await res.json();
+    dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser });
+  } else {
+    const errors = await res.json();
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors });
+  }
+}
+
+
+export const createPlaylist = playlist => dispatch => (
+  APIUtil.createPlaylist(playlist)
+    .then(response => response.json())
+    .then(playlistTitleD => dispatch(
+      { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
+    ))
+)
+
+
 export const getPlaylist = playlist_id => async dispatch => {
-  console.log('ajaxing')
   const response = await APIUtil.getPlaylist(playlist_id)
   const linkedList = await response.json()
   const playlist = orderPlaylist(linkedList)
 
   dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
 }
+
 
 export const orderPlaylist = (linkedList) => {
   let playlist = [];
@@ -75,23 +96,3 @@ export const orderPlaylist = (linkedList) => {
   }
   return playlist
 }
-
-export const loginThunk = user => async dispatch => {
-  const res = await login(user);
-  if (res.ok) {
-    const currentUser = await res.json();
-    dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser });
-  } else {
-    const errors = await res.json();
-    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors });
-  }
-}
-
-
-export const createPlaylist = playlist => dispatch => (
-  APIUtil.createPlaylist(playlist)
-    .then(response => response.json())
-    .then(playlistTitleD => dispatch(
-      { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
-    ))
-)

@@ -72,7 +72,7 @@ export default function SongBurger() {
         dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
       })
       
-      const pls_to_reset = json.dirty_pls.filter(ent => !active_pls.includes(ent))
+      const pls_to_reset = json.dirty_pls.filter(ent => !active_pls.includes(ent.toString()))
       dispatch({ type: ent_act.RESET_PLAYLISTS, pls_to_reset })
     },
   }
