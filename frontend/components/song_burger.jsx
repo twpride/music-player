@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useState } from 'react';
-
+import React, { } from 'react';
 
 import styled from 'styled-components'
 import { context_act } from '../reducers/ui_reducer'
@@ -19,7 +18,6 @@ const PlaylistBurger = styled(props => <BurgerDiv {...props} />)`
     }
   }
 `;
-
 
 export default function SongBurger() {
 
@@ -66,12 +64,12 @@ export default function SongBurger() {
       const resp = await deleteSong(song_id, active_pls)
       const json = await resp.json()
 
-      json.fetched_pls.forEach( (pl, idx) => {
+      json.fetched_pls.forEach((pl, idx) => {
         const playlist = orderPlaylist(pl);
         const playlist_id = active_pls[idx];
         dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
       })
-      
+
       const pls_to_reset = json.dirty_pls.filter(ent => !active_pls.includes(ent.toString()))
       dispatch({ type: ent_act.RESET_PLAYLISTS, pls_to_reset })
     },

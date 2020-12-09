@@ -21,9 +21,6 @@ import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
 import { session_act } from '../reducers/session_reducer'
 
-
-import AudioVisualizer from './audio_visualizer'
-
 const AppDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -47,7 +44,6 @@ const AppDiv = styled.div`
   }
 `
 
-
 const App = () => {
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
@@ -65,8 +61,6 @@ const App = () => {
     window.addEventListener('resize', ()=>setWinWidth(window.innerWidth))
   }, [])
 
-
-  // const visualizer = useRef(new AudioVisualizer())
 
   return (
     <AppDiv id="appdiv">
@@ -144,7 +138,6 @@ export default function Splash() {
       <SplashDiv>
         <ProtectedRoute exact path='/' component={App} />
         <AuthRoute path='/' component={Comp} setMode={setMode}/>
-        {/* {!currentUser && <Comp setMode={setMode} />} */}
       </SplashDiv>
     </>
   )

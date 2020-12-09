@@ -43,7 +43,6 @@ export const SessionDiv = styled.div`
     font-weight:600;
   }
 
-
 `
 
 export default function SignupForm({ setMode }) {
@@ -57,10 +56,7 @@ export default function SignupForm({ setMode }) {
   async function handleSubmit(e) {
     e.preventDefault();
     const user = new FormData(form.current);
-    // dispatch(signup(user))
-
     const res = await signup(user)
-
     if (res.ok) {
       const currentUser = await res.json();
       dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
@@ -71,10 +67,6 @@ export default function SignupForm({ setMode }) {
 
   }
 
-  function login() {
-    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
-    setMode('login')
-  }
 
   return (
     <SessionDiv>
@@ -99,8 +91,6 @@ export default function SignupForm({ setMode }) {
           />
         </div>
       </form>
-
-      {/* <button className="link-to-sign-in" onClick={login}>Log in</button> */}
 
     </SessionDiv>
 

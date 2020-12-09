@@ -17,7 +17,6 @@ const SelectDiv = styled.div`
   align-items:flex-start;
 
   .playlist-row {
-    /* font-size: 0.9em; */
     padding:0 1.5em;
     height:4em;
     font-size: 1em;

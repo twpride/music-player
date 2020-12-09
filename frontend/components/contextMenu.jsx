@@ -17,11 +17,6 @@ const ModalDiv = styled.div`
   z-index: 20;
   padding:1em;
   background-color: rgba(0,0,0,0.5);
-
-  /* .title {
-    font-size: 1em;
-    font-weight: 600;
-  } */
 `
 
 export const ContextFormWrap = styled.div`

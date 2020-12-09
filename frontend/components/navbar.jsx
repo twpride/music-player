@@ -11,8 +11,6 @@ import collection from '../icons/collection.svg'
 import playlist from '../icons/playlist.svg'
 import { context_act } from '../reducers/ui_reducer';
 
-
-
 const NavbarDiv = styled.div`
   a, .upload-button{
     display:flex;
@@ -54,10 +52,6 @@ export default function Navbar() {
         <img src={collection} />
         <div>Songs</div>
       </Link>
-      {/* <div className="user-button"
-        onClick={logout_call}>
-        Log out
-      </div> */}
 
       <div className='upload-button' onClick={() => dispatch({ type: context_act.UPLOAD_SONGS })}>
         <img src={add} />

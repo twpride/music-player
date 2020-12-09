@@ -8,17 +8,12 @@ import styled from 'styled-components'
 const AlbumArtDiv = styled.div`
   flex:.6 .6 60%;
   display:flex;
-  /* flex-direction:column; */
-  /* justify-content:center; */
-  /* align-content:center; */
   img {
     width:100%;
     height:auto;
     margin: auto;
     max-width:700px;
   }
-
-
 `
 
 export default function AlbumArt() {

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useRef } from 'react';
-import styled from 'styled-components'
 
 import { editSongs } from '../actions/actions'
 import { useTextField } from '../util/hooks'
@@ -8,9 +7,6 @@ import { context_act } from '../reducers/ui_reducer'
 import { useEffect } from 'react';
 
 import {ContextFormWrap} from './contextMenu';
-
-
-
 
 export default function SongEditForm() {
 
@@ -47,7 +43,6 @@ export default function SongEditForm() {
             </div>
           )
         )}
-        {/* {renderErrors()} */}
         <div className="spacer"></div>
         <div className='button-box'>
           <button className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>

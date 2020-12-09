@@ -281,10 +281,7 @@ export default function AudioPlayer({ winWidth }) {
   }
 
   const handleSwipeEnd = e => {
-    // const handleSwipeEnd = useCallback(e => {
     const dir = e.changedTouches[0].clientX - start;
-    // console.log( dir, start, e.changedTouches[0].clientX);
-    // if (!start) return;
     setStart(null)
     if (Math.abs(dir) < 100) {
       const pl_id = track[0]

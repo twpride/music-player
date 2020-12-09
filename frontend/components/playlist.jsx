@@ -1,11 +1,9 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
-import styled from 'styled-components'
 
 import { getSongUrl, orderPlaylist } from '../actions/actions'
 import { moveTrack, deletePlaylist, getPlaylist } from '../util/api_util'
-// import styled from 'styled-components'
 import { useParams } from 'react-router-dom'
 import update from 'immutability-helper'
 import { Card } from './card'
@@ -13,10 +11,6 @@ import { Card } from './card'
 import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
-import { useHistory } from 'react-router-dom'
-
-
-
 
 export default function Playlist() {
   const [cards, setCards] = useState(null)
@@ -24,11 +18,8 @@ export default function Playlist() {
   const dispatch = useDispatch();
   const track = useSelector(state => state.player.track);
   const playlistD = useSelector(state => state.entities.playlistD)
-  // const playlistD = useSelector(state => state.entities.playlistD)
-  const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
   const songD = useSelector(state => state.entities.songD)
 
-  const history = useHistory();
   let { playlist_id } = useParams();
 
   const playSong = (song_id, track_no) => (e) => {
@@ -63,9 +54,7 @@ export default function Playlist() {
     }
   }, [playlistD])
 
-
   const moveCard = useCallback(
-  // const moveCard = 
     (dragIndex, hoverIndex) => {
       setCards(
         update(cards,
@@ -78,61 +67,58 @@ export default function Playlist() {
         )
       )
     }
-    ,[cards],
+    , [cards],
   )
 
   const setPrev = useCallback(
-  // const setPrev = 
-  (start, index) => {
-    const req = {}
-    const dir = index - start
-    if (dir === 0) return;
+    (start, index) => {
+      const req = {}
+      const dir = index - start
+      if (dir === 0) return;
 
-    if (dir > 0) {
-      if (start > 0) {
-        req[cards[start][1]] = cards[start - 1][1]
-      } else if (start === 0) {
-        req[cards[start][1]] = null
+      if (dir > 0) {
+        if (start > 0) {
+          req[cards[start][1]] = cards[start - 1][1]
+        } else if (start === 0) {
+          req[cards[start][1]] = null
+        }
+      } else { // dir < 0
+        if (start + 1 < cards.length) {
+          req[cards[start + 1][1]] = cards[start][1]
+        } else {
+          req['tail'] = [playlist_id, cards[start][1]]
+        }
       }
-    } else { // dir < 0
-      if (start + 1 < cards.length) {
-        req[cards[start + 1][1]] = cards[start][1]
+
+      if (index + 1 < cards.length) {
+        req[cards[index + 1][1]] = cards[index][1]
       } else {
-        req['tail'] = [playlist_id, cards[start][1]]
+        req['tail'] = [playlist_id, cards[index][1]]
       }
-    }
-
-    if (index + 1 < cards.length) {
-      req[cards[index + 1][1]] = cards[index][1]
-    } else {
-      req['tail'] = [playlist_id, cards[index][1]]
-    }
 
 
-    if (index > 0) {
-      req[cards[index][1]] = cards[index - 1][1]
-    } else if (index === 0) {
-      req[cards[index][1]] = null
-    }
-
-    moveTrack(req) // update db
-    dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist: cards }) // update store
-
-    // if (!track) return;
-    if (track && track[0]==playlist_id) {
-      const tr = track[1];
-      let newtr = [...track];
-      if (tr == start) {
-        newtr[1] = index;
-      } else if (start < tr && index >= tr) {
-        newtr[1] -= 1;
-      } else if (start > tr && index <= tr) {
-        newtr[1] += 1;
+      if (index > 0) {
+        req[cards[index][1]] = cards[index - 1][1]
+      } else if (index === 0) {
+        req[cards[index][1]] = null
       }
-      dispatch({ type: ent_act.LOAD_TRACK, track: newtr })
-    }
-  // };
-  },[cards])
+
+      moveTrack(req) // update db
+      dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist: cards }) // update store
+
+      if (track && track[0] == playlist_id) {
+        const tr = track[1];
+        let newtr = [...track];
+        if (tr == start) {
+          newtr[1] = index;
+        } else if (start < tr && index >= tr) {
+          newtr[1] -= 1;
+        } else if (start > tr && index <= tr) {
+          newtr[1] += 1;
+        }
+        dispatch({ type: ent_act.LOAD_TRACK, track: newtr })
+      }
+    }, [cards])
 
 
   return (

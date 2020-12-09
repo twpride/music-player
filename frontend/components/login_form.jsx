@@ -23,17 +23,6 @@ export default function LoginForm({ setMode }) {
     e.preventDefault();
     dispatch(loginThunk(new FormData(form.current))) // option thunk
 
-    // // option await
-    // const res = await login(form)
-    // if (res.ok) {
-    //   const currentUser = await res.json()
-    //   dispatch({type:session_act.RECEIVE_CURRENT_USER, currentUser})
-    //   dispatch({type:modal_act.CLOSE_MODAL})
-    // } else {
-    //   const errors = await res.json()
-    //   dispatch({type:session_act.RECEIVE_SESSION_ERRORS, errors})
-    // }
-
   }
 
 
@@ -66,10 +55,6 @@ export default function LoginForm({ setMode }) {
           />
         </div>
       </form>
-
-      {/* <button onClick={signUp}>
-          Create an account
-        </button> */}
     </SessionDiv>
   );
 }
