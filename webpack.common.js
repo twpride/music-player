@@ -1,5 +1,4 @@
 const path = require('path');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   entry: './frontend/index.jsx',
@@ -7,7 +6,6 @@ module.exports = {
     path: path.resolve(__dirname, 'static', 'bundles'),
     filename: "bundle.js",
   },
-  mode: 'development',
   module: {
     rules: [
       {
@@ -44,6 +42,6 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '*']
   },
-  devtool: 'source-map'
+  devtool: 'source-map',
 };
 
