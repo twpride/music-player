@@ -14,7 +14,6 @@ import { DndProvider } from 'react-dnd'
 // import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
-import Header from './header'
 import { useHistory } from 'react-router-dom'
 
 

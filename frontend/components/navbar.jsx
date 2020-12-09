@@ -22,6 +22,7 @@ const NavbarDiv = styled.div`
     color:black;
     text-decoration: none;
     width:60px;
+    cursor: pointer;
     svg {
       width:24px;
       height:24px;

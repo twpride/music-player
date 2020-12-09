@@ -48,10 +48,6 @@ urlpatterns = [
                              content_type='application/manifest+json'),
         name='manifest',
     ),
-    # path(
-    #     'manifest.json',
-    #     TemplateView.as_view(template_name="manifest.json"),
-    # ),
     re_path(r'^.*$', auth.RootView.as_view()),
     # path('__debug__/', include(debug_toolbar.urls)),
 ]

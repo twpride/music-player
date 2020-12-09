@@ -59,7 +59,7 @@ export default function PlaylistBurger(props) {
   return (
     <BurgerDiv>
       <div className='song-info'>
-        <div>{titleD[contextMenu.playlist_id] && titleD[contextMenu.playlist_id].title}</div>
+        <div>{titleD[contextMenu.playlist_id] && titleD[contextMenu.playlist_id]}</div>
       </div>
       {Object.entries(burgerList).map(([name, cb], i) => (
         <div key={i} onClick={cb} className="burger-row">

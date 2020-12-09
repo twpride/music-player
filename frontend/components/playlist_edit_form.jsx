@@ -6,7 +6,7 @@ import { editPlaylist } from '../actions/actions'
 import { useTextField } from '../util/hooks'
 import { context_act } from '../reducers/ui_reducer'
 import { useEffect } from 'react';
-import {ContextFormWrap} from './contextMenu'
+import { ContextFormWrap } from './contextMenu'
 
 
 // weird syntax to deal with cyclic import
@@ -20,36 +20,31 @@ const PlaylistEditDiv = styled(props => <ContextFormWrap {...props} />)`
 export default function PlaylistEditForm() {
 
   const dispatch = useDispatch();
-  const form = useRef(null)
+  const formRef = useRef(null)
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD);
   const contextMenu = useSelector(state => state.ui.contextMenu);
 
-  useEffect(()=>{
-    document.getElementsByName('title')[0].focus()
-  },[])
+  // useEffect(()=>{
+  //   document.getElementsByName('title')[0].focus()
+  // },[])
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const form = new FormData(form.current);
+    const form = new FormData(formRef.current);
+    form.append('id',contextMenu.playlist_id)
     dispatch(editPlaylist(form))
     dispatch({ type: context_act.CLOSE_CONTEXT })
   }
-  
+
   return (
     <PlaylistEditDiv onClick={(e) => e.stopPropagation()}>
-    {/* <ContextFormWrap onClick={(e) => e.stopPropagation()}> */}
+      {/* <ContextFormWrap onClick={(e) => e.stopPropagation()}> */}
       <div className="title">Rename playlist</div>
       <div className="spacer"></div>
-      <form onSubmit={handleSubmit} ref={form} id="songEditForm">
-        {Object.entries(titleD[contextMenu.playlist_id]).map(
-          (field, i) => (
-            <div key={i} className="login-input" id={field[0]}>
-              <input type="text" {...useTextField(...field)} //useTextField to load preloaded text
-              />
-            </div>
-          )
-        )}
+      <form onSubmit={handleSubmit} ref={formRef} id="songEditForm">
+        <input type="text" {...useTextField('title',titleD[contextMenu.playlist_id])} //useTextField to load preloaded text
+        />
         {/* {renderErrors()} */}
         <div className="spacer"></div>
         <div className='button-box'>
@@ -61,7 +56,7 @@ export default function PlaylistEditForm() {
           />
         </div>
       </form>
-    {/* </ContextFormWrap> */}
+      {/* </ContextFormWrap> */}
     </ PlaylistEditDiv>
 
   );

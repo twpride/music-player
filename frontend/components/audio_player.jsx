@@ -206,7 +206,7 @@ export default function AudioPlayer({ winWidth }) {
     setDuration([sec, convertSecsToMins(sec)])
   }
   function handleSpace(e) {
-    if (e.target.type === 'text') return;
+    if (e.target.type && e.target.type.slice(0,4) === 'text') return;
     if (e.key === " ") {
       e.preventDefault()
       onPlayClick()
@@ -301,7 +301,14 @@ export default function AudioPlayer({ winWidth }) {
       skip(1)()
     }
   }
-  // ,[start])
+  function handleTitleClick(e) {
+    const pl_id = track[0]
+    if (pl_id) {
+      history.push(`/playlist_D/${pl_id}`)
+    } else {
+      history.push('')
+    }
+  }
 
   function onPlayClick() {
     if (!aud.current.paused) {
@@ -313,6 +320,7 @@ export default function AudioPlayer({ winWidth }) {
     }
   }
 
+
   return <>
     <PlayerDiv >
       <ProgressBar {...ProgressBarHandler}>
@@ -322,7 +330,7 @@ export default function AudioPlayer({ winWidth }) {
         </div>
         <div className='track-remaining' style={{ width: `${100 - progress * 100}%` }} />
       </ProgressBar>
-      <SwipeDiv ref={playerdiv} onTouchStart={handleSwipeStart}>
+      <SwipeDiv ref={playerdiv} onTouchStart={handleSwipeStart} onMouseDown={handleTitleClick}>
         <div className='control' >
           {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
           <img src={playing ? pauseIcon : playIcon} className='play-button'

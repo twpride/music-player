@@ -34,22 +34,23 @@ def playlist_d(request):  # post, get
     req = request.POST.get('title')
     Playlist.objects.create(title=req, user=usr)
     res = model_to_dict(Playlist.objects.last(), fields=['id', 'title'])
-    return JsonResponse({res['id']: res}, safe=False)
+    return JsonResponse({res['id']: res['title']}, safe=False)
 
   return JsonResponse(
       {
-          x["id"]: x for x in Playlist.objects.filter(
+          x["id"]: x['title'] for x in Playlist.objects.filter(
               user_id=usr.id).values('id', 'title')
       },
       safe=False)
 
 def edit_playlist(request):
   req = request.POST.dict()
+
   pl = Playlist.objects.get(pk=req['id'])
   pl.title = req['title']
   pl.save()
   res = model_to_dict(pl, fields=['id', 'title'])
-  return JsonResponse({res['id']: res}, safe=False)
+  return JsonResponse({res['id']: res['title']}, safe=False)
 
 
 def edit_songs(request):

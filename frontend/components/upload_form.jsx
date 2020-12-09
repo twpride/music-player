@@ -17,7 +17,7 @@ const UploadFormEle = styled.form`
   top:0;
   bottom:0;
   width: min(500px, 80%);
-  height: 300px;
+  height: 350px;
   margin: auto auto;
   display:flex;
   flex-direction:column;
@@ -34,14 +34,10 @@ const UploadFormEle = styled.form`
   #file-count {
     font-size:8px;
   }
-  #textbox-holder {
-    height:57px;
-    margin-bottom: 1em;
-  }
   textarea {
     resize: none;
     height: 19px;
-    width: 20em;
+    width: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
     border: 0;
@@ -71,14 +67,27 @@ const UploadFormEle = styled.form`
     text-align: center;
     color: greyscale(0.4);
   }
+
+  .holder {
+    height:57px;
+    width: min(20em,90%);
+  }
+  .error-holder {
+    overflow-y:auto
+  }
+  input[type=submit] {
+    padding:5px;
+  }
 `
 
 
 export default function UploadForm() {
+  console.log('ulrunnnnnnnnnn')
   const [urls, setUrls] = useState('');
   const [loading, setLoading] = useState(false);
   // const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState([]);
+  const [err, setErr] = useState([]);
+  window.err = err;
   const form = useRef(null)
   const dispatch = useDispatch()
   const [filelist, setFilelist] = useState([]);
@@ -91,6 +100,7 @@ export default function UploadForm() {
     setLoading(true)
     e.preventDefault();
     const formData = new FormData(form.current);
+    const errorsArr = []
 
     //upload local songs
     const waveforms = formData.getAll('waveform')
@@ -116,7 +126,7 @@ export default function UploadForm() {
           })
         )
       } catch (err) {
-        setErrors(state => [...state, err.message])
+        errorsArr.push(err.message)
       }
     }
 
@@ -124,21 +134,27 @@ export default function UploadForm() {
     const urlsArray = urls.split("\n").filter(ent => ent) //filter blank lines
     const songs = await Promise.all(
       urlsArray.map(async url => {
-        console.log(url)
+        console.log('querying:' + url)
         const resp = await fetch(ytdlAPI + url)
         const json = await resp.json();
         if (!resp.ok) {
-          setErrors(state => [...state, json])
+          errorsArr.push(json)
+          console.log("how many times")
         }
         return json
       })
     )
     const ytFiles = songs.map(ent => ent.Key).filter(ent => ent) //filter failed reqs
-
+    // setErr(["whatttttttt"])
     const files = Array.concat(localFiles, ytFiles)
     if (files.length) dispatch(postSongs(files))
-    if (!errors.length) dispatch({ type: context_act.CLOSE_CONTEXT })
-    setLoading(false)
+
+    if (!errorsArr.length) {
+      dispatch({ type: context_act.CLOSE_CONTEXT })
+    } else {
+      setLoading(false)
+      setErr(errorsArr)
+    }
   }
 
   function onTextChange(e) {
@@ -154,18 +170,21 @@ export default function UploadForm() {
   }
 
   return (
-    <UploadFormEle id="songForm" ref={form} onSubmit={submitSong} onClick={(e) => e.stopPropagation()}>
+    <UploadFormEle id="songForm" ref={form} onSubmit={submitSong}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className='holder'></div>
       <input type="file" name="waveform"
         onChange={loadSong} multiple hidden id='choose-file' />
       <label htmlFor='choose-file'>
         {filelist.length > 0 ? `${filelist.length} selected` : "Choose files"}
       </label>
       <div className='or'><span className='divider'></span>or<span className='divider'></span></div>
-      <div id="textbox-holder">
+      <div className="holder">
         <textarea type="text"
           name="url"
           value={urls}
-          placeholder="Paste YouTube URLs (1 per line)"
+          placeholder="YouTube URL or ID (1 per line)"
           onChange={onTextChange}
           wrap="off"
         />
@@ -176,12 +195,12 @@ export default function UploadForm() {
           value="Submit"
         />
       }
-      <div className='errors'>
-        {errors.map((mes, i) => {
+      <div className='holder error-holder'>
+        {err.map((mes, i) => (
           <div key={i}>
             {mes}
           </div>
-        })}
+        ))}
       </div>
     </UploadFormEle>
   )

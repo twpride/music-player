@@ -67,7 +67,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
   return (
     <CardDiv isDragging={isDragging} onClick={playSong} >
       <div ref={ref}
-        className='noselect'
+        className='drag-handle'
         onClick={(e) => {
           e.preventDefault()
           e.stopPropagation()

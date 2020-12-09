@@ -11,16 +11,22 @@ import { ent_act } from '../reducers/root_reducer'
 import PlayingIcon from '../icons/playing.gif'
 import PausedIcon from '../icons/paused.gif'
 
-
+function preventDrag(e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
 
 export const CardDiv = styled.div`
   font-size: .9em;
   display:flex;
   flex-direction:row;
   align-items: center;
-  &:hover {
-      background-color: #F0F0F0;
+  @media (hover: hover) {
+    &:hover {
+        background-color: #F0F0F0;
+    }
   }
+
   >div {
     height: 4em;
     opacity: ${props => props.isDragging ? 0.4 : 1};
@@ -51,17 +57,25 @@ export const CardDiv = styled.div`
   img.equalizer {
     height:14px;
   }
-  .noselect{
-    user-select: none;  
+
+  .drag-handle{
+    cursor: move;
+    user-select: none;
   }
+  cursor: pointer;
+
 `
 
 export const Equalizer = ({ track, pl_id, index, playing }) => {
   if (track && track[0] === pl_id && track[1] === index) {
     if (playing) {
-      return <img className='equalizer' src={PlayingIcon}></img>
+      return <img className='equalizer' src={PlayingIcon}
+        onDragStart={preventDrag}
+      ></img>
     } else {
-      return <img className='equalizer' src={PausedIcon}></img>
+      return <img className='equalizer' src={PausedIcon} 
+        onDragStart={preventDrag}
+      ></img>
     }
   } else {
     return index + 1
@@ -90,27 +104,27 @@ export default function SongD() {
 
   return (
 
-      <div className="scrollable">
-        {Object.values(songD).map((song, i) => (
-          <CardDiv key={i} onClick={playSong(song.id, i)}>
-            <div>
-              <Equalizer
-                track={track}
-                pl_id={null}
-                index={i}
-                playing={playing}
-              />
-            </div>
-            <div>
-              <div>{song.artist}&nbsp;</div>
-              <div>{song.title}&nbsp;</div>
-            </div>
-            <div onClick={launchBurger(song.id)}>
-              <div><img src={burgerIcon} /></div>
-            </div>
-          </CardDiv>
-        ))}
-      </div>
+    <div className="scrollable">
+      {Object.values(songD).map((song, i) => (
+        <CardDiv key={i} onClick={playSong(song.id, i)}>
+          <div>
+            <Equalizer
+              track={track}
+              pl_id={null}
+              index={i}
+              playing={playing}
+            />
+          </div>
+          <div>
+            <div>{song.artist}&nbsp;</div>
+            <div>{song.title}&nbsp;</div>
+          </div>
+          <div onClick={launchBurger(song.id)}>
+            <div><img src={burgerIcon} /></div>
+          </div>
+        </CardDiv>
+      ))}
+    </div>
   )
 };
 

@@ -62,11 +62,11 @@ export default function PlaylistD() {
   }
 
   return <div className="scrollable">
-      {titleD && Object.values(titleD).map((pl, index) => (
-        <Link key={index} to={`/playlist_D/${pl.id}`}>
+      {titleD && Object.entries(titleD).map((pl, index) => (
+        <Link key={index} to={`/playlist_D/${pl[0]}`}>
           <PlaylistTitleDiv className='row'  >
-            <div>{pl.title}</div>
-            <div onClick={launchBurger(pl.id)}>
+            <div>{pl[1]}</div>
+            <div onClick={launchBurger(pl[0])}>
               <div><img src={burgerIcon} /></div>
            </div>
           </PlaylistTitleDiv>

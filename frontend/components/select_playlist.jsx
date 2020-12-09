@@ -15,21 +15,26 @@ const SelectDiv = styled.div`
   display:flex;
   flex-direction: column;
   align-items:flex-start;
-  padding:1.5em;
 
   .playlist-row {
     /* font-size: 0.9em; */
+    padding:0 1.5em;
     height:4em;
     font-size: 1em;
     display:flex;
     align-items: center;
+    width:100%;
     cursor: pointer;
+  }
+  .playlist-row:hover {
+    background-color: #F0F0F0;
   }
   .spacer {
     height: 1em;
   }
   .title {
     font-weight:700;
+    padding:1.5em;
   }
 `
 
@@ -67,9 +72,8 @@ export default function SelectPlaylist() {
   return (
     <SelectDiv>
       <div className="title">Add to playlist</div>
-      <div className="spacer"></div>
-      {playlistD.playlistTitleD && Object.values(playlistD.playlistTitleD).map((pl, index) => (
-        <div key={index} className="playlist-row" onClick={clickAddTrack(pl.id)}>{pl.title}</div>
+      {playlistD.playlistTitleD && Object.entries(playlistD.playlistTitleD).map((pl, index) => (
+        <div key={index} className="playlist-row" onClick={clickAddTrack(pl[0])}>{pl[1]}</div>
       ))}
 
     </SelectDiv>

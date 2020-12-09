@@ -79,7 +79,8 @@ class UserView(CustomView):
                           status=422)
     self.user.save()
     self.log_in(self.user)
-    return HttpResponse(status=204)
+    response = model_to_dict(self.user, fields=['id', 'email'])
+    return JsonResponse(response)
 
 
 class SessionView(CustomView):
