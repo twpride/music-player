@@ -27,7 +27,7 @@ export default function AudioVisualizer(container) {
     splitter.connect(_analyzer, i);
     this.analyzer.push(_analyzer)
   }
-  const delay = this.audctx.createDelay(0.26)
+  const delay = this.audctx.createDelay(0.4)
   this.source.connect(splitter)
   this.source.connect(delay)
   delay.connect(this.audctx.destination)
