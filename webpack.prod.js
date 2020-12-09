@@ -6,5 +6,8 @@ module.exports = merge(common, {
   mode: 'production',
   plugins: [
     new BundleAnalyzerPlugin()
-  ]
+  ],
+  performance: {
+    hints: false
+  }
 });
