@@ -30,9 +30,6 @@ export default function AudioVisualizer(container) {
 
   this.source.connect(splitter)
   this.source.connect(this.audctx.destination)
-  // const delay = this.audctx.createDelay(2)
-  // this.source.connect(delay)
-  // delay.connect(this.audctx.destination)
 
   const bufferLength = this.analyzer[0].frequencyBinCount
   const totalFreqRange = this.analyzer[0].context.sampleRate / 2;
