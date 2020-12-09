@@ -1,3 +1,9 @@
-# music-player
+# music-player-1
 
-drop table user_auth_user, song_player_song, song_player_entry, song_player_playlist, django_migrations
+A mobile friend music streaming web app hosted on S3.
+
+Key Features:
+- Playlists with drag and drop reordering
+- Uploading songs locally or from YouTube
+- Audio waveform visualization 
+- Integration with hardware media controls

@@ -38,6 +38,20 @@ export const HeaderDiv = styled.div`
     right: 20px;
     margin: auto auto;
   }
+  a {
+    position:absolute;
+    top:14px;
+    &:nth-of-type(1) {
+      left:14px;
+    }
+    &:nth-of-type(2) {
+      left:50px;
+    }
+  }
+  img {
+    width:22px;
+    height:22px;
+  }
 `
 
 export default function Header() {
@@ -68,8 +82,14 @@ export default function Header() {
 
   return (
     <HeaderDiv className="nav">
-      <div className='title'>{title}</div>
       <div id="container" ref={containerRef}> </div>
+      <a href='https://github.com/twpride/music-player-1'>
+        <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/github.png' />
+      </a>
+      <a href='https://www.linkedin.com/in/howard-hwang-b3000335/1'>
+        <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/linkedin.png' />
+      </a>
+      <div className='title'>{title}</div>
       <button onClick={() => {
         logout().then(
           () => {

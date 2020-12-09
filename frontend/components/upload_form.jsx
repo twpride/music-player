@@ -82,7 +82,6 @@ const UploadFormEle = styled.form`
     position:absolute;
     bottom:5px;
     font-size:10px;
-    justify-self: flex-end;
   }
 `
 
