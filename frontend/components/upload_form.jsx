@@ -78,6 +78,12 @@ const UploadFormEle = styled.form`
   input[type=submit] {
     padding:5px;
   }
+  div.disclaimer {
+    position:absolute;
+    bottom:5px;
+    font-size:10px;
+    justify-self: flex-end;
+  }
 `
 
 
@@ -202,6 +208,7 @@ export default function UploadForm() {
           </div>
         ))}
       </div>
+      <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
     </UploadFormEle>
   )
 };
