@@ -32,14 +32,6 @@ const songD = (state = [], action) => {
     case ent_act.DELETE_SONG:
       const newSongD = { ...state };
       delete newSongD[action.song_id];
-
-
-
-    //   const newpl = [...state[action.pl_id]]
-    //   newpl.splice(action.idx, 1)
-    //   return { ...state, [action.pl_id]: newpl }
-
-
       return newSongD;
     default:
       return state;
