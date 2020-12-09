@@ -1,2 +1,2 @@
 release: python manage.py migrate
-web: gunicorn backend.wsgi --log-file -
+web: gunicorn music_player_1.wsgi --log-file -
