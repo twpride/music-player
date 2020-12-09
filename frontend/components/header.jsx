@@ -42,12 +42,10 @@ export const HeaderDiv = styled.div`
 
 export default function Header() {
   const dispatch = useDispatch()
-  const currentUser = useSelector(state => state.session.currentUser)
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
   const [title, setTitle] = useState('')
   const containerRef = useRef()
   const location = useLocation()
-  console.log(location)
 
   useEffect(() => {
     function resumeAudioCtx(e) {

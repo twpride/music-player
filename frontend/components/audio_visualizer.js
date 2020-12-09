@@ -47,18 +47,16 @@ export default function AudioVisualizer(container) {
     this.cellXCoord[i] = Math.floor(logFreqCoord / this.logFreqRange * this.canvas.width)
   }
 
-  console.log(this.cellXCoord.length, "cost")
+  // console.log(this.cellXCoord.length, "cost")
   this.dataArray = new Uint8Array(bufferLength)
   this.dataArray2 = new Uint8Array(bufferLength)
-  // this.ctx.strokeStyle = "lightgrey";
   this.ctx.strokeStyle = "#ad0f37";
-  this.ctx.fillStyle = "lightgrey";
+  // this.ctx.fillStyle = "lightgrey";
 
   window.addEventListener('resize', throttle(() => {
     this.canvas.width = this.container.clientWidth;
-    // this.ctx.strokeStyle = "lightgrey";
     this.ctx.strokeStyle = "#ad0f37";
-    this.ctx.fillStyle = "lightgrey";
+    // this.ctx.fillStyle = "lightgrey";
     this.setCanvas()
   }, 200).bind(this))
 

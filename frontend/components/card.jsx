@@ -41,7 +41,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
     },
   })
 
-  const [{ isDragging }, drag, preview] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     item: { type: 'card', id, index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -50,8 +50,8 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
       setStart(index)
     },
     end() {
-      console.log(start)
-      console.log(index)
+      // console.log(start)
+      // console.log(index)
       setPrev(start, index)
     }
   })

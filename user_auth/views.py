@@ -67,8 +67,6 @@ class UserView(CustomView):
       return HttpResponse("not logged in")
 
   def post(self, request):
-    # req_json = json.loads(request.body.decode('utf-8'))
-    # breakpoint()
     req_json = request.POST
     self.user = User.pre_init(**req_json)
     try:
@@ -86,16 +84,13 @@ class UserView(CustomView):
 class SessionView(CustomView):
 
   def post(self, request):
-    # req_json = json.loads(request.body.decode('utf-8'))
     req_json = request.POST
-    # breakpoint()
 
     email = req_json['email']
     password = req_json['password'].encode('utf-8')
     self.user = User.find_by_credentials(email, password)
     if self.user:
       self.log_in(self.user[0])
-      # return HttpResponse(status=204)
       response = model_to_dict(self.current_user, fields=['id', 'email'])
       return JsonResponse(response)
     else:
@@ -107,7 +102,6 @@ class SessionView(CustomView):
   def delete(self, request):
     if self.logged_in():
       self.log_out()
-      print("hereee")
       return HttpResponse(status=204)
     else:
       return JsonResponse({"msg": "Nobody signed in"}, status=404)

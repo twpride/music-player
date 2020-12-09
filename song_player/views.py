@@ -96,7 +96,6 @@ def post_songs(request):  #post
 
   songs_to_post = json.loads(request.body.decode('utf-8'))
   res = []
-  # breakpoint()
   for _song in songs_to_post:
     song = Song(title=_song, filename=_song, user=usr)
     try:
@@ -120,8 +119,6 @@ def post_songs(request):  #post
       safe=False)
 
 
-def create_songs(request):
-  breakpoint()
 
 def get_post_urls(request):  #get , delete
   req = json.loads(request.body.decode('utf-8'))
@@ -236,7 +233,6 @@ def add_track(request, playlist_id=None, song_id=None):  # post
                                    song=song,
                                    prev_ent=playlist.tail_ent)
 
-  # breakpoint()
   playlist.tail_ent = new_entry
   playlist.save()
   return JsonResponse(Entry.objects.last().id, safe=False)

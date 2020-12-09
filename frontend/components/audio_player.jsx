@@ -183,14 +183,12 @@ export default function AudioPlayer({ winWidth }) {
     ) {
       song = playlist_dir[newtr[0]][newtr[1]]
       dispatch(getSongUrl(song[0]));
-      console.log('hereo')
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     } else if (
       !newtr[0] &&
       (song = Object.values(songD)[newtr[1]])
     ) {
       dispatch(getSongUrl(song.id));
-      console.log('hereo2')
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     }
     dispatch({ type: ent_act.SET_PLAY })

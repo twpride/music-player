@@ -82,13 +82,12 @@ const UploadFormEle = styled.form`
 
 
 export default function UploadForm() {
-  console.log('ulrunnnnnnnnnn')
   const [urls, setUrls] = useState('');
   const [loading, setLoading] = useState(false);
-  // const [loading, setLoading] = useState(true);
+
   const [err, setErr] = useState([]);
-  window.err = err;
   const form = useRef(null)
+  const tboxRef = useRef(null)
   const dispatch = useDispatch()
   const [filelist, setFilelist] = useState([]);
 
@@ -134,18 +133,17 @@ export default function UploadForm() {
     const urlsArray = urls.split("\n").filter(ent => ent) //filter blank lines
     const songs = await Promise.all(
       urlsArray.map(async url => {
-        console.log('querying:' + url)
+        // console.log('querying:' + url)
         const resp = await fetch(ytdlAPI + url)
         const json = await resp.json();
         if (!resp.ok) {
           errorsArr.push(json)
-          console.log("how many times")
+          // console.log("fail")
         }
         return json
       })
     )
     const ytFiles = songs.map(ent => ent.Key).filter(ent => ent) //filter failed reqs
-    // setErr(["whatttttttt"])
     const files = Array.concat(localFiles, ytFiles)
     if (files.length) dispatch(postSongs(files))
 
@@ -158,14 +156,15 @@ export default function UploadForm() {
   }
 
   function onTextChange(e) {
-    setUrls(e.currentTarget.value)
-    const nLine = (e.currentTarget.value.match(/\n/g) || []).length + 1;
+    const tbox =tboxRef.current;
+    setUrls(tbox.value)
+    const nLine = (tbox.value.match(/\n/g) || []).length + 1;
     if (nLine > 3) {
-      e.currentTarget.style.overflowY = "scroll"
-      e.currentTarget.style.height = 19 * 3 + 2;
+      tbox.style.overflowY = "scroll"
+      tbox.style.height = (19 * 3 + 2) + 'px';
     } else {
-      e.currentTarget.style.height = (nLine * 19 + 2) + "px";
-      e.currentTarget.style.overflowY = "hidden"
+      tbox.style.height = (nLine * 19 + 2) + 'px';
+      tbox.style.overflowY = "hidden"
     }
   }
 
@@ -187,6 +186,7 @@ export default function UploadForm() {
           placeholder="YouTube URL or ID (1 per line)"
           onChange={onTextChange}
           wrap="off"
+          ref={tboxRef}
         />
       </div>
       {loading ? <Spinner /> :
