@@ -32,7 +32,7 @@ export default function AlbumArt() {
         song = Object.values(songD)[track[1]]
       }
 
-      if (song.album_art_url) {
+      if (song.album_art_url && song.album_art_url!="n/a") {
         setAlbumArt(song.album_art_url)
       } else {
         setAlbumArt('https://music-player-1.s3-us-west-1.amazonaws.com/vinyl-album.jpg')
