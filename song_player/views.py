@@ -269,4 +269,5 @@ def delete_track(request):
     playlist.tail_ent = target.prev_ent
     playlist.save()
   target.delete()
+  #### need to write tail corner case
   return HttpResponse(status=204)

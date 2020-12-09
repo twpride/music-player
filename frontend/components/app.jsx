@@ -96,7 +96,7 @@ export default function Splash() {
 
   const demoScript = () => {
     const form = new FormData();
-    form.append('email', 'demo1@demo.com')
+    form.append('email', 'demo1')
     form.append('password', 'demodemo')
     dispatch(loginThunk(form))
   }
@@ -107,8 +107,8 @@ export default function Splash() {
 
   const demoScript2 = () => {
     const form = new FormData();
-    form.append('email', 'asdf')
-    form.append('password', 'asdfasdf')
+    form.append('email', 'demo2')
+    form.append('password', 'demodemo')
     dispatch(loginThunk(form))
   }
 
