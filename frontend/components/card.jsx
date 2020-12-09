@@ -80,8 +80,8 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
         />
       </div>
       <div>
-        <div>{text && text.artist}&nbsp;</div>
-        <div>{text && text.title}&nbsp;</div>
+        <div>{text && text.artist}</div>
+        <div>{text && text.title}</div>
       </div>
 
       <div onClick={launchBurger(song_id)}>

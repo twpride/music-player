@@ -115,8 +115,8 @@ export default function SongD() {
             />
           </div>
           <div>
-            <div>{song.artist}&nbsp;</div>
-            <div>{song.title}&nbsp;</div>
+            <div>{song.artist}</div>
+            <div>{song.title}</div>
           </div>
           <div onClick={launchBurger(song.id)}>
             <div><img src={burgerIcon} /></div>
