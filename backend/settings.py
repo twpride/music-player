@@ -25,6 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get(
   'DJANGO_SECRET_KEY', 'z7t+y3%z6n&-$==3*@q#9@6b)!c+!3h1ftoqz_8su6n70mm*k%')
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'PROD' not in os.environ
 
@@ -136,12 +137,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage
-AWS_ACCESS_KEY_ID='AKIA5BJLHP7KHY6TTHKN'
-AWS_SECRET_ACCESS_KEY='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'
-AWS_STORAGE_BUCKET_NAME='music-player-1'
 
-AWS_YTDL_API_URL='https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url='
+AWS_ACCESS_KEY_ID = os.environ.get('MP1_AWS_ACCESS_KEY_ID', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('MP1_AWS_SECRET_ACCESS_KEY', '')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('MP1_AWS_STORAGE_BUCKET_NAME', '')
+
 
 INTERNAL_IPS = [
     '127.0.0.1',
