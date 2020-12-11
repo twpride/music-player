@@ -11,7 +11,7 @@ export default function AudioVisualizer(container) {
   this.container = container
   this.canvas.width = this.container.clientWidth;
   this.canvas.height = this.container.clientHeight;
-  this.midline = Math.floor(this.canvas.height/2);
+  this.midline = Math.floor(this.canvas.height / 2);
   this.ctx = this.canvas.getContext("2d")
   this.container.appendChild(this.canvas)
 
@@ -52,12 +52,13 @@ export default function AudioVisualizer(container) {
   this.ctx.strokeStyle = "#ad0f37";
   // this.ctx.fillStyle = "lightgrey";
 
-  window.addEventListener('resize', throttle(() => {
-    this.canvas.width = this.container.clientWidth;
-    this.ctx.strokeStyle = "#ad0f37";
-    // this.ctx.fillStyle = "lightgrey";
-    this.setCanvas()
-  }, 200).bind(this))
+  window.addEventListener('resize',
+    throttle(() => {
+      this.canvas.width = this.container.clientWidth;
+      this.setCanvas()
+      this.ctx.strokeStyle = "#ad0f37";
+    }, 200).bind(this)
+  )
 
 }
 
@@ -76,8 +77,8 @@ AudioVisualizer.prototype.startRenderer = function () {
   this.analyzer[1].getByteFrequencyData(this.dataArray2)
   for (var i = this.minIdx; i <= this.maxIdx; i++) {
     const x = this.cellXCoord[i - this.minIdx]
-    this.ctx.moveTo(x, this.midline - (this.dataArray[i]>>>3));
-    this.ctx.lineTo(x, this.midline + (this.dataArray2[i]>>>3));
+    this.ctx.moveTo(x, this.midline - (this.dataArray[i] >>> 3));
+    this.ctx.lineTo(x, this.midline + (this.dataArray2[i] >>> 3));
   }
   // this.ctx.font = "30px Arial";
   // this.ctx.fillText(Date.now(),100,50)
