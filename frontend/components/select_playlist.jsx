@@ -55,14 +55,9 @@ export default function SelectPlaylist() {
         if (!playlistD[playlist_id]) {
           dispatch(getPlaylist(playlist_id))
         } else {
-          let prevId = null;
-          if (playlistD[playlist_id] && playlistD[playlist_id].length) {
-            const lastIdx = playlistD[playlist_id].length - 1;
-            prevId = playlistD[playlist_id][lastIdx][1];
-          }
           dispatch({
             type: ent_act.APPEND_PLAYLIST,
-            playlist_id, tracks: [[contextMenu.song_id, entry_pk, prevId]]
+            playlist_id, tracks: [[contextMenu.song_id, entry_pk]]
           })
         }
       })

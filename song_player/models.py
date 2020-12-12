@@ -12,6 +12,7 @@ class Song(models.Model):
   album_art_url = models.CharField(max_length=255, blank=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   # waveform = models.FileField(upload_to='./media/songs')
+  playlists = models.ManyToManyField('Playlist', through='Entry')
 
 
 class Entry(models.Model):
@@ -24,6 +25,7 @@ class Entry(models.Model):
                                blank=True,
                                null=True)
 
+  order = models.PositiveSmallIntegerField()
 
 class Playlist(models.Model):
   title = models.CharField(max_length=100)
@@ -34,3 +36,8 @@ class Playlist(models.Model):
                                   blank=True,
                                   null=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
+  root_user = models.OneToOneField(User, on_delete=models.CASCADE,
+                            related_name='root_pl',
+                            blank=True,
+                            null=True)
+  

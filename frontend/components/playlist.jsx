@@ -12,7 +12,7 @@ import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
 
-export default function Playlist() {
+export default function Playlist({root}) {
   const [cards, setCards] = useState(null)
 
   const dispatch = useDispatch();
@@ -33,12 +33,12 @@ export default function Playlist() {
 
 
   useEffect(() => {
+    if (root) playlist_id=25;
     const fetchPlaylist = async () => {
+      
       if (!playlistD[playlist_id]) {
-        // console.log('ajaxing')
         const response = await getPlaylist(playlist_id)
-        const linkedList = await response.json()
-        const playlist = orderPlaylist(linkedList)
+        const playlist = await response.json()
         setCards([...playlist])
         dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
       } else {
@@ -46,7 +46,9 @@ export default function Playlist() {
       }
     }
     fetchPlaylist()
-  }, [])
+
+    return ()=>{playlist_id=null}
+  }, [root])
 
   useEffect(() => {
     if (playlistD[playlist_id]) {
@@ -72,38 +74,8 @@ export default function Playlist() {
 
   const setPrev = useCallback(
     (start, index) => {
-      const req = {}
-      const dir = index - start
-      if (dir === 0) return;
 
-      if (dir > 0) {
-        if (start > 0) {
-          req[cards[start][1]] = cards[start - 1][1]
-        } else if (start === 0) {
-          req[cards[start][1]] = null
-        }
-      } else { // dir < 0
-        if (start + 1 < cards.length) {
-          req[cards[start + 1][1]] = cards[start][1]
-        } else {
-          req['tail'] = [playlist_id, cards[start][1]]
-        }
-      }
-
-      if (index + 1 < cards.length) {
-        req[cards[index + 1][1]] = cards[index][1]
-      } else {
-        req['tail'] = [playlist_id, cards[index][1]]
-      }
-
-
-      if (index > 0) {
-        req[cards[index][1]] = cards[index - 1][1]
-      } else if (index === 0) {
-        req[cards[index][1]] = null
-      }
-
-      moveTrack(req) // update db
+      moveTrack([start+1, index+1, playlist_id]) // update db
       dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist: cards }) // update store
 
       if (track && track[0] == playlist_id) {
@@ -127,7 +99,7 @@ export default function Playlist() {
       <DndProvider backend={TouchBackend}
         options={{ enableMouseEvents: true }}
       >
-        {cards && cards.map(([song_id, entry_id, prev], index) => (
+        {cards && cards.map(([song_id, entry_id], index) => (
           <Card
             song_id={song_id}
             key={entry_id} // for react internal diff 

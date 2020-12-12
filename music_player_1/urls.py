@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/playlist_d/', song.playlist_d),
     path('api/song_d/<int:id>', song.song),
     path('api/playlist_d/<int:id>', song.playlist),
+    path('api/root_playlist', song.root_playlist),
     path('api/add_track/<int:playlist_id>/<int:song_id>', song.add_track),
     path('api/move_track', song.move_track),
     path('api/delete_track', song.delete_track),

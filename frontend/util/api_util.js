@@ -100,6 +100,13 @@ export const getPlaylist = (id) => (
   })
 );
 
+export const getPlaylist = () => (
+  fetch(`/api/root_playlist`, {
+    method: 'GET',
+    headers: fetchHeader(),
+  })
+);
+
 export const deletePlaylist = (id) => (
   fetch(`/api/playlist_d/${id}`, {
     method: 'DELETE',

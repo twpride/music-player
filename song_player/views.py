@@ -4,7 +4,7 @@ from django.views import View
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
-
+from django.db.models import F
 from .models import Song, Playlist, Entry
 from user_auth.models import User
 import json
@@ -32,7 +32,12 @@ def playlist_d(request):  # post, get
 
   if request.method == "POST":
     req = request.POST.get('title')
-    Playlist.objects.create(title=req, user=usr)
+
+    root_user=None
+    if root_user_id:=request.POST.get('root_user_id'):
+      root_user=User.objects.get(pk=root_user_id)
+
+    Playlist.objects.create(title=req, user=usr, root_user=root_user)
     res = model_to_dict(Playlist.objects.last(), fields=['id', 'title'])
     return JsonResponse({res['id']: res['title']}, safe=False)
 
@@ -171,48 +176,30 @@ def song(request, id):  #get , delete
   pls_to_fetch = json.loads(request.body.decode('utf-8'))
 
   song_to_delete = Song.objects.get(pk=id)
-  affected_entries = song_to_delete.entry_set.all()
-  dirty_pls = set()
-
-  ent_to_upd = []
-  ent_to_del = set()
-  plist_to_upd = []
-  for ent in affected_entries:
-    if ent.pk in ent_to_del:
-      continue
-    dirty_pls.add(ent.playlist_id)
-    ent_to_del.add(ent.pk)
-
-    nxt = ent.next_ent.first()
-    while nxt and nxt.song.pk == id:
-      ent_to_del.add(nxt.pk)
-      nxt = nxt.next_ent.first()
-
-    prev = ent.prev_ent
-    while prev and prev.song.pk == id:
-      ent_to_del.add(prev.pk)
-      prev = prev.prev_ent
-
-    if not nxt:
-      playlist = ent.playlist
-      playlist.tail_ent = ent.prev_ent
-      plist_to_upd.append(playlist)
-    else:
-      nxt.prev_ent = prev
-      ent_to_upd.append(nxt)
-
-  Playlist.objects.bulk_update(plist_to_upd, ['tail_ent'])
-  Entry.objects.filter(pk__in=ent_to_del).delete()
-  Entry.objects.bulk_update(ent_to_upd, ['prev_ent'])
+  affected_pls = list(song_to_delete.playlists.values_list('pk',flat=True))
   song_to_delete.delete()
-  # return HttpResponse(status=204)
+
+  affected_entries = Entry.objects.filter(playlist_id__in=affected_pls) \
+                          .order_by('playlist_id','order').all()
+
+  cur_ord=1
+  if affected_entries:
+    cur_pl = affected_entries[0].playlist_id
+    for ent in affected_entries:
+      if ent.playlist_id!=cur_pl:
+        cur_ord = 1
+        cur_pl = ent.playlist_id
+      ent.order = cur_ord
+      cur_ord+=1
+    Entry.objects.bulk_update(affected_entries, ['order'])
+
   res = []
   for pl in pls_to_fetch:
-    res.append(list(
-      Entry.objects.filter(playlist_id=pl).values_list("song_id", "pk",
-                                                       "prev_ent")))
-  
-  return JsonResponse({'fetched_pls':res,'dirty_pls':list(dirty_pls)}, safe=False)
+    res.append(
+      list(Entry.objects.filter(playlist_id=pl).order_by('order')
+                .values_list("song_id", "pk"))
+    )
+  return JsonResponse({'fetched_pls':res,'dirty_pls':affected_pls}, safe=False)
 
 
 def playlist(request, id):  # delete, get
@@ -220,54 +207,45 @@ def playlist(request, id):  # delete, get
     Playlist.objects.get(id=id).delete()
     return HttpResponse(status=204)
 
-  return JsonResponse(list(
-      Entry.objects.filter(playlist_id=id).values_list("song_id", "pk",
-                                                       "prev_ent")),
-                      safe=False)
+  return JsonResponse(
+    list(Entry.objects.filter(playlist_id=id).order_by('order')
+              .values_list("song_id", "pk")), safe=False)
+
+def root_playlist(request, id):  # get
+  usr = getUser(request)
+  return JsonResponse(
+    list(usr.root_playlist.entry_set.order_by('order')
+              .values_list("song_id", "pk")), safe=False)
 
 
 def add_track(request, playlist_id=None, song_id=None):  # post
   playlist = Playlist.objects.get(pk=playlist_id)
+  playlist_entries = Entry.objects.filter(playlist_id=playlist_id)
   song = Song.objects.get(pk=song_id)
   new_entry = Entry.objects.create(playlist=playlist,
                                    song=song,
-                                   prev_ent=playlist.tail_ent)
-
-  playlist.tail_ent = new_entry
-  playlist.save()
+                                   order=playlist_entries.count()+1)
   return JsonResponse(Entry.objects.last().id, safe=False)
 
 
 def move_track(request):
-  req = json.loads(request.body.decode('utf-8'))
-
-  if tail := req.pop('tail', False):
-    pl = Playlist.objects.get(pk=tail[0])
-    pl.tail_ent = Entry.objects.get(pk=tail[1])
-    pl.save()
-
-  res = list(Entry.objects.filter(pk__in=req.keys()))
-  for entry in res:
-    if pk := req[str(entry.pk)]:
-      entry.prev_ent = Entry.objects.get(pk=pk)
-    else:
-      entry.prev_ent = None
-    #### need to write tail corner case
-  Entry.objects.bulk_update(res, ['prev_ent'])
+  [start,index,playlist_id] = json.loads(request.body.decode('utf-8'))
+  dir = index - start
+  playlist = Entry.objects.filter(playlist_id=playlist_id)
+  moved_track = playlist.get(order=start)
+  if dir > 0:
+    playlist.filter(order__range=(start+1, index)).update(order=F('order')-1)
+  elif dir <0:
+    playlist.filter(order__range=(index, start-1)).update(order=F('order')+1)
+  moved_track.order = index
+  moved_track.save()
   return HttpResponse(status=204)
 
 
 def delete_track(request):
   req = json.loads(request.body.decode('utf-8'))
-  target = Entry.objects.get(id=req['target'])
-  if 'next' in req:
-    r = Entry.objects.get(id=req['next'])
-    r.prev_ent = Entry.objects.get(pk=req['prev'])
-    r.save()
-  else:
-    playlist = target.playlist
-    playlist.tail_ent = target.prev_ent
-    playlist.save()
+  target = Entry.objects.get(id=req[0])
+  playlist = Entry.objects.filter(playlist_id=target.playlist_id)
+  playlist.filter(order__range=(target.order+1, playlist.count())).update(order=F('order')-1)
   target.delete()
-  #### need to write tail corner case
   return HttpResponse(status=204)

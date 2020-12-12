@@ -66,8 +66,9 @@ export const createPlaylist = playlist => dispatch => (
 
 export const getPlaylist = playlist_id => async dispatch => {
   const response = await APIUtil.getPlaylist(playlist_id)
-  const linkedList = await response.json()
-  const playlist = orderPlaylist(linkedList)
+  // const linkedList = await response.json()
+  // const playlist = orderPlaylist(linkedList)
+  const playlist = await response.json()
 
   dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
 }

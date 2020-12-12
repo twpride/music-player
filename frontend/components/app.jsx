@@ -68,7 +68,10 @@ const App = () => {
       <div className='box'>
         {winWidth>800 && <AlbumArt />}
         <Switch>
-          <Route exact path='/' component={SongD} />
+          <Route exact path='/' >
+            <Playlist root={true}/>
+          </Route>
+          {/* <Route exact path='/' component={Playlist} /> */}
           <Route path='/playlist_d/:playlist_id' component={Playlist} />
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
@@ -136,8 +139,10 @@ export default function Splash() {
   return (
     <>
       <SplashDiv>
-        <ProtectedRoute exact path='/' component={App} />
-        <AuthRoute path='/' component={Comp} setMode={setMode}/>
+        <ProtectedRoute path='/' component={App} />
+        {!currentUser && <Comp setMode={setMode} />}
+        {/* we dont use auth route because it doesnt allow 
+        for routing to url when logged in*/}
       </SplashDiv>
     </>
   )
