@@ -19,7 +19,6 @@ export const ent_act = {
   SET_PAUSE: "SET_PAUSE",
   DELETE_SONG: 'DELETE_SONG',
   RESET_PLAYLISTS:'RESET_PLAYLISTS',
-  UPDATE_TRACK:'UPDATE_TRACK'
 }
 
 const songD = (state = [], action) => {
@@ -44,8 +43,6 @@ const playlistD = (state = {}, action) => {
     case ent_act.INIT_STORE:
       return { ...state, playlistTitleD: action.playlistTitleD };
     case ent_act.RECEIVE_PLAYLIST:
-      return { ...state, [action.playlist_id]: action.playlist };
-    case ent_act.UPDATE_TRACK:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
       return {
@@ -84,7 +81,7 @@ const player = (state = [], action) => {
       return { ...state, songUrl: action.url };
     case ent_act.LOAD_TRACK:
       return { ...state, track: action.track };
-    case ent_act.UPDATE_TRACK:
+    case ent_act.RECEIVE_PLAYLIST:
       return { ...state, track: action.track };
     case ent_act.REMOVE_FROM_PLAYLIST:
       return { ...state, track: action.track };

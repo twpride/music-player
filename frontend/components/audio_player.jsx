@@ -11,6 +11,27 @@ import pauseIcon from '../icons/pause.svg';
 import prev from '../icons/prev.svg';
 import next from '../icons/next.svg';
 
+
+function useCombinedRefs(...refs) {
+  const targetRef = useRef();
+
+  useEffect(() => {
+    refs.forEach(ref => {
+      if (!ref) return;
+
+      if (typeof ref === 'function') {
+        ref(targetRef.current);
+      } else {
+        ref.current = targetRef.current;
+      }
+    });
+  }, [refs]);
+
+  return targetRef;
+}
+
+
+
 const convertSecsToMins = seconds => {
   let mins = Math.floor(seconds / 60).toString();
   let secs = Math.floor(seconds % 60);
@@ -113,17 +134,18 @@ const SwipeDiv = styled.div`
 `
 
 export default function AudioPlayer({ winWidth }) {
+  // export const AudioPlayer = React.forwardRef( ({winWidth},ref) => {
   const dispatch = useDispatch();
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(0);
   const [down, setDown] = useState(false);
   const [songInfo, setSongInfo] = useState(null);
   const [start, setStart] = useState(null)
+  const [curSongId, setCurSongId] = useState(null)
 
   const songUrl = useSelector(state => state.player.songUrl);
-  const playlist_dir = useSelector(state => state.entities.playlistD);
-  const songD = useSelector(state => state.entities.songD);
   const playlistD = useSelector(state => state.entities.playlistD);
+  const songD = useSelector(state => state.entities.songD);
   const track = useSelector(state => state.player.track);
   const playing = useSelector(state => state.player.playing);
 
@@ -170,7 +192,21 @@ export default function AudioPlayer({ winWidth }) {
       navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
       navigator.mediaSession.setActionHandler('nexttrack', skip(1));
     }
-  }, [track, playlistD]) // remount when new track or when playlist is modified
+  }, [track, playlistD]) // remount when new track or when playlist is modified (eg when new song added)
+
+  useEffect(() => {
+    if (track && playing) {
+      let song_id;
+      if (track[0]) song_id = playlistD[track[0]][track[1]][0]
+      else song_id = Object.values(songD)[track[1]].id
+      if (curSongId != song_id) {
+        dispatch(getSongUrl(song_id));
+        setCurSongId(song_id)
+      } else {
+        aud.current.play()
+      }
+    }
+  }, [track, playing])
 
   const skip = (dir) => () => {
     if (!track) return
@@ -179,9 +215,9 @@ export default function AudioPlayer({ winWidth }) {
     let song;
     if (
       newtr[0] &&
-      (playlist_dir[newtr[0]][newtr[1]])
+      (playlistD[newtr[0]][newtr[1]])
     ) {
-      song = playlist_dir[newtr[0]][newtr[1]]
+      song = playlistD[newtr[0]][newtr[1]]
       dispatch(getSongUrl(song[0]));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     } else if (
@@ -204,7 +240,7 @@ export default function AudioPlayer({ winWidth }) {
     setDuration([sec, convertSecsToMins(sec)])
   }
   function handleSpace(e) {
-    if (e.target.type && e.target.type.slice(0,4) === 'text') return;
+    if (e.target.type && e.target.type.slice(0, 4) === 'text') return;
     if (e.key === " ") {
       e.preventDefault()
       onPlayClick()
@@ -310,7 +346,7 @@ export default function AudioPlayer({ winWidth }) {
       aud.current.pause();
       dispatch({ type: ent_act.SET_PAUSE })
     } else if (!aud.current.emptied) {
-      aud.current.play();
+      // aud.current.play();
       dispatch({ type: ent_act.SET_PLAY })
     }
   }
@@ -353,9 +389,11 @@ export default function AudioPlayer({ winWidth }) {
       id='audio'
       ref={aud}
       crossOrigin="anonymous"
-      autoPlay src={songUrl}
+      autoPlay
+      src={songUrl}
       onEnded={skip(1)}
       onTimeUpdate={handleTimeUpdate}
     />
   </>
-};
+}
+// )

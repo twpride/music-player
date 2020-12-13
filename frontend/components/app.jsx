@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
+// import {AudioPlayer} from './audio_player'
 import AudioPlayer from './audio_player'
 import AlbumArt from './album_art'
 import Navbar from './navbar';
@@ -68,10 +69,7 @@ const App = () => {
       <div className='box'>
         {winWidth>800 && <AlbumArt />}
         <Switch>
-          <Route exact path='/' >
-            <Playlist root={true}/>
-          </Route>
-          {/* <Route exact path='/' component={Playlist} /> */}
+          <Route exact path='/' component={SongD} />
           <Route path='/playlist_d/:playlist_id' component={Playlist} />
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>

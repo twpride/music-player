@@ -2,8 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect, useCallback, useState } from 'react';
 
-import { getSongUrl, orderPlaylist } from '../actions/actions'
-import { moveTrack, deletePlaylist, getPlaylist } from '../util/api_util'
+import { moveTrack, getPlaylist } from '../util/api_util'
 import { useParams } from 'react-router-dom'
 import update from 'immutability-helper'
 import { Card } from './card'
@@ -12,7 +11,7 @@ import { DndProvider } from 'react-dnd'
 import { TouchBackend } from 'react-dnd-touch-backend'
 import { ent_act } from '../reducers/root_reducer'
 
-export default function Playlist({root}) {
+export default function Playlist() {
   const [cards, setCards] = useState(null)
 
   const dispatch = useDispatch();
@@ -22,20 +21,18 @@ export default function Playlist({root}) {
 
   let { playlist_id } = useParams();
 
-  const playSong = (song_id, track_no) => (e) => {
+  const playSong = (track_no) => (e) => {
     e.preventDefault()
     e.stopPropagation()
     if (document.getSelection().type === 'Range') return;
     dispatch({ type: ent_act.LOAD_TRACK, track: [playlist_id, track_no] })
-    dispatch(getSongUrl(song_id))
     dispatch({ type: ent_act.SET_PLAY })
   }
 
 
   useEffect(() => {
-    if (root) playlist_id=25;
     const fetchPlaylist = async () => {
-      
+
       if (!playlistD[playlist_id]) {
         const response = await getPlaylist(playlist_id)
         const playlist = await response.json()
@@ -109,7 +106,7 @@ export default function Playlist({root}) {
             text={songD[song_id]} // title and name text
             moveCard={moveCard}
             setPrev={setPrev}
-            playSong={playSong(song_id, index)}
+            playSong={playSong(index)}
           />
         ))}
       </DndProvider>

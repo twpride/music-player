@@ -53,7 +53,7 @@ class RootView(CustomView):
     cur = self.get_current_user()
     res = {}
     if self.get_current_user():
-      res = model_to_dict(self.current_user, fields=['id', 'email', 'root_pl_id'])
+      res = model_to_dict(self.current_user, fields=['id', 'email'])
     context = {'response': json.dumps(res)}
     return render(request, 'root.html', context)
 

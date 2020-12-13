@@ -141,16 +141,6 @@ def get_post_urls(request):  #get , delete
     url = connection.Bucket(bucket).meta.client.generate_presigned_post(
       bucket, filename,  Fields=None, Conditions=None, ExpiresIn=3600
     )
-    # params = {}
-    # bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
-    # params['Bucket'] = bucket
-    # params['Key'] = filename
-
-    # url = connection.Bucket(bucket).meta.client.generate_presigned_url(
-    #     ClientMethod="put_object",
-    #     Params=params,
-    #     ExpiresIn=3600,
-    #     HttpMethod="POST")
 
     res.append(url)
   return JsonResponse(res, safe=False)
@@ -209,12 +199,6 @@ def playlist(request, id):  # delete, get
 
   return JsonResponse(
     list(Entry.objects.filter(playlist_id=id).order_by('order')
-              .values_list("song_id", "pk")), safe=False)
-
-def root_playlist(request, id):  # get
-  usr = getUser(request)
-  return JsonResponse(
-    list(usr.root_playlist.entry_set.order_by('order')
               .values_list("song_id", "pk")), safe=False)
 
 

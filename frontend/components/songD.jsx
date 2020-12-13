@@ -85,12 +85,11 @@ export default function SongD() {
   const dispatch = useDispatch();
   const track = useSelector(state => state.player.track)
   const playing = useSelector(state => state.player.playing)
-  const playSong = (id, i) => (e) => {
+  const playSong = (i) => (e) => {
     e.preventDefault()
     e.stopPropagation()
     if (document.getSelection().type === 'Range') return;
     dispatch({ type: ent_act.LOAD_TRACK, track: [null, i] })
-    dispatch(getSongUrl(id))
     dispatch({ type: ent_act.SET_PLAY })
   }
 
@@ -105,7 +104,7 @@ export default function SongD() {
 
     <div className="scrollable">
       {Object.values(songD).map((song, i) => (
-        <CardDiv key={i} onClick={playSong(song.id, i)}>
+        <CardDiv key={i} onClick={playSong(i)}>
           <div>
             <Equalizer
               track={track}

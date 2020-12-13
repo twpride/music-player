@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { signup } from '../util/session_api_util'
 import { session_act } from '../reducers/session_reducer'
 import styled from 'styled-components'
-import { createPlaylist } from '../util/api_util'
+
 export function renderErrors() {
   const errors = useSelector(state => state.errors.session)
   return (
@@ -55,27 +55,15 @@ export default function SignupForm({ setMode }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     const user = new FormData(form.current);
-
-
     const res = await signup(user)
-
     if (res.ok) {
       const currentUser = await res.json();
-
-      const pl_form =  new FormData()
-      pl_form.append('title',user.get('email'))
-      pl_form.append('root_user_id',currentUser.id)
-
-      await createPlaylist(pl_form);
-
       dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
     } else {
       const errors = await res.json();
       dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })
     }
-
 
   }
 
