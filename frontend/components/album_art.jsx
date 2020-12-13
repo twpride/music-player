@@ -6,14 +6,16 @@ import styled from 'styled-components'
 
 
 const AlbumArtDiv = styled.div`
-  flex:.5 .5 50%;
+  flex:1 1 40%;
   display:flex;
-  width:10%;
+  align-items:center;
+  justify-content:center;
+  
+  width:100%;
   img {
     width:auto;
     max-height:90%;
-    margin: auto;
-    max-width:500px;
+    max-width:90%;
   }
 `
 

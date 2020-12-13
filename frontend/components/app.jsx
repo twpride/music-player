@@ -31,7 +31,7 @@ const AppDiv = styled.div`
     z-index:1;
     min-width:375px;
     overflow-y:auto;
-    flex: 1 .5 50%;
+    flex: 1 1 60%;
     /* display:flex; */
     /* flex-direction:column; */
     /* margin: auto 0 ; */
@@ -68,7 +68,7 @@ const App = () => {
     <AppDiv id="appdiv">
       <Header title='Songs' />
       <div className='box'>
-        {winWidth > 700 && <AlbumArt />}
+        {winWidth > 730 && <AlbumArt />}
         <Switch>
           <Route exact path='/' component={SongD} />
           <Route path='/playlist_d/:playlist_id' component={Playlist} />
