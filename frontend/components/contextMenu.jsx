@@ -15,7 +15,6 @@ const ModalDiv = styled.div`
   height: 100%;
   width:100%;
   z-index: 20;
-  padding:1em;
   background-color: rgba(0,0,0,0.5);
 `
 
@@ -65,6 +64,7 @@ export const BurgerDiv = styled.div`
     display: flex;
     margin-left:1em;
     align-items: center;
+    justify-content: center;
   }
   .burger-row {
     padding: 1em 1em;
