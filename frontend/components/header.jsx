@@ -76,10 +76,10 @@ export default function Header() {
     if (locArr.length == 2) {
       setTitle('Songs')
     } else if (locArr.length == 3) {
-      setTitle('Songs')
-      // setTitle(locArr[2] ? titleD[locArr[2]] : "Playlists")
+      // setTitle('Songs')
+      setTitle(locArr[2] ? titleD && titleD[locArr[2]] : "Playlists")
     }
-  }, [location])
+  }, [location,titleD])
 
   return (
     <HeaderDiv className="nav">

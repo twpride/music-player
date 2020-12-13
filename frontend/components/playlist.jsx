@@ -45,7 +45,7 @@ export default function Playlist() {
     fetchPlaylist()
 
     return ()=>{playlist_id=null}
-  }, [root])
+  }, [playlist_id])
 
   useEffect(() => {
     if (playlistD[playlist_id]) {

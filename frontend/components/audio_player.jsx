@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -10,26 +10,6 @@ import playIcon from '../icons/play.svg';
 import pauseIcon from '../icons/pause.svg';
 import prev from '../icons/prev.svg';
 import next from '../icons/next.svg';
-
-
-function useCombinedRefs(...refs) {
-  const targetRef = useRef();
-
-  useEffect(() => {
-    refs.forEach(ref => {
-      if (!ref) return;
-
-      if (typeof ref === 'function') {
-        ref(targetRef.current);
-      } else {
-        ref.current = targetRef.current;
-      }
-    });
-  }, [refs]);
-
-  return targetRef;
-}
-
 
 
 const convertSecsToMins = seconds => {
@@ -50,17 +30,14 @@ const ProgressBar = styled.div`
   z-index:10;
   overflow-x:hidden;
   cursor: pointer;
-
   .track-elapsed {
     height: 2px;
     background-color: #ad0f37;
   }
-
   .track-remaining {
     height: 2px;
     background-color: grey;
   }
-
   .thumb-container {
     height: 100%;
     width:0;
@@ -70,7 +47,6 @@ const ProgressBar = styled.div`
     justify-content: center;
     z-index:5;
   }
-
   .thumb {
     /* display: none; */
     border-radius: 50%;
@@ -90,38 +66,32 @@ const SwipeDiv = styled.div`
   display:flex;
   align-items:center;
   height:100%;
-
   .control {
     display:flex;
     align-items:center;
     margin:0 6px;
     cursor: pointer;
-
     .play-button {
       height: 32px;
       width: 32px;
       margin:0 6px;
     }
-
     .skip-button {
       height: 24px;
       width: 24px;
       margin:0 6px;
     }
   }
-
   .song-info {
     margin-left:19px;
     margin-right:19px;
     font-size:.9em;
     overflow:hidden;
     white-space: nowrap;
-
     div:nth-of-type(1) {
       color: #777777;
     }
   }
-
   .time-info {
     font-size:.7em;
   }
@@ -134,7 +104,6 @@ const SwipeDiv = styled.div`
 `
 
 export default function AudioPlayer({ winWidth }) {
-  // export const AudioPlayer = React.forwardRef( ({winWidth},ref) => {
   const dispatch = useDispatch();
   const [duration, setDuration] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -176,35 +145,30 @@ export default function AudioPlayer({ winWidth }) {
     let artist = '';
     if (track) {
       let song;
-      if (track[0]) {
-        song = songD[playlistD[track[0]][track[1]][0]];
-      } else {
-        song = Object.values(songD)[track[1]]
-      }
+      if (track[0]) {song = songD[playlistD[track[0]][track[1]][0]];}
+      else {song = Object.values(songD)[track[1]];}
       artist = song.artist;
       title = song.title;
-
       setSongInfo(song)
-
     }
+
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
       navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
       navigator.mediaSession.setActionHandler('nexttrack', skip(1));
     }
+
   }, [track, playlistD]) // remount when new track or when playlist is modified (eg when new song added)
 
   useEffect(() => {
     if (track && playing) {
       let song_id;
-      if (track[0]) song_id = playlistD[track[0]][track[1]][0]
-      else song_id = Object.values(songD)[track[1]].id
+      if (track[0]) { song_id = playlistD[track[0]][track[1]][0]; }
+      else { song_id = Object.values(songD)[track[1]].id; }
       if (curSongId != song_id) {
         dispatch(getSongUrl(song_id));
-        setCurSongId(song_id)
-      } else {
-        aud.current.play()
-      }
+        setCurSongId(song_id);
+      } else { aud.current.play(); }
     }
   }, [track, playing])
 
@@ -232,13 +196,12 @@ export default function AudioPlayer({ winWidth }) {
 
   function handleLoadedMeta(e) {
     let sec;
-    if (window.webkitAudioContext) { // webkit audio doubles song duration with silent second half
-      sec = e.target.duration / 2;
-    } else {
-      sec = e.target.duration;
-    }
+    // webkit audio doubles song duration with silent second half
+    if (window.webkitAudioContext) { sec = e.target.duration / 2; }
+    else { sec = e.target.duration; }
     setDuration([sec, convertSecsToMins(sec)])
   }
+
   function handleSpace(e) {
     if (e.target.type && e.target.type.slice(0, 4) === 'text') return;
     if (e.key === " ") {
@@ -249,20 +212,14 @@ export default function AudioPlayer({ winWidth }) {
 
   function handleTimeUpdate(e) {
     const prog = e.target.currentTime / duration[0];
-    if (window.webkitAudioContext && prog >= 1) {
-      skip(1)()
-    }
-    if (!down) {
-      setProgress(prog);
-    }
+    if (window.webkitAudioContext && prog >= 1) { skip(1)(); } //for webkit
+    if (!down) { setProgress(prog); }
   }
 
   const handleMouseUp = (e) => {
     e.stopPropagation()
-    // e.preventDefault()
     const prog = e.clientX / winWidth;
     setProgress(prog);
-
     aud.current.currentTime = prog * duration[0];
     setDown(false);
     document.removeEventListener('mousemove', updateDrag);
@@ -271,7 +228,6 @@ export default function AudioPlayer({ winWidth }) {
 
   const handleTouchEnd = (e) => {
     e.stopPropagation()
-    // e.preventDefault()
     const prog = e.changedTouches[0].clientX / winWidth;
     setProgress(prog);
     aud.current.currentTime = prog * duration[0];
@@ -282,19 +238,15 @@ export default function AudioPlayer({ winWidth }) {
 
   const updateDrag = (e) => {
     let prog;
-    if (!e.clientX) {
-      prog = e.touches[0].clientX / winWidth;
-    } else {
-      prog = e.clientX / winWidth;
-    }
+    if (!e.clientX) { prog = e.touches[0].clientX / winWidth; }
+    else { prog = e.clientX / winWidth; }
     setProgress(prog);
   };
 
   const ProgressBarHandler = {
     onMouseDown: (e) => {
-      if (!e.clientX) return
+      if (!e.clientX) return;
       e.stopPropagation()
-      // e.preventDefault()
       if (!duration) return;
       setProgress(e.clientX / winWidth);
       setDown(true);
@@ -303,7 +255,6 @@ export default function AudioPlayer({ winWidth }) {
     },
     onTouchStart: (e) => {
       e.stopPropagation()
-      // e.preventDefault()
       if (!duration) return;
       setProgress(e.touches[0].clientX / winWidth);
       setDown(true);
@@ -321,24 +272,16 @@ export default function AudioPlayer({ winWidth }) {
     setStart(null)
     if (Math.abs(dir) < 100) {
       const pl_id = track[0]
-      if (pl_id) {
-        history.push(`/playlist_D/${pl_id}`)
-      } else {
-        history.push('')
-      }
-    } else if (dir > 0) {
-      skip(-1)()
-    } else {
-      skip(1)()
-    }
+      if (pl_id) history.push(`/playlist_D/${pl_id}`)
+      else history.push('')
+    } else if (dir > 0) skip(-1)()
+    else skip(1)()
   }
   function handleTitleClick(e) {
     const pl_id = track[0]
-    if (pl_id) {
-      history.push(`/playlist_D/${pl_id}`)
-    } else {
-      history.push('')
-    }
+    console.log(pl_id)
+    if (pl_id) { history.push(`/playlist_D/${pl_id}`); }
+    else { history.push(''); }
   }
 
   function onPlayClick() {
@@ -346,8 +289,7 @@ export default function AudioPlayer({ winWidth }) {
       aud.current.pause();
       dispatch({ type: ent_act.SET_PAUSE })
     } else if (!aud.current.emptied) {
-      // aud.current.play();
-      dispatch({ type: ent_act.SET_PLAY })
+      dispatch({ type: ent_act.SET_PLAY });
     }
   }
 
@@ -362,7 +304,14 @@ export default function AudioPlayer({ winWidth }) {
         <div className='track-remaining' style={{ width: `${100 - progress * 100}%` }} />
       </ProgressBar>
       <SwipeDiv ref={playerdiv} onTouchStart={handleSwipeStart} onMouseDown={handleTitleClick}>
-        <div className='control' >
+        <div className='control'
+          onTouchStart={(e) => {
+            e.stopPropagation()
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation()
+          }}
+        >
           {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
           <img src={playing ? pauseIcon : playIcon} className='play-button'
             onClick={onPlayClick}
@@ -396,4 +345,3 @@ export default function AudioPlayer({ winWidth }) {
     />
   </>
 }
-// )

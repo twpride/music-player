@@ -45,6 +45,8 @@ export const CardDiv = styled.div`
     &:not(:nth-child(2)) {
       min-width:3em;
       display: flex;
+      flex-direction:column;
+      height:100%;
       justify-content: center;
       align-items: center;
     }
@@ -76,9 +78,7 @@ export const Equalizer = ({ track, pl_id, index, playing }) => {
         onDragStart={preventDrag}
       ></img>
     }
-  } else {
-    return index + 1
-  }
+  } else return index + 1
 }
 
 export default function SongD() {
@@ -93,9 +93,9 @@ export default function SongD() {
     dispatch({ type: ent_act.SET_PLAY })
   }
 
-  const launchBurger = (song_id) => (e) => {
+  const launchBurger = (song_id, index) => (e) => {
     e.stopPropagation()
-    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null })
+    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null, index})
   }
 
   const songD = useSelector(state => state.entities.songD)
@@ -117,7 +117,7 @@ export default function SongD() {
             <div>{song.artist}</div>
             <div>{song.title}</div>
           </div>
-          <div onClick={launchBurger(song.id)}>
+          <div onClick={launchBurger(song.id, i)}>
             <div><img src={burgerIcon} /></div>
           </div>
         </CardDiv>

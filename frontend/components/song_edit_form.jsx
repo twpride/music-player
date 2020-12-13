@@ -45,9 +45,6 @@ export default function SongEditForm() {
         )}
         <div className="spacer"></div>
         <div className='button-box'>
-          <button className="close-modal" onClick={() => dispatch({ type: context_act.CLOSE_CONTEXT })}>
-            Cancel
-          </button>
           <input className="submit-button"
             type="submit" value="Done"
           />

@@ -82,8 +82,11 @@ const player = (state = [], action) => {
     case ent_act.LOAD_TRACK:
       return { ...state, track: action.track };
     case ent_act.RECEIVE_PLAYLIST:
-      return { ...state, track: action.track };
+      if (action.track) return { ...state, track: action.track };
+      else return state;
     case ent_act.REMOVE_FROM_PLAYLIST:
+      return { ...state, track: action.track };
+    case ent_act.DELETE_SONG:
       return { ...state, track: action.track };
     case ent_act.SET_PLAY:
       return { ...state, playing: true };

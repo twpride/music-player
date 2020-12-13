@@ -25,7 +25,6 @@ export default function SongBurger() {
   const contextMenu = useSelector(state => state.ui.contextMenu)
   const playlistD = useSelector(state => state.entities.playlistD)
   const track = useSelector(state => state.player.track)
-  const playing = useSelector(state => state.player.playing)
 
   const burgerList = {
     "Edit song": (e) => {
@@ -42,19 +41,16 @@ export default function SongBurger() {
       const playlist = playlistD[contextMenu.playlist_id]
       const tracks = [playlist[contextMenu.index][1]]
       deleteTrack(tracks)
-      
+
       if (track) {
         let newtr = [...track];
         if (contextMenu.playlist_id == track[0]) {
           if (contextMenu.index < track[1]) {
             newtr[1] -= 1
           }
-          else if (contextMenu.index == track[1]) {
-            if (contextMenu.index == playlistD[track[0]].length - 1) {
-              newtr = null;
-            } else if (playing) { //when next track is available, play it
-              // dispatch(getSongUrl(playlist[track[1]+1][0]));
-            }
+          else if (contextMenu.index == track[1] &&
+            contextMenu.index == playlistD[track[0]].length - 1) {
+            newtr = null;
           }
         }
         dispatch({
@@ -76,22 +72,34 @@ export default function SongBurger() {
     },
     "Delete song": async (e) => {
       e.stopPropagation()
-
       const song_id = contextMenu.song_id;
-
-      dispatch({ type: ent_act.DELETE_SONG, song_id })
-
       const active_pls = []
       if (contextMenu.playlist_id) active_pls.push(contextMenu.playlist_id)
-      if (track && track[0] && contextMenu.playlist_id != track[0]) active_pls.push(track[0])
+
+      if (track) {
+        if (track[0] && contextMenu.playlist_id != track[0]) active_pls.push(track[0])
+        else {
+          let newtr = [...track];
+          if (contextMenu.index < track[1]) {
+            newtr[1] -= 1
+          }
+          else if (contextMenu.index == track[1] && contextMenu.index == Object.values(songD).length - 1) {
+            newtr = null;
+          }
+
+          dispatch({ type: ent_act.DELETE_SONG, song_id, track: newtr })
+        }
+      } else {
+        dispatch({ type: ent_act.DELETE_SONG, song_id })
+      }
 
       dispatch({ type: context_act.CLOSE_CONTEXT })
       const resp = await deleteSong(song_id, active_pls)
       const json = await resp.json()
-      
+
       json.fetched_pls.forEach((playlist, idx) => {
         const playlist_id = active_pls[idx];
-        console.log(track[0],playlist_id)
+        console.log(track[0], playlist_id)
         if (track && track[0] == playlist_id) {
           let nbef = 0
           // count how many deleted songs before current active track
@@ -104,8 +112,6 @@ export default function SongBurger() {
               newtr[1] -= nbef;
               if (newtr[1] >= playlist.length) {
                 newtr = null;
-              } else if (i[1][0] == song_id && playing) {
-                // dispatch(getSongUrl(playlist[track[1]][0]));
               }
               dispatch({ type: ent_act.RECEIVE_PLAYLIST, track: newtr, playlist_id, playlist })
               break

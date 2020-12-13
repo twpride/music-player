@@ -33,11 +33,8 @@ def playlist_d(request):  # post, get
   if request.method == "POST":
     req = request.POST.get('title')
 
-    root_user=None
-    if root_user_id:=request.POST.get('root_user_id'):
-      root_user=User.objects.get(pk=root_user_id)
 
-    Playlist.objects.create(title=req, user=usr, root_user=root_user)
+    Playlist.objects.create(title=req, user=usr)
     res = model_to_dict(Playlist.objects.last(), fields=['id', 'title'])
     return JsonResponse({res['id']: res['title']}, safe=False)
 

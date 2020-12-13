@@ -1,13 +1,7 @@
 # music-player-1
 
 # bugs 
- - songD as pl
  - off center title in card
- - titled bug when pl empty
- - tail delete
- - hit pause causes jump to active pl
- - we want songs to be draggable
- - make sure enter processes request
 
 A mobile friend music streaming web app hosted on S3.
 
