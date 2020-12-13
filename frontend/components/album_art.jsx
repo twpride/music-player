@@ -6,10 +6,11 @@ import styled from 'styled-components'
 
 
 const AlbumArtDiv = styled.div`
-  flex:.6 .6 60%;
+  flex:.5 .5 50%;
   display:flex;
+  width:10%;
   img {
-    width:100%;
+    width:90%;
     height:auto;
     margin: auto;
     max-width:700px;

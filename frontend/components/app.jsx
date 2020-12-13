@@ -31,7 +31,7 @@ const AppDiv = styled.div`
     z-index:1;
     min-width:375px;
     overflow-y:auto;
-    flex: 1 .4 40%;
+    flex: 1 .5 50%;
     /* display:flex; */
     /* flex-direction:column; */
     /* margin: auto 0 ; */
