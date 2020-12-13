@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components'
@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
-// import {AudioPlayer} from './audio_player'
 import AudioPlayer from './audio_player'
 import AlbumArt from './album_art'
 import Navbar from './navbar';
@@ -59,7 +58,7 @@ const App = () => {
     }
     fetchData()
 
-    window.addEventListener('resize', ()=>setWinWidth(window.innerWidth))
+    window.addEventListener('resize', () => setWinWidth(window.innerWidth))
   }, [])
 
 
@@ -67,14 +66,14 @@ const App = () => {
     <AppDiv id="appdiv">
       <Header title='Songs' />
       <div className='box'>
-        {winWidth>800 && <AlbumArt />}
+        {winWidth > 800 && <AlbumArt />}
         <Switch>
           <Route exact path='/' component={SongD} />
           <Route path='/playlist_d/:playlist_id' component={Playlist} />
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
       </div>
-      <AudioPlayer winWidth={winWidth}/>
+      <AudioPlayer winWidth={winWidth} />
       <Navbar />
       <ContextMenu />
     </AppDiv>

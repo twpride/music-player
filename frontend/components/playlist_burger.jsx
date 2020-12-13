@@ -9,7 +9,7 @@ import { deletePlaylist } from '../util/api_util'
 import { BurgerDiv } from './contextMenu'
 
 
-export default function PlaylistBurger(props) {
+export default function PlaylistBurger() {
 
   const dispatch = useDispatch();
   const contextMenu = useSelector(state => state.ui.contextMenu)

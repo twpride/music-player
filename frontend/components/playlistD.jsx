@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { getPlaylistTitleD } from '../actions/actions'
 
 import { Link } from 'react-router-dom'
-import Header from './header'
 import burgerIcon from '../icons/burger.svg';
 
 import { context_act } from '../reducers/ui_reducer'

@@ -46,11 +46,9 @@ export default function AudioVisualizer(container) {
     this.cellXCoord[i] = Math.floor(logFreqCoord / this.logFreqRange * this.canvas.width)
   }
 
-  // console.log(this.cellXCoord.length, "cost")
   this.dataArray = new Uint8Array(bufferLength)
   this.dataArray2 = new Uint8Array(bufferLength)
   this.ctx.strokeStyle = "#ad0f37";
-  // this.ctx.fillStyle = "lightgrey";
 
   window.addEventListener('resize',
     throttle(() => {
@@ -80,34 +78,7 @@ AudioVisualizer.prototype.startRenderer = function () {
     this.ctx.moveTo(x, this.midline - (this.dataArray[i] >>> 3));
     this.ctx.lineTo(x, this.midline + (this.dataArray2[i] >>> 3));
   }
-  // this.ctx.font = "30px Arial";
-  // this.ctx.fillText(Date.now(),100,50)
 
   this.ctx.stroke()
   requestAnimationFrame(this.startRenderer.bind(this));
 }
-// AudioVisualizer.prototype.startRenderer = function () {
-//   this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-//   this.ctx.beginPath();
-//   this.ctx.moveTo(0, this.canvas.height / 2);
-
-//   this.analyzer[0].getByteFrequencyData(this.dataArray)
-//   for (var i = this.minIdx; i <= this.maxIdx; i++) {
-//     const x = this.cellXCoord[i - this.minIdx]
-//     this.ctx.lineTo(x, this.canvas.height / 2 - this.dataArray[i] / 8);
-//   }
-
-//   this.analyzer[1].getByteFrequencyData(this.dataArray)
-//   for (var i = this.maxIdx; i >= this.minIdx; i--) {
-//     const x = this.cellXCoord[i - this.minIdx]
-//     this.ctx.lineTo(x, this.canvas.height / 2 + this.dataArray[i] / 8);
-//   }
-
-//   this.ctx.closePath()
-//   this.ctx.fill()
-
-//   // this.ctx.font = "30px Arial";
-//   // this.ctx.fillText(Date.now(),100,50)
-
-//   requestAnimationFrame(this.startRenderer.bind(this));
-// }

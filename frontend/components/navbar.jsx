@@ -1,10 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import React, { } from 'react';
 
 import styled from 'styled-components'
-import { session_act } from '../reducers/session_reducer';
-import { logout } from '../util/session_api_util'
 
 import add from '../icons/add.svg'
 import collection from '../icons/collection.svg'
@@ -39,12 +37,6 @@ const NavbarDiv = styled.div`
 
 export default function Navbar() {
   const dispatch = useDispatch()
-  const currentUser = useSelector(state => state.session.currentUser)
-  const logout_call = () => {
-    logout().then(
-      () => dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-    )
-  }
 
   return (
     <NavbarDiv className="nav">

@@ -29,7 +29,7 @@ export const SessionDiv = styled.div`
     padding: 1em 0;
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     justify-content: space-around;
     .error {
       position: absolute;
@@ -85,10 +85,10 @@ export default function SignupForm({ setMode }) {
 
         <div className='splash-buttons-box'>
           {renderErrors()}
-          <button onClick={() => setMode('')}>Back</button>
           <input className="submit-button"
             type="submit" value='Submit'
           />
+          <button onClick={() => setMode('')}>Back</button>
         </div>
       </form>
 

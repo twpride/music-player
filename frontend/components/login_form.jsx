@@ -1,11 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch  } from 'react-redux';
 import React, { useState, useRef } from 'react';
-
-import { session_act } from '../reducers/session_reducer'
-// import { login } from "../util/session_api_util" //option await
-import { loginThunk } from '../actions/actions' //option thunk (more portable)
+import { loginThunk } from '../actions/actions'
 import {SessionDiv, renderErrors} from './signup_form'
-
 
 export default function LoginForm({ setMode }) {
   const form = useRef(null)
@@ -14,17 +10,10 @@ export default function LoginForm({ setMode }) {
 
   const dispatch = useDispatch();
 
-  function signUp() {
-    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
-    setMode('signup')
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginThunk(new FormData(form.current))) // option thunk
-
+    dispatch(loginThunk(new FormData(form.current)))
   }
-
 
   return (
     <SessionDiv>
@@ -49,10 +38,10 @@ export default function LoginForm({ setMode }) {
         </div>
         <div className='splash-buttons-box'>
           {renderErrors()}
-          <button onClick={() => setMode('')}>Back</button>
           <input id='login' className="submit-button"
             type="submit" value='Log in'
           />
+          <button onClick={() => setMode('')}>Back</button>
         </div>
       </form>
     </SessionDiv>

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import { ent_act } from '../reducers/root_reducer'
 import { context_act } from '../reducers/ui_reducer'
@@ -27,7 +27,6 @@ export default function NewPlaylist() {
       const errors = await res.json()
       dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })
     }
-
   }
 
 
@@ -43,7 +42,6 @@ export default function NewPlaylist() {
           <div className='field'>Title</div>
           <input type="text" name="title" />
         </div>
-        {/* {renderErrors()} */}
         <div className="spacer"></div>
         <div className='button-box'>
           <input className="submit-button"
