@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 
 import burgerIcon from '../icons/burger.svg';
+import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import PlayingIcon from '../icons/playing.gif'
@@ -44,6 +45,8 @@ export const CardDiv = styled.div`
     &:not(:nth-child(2)) {
       min-width:3em;
       display: flex;
+      flex-direction:column;
+      height:100%;
       justify-content: center;
       align-items: center;
     }
@@ -79,6 +82,7 @@ export const Equalizer = ({ track, pl_id, index, playing }) => {
 }
 
 export default function SongD() {
+  console.log('hereeeoos')
   const dispatch = useDispatch();
   const track = useSelector(state => state.player.track)
   const playing = useSelector(state => state.player.playing)

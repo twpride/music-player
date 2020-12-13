@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 
 import burgerIcon from '../icons/burger.svg';
+import { getSongUrl } from '../actions/actions'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import PlayingIcon from '../icons/playing.gif'
@@ -75,10 +76,13 @@ export const Equalizer = ({ track, pl_id, index, playing }) => {
         onDragStart={preventDrag}
       ></img>
     }
-  } else return index + 1
+  } else {
+    return index + 1
+  }
 }
 
 export default function SongD() {
+  console.log('hereoooo')
   const dispatch = useDispatch();
   const track = useSelector(state => state.player.track)
   const playing = useSelector(state => state.player.playing)
@@ -90,9 +94,9 @@ export default function SongD() {
     dispatch({ type: ent_act.SET_PLAY })
   }
 
-  const launchBurger = (song_id, index) => (e) => {
+  const launchBurger = (song_id) => (e) => {
     e.stopPropagation()
-    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null, index})
+    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null })
   }
 
   const songD = useSelector(state => state.entities.songD)
@@ -114,7 +118,7 @@ export default function SongD() {
             <div>{song.artist}</div>
             <div>{song.title}</div>
           </div>
-          <div onClick={launchBurger(song.id, i)}>
+          <div onClick={launchBurger(song.id)}>
             <div><img src={burgerIcon} /></div>
           </div>
         </CardDiv>
