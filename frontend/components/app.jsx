@@ -68,7 +68,7 @@ const App = () => {
     <AppDiv id="appdiv">
       <Header title='Songs' />
       <div className='box'>
-        {winWidth > 800 && <AlbumArt />}
+        {winWidth > 700 && <AlbumArt />}
         <Switch>
           <Route exact path='/' component={SongD} />
           <Route path='/playlist_d/:playlist_id' component={Playlist} />

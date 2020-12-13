@@ -10,10 +10,10 @@ const AlbumArtDiv = styled.div`
   display:flex;
   width:10%;
   img {
-    width:90%;
-    height:auto;
+    width:auto;
+    max-height:90%;
     margin: auto;
-    max-width:700px;
+    max-width:500px;
   }
 `
 
