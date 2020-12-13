@@ -31,10 +31,7 @@ const AppDiv = styled.div`
     z-index:1;
     min-width:375px;
     overflow-y:auto;
-    flex: 1 1 60%;
-    /* display:flex; */
-    /* flex-direction:column; */
-    /* margin: auto 0 ; */
+    flex: 1 1 50%;
   }
 
   .box {
