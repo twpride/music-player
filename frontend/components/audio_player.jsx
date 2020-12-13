@@ -66,6 +66,7 @@ const SwipeDiv = styled.div`
   display:flex;
   align-items:center;
   height:100%;
+  cursor: pointer;
   .control {
     display:flex;
     align-items:center;

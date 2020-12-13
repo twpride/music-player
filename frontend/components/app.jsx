@@ -33,6 +33,9 @@ const AppDiv = styled.div`
     /* margin: 0 auto; */
     overflow-y:auto;
     flex: 1 .4 40%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
   }
 
   .box {
