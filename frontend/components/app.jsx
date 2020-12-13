@@ -30,12 +30,11 @@ const AppDiv = styled.div`
   .scrollable {
     z-index:1;
     min-width:375px;
-    /* margin: 0 auto; */
     overflow-y:auto;
     flex: 1 .4 40%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    /* display:flex; */
+    /* flex-direction:column; */
+    /* margin: auto 0 ; */
   }
 
   .box {
