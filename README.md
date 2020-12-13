@@ -1,9 +1,6 @@
 # music-player-1
 
-# bugs 
- - off center title in card
-
-A mobile friend music streaming web app hosted on S3.
+A mobile friendly music streaming web app hosted on S3.
 
 Key Features:
 + Playlists
