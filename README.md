@@ -81,7 +81,7 @@ Challenges:
 <br/>
 
 <h3 align="center">
-  Drag number to reorder playlist &nbsp; | &nbsp; Control playback on lockscreen&nbsp;
+  &nbsp;Drag number to reorder playlist &nbsp; | &nbsp; Control playback on lockscreen&nbsp;
 </h3>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder.gif">
@@ -91,7 +91,7 @@ Challenges:
 <br/>
 
 <h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Upload directly from YouTube
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Upload directly from YouTube
 </h3>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song.gif">
