@@ -164,7 +164,7 @@ export default function Splash() {
               <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/linkedin.png' />
             </a>
           </div>
-        }linkedin.com/in/howard-hwang-b3000335
+        }
       </SplashDiv>
     </>
   )
