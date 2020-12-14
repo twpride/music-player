@@ -160,11 +160,11 @@ export default function Splash() {
             <a href='https://github.com/twpride/music-player-1'>
               <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/github.png' />
             </a>
-            <a href='https://www.linkedin.com/in/howard-hwang-b3000335/1'>
+            <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
               <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/linkedin.png' />
             </a>
           </div>
-        }
+        }linkedin.com/in/howard-hwang-b3000335
       </SplashDiv>
     </>
   )
