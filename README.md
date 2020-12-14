@@ -1,21 +1,4 @@
-# Music Player One 
-
-A mobile friendly music streaming web app hosted on S3.
-
-For a demo, check out the [live site](https://music-player-1.herokuapp.com/).
-
-## Features
-+ Full playlist functionality
-+ Uploading songs locally or from YouTube
-+ Edit song information (title, artist, album)
-+ Watch live sound visualization as music plays
-+ Automated album art fetching 
-+ Optimized UI for touch and mobile
-
-
-
-## App Screenshots
-<!-- <h2 align="center">App Screenshots</h2> -->
+<h1 align="center">Music Player One</h2>
 
 <h3 align="center">
   &nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Portrait & landscape switch
@@ -25,6 +8,7 @@ For a demo, check out the [live site](https://music-player-1.herokuapp.com/).
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/landscape.gif">
 </p>
+<br/>
 
 <h3 align="center">
   &nbsp;Drag number to reorder playlist &nbsp; | &nbsp; Control playback on lockscreen&nbsp;
@@ -52,10 +36,17 @@ Desktop interface (responsive layout)
 </p>
 
 
+## About
 
+A mobile friendly music streaming web app hosted on S3. For a demo, please check out the [live site](https://music-player-1.herokuapp.com/).
 
-
-
+## Features
++ Full playlist functionality
++ Uploading songs locally or from YouTube
++ Edit song information (title, artist, album)
++ Watch live sound visualization as music plays
++ Automated album art fetching 
++ Optimized UI for touch and mobile
 
 ## Implementation
 
