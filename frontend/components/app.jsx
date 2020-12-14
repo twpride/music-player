@@ -88,7 +88,23 @@ const SplashDiv = styled.div`
   >button {
     margin: 1.5em;
   }
+
+  div.favicon-links {
+    position:absolute;
+    bottom:5em;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width:60px;
+    img {
+      width:22px;
+      height:22px;
+    }
+  }
+
 `
+
 export default function Splash() {
   const [mode, setMode] = useState(null)
   const dispatch = useDispatch()
@@ -139,6 +155,16 @@ export default function Splash() {
         {!currentUser && <Comp setMode={setMode} />}
         {/* we dont use auth route because it doesnt allow 
         for routing to url when logged in*/}
+        {!currentUser &&
+          <div className="favicon-links">
+            <a href='https://github.com/twpride/music-player-1'>
+              <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/github.png' />
+            </a>
+            <a href='https://www.linkedin.com/in/howard-hwang-b3000335/1'>
+              <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/linkedin.png' />
+            </a>
+          </div>
+        }
       </SplashDiv>
     </>
   )
