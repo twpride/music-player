@@ -65,3 +65,12 @@ Challenges:
   * [YouTube](https://www.npmjs.com/package/ytdl-core)
   * [Cover Art Archive](http://coverartarchive.org/)
 
+
+<p align="center">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/mobile-scrub-skip.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/landscape.gif">
+</p>
+
+<p align="center">
+
+</p>
