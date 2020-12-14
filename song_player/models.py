@@ -3,7 +3,6 @@ from django.core.files.storage import FileSystemStorage
 from user_auth.models import User
 import os
 
-
 class Song(models.Model):
   title = models.CharField(max_length=100)
   artist = models.CharField(max_length=100, blank=True)
@@ -12,7 +11,6 @@ class Song(models.Model):
   album_art_url = models.CharField(max_length=255, blank=True)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   playlists = models.ManyToManyField('Playlist', through='Entry')
-
 
 class Entry(models.Model):
   playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)
