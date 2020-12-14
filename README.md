@@ -70,7 +70,7 @@ A mobile friendly music streaming web app hosted on S3. For a demo, please check
   - To improve load time, playlists are fetched "lazily"
     - Only the **songs** and **playlist titles** are fetched when the user first logs in
     - Subsquently, each playlist is fetched seperately only when the user requests it
-  - Whenever a track is moved, added, or removed in a playlist. The playlist's order column must be updated. Fortunately, Django's **F()** expressions and **bulk_update()** method allows for the batch update of rows in 1 or 2 SQL queries.
+  - Whenever a track is moved, added, or removed in a playlist. The playlist's order column must be updated. Fortunately, Django's [F() expressions](https://docs.djangoproject.com/en/3.1/ref/models/expressions/#f-expressions) and [bulk_update()](https://docs.djangoproject.com/en/3.1/ref/models/querysets/#bulk-update) method allows for the batch update of rows in 1 or 2 SQL queries.
   - When a song is deleted in the database, all the (potentially many) playlists that contained the songs needs to be updated in Redux. Along the lines of lazy playlist fetching, only 2 updated playlists are fetched from the database upon deletion -- the one that is currently playing, and the is being viewed. All other "dirty" playlists and are wiped from the Redux store. It is only fetched fresh when the user requests it later on. 
 
 ### Audio visualization
