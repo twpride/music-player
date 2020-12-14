@@ -67,10 +67,22 @@ Challenges:
 
 
 <p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/mobile-scrub-skip.gif">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/landscape.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-scrub-skip.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/landscape.gif">
 </p>
 
 <p align="center">
 
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-media-control.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/upload.gif">
+
+
 </p>
+
+  <img width="400" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif">
+
+
+
+
+
