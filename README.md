@@ -1,6 +1,10 @@
-# Music Player One
+
+
+# Music Player One 
 
 A mobile friendly music streaming web app hosted on S3.
+
+For a demo, check out the [live site](https://music-player-1.herokuapp.com/).
 
 ## Features
 + Full playlists functionality
