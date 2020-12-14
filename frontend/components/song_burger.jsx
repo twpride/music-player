@@ -99,7 +99,6 @@ export default function SongBurger() {
 
       json.fetched_pls.forEach((playlist, idx) => {
         const playlist_id = active_pls[idx];
-        console.log(track[0], playlist_id)
         if (track && track[0] == playlist_id) {
           let nbef = 0
           // count how many deleted songs before current active track
