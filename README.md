@@ -1,7 +1,9 @@
 <h1 align="center">Music Player One</h2>
 
 <div align="center">
-[Live Site](https://aws.amazon.com/s3/)
+<a href="https://music-player-1.herokuapp.com/">
+Live Site
+</a>
 </div>
 
 <h3 align="center">
