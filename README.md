@@ -1,12 +1,11 @@
 <h1 align="center">Music Player One</h2>
 
-<div align="center">
-<a href="https://music-player-1.herokuapp.com/">
-<h2>
-Live Site
-</h2>
-</a>
+<div align="center" >
+  <a href="https://music-player-1.herokuapp.com/">
+  Live Site
+  </a>
 </div>
+<br/>
 
 <h3 align="center">
   &nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Portrait & landscape switch
