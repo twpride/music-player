@@ -65,21 +65,48 @@ Challenges:
   * [YouTube](https://www.npmjs.com/package/ytdl-core)
   * [Cover Art Archive](http://coverartarchive.org/)
 
-|   | &nbsp;&nbsp; |   |
+|   |  |   |
 |:---:|:---:|:---:|
-| Jump to time & skip song  |   | Switch between portrait and landscape  |  
-| <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-scrub-skip.gif"> |   |<img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/landscape.gif">| s
-| Drag track number to reorder |   | Control playback on lockscreen  |  
-| <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder.gif"> |   |<img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-media-control.gif">|  
-| Edit song information  |   | Upload directly from YouTube  |  
-| <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song.gif"> |   |<img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/upload.gif"> |  
+|   |   | Switch between portrait and landscape  |  
 |   |   |   |  
 
+<h3 align="center">
+  &nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Portrait & landscape switch
+</h3>
+<p align="center">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-scrub-skip.gif">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/landscape.gif">
+</p>
+<br/>
 
+<h3 align="center">
+  Drag number to reorder playlist &nbsp; | &nbsp; Control playback on lockscreen&nbsp;
+</h3>
+<p align="center">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder.gif">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-media-control.gif">
+</p>
+<br/>
 
-<p align="left">
+<h3 align="center">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Upload directly from YouTube
+</h3>
+<p align="center">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song.gif">
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/upload.gif"> 
+</p>
+<br/>
+
+<h3 align="center">
+Responsive layout in desktop browser
+<h3>
+<p align="center">
   <img width="600" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif">
-
+</p>
+<br/>
 
 
 
