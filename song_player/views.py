@@ -21,7 +21,7 @@ def song_d(request):
     return JsonResponse(
         {
             x['id']: x for x in Song.objects.filter(user_id=usr.id).values(
-                'id', 'title', 'artist', 'album', 'album_art_url', 'time_added')
+                'id', 'title', 'artist', 'album', 'album_art_url', 'date_added')
         },
         safe=False)
 
