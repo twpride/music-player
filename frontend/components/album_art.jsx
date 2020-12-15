@@ -34,7 +34,7 @@ export default function AlbumArt() {
       if (song.album_art_url && song.album_art_url!="n/a") {
         setAlbumArt(song.album_art_url)
       } else {
-        setAlbumArt('https://music-player-1.s3-us-west-1.amazonaws.com/vinyl-album.jpg')
+        setAlbumArt('https://raw.githubusercontent.com/twpride/music-player-1/main/assets/vinyl-album.jpg')
       }
     }
   }, [track])

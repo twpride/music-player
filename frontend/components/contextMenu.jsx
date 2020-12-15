@@ -26,9 +26,11 @@ export const ContextFormWrap = styled.div`
   padding: 1.5em;
   background-color:white;
   .field {
-    text-transform: capitalize;
     font-size: .7em;
     color: gray;
+  }
+  .field:first-letter {
+    text-transform: capitalize;
   }
 
   input[type=text] {

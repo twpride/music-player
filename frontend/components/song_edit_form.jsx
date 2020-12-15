@@ -36,7 +36,7 @@ export default function SongEditForm() {
         {Object.entries(songD[contextMenu.song_id]).filter(e => e[0] != 'id').map(
           (field, i) => (
             <div key={i} className="login-input">
-              <div className="field">{field[0]}</div>
+              <div className="field">{field[0].replace(/_/g, ' ')}</div>
               <input type="text"
                 {...useTextField(...field)} //useTextField to load preloaded text
               />

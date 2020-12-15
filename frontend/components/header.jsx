@@ -84,10 +84,10 @@ export default function Header() {
     <HeaderDiv className="nav">
       <div id="container" ref={containerRef}> </div>
       <a href='https://github.com/twpride/music-player-1'>
-        <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/github.png' />
+        <img src='https://raw.githubusercontent.com/twpride/music-player-1/main/assets/github.png' />
       </a>
-      <a href='https://www.linkedin.com/in/howard-hwang-b3000335/1'>
-        <img src='https://music-player-1.s3-us-west-1.amazonaws.com/assets/linkedin.png' />
+      <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
+        <img src='https://raw.githubusercontent.com/twpride/music-player-1/main/assets/linkedin.png' />
       </a>
       <div className='title'>{title}</div>
       <button onClick={() => {
