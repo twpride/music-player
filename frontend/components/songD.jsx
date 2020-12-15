@@ -13,7 +13,7 @@ function preventDrag(e) {
   e.preventDefault()
   e.stopPropagation()
 }
-
+const options = { year: 'numeric', month: 'long', day: 'numeric' }
 export const CardDiv = styled.div`
   font-size: .9em;
   display:flex;
@@ -47,9 +47,10 @@ export const CardDiv = styled.div`
       justify-content: center;
       align-items: center;
     }
-
-    &:last-of-type {
+    
+    &:nth-of-type(3) {
       margin-left: auto;
+      color: #777777;
     }
   }
   img.equalizer {
@@ -71,14 +72,14 @@ export const Equalizer = ({ track, pl_id, index, playing }) => {
         onDragStart={preventDrag}
       ></img>
     } else {
-      return <img className='equalizer' src={PausedIcon} 
+      return <img className='equalizer' src={PausedIcon}
         onDragStart={preventDrag}
       ></img>
     }
   } else return index + 1
 }
 
-export default function SongD() {
+export default function SongD({ winWidth }) {
   const dispatch = useDispatch();
   const track = useSelector(state => state.player.track)
   const playing = useSelector(state => state.player.playing)
@@ -92,7 +93,7 @@ export default function SongD() {
 
   const launchBurger = (song_id, index) => (e) => {
     e.stopPropagation()
-    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null, index})
+    dispatch({ type: context_act.SONG_BURGER_C, song_id, playlist_id: null, index })
   }
 
   const songD = useSelector(state => state.entities.songD)
@@ -115,34 +116,15 @@ export default function SongD() {
             <div>{songD[song_id].artist}</div>
             <div>{songD[song_id].title}</div>
           </div>
+          {winWidth > 730 &&
+            <div>{(new Date(Date.parse(songD[song_id].date_added))).toLocaleDateString()}</div>
+          }
           <div onClick={launchBurger(parseInt(song_id), i)}>
             <div><img src={burgerIcon} /></div>
           </div>
         </CardDiv>
       ))}
     </div>
-
-    // <div className="scrollable">
-    //   {Object.values(songD).map((song, i) => (
-    //     <CardDiv key={i} onClick={playSong(i)}>
-    //       <div>
-    //         <Equalizer
-    //           track={track}
-    //           pl_id={null}
-    //           index={i}
-    //           playing={playing}
-    //         />
-    //       </div>
-    //       <div>
-    //         <div>{song.artist}</div>
-    //         <div>{song.title}</div>
-    //       </div>
-    //       <div onClick={launchBurger(song.id, i)}>
-    //         <div><img src={burgerIcon} /></div>
-    //       </div>
-    //     </CardDiv>
-    //   ))}
-    // </div>
   )
 };
 

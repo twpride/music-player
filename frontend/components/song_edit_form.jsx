@@ -8,6 +8,8 @@ import { useEffect } from 'react';
 
 import {ContextFormWrap} from './contextMenu';
 
+const options = { year: 'numeric', month: 'long', day: 'numeric' }
+
 export default function SongEditForm() {
 
   const dispatch = useDispatch();
@@ -33,12 +35,12 @@ export default function SongEditForm() {
       <div className="title">Edit Song</div>
       <div className="spacer"></div>
       <form onSubmit={handleSubmit} id="songEditForm" ref={form}>
-        {Object.entries(songD[contextMenu.song_id]).filter(e => e[0] != 'id').map(
+        {Object.entries(songD[contextMenu.song_id]).filter(e => !['id','date_added'].includes(e[0])).map(
           (field, i) => (
             <div key={i} className="login-input">
               <div className="field">{field[0].replace(/_/g, ' ')}</div>
               <input type="text"
-                {...useTextField(...field,field[0]=="date_added")} //useTextField to load preloaded text
+                {...useTextField(...field)} //useTextField to load preloaded text
               />
             </div>
           )
