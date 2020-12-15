@@ -6,6 +6,7 @@ import ui from './ui_reducer';
 
 export const ent_act = {
   RECEIVE_SONG_D: "RECEIVE_SONG_D",
+  RECEIVE_SONG_D_EDIT: "RECEIVE_SONG_D_EDIT",
   RECEIVE_SONG_URL: "RECEIVE_SONG_URL",
   RECEIVE_PLAYLIST: "RECEIVE_PLAYLIST",
   UPDATE_PLAYLIST: "UPDATE_PLAYLIST",
@@ -26,6 +27,8 @@ const songD = (state = [], action) => {
   switch (action.type) {
     case ent_act.RECEIVE_SONG_D:
       return { ...state, ...action.songD };
+    case ent_act.RECEIVE_SONG_D_EDIT:
+        return { ...state, ...action.songD };
     case ent_act.INIT_STORE:
       return action.songD;
     case ent_act.DELETE_SONG:
@@ -41,7 +44,11 @@ const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.INIT_STORE:
-      return { ...state, playlistTitleD: action.playlistTitleD };
+      const songs_playlist = Object.keys(action.songD).sort((a,b)=>parseInt(b)-parseInt(a))
+      return { ...state, playlistTitleD: action.playlistTitleD, songs_playlist };
+    case ent_act.RECEIVE_SONG_D:
+      const new_songs = Object.keys(action.songD).sort((a,b)=>parseInt(b)-parseInt(a))
+      return { ...state, songs_playlist: [...new_songs, ...state.songs_playlist]};
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:

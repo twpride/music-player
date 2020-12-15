@@ -1,7 +1,8 @@
 import { useDispatch  } from 'react-redux';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { loginThunk } from '../actions/actions'
 import {SessionDiv, renderErrors} from './signup_form'
+import {session_act} from '../reducers/session_reducer'
 
 export default function LoginForm({ setMode }) {
   const form = useRef(null)
@@ -9,6 +10,10 @@ export default function LoginForm({ setMode }) {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

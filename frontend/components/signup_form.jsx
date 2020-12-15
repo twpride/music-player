@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { signup } from '../util/session_api_util'
 import { session_act } from '../reducers/session_reducer'
 import styled from 'styled-components'
@@ -52,7 +52,9 @@ export default function SignupForm({ setMode }) {
     email: 'Email',
     password: 'Password',
   }
-
+  useEffect(() => {
+    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
+  },[])
   async function handleSubmit(e) {
     e.preventDefault();
     const user = new FormData(form.current);

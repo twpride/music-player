@@ -16,10 +16,9 @@ import LoginForm from './login_form'
 import SignupForm from './signup_form'
 
 import { getSongD, getPlaylistTitleD } from '../util/api_util'
-import { ProtectedRoute, AuthRoute } from '../util/route_util'
+import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
-import { session_act } from '../reducers/session_reducer'
 
 const AppDiv = styled.div`
   display: flex;
@@ -116,9 +115,7 @@ export default function Splash() {
     dispatch(loginThunk(form))
   }
 
-  useEffect(() => {
-    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
-  })
+
 
   const demoScript2 = () => {
     const form = new FormData();

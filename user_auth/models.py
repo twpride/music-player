@@ -9,12 +9,11 @@ from django.db import models
 import re
 
 
-# class User(models.Model):
 class User(models.Model):
   email = models.CharField(max_length=100, unique=True)
   password_digest = models.CharField(max_length=100)
   session_token = models.CharField(max_length=100)
-  time_added = models.DateTimeField(auto_now_add=True)
+  date_added = models.DateTimeField(auto_now_add=True)
   ph = PasswordHasher()
 
   def pre_init(**kwargs):

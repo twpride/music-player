@@ -1,8 +1,9 @@
 
 import { useState } from "react"
-export const useTextField = (name, initValue='') => {
+export const useTextField = (name, initValue='', readOnly=false) => {
   const [value, setValue] = useState(initValue);
   const onChange = event => {
+    if (readOnly) return;
     setValue(event.target.value);
   };
   return { name, value, onChange };

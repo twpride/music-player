@@ -20,8 +20,8 @@ def song_d(request):
   if request.method == "GET":
     return JsonResponse(
         {
-            x["id"]: x for x in Song.objects.filter(user_id=usr.id).values(
-                'id', 'title', 'artist', 'album', 'album_art_url')
+            x['id']: x for x in Song.objects.filter(user_id=usr.id).values(
+                'id', 'title', 'artist', 'album', 'album_art_url', 'time_added')
         },
         safe=False)
 

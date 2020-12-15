@@ -96,11 +96,12 @@ export default function SongD() {
   }
 
   const songD = useSelector(state => state.entities.songD)
+  const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
 
   return (
 
     <div className="scrollable">
-      {Object.values(songD).map((song, i) => (
+      {songs_playlist && songs_playlist.map((song_id, i) => (
         <CardDiv key={i} onClick={playSong(i)}>
           <div>
             <Equalizer
@@ -111,15 +112,37 @@ export default function SongD() {
             />
           </div>
           <div>
-            <div>{song.artist}</div>
-            <div>{song.title}</div>
+            <div>{songD[song_id].artist}</div>
+            <div>{songD[song_id].title}</div>
           </div>
-          <div onClick={launchBurger(song.id, i)}>
+          <div onClick={launchBurger(parseInt(song_id), i)}>
             <div><img src={burgerIcon} /></div>
           </div>
         </CardDiv>
       ))}
     </div>
+
+    // <div className="scrollable">
+    //   {Object.values(songD).map((song, i) => (
+    //     <CardDiv key={i} onClick={playSong(i)}>
+    //       <div>
+    //         <Equalizer
+    //           track={track}
+    //           pl_id={null}
+    //           index={i}
+    //           playing={playing}
+    //         />
+    //       </div>
+    //       <div>
+    //         <div>{song.artist}</div>
+    //         <div>{song.title}</div>
+    //       </div>
+    //       <div onClick={launchBurger(song.id, i)}>
+    //         <div><img src={burgerIcon} /></div>
+    //       </div>
+    //     </CardDiv>
+    //   ))}
+    // </div>
   )
 };
 

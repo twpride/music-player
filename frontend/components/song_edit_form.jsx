@@ -38,7 +38,7 @@ export default function SongEditForm() {
             <div key={i} className="login-input">
               <div className="field">{field[0].replace(/_/g, ' ')}</div>
               <input type="text"
-                {...useTextField(...field)} //useTextField to load preloaded text
+                {...useTextField(...field,field[0]=="date_added")} //useTextField to load preloaded text
               />
             </div>
           )
