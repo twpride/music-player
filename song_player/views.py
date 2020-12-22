@@ -82,7 +82,7 @@ def edit_songs(request):
   return JsonResponse(
       {
           x['id']: x for x in Song.objects.filter(pk__in=ids).values(
-              'id', 'title', 'artist', 'album', 'album_art_url')
+            'id', 'title', 'artist', 'album', 'album_art_url', 'date_added')
       },
       safe=False)
 
@@ -108,7 +108,7 @@ def post_songs(request):  #post
   return JsonResponse(
       {
           x["id"]: x for x in Song.objects.filter(pk__gt=idx).values(
-              'id', 'title', 'artist', 'album', 'album_art_url')
+            'id', 'title', 'artist', 'album', 'album_art_url', 'date_added')
       },
       safe=False)
 

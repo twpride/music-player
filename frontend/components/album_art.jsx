@@ -19,7 +19,7 @@ export default function AlbumArt() {
   const songD = useSelector(state => state.entities.songD);
   const playlistD = useSelector(state => state.entities.playlistD);
   const track = useSelector(state => state.player.track);
-
+  const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
   let [albumArt, setAlbumArt] = useState(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function AlbumArt() {
       if (track[0]) {
         song = songD[playlistD[track[0]][track[1]][0]];
       } else {
-        song = Object.values(songD)[track[1]]
+        song = songD[songs_playlist[[track[1]]]]
       }
 
       if (song.album_art_url && song.album_art_url!="n/a") {
