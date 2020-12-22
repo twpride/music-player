@@ -118,6 +118,7 @@ export default function AudioPlayer({ winWidth }) {
   const songD = useSelector(state => state.entities.songD);
   const track = useSelector(state => state.player.track);
   const playing = useSelector(state => state.player.playing);
+  const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
 
   const aud = useRef()
   const playerdiv = useRef(null)
@@ -147,7 +148,7 @@ export default function AudioPlayer({ winWidth }) {
     if (track) {
       let song;
       if (track[0]) {song = songD[playlistD[track[0]][track[1]][0]];}
-      else {song = Object.values(songD)[track[1]];}
+      else {song = songD[songs_playlist[track[1]]];}
       artist = song.artist;
       title = song.title;
       setSongInfo(song)
@@ -165,7 +166,7 @@ export default function AudioPlayer({ winWidth }) {
     if (track && playing) {
       let song_id;
       if (track[0]) { song_id = playlistD[track[0]][track[1]][0]; }
-      else { song_id = Object.values(songD)[track[1]].id; }
+      else { song_id = songs_playlist[track[1]]; }
       if (curSongId != song_id) {
         dispatch(getSongUrl(song_id));
         setCurSongId(song_id);
