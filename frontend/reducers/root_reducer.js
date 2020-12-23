@@ -44,11 +44,20 @@ const playlistD = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.INIT_STORE:
-      const songs_playlist = Object.keys(action.songD).sort((a,b)=>parseInt(b)-parseInt(a))
+      const songs_playlist = Object.values(action.songD)
+                                  //  .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
+                                   .sort((b,a)=>parseInt(b.order)-parseInt(a.order))
+                                   .map(e => [e.id, null])
       return { ...state, playlistTitleD: action.playlistTitleD, songs_playlist };
     case ent_act.RECEIVE_SONG_D:
-      const new_songs = Object.keys(action.songD).sort((a,b)=>parseInt(b)-parseInt(a))
-      return { ...state, songs_playlist: [...new_songs, ...state.songs_playlist]};
+      const new_songs = Object.values(action.songD)
+                              // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
+                              .sort((b,a)=>parseInt(b.order)-parseInt(a.order))
+                              .map(e => [e.id, null])
+      // return { ...state, songs_playlist: [...new_songs, ...state.songs_playlist]};
+      return { ...state, songs_playlist: [ ...state.songs_playlist, ...new_songs]};
+    case ent_act.DELETE_SONG:
+      return { ...state, songs_playlist: state.songs_playlist.filter(el=>el!=action.song_id)};
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:

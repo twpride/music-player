@@ -148,8 +148,8 @@ export default function AudioPlayer({ winWidth }) {
     if (track) {
       let song;
       if (track[0]) {song = songD[playlistD[track[0]][track[1]][0]];}
-      // else {song = songD[songs_playlist[track[1]]];}
-      else {song = Object.values(songD)[track[1]];}
+      else {song = songD[songs_playlist[track[1]]];}
+      // else {song = Object.values(songD)[track[1]];}
       artist = song.artist;
       title = song.title;
       setSongInfo(song)
@@ -169,8 +169,8 @@ export default function AudioPlayer({ winWidth }) {
     if (track && playing) {
       let song_id;
       if (track[0]) { song_id = playlistD[track[0]][track[1]][0]; }
-      // else { song_id = songs_playlist[track[1]]; }
-      else { song_id = Object.values(songD)[track[1]].id; }
+      else { song_id = songs_playlist[track[1]]; }
+      // else { song_id = Object.values(songD)[track[1]].id; }
       if (curSongId != song_id) {
         dispatch(getSongUrl(song_id));
         setCurSongId(song_id);

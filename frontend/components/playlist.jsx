@@ -19,7 +19,11 @@ export default function Playlist() {
   const playlistD = useSelector(state => state.entities.playlistD)
   const songD = useSelector(state => state.entities.songD)
 
+  // const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
+  
   let { playlist_id } = useParams();
+
+  if (!playlist_id) playlist_id="songs_playlist"
 
   const playSong = (track_no) => (e) => {
     e.preventDefault()
@@ -32,23 +36,27 @@ export default function Playlist() {
 
   useEffect(() => {
     const fetchPlaylist = async () => {
-
-      if (!playlistD[playlist_id]) {
+      console.log('here333333')
+      if (!playlistD[playlist_id] && playlist_id[0]!='s') {
         const response = await getPlaylist(playlist_id)
         const playlist = await response.json()
-        setCards([...playlist])
+        console.log('here1')
+        // setCards([...playlist])
         dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
-      } else {
-        setCards([...playlistD[playlist_id]])
-      }
+      } 
+      // else {
+      //   console.log('here2')
+      //   setCards([...playlistD[playlist_id]])
+      // }
     }
     fetchPlaylist()
 
-    return ()=>{playlist_id=null}
+    return ()=>{playlist_id=null} // need to explain why this line is necessary
   }, [playlist_id])
 
   useEffect(() => {
     if (playlistD[playlist_id]) {
+      console.log('here555555')
       setCards([...playlistD[playlist_id]])
     }
   }, [playlistD])
@@ -99,7 +107,7 @@ export default function Playlist() {
         {cards && cards.map(([song_id, entry_id], index) => (
           <Card
             song_id={song_id}
-            key={entry_id} // for react internal diff 
+            key={index} // for react internal diff 
             index={index} // for current list order
             id={entry_id} // entry id
             playlist_id={playlist_id} // playlist id

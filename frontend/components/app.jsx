@@ -67,9 +67,12 @@ const App = () => {
         {winWidth > 730 && <AlbumArt />}
         <Switch>
           <Route exact path='/' >
-            <SongD winWidth={winWidth}/>
+            {/* <SongD winWidth={winWidth}/> */}
+            <Playlist />
           </Route>
-          <Route path='/playlist_d/:playlist_id' component={Playlist} />
+          <Route path='/playlist_d/:playlist_id'>
+            <Playlist />
+          </Route>
           <Route path='/playlist_d/' component={PlaylistD} />
         </Switch>
       </div>

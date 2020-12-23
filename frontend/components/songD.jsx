@@ -98,12 +98,13 @@ export default function SongD({ winWidth }) {
 
   const songD = useSelector(state => state.entities.songD)
   const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
+  
 
   return (
 
     <div className="scrollable">
-      {/* {songs_playlist && songs_playlist.map((song_id, i) => ( */}
-      {Object.values(songD).map((song, i) => (
+      {songs_playlist && songs_playlist.map(([song_id,_], i) => (
+      // {Object.values(songD).map((song, i) => (
         <CardDiv key={i} onClick={playSong(i)}>
           <div>
             <Equalizer
@@ -114,17 +115,17 @@ export default function SongD({ winWidth }) {
             />
           </div>
           <div>
-            {/* <div>{songD[song_id].artist}</div> */}
-            {/* <div>{songD[song_id].title}</div> */}
-            <div>{song.artist}</div>
-            <div>{song.title}</div>
+            <div>{songD[song_id].artist}</div>
+            <div>{songD[song_id].title}</div>
+            {/* <div>{song.artist}</div> */}
+            {/* <div>{song.title}</div> */}
           </div>
           {winWidth > 730 &&
-            // <div>{(new Date(Date.parse(songD[song_id].date_added))).toLocaleDateString()}</div>
-            <div>{(new Date(Date.parse(songD[song.id].date_added))).toLocaleDateString()}</div>
+            <div>{(new Date(Date.parse(songD[song_id].date_added))).toLocaleDateString()}</div>
+            // <div>{(new Date(Date.parse(songD[song.id].date_added))).toLocaleDateString()}</div>
           }
-          {/* <div onClick={launchBurger(parseInt(song_id), i)}> */}
-          <div onClick={launchBurger(song.id, i)}>
+          <div onClick={launchBurger(parseInt(song_id), i)}>
+          {/* <div onClick={launchBurger(song.id, i)}> */}
             <div><img src={burgerIcon} /></div>
           </div>
         </CardDiv>
