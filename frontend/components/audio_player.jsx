@@ -159,6 +159,8 @@ export default function AudioPlayer({ winWidth }) {
       navigator.mediaSession.metadata = new MediaMetadata({ title, artist });
       navigator.mediaSession.setActionHandler('previoustrack', skip(-1));
       navigator.mediaSession.setActionHandler('nexttrack', skip(1));
+      navigator.mediaSession.setActionHandler('play', onPlayClick);
+      navigator.mediaSession.setActionHandler('pause', onPlayClick);
     }
 
   }, [track, playlistD]) // remount when new track or when playlist is modified (eg when new song added)
