@@ -89,10 +89,11 @@ def edit_songs(request):
 
 def post_songs(request):  #post
   usr = getUser(request)
+  song_set = usr.song_set
   songs_to_post = json.loads(request.body.decode('utf-8'))
   res = []
-  for _song in songs_to_post:
-    song = Song(title=_song[:-4], filename=_song, user=usr)
+  for i, _song in enumerate(songs_to_post):
+    song = Song(title=_song[:-4], filename=_song, user=usr, order=song_set.count+i)
     try:
       song.full_clean()
     except:
