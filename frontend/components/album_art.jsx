@@ -28,7 +28,8 @@ export default function AlbumArt() {
       if (track[0]) {
         song = songD[playlistD[track[0]][track[1]][0]];
       } else {
-        song = songD[songs_playlist[[track[1]]]]
+        // song = songD[songs_playlist[[track[1]]]]
+        song = Object.values(songD)[track[1]]
       }
 
       if (song.album_art_url && song.album_art_url!="n/a") {
