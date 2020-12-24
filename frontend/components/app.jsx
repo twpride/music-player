@@ -50,8 +50,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const songD = await getSongD().then(response => response.json())
-      const playlistTitleD = await getPlaylistTitleD().then(response => response.json())
-      dispatch({ type: ent_act.INIT_STORE, songD, playlistTitleD })
+      dispatch({ type: ent_act.INIT_STORE, songD})
     }
     fetchData()
 

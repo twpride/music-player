@@ -48,7 +48,7 @@ const playlistD = (state = {}, action) => {
                                   //  .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
                                    .sort((b,a)=>parseInt(b.order)-parseInt(a.order))
                                    .map(e => [e.id, null])
-      return { ...state, playlistTitleD: action.playlistTitleD, songs_playlist };
+      return { ...state, songs_playlist };
     case ent_act.RECEIVE_SONG_D:
       const new_songs = Object.values(action.songD)
                               // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
