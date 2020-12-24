@@ -2,7 +2,80 @@ import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch, useSelector } from 'react-redux';
 import { context_act } from '../reducers/ui_reducer'
-import { CardDiv, Equalizer } from './songD'
+import styled from 'styled-components'
+import PlayingIcon from '../icons/playing.gif'
+import PausedIcon from '../icons/paused.gif'
+
+function preventDrag(e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
+
+const CardDiv = styled.div`
+  font-size: .9em;
+  display:flex;
+  flex-direction:row;
+  align-items: center;
+  @media (hover: hover) {
+    &:hover {
+        background-color: #F0F0F0;
+    }
+  }
+
+  >div {
+    height: 4em;
+    opacity: ${props => props.isDragging ? 0.4 : 1};
+
+    &:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      
+      overflow:hidden;
+      white-space: nowrap;
+      div:nth-child(1) {
+        color: #777777;
+      }
+    }
+
+    &:not(:nth-child(2)) {
+      min-width:3em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    &:nth-of-type(3) {
+      margin-left: auto;
+      color: #777777;
+    }
+  }
+  img.equalizer {
+    height:14px;
+  }
+
+  .drag-handle{
+    cursor: move;
+    user-select: none;
+  }
+  cursor: pointer;
+
+`
+
+const Equalizer = ({ track, pl_id, index, playing }) => {
+  if (track && track[0] === pl_id && track[1] === index) {
+    if (playing) {
+      return <img className='equalizer' src={PlayingIcon}
+        onDragStart={preventDrag}
+      ></img>
+    } else {
+      return <img className='equalizer' src={PausedIcon}
+        onDragStart={preventDrag}
+      ></img>
+    }
+  } else return index + 1
+}
+
 
 import burgerIcon from '../icons/burger.svg';
 
@@ -50,8 +123,8 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
       setStart(index)
     },
     end() {
-      console.log(start)
-      console.log(index)
+      // console.log(start)
+      // console.log(index)
       setPrev(start, index)
     }
   })

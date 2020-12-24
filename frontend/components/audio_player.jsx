@@ -285,7 +285,6 @@ export default function AudioPlayer({ winWidth }) {
   }
   function handleTitleClick(e) {
     const pl_id = track[0]
-    console.log(pl_id)
     if (pl_id) { history.push(`/playlist_D/${pl_id}`); }
     else { history.push(''); }
   }

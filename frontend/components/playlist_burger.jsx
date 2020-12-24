@@ -35,7 +35,7 @@ export default function PlaylistBurger() {
 
   return (
     <BurgerDiv>
-      <div className='song-info'>
+      <div className='context-header'>
         <div>{titleD[contextMenu.playlist_id] && titleD[contextMenu.playlist_id]}</div>
       </div>
       {Object.entries(burgerList).map(([name, cb], i) => (

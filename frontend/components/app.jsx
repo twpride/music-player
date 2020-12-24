@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import styled from 'styled-components'
 
-import SongD from './songD';
 import Playlist from './playlist';
 import PlaylistD from './playlistD';
 import AudioPlayer from './audio_player'
@@ -61,7 +60,7 @@ const App = () => {
 
 
   return (
-    <AppDiv id="appdiv">
+    <AppDiv>
       <Header title='Songs' />
       <div className='box'>
         {winWidth > 730 && <AlbumArt />}
@@ -72,7 +71,9 @@ const App = () => {
           <Route path='/playlist_d/:playlist_id'>
             <Playlist />
           </Route>
-          <Route path='/playlist_d/' component={PlaylistD} />
+          <Route path='/playlist_d/'>
+            <PlaylistD />
+          </Route>
         </Switch>
       </div>
       <AudioPlayer winWidth={winWidth} />

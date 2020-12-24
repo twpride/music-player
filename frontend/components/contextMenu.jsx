@@ -54,6 +54,7 @@ export const ContextFormWrap = styled.div`
   input[type=submit], button{
     margin-left:3em;
   }
+
 `
 
 export const BurgerDiv = styled.div`
@@ -81,6 +82,16 @@ export const BurgerDiv = styled.div`
   img {
     height:24px;
     width:24px;
+  }
+
+  .context-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    border-bottom: 1px lightgrey solid;
+    font-size:.9em;
+    padding: 1em 1em;
   }
 `
 

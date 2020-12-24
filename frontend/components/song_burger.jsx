@@ -11,16 +11,8 @@ import { deleteTrack, deleteSong } from '../util/api_util'
 import { BurgerDiv } from './contextMenu'
 
 const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
+
   .song-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items:center;
-    border-bottom: 1px lightgrey solid;
-    font-size:.9em;
-    padding: 1em 1em;
-  }
-  .song-info-left {
     display: flex;
     flex-direction: column;
     div:nth-child(1) {
@@ -148,8 +140,8 @@ export default function SongBurger() {
 
   return (
     <PlaylistBurger>
-      <div className='song-info'>
-        <div className='song-info-left'>
+      <div className='context-header'>
+        <div className='song-info'>
           <div>{songD[contextMenu.song_id].artist}</div>
           <div>{songD[contextMenu.song_id].title}</div>
         </div>
