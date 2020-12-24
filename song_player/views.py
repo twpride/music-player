@@ -21,7 +21,7 @@ def song_d(request):
     return JsonResponse(
         {
             x['id']: x for x in Song.objects.filter(user_id=usr.id).values(
-                'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order')
+                'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order', 'yt_id')
         },
         safe=False)
 
@@ -82,7 +82,7 @@ def edit_songs(request):
   return JsonResponse(
       {
           x['id']: x for x in Song.objects.filter(pk__in=ids).values(
-            'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order')
+            'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order', 'yt_id')
       },
       safe=False)
 
@@ -92,8 +92,8 @@ def post_songs(request):  #post
   song_set = usr.song_set
   songs_to_post = json.loads(request.body.decode('utf-8'))
   res = []
-  for i, _song in enumerate(songs_to_post):
-    song = Song(title=_song[:-4], filename=_song, user=usr, order=song_set.count()+i+1)
+  for i, (_song, yt_id) in enumerate(songs_to_post):
+    song = Song(title=_song[:-4], filename=_song, user=usr, yt_id=yt_id, order=song_set.count()+i+1)
     try:
       song.full_clean()
     except:
@@ -109,7 +109,7 @@ def post_songs(request):  #post
   return JsonResponse(
       {
           x["id"]: x for x in Song.objects.filter(pk__gt=idx).values(
-            'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order')
+            'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order', 'yt_id')
       },
       safe=False)
 

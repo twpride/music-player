@@ -20,6 +20,7 @@ export const ent_act = {
   SET_PAUSE: "SET_PAUSE",
   DELETE_SONG: 'DELETE_SONG',
   RESET_PLAYLISTS:'RESET_PLAYLISTS',
+  SEARCH_RESULTS: 'SEARCH_RESULTS'
 }
 
 const songD = (state = [], action) => {
@@ -90,7 +91,7 @@ const playlistD = (state = {}, action) => {
 };
 
 
-const player = (state = [], action) => {
+const player = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.RECEIVE_SONG_URL:
@@ -115,9 +116,20 @@ const player = (state = [], action) => {
   }
 };
 
+const search = (state = {}, action) => {
+  Object.freeze(state);
+  switch (action.type) {
+    case ent_act.SEARCH_RESULTS:
+      return action.payload
+    default:
+      return state;
+  }
+};
+
 const entities = combineReducers({
   playlistD,
-  songD
+  songD,
+  search
 });
 
 const rootReducer = combineReducers({

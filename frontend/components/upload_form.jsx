@@ -1,19 +1,20 @@
 import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
 import Spinner from './spinner'
 import plus from '../icons/plus.svg'
 import playlistIcon from '../icons/playlist_grey.svg'
+import UploadIcon from '../icons/upload.svg'
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 // const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
 // const ytdlAPI = "https://adtk67yvyl.execute-api.us-west-1.amazonaws.com/test/?url="
 
 
-const AddIcon = ({playlist,added}) => {
+const AddIcon = ({ playlist, added }) => {
   if (playlist) {
-    return <img src={playlistIcon}/>
+    return <img src={playlistIcon} />
   } else if (!added) {
     return <img src={plus} />;
   } else {
@@ -33,9 +34,9 @@ const UploadFormEle = styled.form`
   background-color:white;
   label {
     color:#ad0f37; 
-    border: 1px solid #ad0f37;
-    padding: 5px;
-    border-radius: 5px;
+    /* border: 1px solid #ad0f37; */
+    /* padding: 2px; */
+    /* border-radius: 3px; */
     cursor: pointer;
   }
   #file-count {
@@ -82,8 +83,12 @@ const UploadFormEle = styled.form`
   }
 
   .holder {
-    height:57px;
+    display:flex;
+    flex-direction:row;
     width: min(20em,90%);
+    position:absolute;
+    top: 5px;
+    z-index:5;
   }
   .error-holder {
     overflow-y:auto
@@ -136,10 +141,12 @@ export default function UploadForm() {
   const form = useRef(null)
   const tboxRef = useRef(null)
   const dispatch = useDispatch()
+  const search = useSelector( state => state.entities.search)
   const [filelist, setFilelist] = useState([]);
 
   const loadSong = e => {
     setFilelist(e.currentTarget.files)
+    submitSong(e)
   }
 
   const submitSong = async e => {
@@ -151,7 +158,7 @@ export default function UploadForm() {
 
     //upload local songs
     const waveforms = formData.getAll('waveform')
-    const localFiles = waveforms.map(ent => ent.name).filter(ent => ent) // if no files return empty array
+    const localFiles = waveforms.map(ent => [ent.name,null]).filter(ent => ent[0]) // if no files return empty array
     if (localFiles.length) {
       try {
         const signedUrls = await getPostUrls(localFiles).then(
@@ -193,7 +200,7 @@ export default function UploadForm() {
       })
     )
     if (!songs.length || songs[0].Key || errorsArr.length) {
-      const ytFiles = songs.map(ent => ent.Key).filter(ent => ent) //filter failed reqs
+      const ytFiles = songs.map(ent => [ent.Key, ent.yt_id]).filter(ent => ent[0]) //filter failed reqs
 
       const files = Array.concat(localFiles, ytFiles)
       if (files.length) dispatch(postSongs(files))
@@ -206,6 +213,7 @@ export default function UploadForm() {
       setLoading(false)
     } else {
       setSearchRes(songs[0])
+      console.log(songs[0])
       setAdded(Array(songs[0].length).fill(false))
     }
   }
@@ -213,79 +221,72 @@ export default function UploadForm() {
   function onTextChange(e) {
     const tbox = tboxRef.current;
     setUrls(tbox.value)
-    const nLine = (tbox.value.match(/\n/g) || []).length + 1;
-    if (nLine > 3) {
-      tbox.style.overflowY = "scroll"
-      tbox.style.height = (19 * 3 + 2) + 'px';
-    } else {
-      tbox.style.height = (nLine * 19 + 2) + 'px';
-      tbox.style.overflowY = "hidden"
-    }
+    // const nLine = (tbox.value.match(/\n/g) || []).length + 1;
+    // if (nLine > 3) {
+    //   tbox.style.overflowY = "scroll"
+    //   tbox.style.height = (19 * 3 + 2) + 'px';
+    // } else {
+    //   tbox.style.height = (nLine * 19 + 2) + 'px';
+    //   tbox.style.overflowY = "hidden"
+    // }
   }
 
 
-  if (searchRes) {
-    return <div className="scrollable">
-      {searchRes.map((el, idx) => (
-        <SearchResDiv key={idx}>
-          <div>{el.title}</div>
-          <div onClick={async e => {
-            setAdded(Object.assign([], added, { [idx]: true }))
 
-            const resp = await fetch(ytdlAPI + el.url)
-            const json = await resp.json();
-            if (json.Key) {
-              dispatch(postSongs([json.Key]))
-            } else {
-              setSearchRes(json)
-              setAdded(Array(json.length).fill(false))
-            }
-          }}>
-            {added && <AddIcon playlist={el.type==="playlist"} added={added[idx]}/>}
-          </div>
-        </SearchResDiv>
-      ))}
-    </div>
-  } else {
-    return (
-      <UploadFormEle className="scrollable" ref={form} onSubmit={submitSong}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className='holder'></div>
-        <input type="file" name="waveform"
-          onChange={loadSong} multiple hidden id='choose-file' />
+  return (
+    <UploadFormEle className="scrollable" ref={form} onSubmit={submitSong}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <input type="file" name="waveform"
+        onChange={loadSong} multiple hidden id='choose-file' />
+      <div className="holder">
         <label htmlFor='choose-file'>
-          {filelist.length > 0 ? `${filelist.length} selected` : "Choose files"}
+          <img src={UploadIcon}></img>
         </label>
-        <div className='or'><span className='divider'></span>or<span className='divider'></span></div>
-        <div className="holder">
-          <textarea type="text"
-            name="url"
-            value={urls}
-            placeholder="Search song, album, artist"
-            onChange={onTextChange}
-            onKeyDown={(e) => { if (e.key === 'Enter') submitSong(e) }}
-            wrap="off"
-            ref={tboxRef}
-          />
-        </div>
-        {loading ? <Spinner /> :
-          <input className="submit-button"
-            type="submit"
-            value="Submit"
-          />
-        }
-        <div className='holder error-holder'>
-          {err.map((mes, i) => (
-            <div key={i}>
-              {mes}
+        <textarea type="text"
+          name="url"
+          value={urls}
+          placeholder="Search song, album, artist"
+          onChange={onTextChange}
+          onKeyDown={(e) => { if (e.key === 'Enter') submitSong(e) }}
+          wrap="off"
+          ref={tboxRef}
+        />
+      </div>
+
+      {!searchRes && loading && <Spinner />}
+      {searchRes && <div className="scrollable">
+        {searchRes.map((el, idx) => (
+          <SearchResDiv key={idx}>
+            <div>{el.title}</div>
+            <div onClick={async e => {
+              setAdded(Object.assign([], added, { [idx]: true }))
+
+              const resp = await fetch(ytdlAPI + el.url)
+              const json = await resp.json();
+              if (json.Key) {
+                dispatch(postSongs([json.Key]))
+              } else {
+                setSearchRes(json)
+                setAdded(Array(json.length).fill(false))
+              }
+            }}>
+              {added && <AddIcon playlist={el.type === "playlist"} added={added[idx]} />}
             </div>
-          ))}
-        </div>
-        <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
-      </UploadFormEle>
-    )
-  }
+          </SearchResDiv>
+        ))}
+      </div>}
+
+      <div className='holder error-holder'>
+        {err.map((mes, i) => (
+          <div key={i}>
+            {mes}
+          </div>
+        ))}
+      </div>
+      <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
+    </UploadFormEle>
+  )
 };
 
 

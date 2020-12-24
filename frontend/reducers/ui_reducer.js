@@ -9,7 +9,6 @@ export const context_act = {
   PLAYLIST_EDIT_C: "PLAYLIST_EDIT_C",
   NEW_PLAYLIST: 'NEW_PLAYLIST',
   UPLOAD_SONGS: 'UPLOAD_SONGS',
-  SEARCH_RESULTS: 'SEARCH_RESULTS'
 }
 const contextMenu = (state = null, action) => {
   Object.freeze(state);

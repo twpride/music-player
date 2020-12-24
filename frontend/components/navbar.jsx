@@ -50,7 +50,7 @@ export default function Navbar() {
       </div> */}
       <Link to="/upload">
         <img src={add} />
-        <div>Upload</div>
+        <div>Add songs</div>
       </Link>
 
       <Link to="/playlist_d/">
