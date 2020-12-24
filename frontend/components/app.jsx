@@ -56,6 +56,8 @@ const AppDiv = styled.div`
 `
 
 const App = () => {
+
+  console.log(process.env.NODE_ENV);
   const dispatch = useDispatch()
   const currentUser = useSelector(state => state.session.currentUser)
 

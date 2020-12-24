@@ -205,7 +205,6 @@ export default function UploadForm() {
       }
       setLoading(false)
     } else {
-      console.log(songs[0])
       setSearchRes(songs[0])
       setAdded(Array(songs[0].length).fill(false))
     }
@@ -235,7 +234,6 @@ export default function UploadForm() {
 
             const resp = await fetch(ytdlAPI + el.url)
             const json = await resp.json();
-            console.log(json)
             if (json.Key) {
               dispatch(postSongs([json.Key]))
             } else {

@@ -145,12 +145,12 @@ export default function AudioPlayer({ winWidth }) {
   useEffect(() => {
     let title = '';
     let artist = '';
-    console.log(track)
-    if (track) {
+    if (track
+      && track[1] < playlistD[track[0]].length // when last song of pl is deleted, while it's being played
+                                               // won't allow this case to enter if statement
+    ) {
       let song;
-      if (track[0]) {song = songD[playlistD[track[0]][track[1]][0]];}
-      else {song = songD[songs_playlist[track[1]]];}
-      // else {song = Object.values(songD)[track[1]];}
+      song = songD[playlistD[track[0]][track[1]][0]];
       artist = song.artist;
       title = song.title;
       setSongInfo(song)
