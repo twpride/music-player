@@ -73,8 +73,9 @@ export default function Header() {
 
   useEffect(() => {
     const locArr = location.pathname.split('/')
+    console.log(locArr)
     if (locArr.length == 2) {
-      setTitle('Songs')
+      setTitle(locArr[1]=='upload' ? 'Upload':'Songs')
     } else if (locArr.length == 3) {
       setTitle(locArr[2] ? titleD && titleD[locArr[2]] : "Playlists")
     }

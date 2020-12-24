@@ -262,7 +262,7 @@ export default function UploadForm() {
           <textarea type="text"
             name="url"
             value={urls}
-            placeholder="Search or paste YouTube url"
+            placeholder="Search song, album, artist"
             onChange={onTextChange}
             onKeyDown={(e) => { if (e.key === 'Enter') submitSong(e) }}
             wrap="off"
