@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import add from '../icons/add.svg'
 import collection from '../icons/collection.svg'
 import playlist from '../icons/playlist.svg'
-import { context_act } from '../reducers/ui_reducer';
 
 const NavbarDiv = styled.div`
   a, .upload-button{
@@ -45,10 +44,14 @@ export default function Navbar() {
         <div>Songs</div>
       </Link>
 
-      <div className='upload-button' onClick={() => dispatch({ type: context_act.UPLOAD_SONGS })}>
+      {/* <div className='upload-button' onClick={() => dispatch({ type: context_act.UPLOAD_SONGS })}>
         <img src={add} />
         <div>Upload</div>
-      </div>
+      </div> */}
+      <Link to="/upload">
+        <img src={add} />
+        <div>Upload</div>
+      </Link>
 
       <Link to="/playlist_d/">
         <img src={playlist} />

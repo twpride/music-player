@@ -18,6 +18,7 @@ import { getSongD, getPlaylistTitleD } from '../util/api_util'
 import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
+import UploadForm from './upload_form'
 
 const AppDiv = styled.div`
   display: flex;
@@ -38,6 +39,19 @@ const AppDiv = styled.div`
     display:flex;
     flex-direction: row;
     justify-content:flex-end;
+  }
+
+  .full-width {
+    z-index:1;
+    width:100%;
+    overflow-y:auto;
+    flex-shrink: 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  a {
+    /* width:100%; */
   }
 `
 
@@ -66,6 +80,9 @@ const App = () => {
         <Switch>
           <Route exact path='/' >
             <Playlist />
+          </Route>
+          <Route exact path='/upload' >
+            <UploadForm />
           </Route>
           <Route path='/playlist_d/:playlist_id'>
             <Playlist />

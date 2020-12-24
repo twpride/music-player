@@ -145,6 +145,7 @@ export default function AudioPlayer({ winWidth }) {
   useEffect(() => {
     let title = '';
     let artist = '';
+    console.log(track)
     if (track) {
       let song;
       if (track[0]) {song = songD[playlistD[track[0]][track[1]][0]];}
@@ -188,14 +189,12 @@ export default function AudioPlayer({ winWidth }) {
       (playlistD[newtr[0]][newtr[1]])
     ) {
       song = playlistD[newtr[0]][newtr[1]]
-      console.log('here1k')
       // dispatch(getSongUrl(song[0]));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     } else if (
       !newtr[0] &&
       (song = Object.values(songD)[newtr[1]])
     ) {
-      console.log('here33k')
       // dispatch(getSongUrl(song.id));
       dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     }

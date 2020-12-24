@@ -61,21 +61,21 @@ export default function PlaylistD() {
   }
 
   return <div className="scrollable">
-      {titleD && Object.entries(titleD).map((pl, index) => (
-        <Link key={index} to={`/playlist_D/${pl[0]}`}>
-          <PlaylistTitleDiv className='row'  >
-            <div>{pl[1]}</div>
-            <div onClick={launchBurger(pl[0])}>
-              <div><img src={burgerIcon} /></div>
-           </div>
-          </PlaylistTitleDiv>
-        </Link>
-      ))}
-      <NewPlaylistDiv
-        onClick={() => dispatch({ type: context_act.NEW_PLAYLIST })}>
-        New playlist
+    {titleD && Object.entries(titleD).map((pl, index) => (
+      <Link key={index} to={`/playlist_D/${pl[0]}`}>
+        <PlaylistTitleDiv>
+          <div>{pl[1]}</div>
+          <div onClick={launchBurger(pl[0])}>
+            <img src={burgerIcon} />
+          </div>
+        </PlaylistTitleDiv>
+      </Link>
+    ))}
+    <NewPlaylistDiv
+      onClick={() => dispatch({ type: context_act.NEW_PLAYLIST })}>
+      New playlist
       </NewPlaylistDiv>
-    </div>
+  </div>
 };
 
 

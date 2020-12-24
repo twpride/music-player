@@ -21,10 +21,6 @@ const contextMenu = (state = null, action) => {
       return action
     case context_act.NEW_PLAYLIST:
       return action
-    case context_act.UPLOAD_SONGS:
-      return action
-    case context_act.SEARCH_RESULTS:
-      return action
     case context_act.SONG_EDIT_C:
       return { ...state, type: action.type }
     case context_act.PLAYLIST_EDIT_C:
