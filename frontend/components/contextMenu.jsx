@@ -77,13 +77,6 @@ export const BurgerDiv = styled.div`
   .burger-row:hover{
     background-color: #F0F0F0; 
   }
-  .song-info {
-    display: flex;
-    flex-direction: column;
-    font-size:.9em;
-    padding: 1em 1em;
-    border-bottom: 1px lightgrey solid;
-  }
   
   img {
     height:24px;

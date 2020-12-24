@@ -12,6 +12,17 @@ import { BurgerDiv } from './contextMenu'
 
 const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
   .song-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:center;
+    border-bottom: 1px lightgrey solid;
+    font-size:.9em;
+    padding: 1em 1em;
+  }
+  .song-info-left {
+    display: flex;
+    flex-direction: column;
     div:nth-child(1) {
       color: #777777;
     }
@@ -74,10 +85,10 @@ export default function SongBurger() {
       e.stopPropagation()
       const song_id = contextMenu.song_id;
       const active_pls = []
-      if (contextMenu.playlist_id) active_pls.push(contextMenu.playlist_id)
+      if (contextMenu.playlist_id[0]!='s') active_pls.push(contextMenu.playlist_id)
 
       if (track) {
-        if (track[0] && contextMenu.playlist_id != track[0]) active_pls.push(track[0])
+        if (track[0][0]!='s' && contextMenu.playlist_id != track[0]) active_pls.push(track[0])
         else {
           let newtr = [...track];
           if (contextMenu.index < track[1]) {
@@ -130,7 +141,7 @@ export default function SongBurger() {
     editIcon, addToPlaylist, deleteIcon, deleteIcon
   ]
 
-  if (!contextMenu.playlist_id) {
+  if (contextMenu.playlist_id[0]=='s') {
     delete burgerList['Remove from playlist'];
     icons.splice(2, 1);
   }
@@ -138,8 +149,11 @@ export default function SongBurger() {
   return (
     <PlaylistBurger>
       <div className='song-info'>
-        <div>{songD[contextMenu.song_id].artist}</div>
-        <div>{songD[contextMenu.song_id].title}</div>
+        <div className='song-info-left'>
+          <div>{songD[contextMenu.song_id].artist}</div>
+          <div>{songD[contextMenu.song_id].title}</div>
+        </div>
+        <div>{(new Date(Date.parse(songD[contextMenu.song_id].date_added))).toLocaleDateString()}</div>
       </div>
       {Object.entries(burgerList).map(([name, cb], i) => (
         <div key={i} onClick={cb} className="burger-row">

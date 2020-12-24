@@ -57,7 +57,7 @@ const playlistD = (state = {}, action) => {
       // return { ...state, songs_playlist: [...new_songs, ...state.songs_playlist]};
       return { ...state, songs_playlist: [ ...state.songs_playlist, ...new_songs]};
     case ent_act.DELETE_SONG:
-      return { ...state, songs_playlist: state.songs_playlist.filter(el=>el!=action.song_id)};
+      return { ...state, songs_playlist: state.songs_playlist.filter(el=>el[0]!=action.song_id)};
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:

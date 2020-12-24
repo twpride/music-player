@@ -210,7 +210,11 @@ def add_track(request, playlist_id=None, song_id=None):  # post
 def move_track(request):
   [start, index, playlist_id] = json.loads(request.body.decode('utf-8'))
   dir = index - start
-  playlist = Entry.objects.filter(playlist_id=playlist_id)
+
+  if playlist_id[0]=='s':
+    playlist = getUser(request).song_set
+  else:
+    playlist = Entry.objects.filter(playlist_id=playlist_id)
   moved_track = playlist.get(order=start)
   if dir > 0:
     playlist.filter(order__range=(start + 1,
