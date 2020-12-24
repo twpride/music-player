@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
@@ -92,7 +92,9 @@ const UploadFormEle = styled.form`
 `
 
 
-export default function UploadForm() {
+export default function SearchResults() {
+
+  const contextMenu = useSelector(state => state.ui.contextMenu)
   const [urls, setUrls] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -168,7 +170,7 @@ export default function UploadForm() {
         setErr(errorsArr)
       }
     } else {
-      dispatch({ type: context_act.SEARCH_RESULTS, searchResults:songs[0] })
+      console.log(songs[0])
     }
   }
 
@@ -189,37 +191,9 @@ export default function UploadForm() {
     <UploadFormEle id="songForm" ref={form} onSubmit={submitSong}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className='holder'></div>
-      <input type="file" name="waveform"
-        onChange={loadSong} multiple hidden id='choose-file' />
-      <label htmlFor='choose-file'>
-        {filelist.length > 0 ? `${filelist.length} selected` : "Choose files"}
-      </label>
-      <div className='or'><span className='divider'></span>or<span className='divider'></span></div>
-      <div className="holder">
-        <textarea type="text"
-          name="url"
-          value={urls}
-          placeholder="YouTube URL or ID (1 per line)"
-          onChange={onTextChange}
-          wrap="off"
-          ref={tboxRef}
-        />
-      </div>
-      {loading ? <Spinner /> :
-        <input className="submit-button"
-          type="submit"
-          value="Submit"
-        />
-      }
-      <div className='holder error-holder'>
-        {err.map((mes, i) => (
-          <div key={i}>
-            {mes}
-          </div>
-        ))}
-      </div>
-      <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
+    {contextMenu.searchResults.map((el,idx) => (
+      <div key={idx}>{el.title}</div>
+    ))}
     </UploadFormEle>
   )
 };

@@ -6,6 +6,7 @@ import SongBurger from './song_burger';
 import PlaylistBurger from './playlist_burger';
 import SelectPlaylist from './select_playlist';
 import UploadForm from './upload_form'
+import SearchResults from './search_results'
 import { useDispatch, useSelector } from 'react-redux'
 import { context_act } from '../reducers/ui_reducer'
 import NewPlaylist from './new_playlist';
@@ -124,6 +125,9 @@ export default function ContextMenu() {
       break;
     case context_act.UPLOAD_SONGS:
       Component = UploadForm;
+      break;
+    case context_act.SEARCH_RESULTS:
+      Component = SearchResults;
       break;
     default:
       return null;
