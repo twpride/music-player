@@ -18,7 +18,8 @@ import { getSongD } from '../util/api_util'
 import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
-import UploadForm from './upload_form'
+import SearchResultsD from './searchResultsD'
+import SearchBox from './search_box'
 
 const AppDiv = styled.div`
   display: flex;
@@ -82,7 +83,8 @@ const App = () => {
             <Playlist />
           </Route>
           <Route exact path='/upload' >
-            <UploadForm />
+            <SearchBox/>
+            <SearchResultsD />
           </Route>
           <Route path='/playlist_d/:playlist_id'>
             <Playlist />

@@ -82,3 +82,15 @@ export const getPlaylist = playlist_id => async dispatch => {
 }
 
 
+// export const addSong = (url, idx) => async dispatch => {
+//   setAdding(Object.assign([], adding, { [idx]: true }))
+//   const resp = await fetch(ytdlAPI + '?add=' + url)
+//   const json = await resp.json();
+//   console.log(json)
+//   if (json.Key) {
+//     dispatch(postSongs([[json.Key, json.yt_id]]))
+//   } else {
+//     dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results: json })
+//     setAdding(new Array(json.length).fill(false))
+//   }
+// }

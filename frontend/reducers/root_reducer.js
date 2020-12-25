@@ -21,7 +21,8 @@ export const ent_act = {
   DELETE_SONG: 'DELETE_SONG',
   RESET_PLAYLISTS: 'RESET_PLAYLISTS',
   RECEIVE_SEARCH_RESULTS: 'RECEIVE_SEARCH_RESULTS',
-  CLEAR_SEARCH_RESULTS: 'CLEAR_SEARCH_RESULTS'
+  CLEAR_SEARCH_RESULTS: 'CLEAR_SEARCH_RESULTS',
+  SET_LOADING: 'SET_LOADING',
 }
 
 const songD = (state = [], action) => {
@@ -123,7 +124,10 @@ const search = (state = {}, action) => {
     case ent_act.INIT_STORE:
       return { ...state, yt_id_set: new Set(Object.values(action.songD).map(e => e.yt_id)) };
     case ent_act.RECEIVE_SEARCH_RESULTS:
-      return { ...state, search_term: action.search_term, search_results: action.search_results }
+      return { ...state, 
+        search_term: action.search_term, 
+        search_results: action.search_results,
+      }
     case ent_act.CLEAR_SEARCH_RESULTS:
       return { ...state, search_term: "", search_results: [] }
     case ent_act.RECEIVE_SONG_D:
@@ -136,6 +140,8 @@ const search = (state = {}, action) => {
           ]
         )
       }
+    case ent_act.SET_LOADING:
+      return {...state, loading:action.status}
     default:
       return state;
   }

@@ -29,14 +29,14 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
 
 
 const UploadFormEle = styled.form`
-  height:100%;
+  /* height:100%;
   position: relative;
   margin: auto auto;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  background-color:white;
+  background-color:white; */
   label {
     color:#ad0f37; 
     cursor: pointer;
@@ -87,9 +87,15 @@ const UploadFormEle = styled.form`
   .holder {
     display:flex;
     flex-direction:row;
-    width: min(20em,90%);
+    /* width: min(20em,90%); */
+    width: 400px;
     position:absolute;
-    top: 5px;
+    top: 15px;
+    left:0;
+    right:0;
+    margin:auto;
+    /* margin-left:auto; */
+    /* margin-righst:auto; */
     z-index:5;
   }
   .error-holder {
@@ -112,34 +118,13 @@ const UploadFormEle = styled.form`
     margin: auto auto;
   }
 `
-const SearchResDiv = styled.div`
-  font-size: 1em;
-  display:flex;
-  flex-direction:row;
-  align-items: center;
-  padding-left: 1.5em;
-  >div {
-    height:4em;
-    display:flex;
-    align-items:center;
-  }
-  >:last-child {
-    margin-left: auto;
-    min-width:3em;
-    justify-content:center;
-  }
 
-`
 
 export default function UploadForm() {
   const [loading, setLoading] = useState(false);
-  const [adding, setAdding] = useState(null)
   const [err, setErr] = useState([]);
   const form = useRef(null)
-  const tboxRef = useRef(null)
   const dispatch = useDispatch()
-  const search = useSelector(state => state.entities.search)
-  const [urls, setUrls] = useState(search.search_term);
 
   const submitSong = async e => {
 
@@ -174,67 +159,10 @@ export default function UploadForm() {
       } catch (err) {
         errorsArr.push(err.message)
       }
+      dispatch(postSongs(localFiles))
     }
 
-    // scrape youtube songs
-    const urlsArray = urls ? urls.split("\n").filter(ent => ent) : []//filter blank lines
-
-    const songs = await Promise.all(
-      urlsArray.map(async url => {
-        // console.log('querying:' + rl)
-        const resp = await fetch(ytdlAPI + '?add=' + url)
-        const json = await resp.json();
-        if (!resp.ok) {
-          errorsArr.push(json)
-          // console.log("fail")
-        }
-        return json
-      })
-    )
-    if (!songs.length || songs[0].Key || errorsArr.length) {
-      const ytFiles = songs.map(ent => [ent.Key, ent.yt_id]).filter(ent => ent[0]) //filter failed reqs
-
-      const files = Array.concat(localFiles, ytFiles)
-      if (files.length) dispatch(postSongs(files))
-
-      if (errorsArr.length) {
-        setErr(errorsArr)
-      } else {
-        setUrls('')
-      }
-    } else {
-      const search_results = songs[0].map(e => ([e.id, e.title, e.type, e.url])).filter(e => e[2] === "video" || e[2] === "playlist")
-      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
-      setAdding(new Array(search_results.length).fill(false))
-      console.log(songs[0])
-    }
     setLoading(false)
-  }
-
-  function onTextChange(e) {
-    const tbox = tboxRef.current;
-    setUrls(tbox.value)
-    // const nLine = (tbox.value.match(/\n/g) || []).length + 1;
-    // if (nLine > 3) {
-    //   tbox.style.overflowY = "scroll"
-    //   tbox.style.height = (19 * 3 + 2) + 'px';
-    // } else {
-    //   tbox.style.height = (nLine * 19 + 2) + 'px';
-    //   tbox.style.overflowY = "hidden"
-    // }
-  }
-
-  const addSong = (url, idx) => async (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setAdding(Object.assign([], adding, { [idx]: true }))
-    const resp = await fetch(ytdlAPI + '?add=' + url)
-    const json = await resp.json();
-    if (json.Key) {
-      dispatch(postSongs([[json.Key, json.yt_id]]))
-    } else {
-      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results: json })
-    }
   }
 
   return (
@@ -244,43 +172,10 @@ export default function UploadForm() {
       {loading && <div className="spinner"><Spinner size={50} color="#ad0f37" /></div>}
       <input type="file" name="waveform"
         onChange={submitSong} multiple hidden id='choose-file' />
-      <div className="holder">
-        <label htmlFor='choose-file'>
-          <img src={UploadIcon}></img>
-        </label>
-        <textarea type="text"
-          name="url"
-          value={urls}
-          placeholder="Search song, album, artist"
-          onChange={onTextChange}
-          onKeyDown={(e) => { if (e.key === 'Enter') submitSong(e) }}
-          wrap="off"
-          ref={tboxRef}
-        />
-        <img src={xIcon} onClick={e => {
-          dispatch({ type: ent_act.CLEAR_SEARCH_RESULTS })
-          setUrls('')
-        }} />
-      </div>
+      <label htmlFor='choose-file'>
+        <img src={UploadIcon}></img>
+      </label>
 
-      {search.search_results && <div className="scrollable">
-        {search.search_results.map(([id, title, type, url], idx) => (
-          <SearchResDiv key={idx}
-          >
-            <div>{title}</div>
-            <AddIcon playlist={type === "playlist"} addSong={addSong(url, idx)} added={search.yt_id_set.has(id)} adding={adding && adding[idx]} />
-          </SearchResDiv>
-        ))}
-      </div>}
-
-      <div className='holder error-holder'>
-        {err.map((mes, i) => (
-          <div key={i}>
-            {mes}
-          </div>
-        ))}
-      </div>
-      <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
     </UploadFormEle>
   )
 };
