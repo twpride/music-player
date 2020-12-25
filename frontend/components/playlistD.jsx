@@ -18,10 +18,7 @@ const PlaylistTitleDiv = styled.div`
   &:hover {
       background-color: #F0F0F0;
   }
-  .row {
-    display:flex;
-    flex-direction:row;
-  }
+
   >div {
     height:4em;
     display:flex;

@@ -3,24 +3,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
-import Spinner from './spinner'
-import plus from '../icons/plus.svg'
-import playlistIcon from '../icons/playlist_grey.svg'
+import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
 import xIcon from '../icons/x.svg'
 import UploadIcon from '../icons/upload.svg'
 import { ent_act } from '../reducers/root_reducer';
-const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
+const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
 // const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
 // const ytdlAPI = "https://adtk67yvyl.execute-api.us-west-1.amazonaws.com/test/?url="
 
 
-const AddIcon = ({ playlist, added }) => {
-  if (playlist) {
-    return <img src={playlistIcon} />
-  } else if (!added) {
-    return <img src={plus} />;
-  } else {
+
+const AddIcon = ({ playlist, added, adding, addSong }) => {
+  if (added) {
     return <div></div>
+  } else {
+    if (adding) {
+      return <div><Spinner size={20} color="#ad0f37" /></div>
+    } else if (playlist) {
+      return <div onClick={addSong}><HoverPlaylist size={24} color="grey" hoverColor="#ad0f37" /></div>
+    } else {
+      return <div onClick={addSong}><HoverPlus size={16} color="grey" hoverColor="#ad0f37" /></div>
+    }
   }
 }
 
@@ -36,9 +39,6 @@ const UploadFormEle = styled.form`
   background-color:white;
   label {
     color:#ad0f37; 
-    /* border: 1px solid #ad0f37; */
-    /* padding: 2px; */
-    /* border-radius: 3px; */
     cursor: pointer;
   }
   #file-count {
@@ -106,6 +106,11 @@ const UploadFormEle = styled.form`
   .submit-button {
     height:50px;
   }
+
+  div.spinner {
+    position: absolute;
+    margin: auto auto;
+  }
 `
 const SearchResDiv = styled.div`
   font-size: 1em;
@@ -113,13 +118,6 @@ const SearchResDiv = styled.div`
   flex-direction:row;
   align-items: center;
   padding-left: 1.5em;
-  &:hover {
-      background-color: #F0F0F0;
-  }
-  .row {
-    display:flex;
-    flex-direction:row;
-  }
   >div {
     height:4em;
     display:flex;
@@ -134,23 +132,14 @@ const SearchResDiv = styled.div`
 `
 
 export default function UploadForm() {
-  const [searchRes, setSearchRes] = useState(null)
-  const [added, setAdded] = useState(null)
-  // window.added=added;
   const [loading, setLoading] = useState(false);
-
+  const [adding, setAdding] = useState(null)
   const [err, setErr] = useState([]);
   const form = useRef(null)
   const tboxRef = useRef(null)
   const dispatch = useDispatch()
   const search = useSelector(state => state.entities.search)
-  const [filelist, setFilelist] = useState([]);
   const [urls, setUrls] = useState(search.search_term);
-
-  const loadSong = e => {
-    // setFilelist(e.currentTarget.files)
-    submitSong(e)
-  }
 
   const submitSong = async e => {
 
@@ -188,12 +177,12 @@ export default function UploadForm() {
     }
 
     // scrape youtube songs
-    const urlsArray = urls? urls.split("\n").filter(ent => ent) : []//filter blank lines
+    const urlsArray = urls ? urls.split("\n").filter(ent => ent) : []//filter blank lines
 
     const songs = await Promise.all(
       urlsArray.map(async url => {
         // console.log('querying:' + rl)
-        const resp = await fetch(ytdlAPI + url)
+        const resp = await fetch(ytdlAPI + '?add=' + url)
         const json = await resp.json();
         if (!resp.ok) {
           errorsArr.push(json)
@@ -213,13 +202,13 @@ export default function UploadForm() {
       } else {
         setUrls('')
       }
-      setLoading(false)
     } else {
-      setSearchRes(songs[0])
-      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results: songs[0] })
+      const search_results = songs[0].map(e => ([e.id, e.title, e.type, e.url])).filter(e => e[2] === "video" || e[2] === "playlist")
+      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
+      setAdding(new Array(search_results.length).fill(false))
       console.log(songs[0])
-      setAdded(Array(songs[0].length).fill(false))
     }
+    setLoading(false)
   }
 
   function onTextChange(e) {
@@ -235,8 +224,11 @@ export default function UploadForm() {
     // }
   }
 
-  const addSong = (url) => async (e) => {
-    const resp = await fetch(ytdlAPI + url)
+  const addSong = (url, idx) => async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setAdding(Object.assign([], adding, { [idx]: true }))
+    const resp = await fetch(ytdlAPI + '?add=' + url)
     const json = await resp.json();
     if (json.Key) {
       dispatch(postSongs([[json.Key, json.yt_id]]))
@@ -249,8 +241,9 @@ export default function UploadForm() {
     <UploadFormEle className="scrollable" ref={form} onSubmit={submitSong}
       onClick={(e) => e.stopPropagation()}
     >
+      {loading && <div className="spinner"><Spinner size={50} color="#ad0f37" /></div>}
       <input type="file" name="waveform"
-        onChange={loadSong} multiple hidden id='choose-file' />
+        onChange={submitSong} multiple hidden id='choose-file' />
       <div className="holder">
         <label htmlFor='choose-file'>
           <img src={UploadIcon}></img>
@@ -270,14 +263,12 @@ export default function UploadForm() {
         }} />
       </div>
 
-      {!search.search_results && loading && <Spinner />}
       {search.search_results && <div className="scrollable">
-        {search.search_results.map((el, idx) => (
-          <SearchResDiv key={idx}>
-            <div>{el.title}</div>
-            <div onClick={addSong(el.url)}>
-              <AddIcon playlist={el.type === "playlist"} added={search.yt_id_set.has(el.id)} />
-            </div>
+        {search.search_results.map(([id, title, type, url], idx) => (
+          <SearchResDiv key={idx}
+          >
+            <div>{title}</div>
+            <AddIcon playlist={type === "playlist"} addSong={addSong(url, idx)} added={search.yt_id_set.has(id)} adding={adding && adding[idx]} />
           </SearchResDiv>
         ))}
       </div>}

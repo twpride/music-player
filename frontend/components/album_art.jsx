@@ -24,13 +24,8 @@ export default function AlbumArt() {
 
   useEffect(() => {
     if (track) {
-      let song;
-      if (track[0]) {
-        song = songD[playlistD[track[0]][track[1]][0]];
-      } else {
-        // song = songD[songs_playlist[[track[1]]]]
-        song = Object.values(songD)[track[1]]
-      }
+      let song = songD[playlistD[track[0]][track[1]][0]];
+      if (!song) song={};
 
       if (song.album_art_url && song.album_art_url!="n/a") {
         setAlbumArt(song.album_art_url)

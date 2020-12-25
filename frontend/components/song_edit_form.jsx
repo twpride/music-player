@@ -35,7 +35,7 @@ export default function SongEditForm() {
       <div className="title">Edit Song</div>
       <div className="spacer"></div>
       <form onSubmit={handleSubmit} id="songEditForm" ref={form}>
-        {Object.entries(songD[contextMenu.song_id]).filter(e => !['id','date_added','order'].includes(e[0])).map(
+        {Object.entries(songD[contextMenu.song_id]).filter(e => !['id','date_added','order','yt_id'].includes(e[0])).map(
           (field, i) => (
             <div key={i} className="login-input">
               <div className="field">{field[0].replace(/_/g, ' ')}</div>

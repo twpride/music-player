@@ -118,7 +118,6 @@ export default function AudioPlayer({ winWidth }) {
   const songD = useSelector(state => state.entities.songD);
   const track = useSelector(state => state.player.track);
   const playing = useSelector(state => state.player.playing);
-  const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
 
   const aud = useRef()
   const playerdiv = useRef(null)
@@ -147,10 +146,13 @@ export default function AudioPlayer({ winWidth }) {
     let artist = '';
     if (track
       && track[1] < playlistD[track[0]].length // when last song of pl is deleted, while it's being played
-                                               // won't allow this case to enter if statement
+      // won't allow this case to enter if statement
     ) {
-      let song;
-      song = songD[playlistD[track[0]][track[1]][0]];
+      let song = songD[playlistD[track[0]][track[1]][0]];
+      if (!song) {
+        song={title:"",artist:''}
+      }
+
       artist = song.artist;
       title = song.title;
       setSongInfo(song)
@@ -168,14 +170,14 @@ export default function AudioPlayer({ winWidth }) {
 
   useEffect(() => {
     if (track && playing) {
-      let song_id;
-      if (track[0]) { song_id = playlistD[track[0]][track[1]][0]; }
-      else { song_id = songs_playlist[track[1]]; }
-      // else { song_id = Object.values(songD)[track[1]].id; }
+      const song_id = playlistD[track[0]][track[1]][0];
+      dispatch(getSongUrl(song_id));
+
       if (curSongId != song_id) {
-        dispatch(getSongUrl(song_id));
         setCurSongId(song_id);
-      } else { aud.current.play(); }
+      } else {
+        aud.current.play();
+      }
     }
   }, [track, playing])
 
