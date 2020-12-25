@@ -13,7 +13,7 @@ class Song(models.Model):
   playlists = models.ManyToManyField('Playlist', through='Entry')
   date_added = models.DateTimeField(auto_now_add=True)
   order = models.PositiveSmallIntegerField()
-  yt_id = models.CharField(max_length=100, null=True)
+  yt_id = models.CharField(max_length=100, blank=True, null=True)
 
 class Entry(models.Model):
   playlist = models.ForeignKey('Playlist', on_delete=models.CASCADE)

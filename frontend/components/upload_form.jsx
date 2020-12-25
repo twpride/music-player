@@ -6,7 +6,9 @@ import { getPostUrls } from '../util/api_util'
 import Spinner from './spinner'
 import plus from '../icons/plus.svg'
 import playlistIcon from '../icons/playlist_grey.svg'
+import xIcon from '../icons/x.svg'
 import UploadIcon from '../icons/upload.svg'
+import { ent_act } from '../reducers/root_reducer';
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/?url="
 // const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
 // const ytdlAPI = "https://adtk67yvyl.execute-api.us-west-1.amazonaws.com/test/?url="
@@ -134,18 +136,19 @@ const SearchResDiv = styled.div`
 export default function UploadForm() {
   const [searchRes, setSearchRes] = useState(null)
   const [added, setAdded] = useState(null)
-  const [urls, setUrls] = useState('');
+  // window.added=added;
   const [loading, setLoading] = useState(false);
 
   const [err, setErr] = useState([]);
   const form = useRef(null)
   const tboxRef = useRef(null)
   const dispatch = useDispatch()
-  const search = useSelector( state => state.entities.search)
+  const search = useSelector(state => state.entities.search)
   const [filelist, setFilelist] = useState([]);
+  const [urls, setUrls] = useState(search.search_term);
 
   const loadSong = e => {
-    setFilelist(e.currentTarget.files)
+    // setFilelist(e.currentTarget.files)
     submitSong(e)
   }
 
@@ -158,7 +161,7 @@ export default function UploadForm() {
 
     //upload local songs
     const waveforms = formData.getAll('waveform')
-    const localFiles = waveforms.map(ent => [ent.name,null]).filter(ent => ent[0]) // if no files return empty array
+    const localFiles = waveforms.map(ent => [ent.name, null]).filter(ent => ent[0]) // if no files return empty array
     if (localFiles.length) {
       try {
         const signedUrls = await getPostUrls(localFiles).then(
@@ -185,7 +188,7 @@ export default function UploadForm() {
     }
 
     // scrape youtube songs
-    const urlsArray = urls.split("\n").filter(ent => ent) //filter blank lines
+    const urlsArray = urls? urls.split("\n").filter(ent => ent) : []//filter blank lines
 
     const songs = await Promise.all(
       urlsArray.map(async url => {
@@ -213,6 +216,7 @@ export default function UploadForm() {
       setLoading(false)
     } else {
       setSearchRes(songs[0])
+      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results: songs[0] })
       console.log(songs[0])
       setAdded(Array(songs[0].length).fill(false))
     }
@@ -231,7 +235,15 @@ export default function UploadForm() {
     // }
   }
 
-
+  const addSong = (url) => async (e) => {
+    const resp = await fetch(ytdlAPI + url)
+    const json = await resp.json();
+    if (json.Key) {
+      dispatch(postSongs([[json.Key, json.yt_id]]))
+    } else {
+      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results: json })
+    }
+  }
 
   return (
     <UploadFormEle className="scrollable" ref={form} onSubmit={submitSong}
@@ -252,26 +264,19 @@ export default function UploadForm() {
           wrap="off"
           ref={tboxRef}
         />
+        <img src={xIcon} onClick={e => {
+          dispatch({ type: ent_act.CLEAR_SEARCH_RESULTS })
+          setUrls('')
+        }} />
       </div>
 
-      {!searchRes && loading && <Spinner />}
-      {searchRes && <div className="scrollable">
-        {searchRes.map((el, idx) => (
+      {!search.search_results && loading && <Spinner />}
+      {search.search_results && <div className="scrollable">
+        {search.search_results.map((el, idx) => (
           <SearchResDiv key={idx}>
             <div>{el.title}</div>
-            <div onClick={async e => {
-              setAdded(Object.assign([], added, { [idx]: true }))
-
-              const resp = await fetch(ytdlAPI + el.url)
-              const json = await resp.json();
-              if (json.Key) {
-                dispatch(postSongs([json.Key]))
-              } else {
-                setSearchRes(json)
-                setAdded(Array(json.length).fill(false))
-              }
-            }}>
-              {added && <AddIcon playlist={el.type === "playlist"} added={added[idx]} />}
+            <div onClick={addSong(el.url)}>
+              <AddIcon playlist={el.type === "playlist"} added={search.yt_id_set.has(el.id)} />
             </div>
           </SearchResDiv>
         ))}

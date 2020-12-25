@@ -19,8 +19,9 @@ export const ent_act = {
   SET_PLAY: "SET_PLAY",
   SET_PAUSE: "SET_PAUSE",
   DELETE_SONG: 'DELETE_SONG',
-  RESET_PLAYLISTS:'RESET_PLAYLISTS',
-  SEARCH_RESULTS: 'SEARCH_RESULTS'
+  RESET_PLAYLISTS: 'RESET_PLAYLISTS',
+  RECEIVE_SEARCH_RESULTS: 'RECEIVE_SEARCH_RESULTS',
+  CLEAR_SEARCH_RESULTS: 'CLEAR_SEARCH_RESULTS'
 }
 
 const songD = (state = [], action) => {
@@ -29,7 +30,7 @@ const songD = (state = [], action) => {
     case ent_act.RECEIVE_SONG_D:
       return { ...state, ...action.songD };
     case ent_act.RECEIVE_SONG_D_EDIT:
-        return { ...state, ...action.songD };
+      return { ...state, ...action.songD };
     case ent_act.INIT_STORE:
       return action.songD;
     case ent_act.DELETE_SONG:
@@ -46,19 +47,19 @@ const playlistD = (state = {}, action) => {
   switch (action.type) {
     case ent_act.INIT_STORE:
       const songs_playlist = Object.values(action.songD)
-                                  //  .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
-                                   .sort((b,a)=>parseInt(b.order)-parseInt(a.order))
-                                   .map(e => [e.id, null])
+        //  .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
+        .sort((b, a) => parseInt(b.order) - parseInt(a.order))
+        .map(e => [e.id, null])
       return { ...state, songs_playlist };
     case ent_act.RECEIVE_SONG_D:
       const new_songs = Object.values(action.songD)
-                              // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
-                              .sort((b,a)=>parseInt(b.order)-parseInt(a.order))
-                              .map(e => [e.id, null])
+        // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
+        .sort((b, a) => parseInt(b.order) - parseInt(a.order))
+        .map(e => [e.id, null])
       // return { ...state, songs_playlist: [...new_songs, ...state.songs_playlist]};
-      return { ...state, songs_playlist: [ ...state.songs_playlist, ...new_songs]};
+      return { ...state, songs_playlist: [...state.songs_playlist, ...new_songs] };
     case ent_act.DELETE_SONG:
-      return { ...state, songs_playlist: state.songs_playlist.filter(el=>el[0]!=action.song_id)};
+      return { ...state, songs_playlist: state.songs_playlist.filter(el => el[0] != action.song_id) };
     case ent_act.RECEIVE_PLAYLIST:
       return { ...state, [action.playlist_id]: action.playlist };
     case ent_act.RECEIVE_PLAYLIST_TITLE_D:
@@ -82,8 +83,8 @@ const playlistD = (state = {}, action) => {
       newpl.splice(action.idx, 1)
       return { ...state, [action.pl_id]: newpl }
     case ent_act.RESET_PLAYLISTS:
-      const st = { ...state}
-      action.pls_to_reset.forEach( id => delete st[id])
+      const st = { ...state }
+      action.pls_to_reset.forEach(id => delete st[id])
       return st
     default:
       return state;
@@ -119,8 +120,22 @@ const player = (state = {}, action) => {
 const search = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
-    case ent_act.SEARCH_RESULTS:
-      return action.payload
+    case ent_act.INIT_STORE:
+      return { ...state, yt_id_set: new Set(Object.values(action.songD).map(e => e.yt_id)) };
+    case ent_act.RECEIVE_SEARCH_RESULTS:
+      return { ...state, search_term: action.search_term, search_results: action.search_results }
+    case ent_act.CLEAR_SEARCH_RESULTS:
+      return { ...state, search_term: "", search_results: [] }
+    case ent_act.RECEIVE_SONG_D:
+      return {
+        ...state,
+        yt_id_set: new Set(
+          [
+            ...state.yt_id_set,
+            ...Object.values(action.songD).map(e => e.yt_id)
+          ]
+        )
+      }
     default:
       return state;
   }
