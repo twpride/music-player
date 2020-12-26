@@ -10,6 +10,8 @@ import { useLocation } from 'react-router-dom'
 import { context_act } from '../reducers/ui_reducer';
 import { HoverAccount, HoverSearch, HoverGithub, HoverLinkedin } from './active_svgs'
 import { Link } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom';
+import SearchBox from './search_box'
 
 export const HeaderDiv = styled.div`
   display: flex;
@@ -58,7 +60,7 @@ export default function Header() {
 
   useEffect(() => {
     function resumeAudioCtx(e) {
-      visualizer.paused=false;
+      visualizer.paused = false;
       visualizer.startRenderer()
     }
     function mobileVizWorkaround(e) {
@@ -67,10 +69,10 @@ export default function Header() {
     }
 
     function suspendAudioCtx(e) {
-      visualizer.paused=true;
+      visualizer.paused = true;
     }
     const visualizer = new AudioVisualizer(containerRef.current)
-    window.viz=visualizer;
+    window.viz = visualizer;
     visualizer.startRenderer()
 
     window.addEventListener('touchend', mobileVizWorkaround)
@@ -109,20 +111,30 @@ export default function Header() {
   }
 
   return (
-    <HeaderDiv className="nav">
-      <a href='https://github.com/twpride/music-player-1'>
-        <HoverGithub {...svgProps}></HoverGithub>
-      </a>
-      <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
-        <HoverLinkedin {...svgProps}></HoverLinkedin>
-      </a>
-      <div className='title'>
-        {title}
-      </div>
-      <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
-        <HoverAccount {...svgProps} />
-      </button>
+    <HeaderDiv>
+      <Switch>
+        <Route exact path='/upload' >
+          <SearchBox />
+        </Route>
+        <Route path='/' >
+          <a href='https://github.com/twpride/music-player-1'>
+            <HoverGithub {...svgProps}></HoverGithub>
+          </a>
+          <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
+            <HoverLinkedin {...svgProps}></HoverLinkedin>
+          </a>
+          <div className='title'>
+            {title}
+          </div>
+          <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
+            <HoverAccount {...svgProps} />
+          </button>
+        </Route>
+      </Switch>
+
       <div id="container" ref={containerRef}> </div>
     </HeaderDiv>
+
+
   )
 };

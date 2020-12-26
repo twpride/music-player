@@ -19,7 +19,7 @@ import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
 import SearchResultsD from './searchResultsD'
-import SearchBox from './search_box'
+
 
 const AppDiv = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const songD = await getSongD().then(response => response.json())
-      dispatch({ type: ent_act.INIT_STORE, songD })
+      dispatch({ type: ent_act.INIT_STORE, songD})
     }
     fetchData()
 
@@ -83,7 +83,7 @@ const App = () => {
             <Playlist />
           </Route>
           <Route exact path='/upload' >
-            <SearchBox/>
+            {/* <SearchBox/> */}
             <SearchResultsD />
           </Route>
           <Route path='/playlist_d/:playlist_id'>
