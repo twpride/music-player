@@ -15,6 +15,21 @@ def getUser(req):
   return User.objects.filter(session_token=token)[0]
 
 
+def init_store(request):
+  usr = getUser(request)
+  return JsonResponse(
+      [{
+          x['id']: x for x in Song.objects.filter(user_id=usr.id).values(
+              'id', 'title', 'artist', 'album', 'album_art_url', 'date_added', 'order', 'yt_id')
+      },
+      {
+          x["id"]: x['title'] for x in Playlist.objects.filter(
+              user_id=usr.id).values('id', 'title')
+      }],
+
+      safe=False)
+
+
 def song_d(request):
   usr = getUser(request)
   if request.method == "GET":
@@ -215,8 +230,10 @@ def move_track(request):
 
   if playlist_id[0]=='s':
     playlist = getUser(request).song_set
+    breakpoint()
   else:
     playlist = Entry.objects.filter(playlist_id=playlist_id)
+
   moved_track = playlist.get(order=start)
   if dir > 0:
     playlist.filter(order__range=(start + 1,
@@ -224,6 +241,7 @@ def move_track(request):
   elif dir < 0:
     playlist.filter(order__range=(index,
                                   start - 1)).update(order=F('order') + 1)
+
   moved_track.order = index
   moved_track.save()
   return HttpResponse(status=204)

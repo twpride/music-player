@@ -111,7 +111,6 @@ export default function SearchBox() {
     } else {
       const search_results = songs[0].map(e => ({ id: e.id, title: e.title, type: e.type, url: e.url })).filter(e => e.type === "video" || e.type === "playlist")
       dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
-      console.log(songs[0])
     }
     dispatch({ type: ent_act.SET_LOADING, status: false })
   }

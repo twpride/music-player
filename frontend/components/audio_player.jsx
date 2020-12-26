@@ -169,7 +169,6 @@ export default function AudioPlayer({ winWidth }) {
   }, [track, playlistD]) // remount when new track or when playlist is modified (eg when new song added)
 
   useEffect(() => {
-    console.log('asdf',track)
     if (!track || !playing) return;
     const song_id = playlistD[track[0]][track[1]][0];
     if (curSongId != song_id) {

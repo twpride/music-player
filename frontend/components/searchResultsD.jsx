@@ -93,7 +93,6 @@ export default function SearchResultsD() {
     setAdding(Object.assign([], adding, { [idx]: true }))
     const resp = await fetch(ytdlAPI + '?add=' + url)
     const json = await resp.json();
-    console.log(json)
     if (json.Key) {
       dispatch(postSongs([[json.Key, json.yt_id]]))
     } else {

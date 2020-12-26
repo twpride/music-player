@@ -84,7 +84,7 @@ export default function Header() {
 
   useEffect(() => {
     const locArr = location.pathname.split('/')
-    console.log(locArr)
+    // console.log(locArr)
     if (locArr[1] == 'upload') {
       setTitle('')
       window.dispatchEvent(new Event('suspendViz'))

@@ -30,6 +30,7 @@ urlpatterns = [
     path('', auth.RootView.as_view()),
     path('api/users', auth.UserView.as_view()),
     path('api/session', auth.SessionView.as_view()),
+    path('api/init_store', song.init_store),
     path('api/song_d/', song.song_d),
     path('api/playlist_d/', song.playlist_d),
     path('api/song_d/<int:id>', song.song),

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import styled from 'styled-components'
 
-import { getPlaylistTitleD } from '../actions/actions'
+// import { getPlaylistTitleD } from '../actions/actions'
 
 import { Link } from 'react-router-dom'
 import burgerIcon from '../icons/burger.svg';
@@ -45,11 +45,11 @@ export default function PlaylistD() {
 
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
 
-  useEffect(() => {
-    if (!titleD) {
-      dispatch(getPlaylistTitleD())
-    }
-  }, [])
+  // useEffect(() => {
+  //   // if (!titleD) {
+  //   //   dispatch(getPlaylistTitleD())
+  //   // }
+  // }, [])
 
   const launchBurger = (playlist_id) => (e) => {
     e.stopPropagation()

@@ -23,11 +23,7 @@ export const editPlaylist = playlistEdit => dispatch => (
     .then(playlistTitleD => dispatch({ type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD}))
 )
 
-export const getSongD = () => dispatch => (
-  APIUtil.getSongD()
-    .then(response => response.json())
-    .then(songD => dispatch({ type: ent_act.RECEIVE_SONG_D, songD }))
-)
+
 
 export const getSongUrl = id => dispatch => (
   APIUtil.getSongUrl(id)
@@ -41,17 +37,6 @@ export const getSearchedSongUrl = yt_id => dispatch => (
     .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
 )
 
-
-
-
-
-export const getPlaylistTitleD = () => dispatch => (
-  APIUtil.getPlaylistTitleD()
-    .then(response => response.json())
-    .then(playlistTitleD => dispatch(
-      { type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }
-    ))
-)
 
 
 export const loginThunk = user => async dispatch => {
@@ -82,15 +67,3 @@ export const getPlaylist = playlist_id => async dispatch => {
 }
 
 
-// export const addSong = (url, idx) => async dispatch => {
-//   setAdding(Object.assign([], adding, { [idx]: true }))
-//   const resp = await fetch(ytdlAPI + '?add=' + url)
-//   const json = await resp.json();
-//   console.log(json)
-//   if (json.Key) {
-//     dispatch(postSongs([[json.Key, json.yt_id]]))
-//   } else {
-//     dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results: json })
-//     setAdding(new Array(json.length).fill(false))
-//   }
-// }

@@ -19,13 +19,13 @@ const fetchHeader = () => ({
 })
 
 
-export const getSongD = () => (
-  fetch('/api/song_d/', {
+
+export const initStore = () => (
+  fetch('/api/init_store', {
     method: 'GET',
     headers: fetchHeader(),
   })
 );
-
 
 export const getPlaylistTitleD = () => (
   fetch('/api/playlist_d/', {
