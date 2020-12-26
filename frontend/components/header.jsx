@@ -8,7 +8,7 @@ import { ent_act } from '../reducers/root_reducer';
 import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
 import { context_act } from '../reducers/ui_reducer';
-import { HoverAccount, HoverSearch, HoverGithub, HoverLinkedin } from './active_svgs'
+import { HoverAccount, HoverGithub, HoverLinkedin } from './active_svgs'
 import { Link } from 'react-router-dom'
 import { Route, Switch } from 'react-router-dom';
 import SearchBox from './search_box'
@@ -21,7 +21,7 @@ export const HeaderDiv = styled.div`
   min-height: 50px;
   width: 100%;
   position:relative;
-  border-bottom: 1px solid lightgrey;
+  box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
   .title {
     font-size:1.2em;
   }
@@ -87,12 +87,12 @@ export default function Header() {
 
   useEffect(() => {
     const locArr = location.pathname.split('/')
-
+    console.log(locArr)
     if (locArr[1] == 'upload') {
       setTitle('')
       window.dispatchEvent(new Event('suspendViz'))
     } else {
-      if (!locArr[0]) {
+      if (!locArr[1]) {
         setTitle('Songs')
       } else {
         setTitle(locArr[2] ? titleD && titleD[locArr[2]] : "Playlists")

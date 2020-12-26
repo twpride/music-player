@@ -7,17 +7,19 @@ import styled from 'styled-components'
 import collection from '../icons/collection.svg'
 import playlist from '../icons/playlist.svg'
 
-import { SearchIcon } from './active_svgs'
+import { SearchIcon, CollectionIcon, PlaylistsIcon } from './active_svgs'
 
 const NavbarDiv = styled.div`
   a, .upload-button{
     display:flex;
     flex-direction:column;
     align-items: center;
+    justify-content: center;
     font-size:8px;
     color:black;
     text-decoration: none;
-    width:60px;
+    width:100%;
+    height:100%;
     cursor: pointer;
     svg {
       width:24px;
@@ -42,6 +44,7 @@ const ButtonDiv = styled.div`
   display:flex;
   flex-direction:column;
   align-items: center;
+  justify-content: center;
   
   color: ${props => props.color};
   &:hover {
@@ -70,8 +73,10 @@ export default function Navbar() {
   return (
     <NavbarDiv className="nav">
       <Link to="/">
-        <img src={collection} />
-        <div>Songs</div>
+        <ButtonDiv {...hoverColors}>
+          <CollectionIcon {...svgSize} />
+          <div>Songs</div>
+        </ButtonDiv>
       </Link>
 
       <Link to="/upload">
@@ -82,8 +87,10 @@ export default function Navbar() {
       </Link>
 
       <Link to="/playlist_d/">
-        <img src={playlist} />
-        <div>Playlists</div>
+      <ButtonDiv {...hoverColors}>
+          <PlaylistsIcon {...svgSize} />
+          <div>Playlists</div>
+        </ButtonDiv>
       </Link>
 
     </NavbarDiv>

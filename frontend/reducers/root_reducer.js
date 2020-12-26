@@ -29,14 +29,26 @@ const songD = (state = [], action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.RECEIVE_SONG_D:
-      return { ...state, ...action.songD };
+      return {
+        ...state, ...action.songD, yt_id_set: new Set(
+          [
+            ...state.yt_id_set,
+            ...Object.values(action.songD).map(e => e.yt_id)
+          ]
+        )
+      };
     case ent_act.RECEIVE_SONG_D_EDIT:
       return { ...state, ...action.songD };
     case ent_act.INIT_STORE:
-      return action.songD;
+      return { ...state, ...action.songD, yt_id_set: new Set(Object.values(action.songD).map(e => e.yt_id)) };
     case ent_act.DELETE_SONG:
       const newSongD = { ...state };
       delete newSongD[action.song_id];
+
+      const ns = new Set(state.yt_id_set)
+      ns.delete(state[action.song_id].yt_id)
+
+      newSongD.yt_id_set=ns;
       return newSongD;
     default:
       return state;
@@ -122,26 +134,17 @@ const search = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case ent_act.INIT_STORE:
-      return { ...state, yt_id_set: new Set(Object.values(action.songD).map(e => e.yt_id)) };
+      return {};
     case ent_act.RECEIVE_SEARCH_RESULTS:
-      return { ...state, 
-        search_term: action.search_term, 
+      return {
+        ...state,
+        search_term: action.search_term,
         search_results: action.search_results,
       }
     case ent_act.CLEAR_SEARCH_RESULTS:
       return { ...state, search_term: "", search_results: [] }
-    case ent_act.RECEIVE_SONG_D:
-      return {
-        ...state,
-        yt_id_set: new Set(
-          [
-            ...state.yt_id_set,
-            ...Object.values(action.songD).map(e => e.yt_id)
-          ]
-        )
-      }
     case ent_act.SET_LOADING:
-      return {...state, loading:action.status}
+      return { ...state, loading: action.status }
     default:
       return state;
   }

@@ -51,10 +51,16 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
 
 const SearchResultsDiv = styled.div`
   position:relative;
-  >svg {
+  >svg, .disclaimer{
     margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
+  }
+
+  .disclaimer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `
 const SearchResRow = styled.div`
@@ -80,6 +86,7 @@ export default function SearchResultsD() {
   const [adding, setAdding] = useState(null)
   const dispatch = useDispatch()
   const search = useSelector(state => state.entities.search)
+  const yt_id_set = useSelector(state => state.entities.songD.yt_id_set)
   const err = useSelector(state => state.errors.search)
 
   const addSong = (url, idx) => async (e) => {
@@ -103,12 +110,15 @@ export default function SearchResultsD() {
       onClick={(e) => e.stopPropagation()}
     >
       {search.loading && <Spinner size={50} color="#ad0f37" />}
+      {(!search.search_results || !search.search_results.length ) && !search.loading &&
+        <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
+      }
 
       { search.search_results && search.search_results.map((e, idx) => (
         <SearchResRow key={idx}
         >
           <div>{e.title}</div>
-          <AddIcon playlist={e.type === "playlist"} addSong={addSong(e.url, idx)} added={search.yt_id_set && search.yt_id_set.has(e.id)} adding={adding && adding[idx]} />
+          <AddIcon playlist={e.type === "playlist"} addSong={addSong(e.url, idx)} added={yt_id_set && yt_id_set.has(e.id)} adding={adding && adding[idx]} />
         </SearchResRow>
       ))}
 
@@ -119,7 +129,7 @@ export default function SearchResultsD() {
           </div>
         ))}
       </div>
-      <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
+
     </SearchResultsDiv>
   )
 };

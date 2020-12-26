@@ -76,6 +76,9 @@ export default function SongBurger() {
     "Delete song": async (e) => {
       e.stopPropagation()
       const song_id = contextMenu.song_id;
+
+
+      
       const active_pls = []
       if (contextMenu.playlist_id[0]!='s') active_pls.push(contextMenu.playlist_id)
 

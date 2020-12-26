@@ -20,6 +20,7 @@ import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
 import SearchResultsD from './searchResultsD'
 
+import { HoverGithub, HoverLinkedin } from './active_svgs'
 
 const AppDiv = styled.div`
   display: flex;
@@ -65,7 +66,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const songD = await getSongD().then(response => response.json())
-      dispatch({ type: ent_act.INIT_STORE, songD})
+      dispatch({ type: ent_act.INIT_STORE, songD })
     }
     fetchData()
 
@@ -108,7 +109,12 @@ const SplashDiv = styled.div`
   justify-content: center;
   height:100%;
   >button {
-    margin: 1.5em;
+    padding: 1.5em;
+    color: grey;
+  }
+  >button:hover {
+    padding: 1.5em;
+    color: #ad0f37;
   }
 
   div.favicon-links {
@@ -118,7 +124,6 @@ const SplashDiv = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width:60px;
     img {
       width:22px;
       height:22px;
@@ -126,6 +131,13 @@ const SplashDiv = styled.div`
   }
 
 `
+
+const svgProps = {
+  scale: 0.48,
+  size: "50px",
+  color: "grey",
+  hoverColor: "#ad0f37"
+}
 
 export default function Splash() {
   const [mode, setMode] = useState(null)
@@ -178,10 +190,10 @@ export default function Splash() {
         {!currentUser &&
           <div className="favicon-links">
             <a href='https://github.com/twpride/music-player-1'>
-              <img src='https://raw.githubusercontent.com/twpride/music-player-1/main/assets/github.png' />
+              <HoverGithub {...svgProps}></HoverGithub>
             </a>
             <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
-              <img src='https://raw.githubusercontent.com/twpride/music-player-1/main/assets/linkedin.png' />
+              <HoverLinkedin {...svgProps}></HoverLinkedin>
             </a>
           </div>
         }

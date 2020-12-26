@@ -29,28 +29,43 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
 
 const SearchBoxDiv = styled.div`
 
+    width: 400px;
+    height: 30px;
+
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+
+    border: 1px solid lightgrey;
+    border: 1px solid ${props => `${props.focus ? '#ad0f37' : 'lightgrey'}`};
+    border-radius: 15px;
+
+    z-index:5;
+
     display:flex;
     flex-direction:row;
-    width: 400px;
-    position:absolute;
-    top: 15px;
-    left:0;
-    right:0;
-    margin:auto;
-    z-index:5;
-  textarea {
-    resize: none;
-    height: 19px;
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    border: 0;
-    border-bottom: 1px solid lightgrey;
-    outline: none; 
-  }
-  textarea:focus {
-    border-color:#333;
-  }
+    justify-content:center;
+    align-items:center;
+
+    textarea {
+      margin-left:15px;
+      resize: none;
+      height: 19px;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      border: 0;
+      outline: none; 
+    }
+    
+    div.xholder {
+      width:22px;
+      height:22px;
+      margin-right:10px;
+    }
+    img {
+      cursor: pointer;
+    }
 
 `
 
@@ -60,11 +75,12 @@ export default function SearchBox() {
   const dispatch = useDispatch()
   const search = useSelector(state => state.entities.search)
   const [urls, setUrls] = useState(search.search_term);
+  const [focus, setFocus] = useState(false);
 
   const submitSong = async e => {
 
     e.preventDefault();
-    dispatch({type:ent_act.SET_LOADING, status:true})
+    dispatch({ type: ent_act.SET_LOADING, status: true })
     const errorsArr = []
 
     // scrape youtube songs
@@ -88,7 +104,7 @@ export default function SearchBox() {
       if (ytFiles.length) dispatch(postSongs(ytFiles))
 
       if (errorsArr.length) {
-        dispatch({type:error_act.RECEIVE_SEARCH_ERRORS, errors:errorsArr})
+        dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: errorsArr })
       } else {
         setUrls('')
       }
@@ -97,7 +113,7 @@ export default function SearchBox() {
       dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
       console.log(songs[0])
     }
-    dispatch({type:ent_act.SET_LOADING, status:false})
+    dispatch({ type: ent_act.SET_LOADING, status: false })
   }
 
   function onTextChange(e) {
@@ -116,20 +132,27 @@ export default function SearchBox() {
   return (
     <SearchBoxDiv onSubmit={submitSong}
       onClick={(e) => e.stopPropagation()}
+      focus={focus}
     >
       <textarea type="text"
         name="url"
         value={urls}
         placeholder="Search song, album, artist"
         onChange={onTextChange}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
         onKeyDown={(e) => { if (e.key === 'Enter') submitSong(e) }}
         wrap="off"
         ref={tboxRef}
       />
-      <img src={xIcon} onClick={e => {
-        dispatch({ type: ent_act.CLEAR_SEARCH_RESULTS })
-        setUrls('')
-      }} />
+      <div className='xholder'>
+        {urls && urls.length &&
+          <img src={xIcon} onClick={e => {
+            dispatch({ type: ent_act.CLEAR_SEARCH_RESULTS })
+            setUrls('')
+          }} />
+        }
+      </div>
 
     </SearchBoxDiv>
   )
