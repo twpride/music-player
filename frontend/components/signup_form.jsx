@@ -49,7 +49,7 @@ export default function SignupForm({ setMode }) {
   const dispatch = useDispatch()
   const form = useRef(null)
   const fields = {// dbname: print name
-    email: 'Email',
+    email: 'Username',
     password: 'Password',
   }
   useEffect(() => {

@@ -26,7 +26,7 @@ export default function LoginForm({ setMode }) {
       <div className='spacer'></div>
       <form onSubmit={handleSubmit} className="login-form-box" id="loginForm" ref={form}>
         <div className="login-input">
-          <div>Email</div>
+          <div>Username</div>
           <input type="text"
             value={email}
             onChange={e => setEmail(e.target.value)}
