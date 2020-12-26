@@ -14,7 +14,7 @@ import Header from './header'
 import LoginForm from './login_form'
 import SignupForm from './signup_form'
 
-import { getSongD } from '../util/api_util'
+import { getSongD, getPlaylistTitleD } from '../util/api_util'
 import { ProtectedRoute } from '../util/route_util'
 import { loginThunk } from '../actions/actions'
 import { ent_act } from "../reducers/root_reducer"
@@ -66,7 +66,9 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       const songD = await getSongD().then(response => response.json())
-      dispatch({ type: ent_act.INIT_STORE, songD })
+      const playlistTitleD = await getPlaylistTitleD().then(response => response.json())
+      dispatch({ type: ent_act.INIT_STORE, songD, playlistTitleD })
+      // dispatch({ type: ent_act.INIT_STORE, songD })
     }
     fetchData()
 

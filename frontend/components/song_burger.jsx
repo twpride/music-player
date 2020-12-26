@@ -46,14 +46,15 @@ export default function SongBurger() {
       deleteTrack(tracks)
 
       if (track) {
+
         let newtr = [...track];
         if (contextMenu.playlist_id == track[0]) {
-          if (contextMenu.index < track[1]) {
-            newtr[1] -= 1
-          }
-          else if (contextMenu.index == track[1] &&
-            contextMenu.index == playlistD[track[0]].length - 1) {
+          if (contextMenu.index == track[1]
+            && contextMenu.index == playlistD[track[0]].length - 1
+          ) {
             newtr = null;
+          } else {
+            newtr[1] -= 1
           }
         }
         dispatch({
@@ -62,6 +63,7 @@ export default function SongBurger() {
           pl_id: contextMenu.playlist_id,
           track: newtr
         })
+
       } else {
         dispatch({
           type: ent_act.REMOVE_FROM_PLAYLIST,
@@ -78,23 +80,26 @@ export default function SongBurger() {
       const song_id = contextMenu.song_id;
 
 
-      
+
       const active_pls = []
-      if (contextMenu.playlist_id[0]!='s') active_pls.push(contextMenu.playlist_id)
+      if (contextMenu.playlist_id[0] != 's') active_pls.push(contextMenu.playlist_id)
 
       if (track) {
-        if (track[0][0]!='s' && contextMenu.playlist_id != track[0]) active_pls.push(track[0])
-        else {
-          let newtr = [...track];
-          if (contextMenu.index < track[1]) {
+
+        let newtr = [...track];
+        if (contextMenu.playlist_id == track[0]) {
+          if (contextMenu.index == track[1]
+            && contextMenu.index == playlistD[track[0]].length - 1
+          ) {
+            newtr = null;
+          } else {
             newtr[1] -= 1
           }
-          else if (contextMenu.index == track[1] && contextMenu.index == playlistD.songs_playlist.length - 1) {
-            newtr = null;
-          }
-
-          dispatch({ type: ent_act.DELETE_SONG, song_id, track: newtr })
+        } else {
+          active_pls.push(track[0])
         }
+        dispatch({ type: ent_act.DELETE_SONG, song_id, track: newtr })
+
       } else {
         dispatch({ type: ent_act.DELETE_SONG, song_id })
       }
@@ -136,7 +141,7 @@ export default function SongBurger() {
     editIcon, addToPlaylist, deleteIcon, deleteIcon
   ]
 
-  if (contextMenu.playlist_id[0]=='s') {
+  if (contextMenu.playlist_id[0] == 's') {
     delete burgerList['Remove from playlist'];
     icons.splice(2, 1);
   }

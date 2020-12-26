@@ -48,7 +48,7 @@ const songD = (state = [], action) => {
       const ns = new Set(state.yt_id_set)
       ns.delete(state[action.song_id].yt_id)
 
-      newSongD.yt_id_set=ns;
+      newSongD.yt_id_set = ns;
       return newSongD;
     default:
       return state;
@@ -63,7 +63,11 @@ const playlistD = (state = {}, action) => {
         //  .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
         .sort((b, a) => parseInt(b.order) - parseInt(a.order))
         .map(e => [e.id, null])
-      return { ...state, songs_playlist };
+      return {
+        ...state,
+        songs_playlist,
+        playlistTitleD: action.playlistTitleD
+      };
     case ent_act.RECEIVE_SONG_D:
       const new_songs = Object.values(action.songD)
         // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
@@ -113,11 +117,9 @@ const player = (state = {}, action) => {
     case ent_act.LOAD_TRACK:
       return { ...state, track: action.track };
     case ent_act.RECEIVE_PLAYLIST:
-      if (action.track) return { ...state, track: action.track };
-      else return state;
+      return { ...state, track: action.track };
     case ent_act.REMOVE_FROM_PLAYLIST:
-      if (action.track) return { ...state, track: action.track };
-      else return state;
+      return { ...state, track: action.track };
     case ent_act.DELETE_SONG:
       return { ...state, track: action.track };
     case ent_act.SET_PLAY:
