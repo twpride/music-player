@@ -29,7 +29,7 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
 
 const SearchBoxDiv = styled.div`
 
-    width: 400px;
+    width: min(90%, 400px); ;
     height: 30px;
 
     margin: auto;
