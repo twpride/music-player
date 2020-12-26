@@ -5,11 +5,16 @@
   box-sizing: border-box;
   font-family: Sans-Serif;
   /* border: solid 1px red; */
+  /* background-color: black; */
 }
 
 body {
   margin: 0;
   padding: 0;
+  background-color: black;
+  color:white;
+  /* background-color: white; */
+  /* color:black; */
 }
 
 html, body, #root{

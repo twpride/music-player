@@ -29,7 +29,7 @@ export default function AlbumArt() {
       if (song.album_art_url && song.album_art_url!="n/a") {
         setAlbumArt(song.album_art_url)
       } else {
-        setAlbumArt('https://raw.githubusercontent.com/twpride/music-player-1/main/assets/vinyl-album.jpg')
+        setAlbumArt('https://raw.githubusercontent.com/twpride/music-player-1/main/assets/vinyl-album.png')
       }
     }
   }, [track])

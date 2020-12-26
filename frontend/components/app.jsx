@@ -185,18 +185,20 @@ export default function Splash() {
     <>
       <SplashDiv>
         <ProtectedRoute path='/' component={App} />
-        {!currentUser && <Comp setMode={setMode} />}
         {/* we dont use auth route because it doesnt allow 
         for routing to url when logged in*/}
         {!currentUser &&
-          <div className="favicon-links">
-            <a href='https://github.com/twpride/music-player-1'>
-              <HoverGithub {...svgProps}></HoverGithub>
-            </a>
-            <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
-              <HoverLinkedin {...svgProps}></HoverLinkedin>
-            </a>
-          </div>
+          <>
+            <Comp setMode={setMode} />
+            <div className="favicon-links">
+              <a href='https://github.com/twpride/music-player-1'>
+                <HoverGithub {...svgProps}></HoverGithub>
+              </a>
+              <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
+                <HoverLinkedin {...svgProps}></HoverLinkedin>
+              </a>
+            </div>
+          </>
         }
       </SplashDiv>
     </>

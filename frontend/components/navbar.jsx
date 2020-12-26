@@ -56,7 +56,7 @@ const ButtonDiv = styled.div`
 `;
 
 const hoverColors = {
-  color: "black",
+  color: "grey",
   hoverColor: "#ad0f37"
 }
 const svgSize = {

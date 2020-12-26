@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 // import logger from 'redux-logger';
 
-import App from './components/app';
+import Splash from './components/app';
 import rootReducer from './reducers/root_reducer.js';
 
 let middleware;
@@ -29,7 +29,7 @@ const configureStore = (preloadedState = {}) => (
 const Root = ({ store }) => (
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <Splash />
     </BrowserRouter>
   </Provider>
 );
