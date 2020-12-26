@@ -89,7 +89,7 @@ export default function SongBurger() {
           if (contextMenu.index < track[1]) {
             newtr[1] -= 1
           }
-          else if (contextMenu.index == track[1] && contextMenu.index == Object.values(songD).length - 1) {
+          else if (contextMenu.index == track[1] && contextMenu.index == playlistD.songs_playlist.length - 1) {
             newtr = null;
           }
 
