@@ -10,6 +10,26 @@ const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
 
 
 
+
+const ButtonDiv = styled.div`
+  cursor: pointer;
+  
+  color: ${props => props.color};
+  &:hover {
+    color: ${props => props.hoverColor};
+  }
+  &:hover svg{
+    fill:${props => props.hoverColor};
+  }
+  svg{
+    margin:auto auto;
+    fill:${props => props.color};
+  }
+`;
+const hoverColors = {
+  color: "grey",
+  hoverColor: "#ad0f37"
+}
 const AddIcon = ({ playlist, added, adding, addSong }) => {
   if (added) {
     return <div></div>
@@ -17,103 +37,24 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
     if (adding) {
       return <div><Spinner size={20} color="#ad0f37" /></div>
     } else if (playlist) {
-      return <div onClick={addSong}><HoverPlaylist size={24} color="grey" hoverColor="#ad0f37" /></div>
+      return <ButtonDiv {...hoverColors} onClick={addSong}>
+        <HoverPlaylist scale="1" size="22px" />
+      </ButtonDiv>
     } else {
-      return <div onClick={addSong}><HoverPlus size={16} color="grey" hoverColor="#ad0f37" /></div>
+      return <ButtonDiv {...hoverColors} onClick={addSong}>
+        <HoverPlus scale="1" size="16px" />
+      </ButtonDiv>
     }
   }
 }
 
 
 const SearchResultsDiv = styled.div`
-  /* height:100%;
-  position: relative;
-  margin: auto auto;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background-color:white; */
   position:relative;
-  label {
-    color:#ad0f37; 
-    cursor: pointer;
-  }
-  #file-count {
-    font-size:8px;
-  }
-  input[type=text] {
-    width:100%;
-  }
-  input[type=text]::placeholder {
-    text-align: center;
-  }
-  textarea {
-    resize: none;
-    height: 19px;
-    width: 100%;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    border: 0;
-    border-bottom: 1px solid lightgrey;
-    outline: none; 
-  }
-  textarea:focus {
-    border-color:#333;
-  }
-  .button-box {
-    display:flex;
-    font-size:1em;
-  }
-  div.or {
-    color:black;
-    height: 4em;
-    display:flex;
-    align-items:center;
-  }
-  span.divider {
-    width: 40px;
-    height: 1px;
-    margin: 0 16px;
-    background-color: lightgrey;
-  }
-  textarea::placeholder {
-    text-align: center;
-    color: greyscale(0.4);
-  }
-
-  .holder {
-    display:flex;
-    flex-direction:row;
-    /* width: min(20em,90%); */
-    width: 400px;
-    position:absolute;
-    top: 15px;
-    left:0;
-    right:0;
-    margin:auto;
-    /* margin-left:auto; */
-    /* margin-righst:auto; */
-    z-index:5;
-  }
-  .error-holder {
-    overflow-y:auto
-  }
-  input[type=submit] {
-    padding:5px;
-  }
-  div.disclaimer {
-    position:absolute;
-    bottom:5px;
-    font-size:10px;
-  }
-  .submit-button {
-    height:50px;
-  }
-
-  div.spinner {
+  >svg {
+    margin: auto;
     position: absolute;
-    margin: auto auto;
+    top: 0; left: 0; bottom: 0; right: 0;
   }
 `
 const SearchResRow = styled.div`
@@ -158,10 +99,10 @@ export default function SearchResultsD() {
   }, [search.search_results])
 
   return (
-    <SearchResultsDiv className="scrollable" 
+    <SearchResultsDiv className="scrollable"
       onClick={(e) => e.stopPropagation()}
     >
-      {search.loading && <div className="spinner"><Spinner size={50} color="#ad0f37" /></div>}
+      {search.loading && <Spinner size={50} color="#ad0f37" />}
 
       { search.search_results && search.search_results.map((e, idx) => (
         <SearchResRow key={idx}

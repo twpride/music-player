@@ -39,7 +39,7 @@ const CardDiv = styled.div`
     }
 
     &:not(:nth-child(2)) {
-      min-width:3em;
+      min-width:40px;
       display: flex;
       justify-content: center;
       align-items: center;

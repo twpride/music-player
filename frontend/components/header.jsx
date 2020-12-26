@@ -32,16 +32,16 @@ export const HeaderDiv = styled.div`
   }
   button {
     z-index:10;
-    width:50px;
+    &:nth-child(4) {
+      margin-left:auto;
+    }
   }
   a {
     z-index:10;
     &:nth-child(2) {
       margin-right:auto;
     }
-    &:nth-child(4) {
-      margin-left:auto;
-    }
+
   }
   img {
     width:22px;

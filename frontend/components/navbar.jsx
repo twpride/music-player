@@ -7,14 +7,14 @@ import styled from 'styled-components'
 import collection from '../icons/collection.svg'
 import playlist from '../icons/playlist.svg'
 
-import { HoverSearch } from './active_svgs'
+import { SearchIcon } from './active_svgs'
 
 const NavbarDiv = styled.div`
   a, .upload-button{
     display:flex;
     flex-direction:column;
     align-items: center;
-    font-size:0.5em;
+    font-size:8px;
     color:black;
     text-decoration: none;
     width:60px;
@@ -34,11 +34,34 @@ const NavbarDiv = styled.div`
   border-top: 1px solid lightgrey;
 
 `
-const svgProps = {
+const ButtonDiv = styled.div`
+  cursor: pointer;
+  width:100%;
+  height:100%;
+  font-size:8px;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  
+  color: ${props => props.color};
+  &:hover {
+    color: ${props => props.hoverColor};
+  }
+  &:hover svg{
+    fill:${props => props.hoverColor};
+  }
+  svg{
+    fill:${props => props.color};
+  }
+`;
+
+const hoverColors = {
+  color: "black",
+  hoverColor: "#ad0f37"
+}
+const svgSize = {
   scale: 0.9,
   size: "24px",
-  color: "grey",
-  hoverColor: "#ad0f37"
 }
 
 export default function Navbar() {
@@ -52,8 +75,10 @@ export default function Navbar() {
       </Link>
 
       <Link to="/upload">
-        <HoverSearch {...svgProps} />
-        <div>Search</div>
+        <ButtonDiv {...hoverColors}>
+          <SearchIcon {...svgSize} />
+          <div>Search</div>
+        </ButtonDiv>
       </Link>
 
       <Link to="/playlist_d/">
