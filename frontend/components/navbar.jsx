@@ -4,9 +4,6 @@ import React, { } from 'react';
 
 import styled from 'styled-components'
 
-import collection from '../icons/collection.svg'
-import playlist from '../icons/playlist.svg'
-
 import { SearchIcon, CollectionIcon, PlaylistsIcon } from './active_svgs'
 
 const NavbarDiv = styled.div`

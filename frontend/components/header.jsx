@@ -3,13 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components'
 
-import { session_act } from '../reducers/session_reducer';
-import { ent_act } from '../reducers/root_reducer';
 import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
 import { context_act } from '../reducers/ui_reducer';
 import { HoverAccount, HoverGithub, HoverLinkedin } from './active_svgs'
-import { Link } from 'react-router-dom'
 import { Route, Switch } from 'react-router-dom';
 import SearchBox from './search_box'
 

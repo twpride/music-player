@@ -10,7 +10,6 @@ import playIcon from '../icons/play.svg';
 import pauseIcon from '../icons/pause.svg';
 import prev from '../icons/prev.svg';
 import next from '../icons/next.svg';
-import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 
 const convertSecsToMins = seconds => {

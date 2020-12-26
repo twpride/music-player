@@ -19,7 +19,6 @@ export default function AlbumArt() {
   const songD = useSelector(state => state.entities.songD);
   const playlistD = useSelector(state => state.entities.playlistD);
   const track = useSelector(state => state.player.track);
-  const songs_playlist = useSelector(state => state.entities.playlistD.songs_playlist)
   let [albumArt, setAlbumArt] = useState(null);
 
   useEffect(() => {

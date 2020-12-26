@@ -13,7 +13,6 @@ import { logout } from '../util/session_api_util'
 export default function Account() {
 
   const dispatch = useDispatch();
-  const contextMenu = useSelector(state => state.ui.contextMenu)
   const session = useSelector(state => state.session)
 
   const burgerList = {

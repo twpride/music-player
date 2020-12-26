@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
 import { Spinner} from './active_svgs'
