@@ -8,7 +8,7 @@ export const context_act = {
   SELECT_PLAYLIST_C: "SELECT_PLAYLIST_C",
   PLAYLIST_EDIT_C: "PLAYLIST_EDIT_C",
   NEW_PLAYLIST: 'NEW_PLAYLIST',
-  UPLOAD_SONGS: 'UPLOAD_SONGS',
+  ACCOUNT: "ACCOUNT",
 }
 const contextMenu = (state = null, action) => {
   Object.freeze(state);
@@ -19,6 +19,8 @@ const contextMenu = (state = null, action) => {
     case context_act.PLAYLIST_BURGER_C:
       return action
     case context_act.NEW_PLAYLIST:
+      return action
+    case context_act.ACCOUNT:
       return action
     case context_act.SONG_EDIT_C:
       return { ...state, type: action.type }

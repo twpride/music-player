@@ -10,6 +10,7 @@ import playIcon from '../icons/play.svg';
 import pauseIcon from '../icons/pause.svg';
 import prev from '../icons/prev.svg';
 import next from '../icons/next.svg';
+import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 
 const convertSecsToMins = seconds => {
@@ -150,7 +151,7 @@ export default function AudioPlayer({ winWidth }) {
     ) {
       let song = songD[playlistD[track[0]][track[1]][0]];
       if (!song) {
-        song={title:"",artist:''}
+        song = { title: "", artist: '' }
       }
 
       artist = song.artist;
@@ -169,15 +170,13 @@ export default function AudioPlayer({ winWidth }) {
   }, [track, playlistD]) // remount when new track or when playlist is modified (eg when new song added)
 
   useEffect(() => {
-    if (track && playing) {
-      const song_id = playlistD[track[0]][track[1]][0];
+    if (!track || !playing) return;
+    const song_id = playlistD[track[0]][track[1]][0];
+    if (curSongId != song_id) {
       dispatch(getSongUrl(song_id));
-
-      if (curSongId != song_id) {
-        setCurSongId(song_id);
-      } else {
-        aud.current.play();
-      }
+      setCurSongId(song_id);
+    } else {
+      aud.current.play();
     }
   }, [track, playing])
 
@@ -185,21 +184,9 @@ export default function AudioPlayer({ winWidth }) {
     if (!track) return
     const newtr = [...track];
     newtr[1] += dir;
-    let song;
-    if (
-      newtr[0] &&
-      (playlistD[newtr[0]][newtr[1]])
-    ) {
-      song = playlistD[newtr[0]][newtr[1]]
-      // dispatch(getSongUrl(song[0]));
-      dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
-    } else if (
-      !newtr[0] &&
-      (song = Object.values(songD)[newtr[1]])
-    ) {
-      // dispatch(getSongUrl(song.id));
-      dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
-    }
+    if (!playlistD[newtr[0]][newtr[1]]) return;
+
+    dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     dispatch({ type: ent_act.SET_PLAY })
   };
 

@@ -47,7 +47,6 @@ const CardDiv = styled.div`
     
     &:nth-of-type(3) {
       margin-left: auto;
-      color: #777777;
     }
   }
   img.equalizer {

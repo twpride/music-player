@@ -5,16 +5,16 @@ import styled from 'styled-components'
 
 import { session_act } from '../reducers/session_reducer';
 import { ent_act } from '../reducers/root_reducer';
-import { logout } from '../util/session_api_util'
 import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
+import { context_act } from '../reducers/ui_reducer';
+import { HoverAccount, HoverSearch, HoverGithub, HoverLinkedin } from './active_svgs'
+import { Link } from 'react-router-dom'
 
 export const HeaderDiv = styled.div`
-  padding: 0 1.4em;
   display: flex;
   flex-direction: row;
   align-items:center;
-  justify-content: center;
   font-weight: 600;
   min-height: 50px;
   width: 100%;
@@ -32,20 +32,15 @@ export const HeaderDiv = styled.div`
   }
   button {
     z-index:10;
-    position:absolute;
-    top: 0;
-    bottom:0;
-    right: 20px;
-    margin: auto auto;
+    width:50px;
   }
   a {
-    position:absolute;
-    top:14px;
-    &:nth-of-type(1) {
-      left:14px;
+    z-index:10;
+    &:nth-child(2) {
+      margin-right:auto;
     }
-    &:nth-of-type(2) {
-      left:50px;
+    &:nth-child(4) {
+      margin-left:auto;
     }
   }
   img {
@@ -63,44 +58,71 @@ export default function Header() {
 
   useEffect(() => {
     function resumeAudioCtx(e) {
+      visualizer.paused=false;
+      visualizer.startRenderer()
+    }
+    function mobileVizWorkaround(e) {
       visualizer.audctx.resume()
-      window.removeEventListener('touchend', resumeAudioCtx)
+      window.removeEventListener('touchend', mobileVizWorkaround)
+    }
+
+    function suspendAudioCtx(e) {
+      visualizer.paused=true;
     }
     const visualizer = new AudioVisualizer(containerRef.current)
+    window.viz=visualizer;
     visualizer.startRenderer()
-    window.addEventListener('touchend', resumeAudioCtx)
+
+    window.addEventListener('touchend', mobileVizWorkaround)
+    window.addEventListener('resumeViz', resumeAudioCtx)
+    window.addEventListener('suspendViz', suspendAudioCtx)
+
+    return () => {
+      window.removeEventListener('resumeViz', resumeAudioCtx)
+      window.removeEventListener('suspendViz', suspendAudioCtx)
+    }
   }, [])
 
   useEffect(() => {
     const locArr = location.pathname.split('/')
-    if (locArr.length == 2) {
-      setTitle(locArr[1]=='upload' ? '':'Songs')
-    } else if (locArr.length == 3) {
-      setTitle(locArr[2] ? titleD && titleD[locArr[2]] : "Playlists")
+
+    if (locArr[1] == 'upload') {
+      setTitle('')
+      window.dispatchEvent(new Event('suspendViz'))
+    } else {
+      if (!locArr[0]) {
+        setTitle('Songs')
+      } else {
+        setTitle(locArr[2] ? titleD && titleD[locArr[2]] : "Playlists")
+      }
+      window.dispatchEvent(new Event('resumeViz'))
     }
-  }, [location,titleD])
+
+
+  }, [location])
+
+  const svgProps = {
+    scale: 0.48,
+    size: "50px",
+    color: "grey",
+    hoverColor: "#ad0f37"
+  }
 
   return (
     <HeaderDiv className="nav">
-      <div id="container" ref={containerRef}> </div>
       <a href='https://github.com/twpride/music-player-1'>
-        <img src='https://raw.githubusercontent.com/twpride/music-player-1/main/assets/github.png' />
+        <HoverGithub {...svgProps}></HoverGithub>
       </a>
       <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
-        <img src='https://raw.githubusercontent.com/twpride/music-player-1/main/assets/linkedin.png' />
+        <HoverLinkedin {...svgProps}></HoverLinkedin>
       </a>
-      <div className='title'>{title}</div>
-      <button onClick={() => {
-        logout().then(
-          () => {
-            dispatch({ type: ent_act.SET_PAUSE })
-            dispatch({ type: ent_act.LOAD_TRACK, track: null })
-            dispatch({ type: ent_act.RECEIVE_SONG_URL, url: "" })
-            dispatch({ type: session_act.LOGOUT_CURRENT_USER })
-          }
-        )
-      }
-      }>Log out</button>
+      <div className='title'>
+        {title}
+      </div>
+      <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
+        <HoverAccount {...svgProps} />
+      </button>
+      <div id="container" ref={containerRef}> </div>
     </HeaderDiv>
   )
 };

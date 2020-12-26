@@ -5,6 +5,7 @@ import PlaylistEditForm from './playlist_edit_form';
 import SongBurger from './song_burger';
 import PlaylistBurger from './playlist_burger';
 import SelectPlaylist from './select_playlist';
+import Account from './account'
 import { useDispatch, useSelector } from 'react-redux'
 import { context_act } from '../reducers/ui_reducer'
 import NewPlaylist from './new_playlist';
@@ -120,6 +121,9 @@ export default function ContextMenu() {
       break;
     case context_act.NEW_PLAYLIST:
       Component = NewPlaylist;
+      break;
+    case context_act.ACCOUNT:
+      Component = Account;
       break;
     default:
       return null;

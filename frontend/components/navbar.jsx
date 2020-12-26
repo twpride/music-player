@@ -4,9 +4,10 @@ import React, { } from 'react';
 
 import styled from 'styled-components'
 
-import add from '../icons/add.svg'
 import collection from '../icons/collection.svg'
 import playlist from '../icons/playlist.svg'
+
+import { HoverSearch } from './active_svgs'
 
 const NavbarDiv = styled.div`
   a, .upload-button{
@@ -33,6 +34,12 @@ const NavbarDiv = styled.div`
   border-top: 1px solid lightgrey;
 
 `
+const svgProps = {
+  scale: 0.9,
+  size: "24px",
+  color: "grey",
+  hoverColor: "#ad0f37"
+}
 
 export default function Navbar() {
   const dispatch = useDispatch()
@@ -44,13 +51,9 @@ export default function Navbar() {
         <div>Songs</div>
       </Link>
 
-      {/* <div className='upload-button' onClick={() => dispatch({ type: context_act.UPLOAD_SONGS })}>
-        <img src={add} />
-        <div>Upload</div>
-      </div> */}
       <Link to="/upload">
-        <img src={add} />
-        <div>Add songs</div>
+        <HoverSearch {...svgProps} />
+        <div>Search</div>
       </Link>
 
       <Link to="/playlist_d/">

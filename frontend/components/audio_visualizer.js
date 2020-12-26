@@ -58,6 +58,7 @@ export default function AudioVisualizer(container) {
     }, 200).bind(this)
   )
 
+  this.paused=false;
 }
 
 AudioVisualizer.prototype.setCanvas = function () {
@@ -80,5 +81,10 @@ AudioVisualizer.prototype.startRenderer = function () {
   }
 
   this.ctx.stroke()
-  requestAnimationFrame(this.startRenderer.bind(this));
+
+  if (this.paused) {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  } else {
+    requestAnimationFrame(this.startRenderer.bind(this));
+  }
 }
