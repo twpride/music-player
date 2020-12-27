@@ -68,7 +68,7 @@ class UserView(CustomView):
 
   def post(self, request):
     req_json = request.POST
-    self.user = User.pre_init(**req_json, dark_mode=True)
+    self.user = User.pre_init(**req_json, dark_mode=[True])
     try:
       self.user.full_clean()
     except:

@@ -275,7 +275,7 @@ export const SpinningRecord = ({ xx, color }) => {
       r={r}
       fill="none"
       strokeWidth={sw}
-      stroke="black"
+      stroke="#111"
     />
       <circle
       className="path"
@@ -289,7 +289,7 @@ export const SpinningRecord = ({ xx, color }) => {
   </StyledSpinningRecord>
 };
 const StyledSpinningRecord = styled.svg`
-  animation: rotate 1.82s linear infinite;
+  /* animation: rotate 1.82s linear infinite; */
   /* margin: -25px 0 0 -25px; */
   width: ${props => `${props.size}px`};
   height: ${props => `${props.size}px`};
@@ -299,7 +299,7 @@ const StyledSpinningRecord = styled.svg`
     /* animation: dash 1.5s ease-in-out infinite; */
   }
   
-  @keyframes rotate {
+  /* @keyframes rotate {
     100% {
       transform: rotate(360deg);
     }
@@ -317,5 +317,5 @@ const StyledSpinningRecord = styled.svg`
       stroke-dasharray: 90, 150;
       stroke-dashoffset: -124;
     }
-  }
+  } */
 `;
