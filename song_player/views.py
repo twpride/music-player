@@ -161,12 +161,14 @@ def get_post_urls(request):  #get , delete
 
 def song(request, id):  #get
   import boto3.session
+  from botocore.client import Config
   from django.conf import settings
   session = boto3.session.Session()
   connection = session.resource(
       's3',
       aws_access_key_id=getattr(settings, "AWS_ACCESS_KEY_ID", None),
       aws_secret_access_key=getattr(settings, "AWS_SECRET_ACCESS_KEY", None),
+      config=Config(signature_version='s3v4')
   )
   bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
   params = {}
