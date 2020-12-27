@@ -256,29 +256,66 @@ export const LightIcon = props => <SvgWrapper {...props} origSize={24} Comp={
 
 
 export const SpinningRecord = ({ xx, color }) => {
-  const size= 500;
-  return <StyledSpinningRecord viewBox={`0 0 500 500`} size={size} color={color}>
+  const size= 800;
+  const od=700;
+  const id=30;
+  const r=(od+id)/4;
+  const sw=(od-id)/2;
+
+  const od2=240;
+  const id2=20;
+  const r2=(od2+id2)/4;
+  const sw2=(od2-id2)/2;
+
+  return <StyledSpinningRecord viewBox={`0 0 ${size} ${size}`} size={size} color={color}>
     <circle
       className="path"
-      cx='250'
-      cy='250'
-      r='110'
+      cx={`${size/2}`}
+      cy={`${size/2}`}
+      r={r}
       fill="none"
-      strokeWidth='180'
+      strokeWidth={sw}
+      stroke="black"
+    />
+      <circle
+      className="path"
+      cx={`${size/2}`}
+      cy={`${size/2}`}
+      r={r2}
+      fill="none"
+      strokeWidth={sw2}
+      stroke="#ad0f37"
     />
   </StyledSpinningRecord>
 };
-
 const StyledSpinningRecord = styled.svg`
-  /* animation: rotate 1.82s linear infinite; */
+  animation: rotate 1.82s linear infinite;
   /* margin: -25px 0 0 -25px; */
   width: ${props => `${props.size}px`};
   height: ${props => `${props.size}px`};
   
   & .path {
-    stroke: ${props => props.color};
     stroke-linecap: round;
     /* animation: dash 1.5s ease-in-out infinite; */
   }
   
+  @keyframes rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
 `;
