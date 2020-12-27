@@ -4,9 +4,8 @@ import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
 import { ent_act } from '../reducers/root_reducer';
-const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
-// const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
-// const ytdlAPI = "https://adtk67yvyl.execute-api.us-west-1.amazonaws.com/test/?url="
+// const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
+const ytdlAPI = "https://absi53nprb.execute-api.ap-northeast-2.amazonaws.com/test/"
 
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
 import { Spinner, UploadIcon} from './active_svgs'
