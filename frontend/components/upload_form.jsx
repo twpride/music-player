@@ -4,7 +4,7 @@ import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
 import { Spinner, UploadIcon} from './active_svgs'
 // const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
-const ytdlAPI = "https://absi53nprb.execute-api.ap-northeast-2.amazonaws.com/test"
+const ytdlAPI = "https://absi53nprb.execute-api.ap-northeast-2.amazonaws.com/test/"
 
 import { context_act } from '../reducers/ui_reducer'
 
