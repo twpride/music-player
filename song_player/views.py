@@ -16,7 +16,7 @@ def getUser(req):
 
 def set_dark_mode(request, val):
   usr=getUser(request)
-  usr.dark_mode=True if val =="1" else False
+  usr.dark_mode=True if val ==1 else False
   usr.save()
   return HttpResponse(status=204)
 

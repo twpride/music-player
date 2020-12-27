@@ -37,8 +37,7 @@ export default function AlbumArt() {
 
   return <AlbumArtDiv>
     {albumArt ?
-      <img src={albumArt} />
-      :
+      <img src={albumArt} /> :
       <SpinningRecord size={100} color="#ad0f37" />
     }
   </AlbumArtDiv>

@@ -108,7 +108,7 @@ export default function Header({ darkMode, setDarkMode }) {
   }, [location])
 
   const svgProps = {
-    scale: .6,
+    scale: .55,
     size: "50px",
   }
 
