@@ -168,7 +168,7 @@ def song(request, id):  #get
       's3',
       aws_access_key_id=getattr(settings, "AWS_ACCESS_KEY_ID", None),
       aws_secret_access_key=getattr(settings, "AWS_SECRET_ACCESS_KEY", None),
-      config=Config(signature_version='s3v4')
+      config=Config(signature_version='s3v4', region_name='ap-northeast-2')
   )
   bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
   params = {}
