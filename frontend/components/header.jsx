@@ -103,8 +103,6 @@ export default function Header() {
   const svgProps = {
     scale: 0.48,
     size: "50px",
-    color: "lightgrey",
-    hoverColor: "#ad0f37"
   }
 
   return (

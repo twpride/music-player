@@ -65,7 +65,6 @@ const svgSize = {
 }
 
 export default function Navbar() {
-  const dispatch = useDispatch()
 
   return (
     <NavbarDiv className="nav">

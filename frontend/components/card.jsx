@@ -5,6 +5,7 @@ import { context_act } from '../reducers/ui_reducer'
 import styled from 'styled-components'
 import PlayingIcon from '../icons/playing.gif'
 import PausedIcon from '../icons/paused.gif'
+import { BurgerIcon } from './active_svgs'
 
 function preventDrag(e) {
   e.preventDefault()
@@ -23,7 +24,7 @@ const CardDiv = styled.div`
   }
 
   >div {
-    height: 4em;
+    height: 60px;
     opacity: ${props => props.isDragging ? 0.4 : 1};
 
     &:nth-child(2) {
@@ -39,7 +40,7 @@ const CardDiv = styled.div`
     }
 
     &:not(:nth-child(2)) {
-      min-width:40px;
+      width:40px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -157,7 +158,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
       </div>
 
       <div onClick={launchBurger(song_id)}>
-        <img src={burgerIcon} />
+        <BurgerIcon {...{ scale: 0.5, width: "40px",height:"60px" }} />
       </div>
     </CardDiv>
   )

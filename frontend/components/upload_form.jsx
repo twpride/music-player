@@ -2,13 +2,16 @@ import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
-import { Spinner} from './active_svgs'
-import UploadIcon from '../icons/upload.svg'
+import { Spinner, UploadIcon} from './active_svgs'
 const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
-// const ytdlAPI = "https://kp31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
+// const ytdlAPI = "https://kpk31ynjvnj.execute-api.us-west-1.amazonaws.com/test/?url="
 // const ytdlAPI = "https://adtk67yvyl.execute-api.us-west-1.amazonaws.com/test/?url="
 import { context_act } from '../reducers/ui_reducer'
 
+const svgSize = {
+  scale: 0.9,
+  size: "24px",
+}
 
 export default function UploadForm() {
   const [loading, setLoading] = useState(false);
@@ -64,7 +67,7 @@ export default function UploadForm() {
         {loading ?
           <Spinner size={24} color="black" />
           :
-          <img src={UploadIcon}></img>
+          <UploadIcon {...svgSize} />
         }
         <div className="burger-text">Upload Songs</div>
       </label>

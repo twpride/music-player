@@ -1,12 +1,11 @@
 
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
+import React, { } from 'react';
 import styled from 'styled-components'
 
-// import { getPlaylistTitleD } from '../actions/actions'
 
 import { Link } from 'react-router-dom'
-import burgerIcon from '../icons/burger.svg';
+import { BurgerIcon} from './active_svgs'
 
 import { context_act } from '../reducers/ui_reducer'
 const PlaylistTitleDiv = styled.div`
@@ -63,7 +62,7 @@ export default function PlaylistD() {
         <PlaylistTitleDiv>
           <div>{pl[1]}</div>
           <div onClick={launchBurger(pl[0])}>
-            <img src={burgerIcon} />
+            <BurgerIcon {...{scale:1,size:"18px"}}/>
           </div>
         </PlaylistTitleDiv>
       </Link>

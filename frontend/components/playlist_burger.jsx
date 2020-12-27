@@ -3,8 +3,8 @@ import React, { } from 'react';
 
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
-import editIcon from '../icons/edit.svg'
-import deleteIcon from '../icons/delete.svg'
+import { EditIcon, DeleteIcon} from './active_svgs'
+
 import { deletePlaylist } from '../util/api_util'
 import { BurgerDiv } from './contextMenu'
 
@@ -28,21 +28,22 @@ export default function PlaylistBurger() {
       dispatch({ type: context_act.CLOSE_CONTEXT })
     },
   }
+
   const icons = [
-    editIcon,
-    deleteIcon,
+    EditIcon, DeleteIcon
   ]
 
+  const burgerlistArray= Object.entries(burgerList);
   return (
     <BurgerDiv>
       <div className='context-header'>
         <div>{titleD[contextMenu.playlist_id] && titleD[contextMenu.playlist_id]}</div>
       </div>
-      {Object.entries(burgerList).map(([name, cb], i) => (
-        <div key={i} onClick={cb} className="burger-row">
-          <img src={icons[i]} />
+      {icons.map((Icon, i) => (
+        <div key={i} onClick={burgerlistArray[i][1]} className="burger-row">
+          <Icon {...{scale:1,size:"24px"}}/>
           <div className="burger-text">
-            {name}
+            {burgerlistArray[i][0]}
           </div>
         </div>
       ))}

@@ -11,6 +11,8 @@ import pauseIcon from '../icons/pause.svg';
 import prev from '../icons/prev.svg';
 import next from '../icons/next.svg';
 
+import { PlayIcon, PauseIcon, PrevIcon, NextIcon } from './active_svgs'
+
 
 const convertSecsToMins = seconds => {
   let mins = Math.floor(seconds / 60).toString();
@@ -72,10 +74,12 @@ const SwipeDiv = styled.div`
     align-items:center;
     margin:0 6px;
     cursor: pointer;
+    >* {
+      margin:0 6px;
+    }
     .play-button {
       height: 32px;
       width: 32px;
-      margin:0 6px;
     }
     .skip-button {
       height: 24px;
@@ -306,14 +310,20 @@ export default function AudioPlayer({ winWidth }) {
             e.stopPropagation()
           }}
         >
-          {winWidth > 500 && <img src={prev} onClick={skip(-1)} className='skip-button' />}
-          <img src={playing ? pauseIcon : playIcon} className='play-button'
+          {winWidth > 500 && <PrevIcon {...{ scale: 1, size: "24px", onClick: skip(-1) }} />}
+
+          <div className='play-button'
             onClick={onPlayClick}
             onTouchStart={(e) => {
               e.stopPropagation()
             }}
-          />
-          {winWidth > 500 && <img src={next} onClick={skip(1)} className='skip-button' />}
+          >
+            {playing ?
+              <PauseIcon {...{ scale: 1, size: "32px" }} /> :
+              <PlayIcon {...{ scale: 1, size: "32px" }} /> 
+            }
+          </div>
+          {winWidth > 500 && <NextIcon {...{ scale: 1, size: "24px", onClick: skip(1) }} />}
         </div>
 
         {duration &&

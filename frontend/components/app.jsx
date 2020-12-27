@@ -109,6 +109,53 @@ const SplashDiv = styled.div`
   align-items: center;
   justify-content: center;
   height:100%;
+
+  background: #222;
+  color:#eee;
+  /* background-color: white; */
+  /* color:black; */
+
+  input[type=text], input[type=password] {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid lightgrey;
+    outline: none;
+    font-size: 16px;
+  }
+
+  input[type=text]:focus {
+    border-color:#333;
+  }
+
+  a {
+    text-decoration: none;
+    color:black;
+  }
+
+  input[type=submit], button{
+    cursor:pointer;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 1em;
+    color: #ad0f37;
+  }
+
+  textarea {
+    font-size: 16px;
+  }
+
+  svg:hover {
+    /* fill:${props => props.hoverColor}; */
+    fill:#ad0f37;
+  }
+  svg {
+    /* fill:${props => props.color}; */
+    fill:#888;
+  }
+
+
+
   >button {
     padding: 1.5em;
     color: grey;
@@ -121,14 +168,6 @@ const SplashDiv = styled.div`
   div.favicon-links {
     position:absolute;
     bottom:5em;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    img {
-      width:22px;
-      height:22px;
-    }
   }
 
 `

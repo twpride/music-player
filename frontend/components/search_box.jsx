@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
-import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
+import { Spinner, HoverPlus, HoverPlaylist, XIcon } from './active_svgs'
 import xIcon from '../icons/x.svg'
 import { ent_act } from '../reducers/root_reducer';
 import { error_act } from '../reducers/errors_reducer';
@@ -57,13 +57,13 @@ const SearchBoxDiv = styled.div`
       border: 0;
       outline: none; 
     }
-    
     div.xholder {
       width:22px;
       height:22px;
       margin-right:10px;
-    }
-    img {
+    } 
+    svg {
+      margin-right:10px;
       cursor: pointer;
     }
 
@@ -144,12 +144,14 @@ export default function SearchBox() {
         wrap="off"
         ref={tboxRef}
       />
-      <div className='xholder'>
+      <div className='xholder' onClick={e => {
+        dispatch({ type: ent_act.CLEAR_SEARCH_RESULTS })
+        setUrls('')
+      }}>
         {urls && urls.length &&
-          <img src={xIcon} onClick={e => {
-            dispatch({ type: ent_act.CLEAR_SEARCH_RESULTS })
-            setUrls('')
-          }} />
+          <XIcon {...{ scale: 1, size: "22px" }}
+
+          />
         }
       </div>
 

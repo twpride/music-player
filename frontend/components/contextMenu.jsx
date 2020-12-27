@@ -15,7 +15,7 @@ const ModalDiv = styled.div`
   height: 100%;
   width:100%;
   z-index: 20;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.7);
 `
 
 export const ContextFormWrap = styled.div`
@@ -54,7 +54,10 @@ export const ContextFormWrap = styled.div`
   input[type=submit], button{
     margin-left:3em;
   }
-
+  
+  >div {
+    background-color:red;
+  }
 `
 
 export const BurgerDiv = styled.div`
@@ -62,7 +65,7 @@ export const BurgerDiv = styled.div`
   left:0;
   right: 0;
   bottom:0;
-  background-color:white;
+  /* background-color:white; */
   .burger-text {
     display: flex;
     margin-left:1em;

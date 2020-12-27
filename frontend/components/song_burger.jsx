@@ -4,14 +4,16 @@ import React, { } from 'react';
 import styled from 'styled-components'
 import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
-import editIcon from '../icons/edit.svg'
-import addToPlaylist from '../icons/addToPlaylist.svg'
-import deleteIcon from '../icons/delete.svg'
+
+
+import { EditIcon,AddToPlaylistIcon,DeleteIcon} from './active_svgs'
+
 import { deleteTrack, deleteSong } from '../util/api_util'
 import { BurgerDiv } from './contextMenu'
 
 const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
-
+  opacity:1;
+  background-color:red;
   .song-info {
     display: flex;
     flex-direction: column;
@@ -20,7 +22,10 @@ const PlaylistBurger = styled(props => <BurgerDiv {...props} />)`
     }
   }
 `;
-
+const svgSize = {
+  scale: 1,
+  size: "24px",
+}
 export default function SongBurger() {
 
   const dispatch = useDispatch();
@@ -138,14 +143,15 @@ export default function SongBurger() {
     },
   }
   const icons = [
-    editIcon, addToPlaylist, deleteIcon, deleteIcon
+    EditIcon, AddToPlaylistIcon, DeleteIcon, DeleteIcon
   ]
 
   if (contextMenu.playlist_id[0] == 's') {
     delete burgerList['Remove from playlist'];
     icons.splice(2, 1);
   }
-
+  
+  const burgerlistArray= Object.entries(burgerList);
   return (
     <PlaylistBurger>
       <div className='context-header'>
@@ -155,11 +161,12 @@ export default function SongBurger() {
         </div>
         <div>{(new Date(Date.parse(songD[contextMenu.song_id].date_added))).toLocaleDateString()}</div>
       </div>
-      {Object.entries(burgerList).map(([name, cb], i) => (
-        <div key={i} onClick={cb} className="burger-row">
-          <img src={icons[i]} />
+      {/* {Object.entries(burgerList).map(([name, cb], i) => ( */}
+      {icons.map((Icon, i) => (
+        <div key={i} onClick={burgerlistArray[i][1]} className="burger-row">
+          <Icon {...svgSize}/>
           <div className="burger-text">
-            {name}
+            {burgerlistArray[i][0]}
           </div>
         </div>
       ))}

@@ -6,6 +6,7 @@ import { ent_act } from '../reducers/root_reducer'
 import { session_act } from '../reducers/session_reducer';
 
 import logOutIcon from '../icons/logout.svg'
+import {LogoutIcon} from "./active_svgs"
 import { BurgerDiv } from './contextMenu'
 import UploadForm from './upload_form'
 import { logout } from '../util/session_api_util'
@@ -17,7 +18,7 @@ export default function Account() {
 
   const burgerList = {
     "Log out": {
-      icon: logOutIcon,
+      icon: LogoutIcon,
       cb(e) {
         logout().then(
           () => {
@@ -50,7 +51,7 @@ export default function Account() {
           typeof Comp === 'object'
             ?
             <div key={i} onClick={Comp.cb} className="burger-row">
-              <img src={Comp.icon} />
+              <LogoutIcon {...{scale:1, size:"24px"}}/>
               <div className="burger-text">
                 {name}
               </div>
