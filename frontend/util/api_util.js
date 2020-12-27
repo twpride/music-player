@@ -27,6 +27,13 @@ export const initStore = () => (
   })
 );
 
+export const setDarkModeAjax = (val) => (
+  fetch(`/api/set_dark_mode/${val}`, {
+    method: 'GET',
+    headers: fetchHeader(),
+  })
+);
+
 export const getPlaylistTitleD = () => (
   fetch('/api/playlist_d/', {
     method: 'GET',

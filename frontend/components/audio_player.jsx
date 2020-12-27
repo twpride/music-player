@@ -205,6 +205,7 @@ export default function AudioPlayer({ winWidth }) {
     if (e.target.type && e.target.type.slice(0, 4) === 'text') return;
     if (e.key === " ") {
       e.preventDefault()
+      e.stopPropagation()
       onPlayClick()
     }
   }

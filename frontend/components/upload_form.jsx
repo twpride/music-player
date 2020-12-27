@@ -63,7 +63,7 @@ export default function UploadForm() {
     <form ref={form}>
       <input type="file" name="waveform"
         onChange={submitSong} multiple hidden id='choose-file' />
-      <label htmlFor='choose-file' className="burger-row">
+      <label htmlFor='choose-file' className="row">
         {loading ?
           <Spinner size={24} color="black" />
           :

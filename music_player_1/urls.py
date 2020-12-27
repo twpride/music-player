@@ -43,6 +43,7 @@ urlpatterns = [
     path('api/edit_songs', song.edit_songs),
     path('api/edit_playlist', song.edit_playlist),
     path('api/get_post_urls', song.get_post_urls),
+    path('api/set_dark_mode/<int:val>', song.set_dark_mode),
     path(
         'manifest.json',
         TemplateView.as_view(template_name="manifest.json",

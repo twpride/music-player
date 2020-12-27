@@ -11,9 +11,9 @@ import { EditIcon,AddToPlaylistIcon,DeleteIcon} from './active_svgs'
 import { deleteTrack, deleteSong } from '../util/api_util'
 import { BurgerDiv } from './contextMenu'
 
-const PlaylistBurger = styled(props => <BurgerDiv {...props} />)` 
+const SongBurgerDiv = styled(props => <BurgerDiv {...props} />)` 
   opacity:1;
-  background-color:red;
+  /* background-color:red; */
   .song-info {
     display: flex;
     flex-direction: column;
@@ -58,7 +58,7 @@ export default function SongBurger() {
             && contextMenu.index == playlistD[track[0]].length - 1
           ) {
             newtr = null;
-          } else {
+          } else if (contextMenu.index < track[1]) { // we dont want trigger when equal
             newtr[1] -= 1
           }
         }
@@ -97,7 +97,7 @@ export default function SongBurger() {
             && contextMenu.index == playlistD[track[0]].length - 1
           ) {
             newtr = null;
-          } else {
+          } else if (contextMenu.index < track[1]) { // we dont want trigger when equal
             newtr[1] -= 1
           }
         } else {
@@ -153,7 +153,7 @@ export default function SongBurger() {
   
   const burgerlistArray= Object.entries(burgerList);
   return (
-    <PlaylistBurger>
+    <SongBurgerDiv>
       <div className='context-header'>
         <div className='song-info'>
           <div>{songD[contextMenu.song_id].artist}</div>
@@ -163,13 +163,13 @@ export default function SongBurger() {
       </div>
       {/* {Object.entries(burgerList).map(([name, cb], i) => ( */}
       {icons.map((Icon, i) => (
-        <div key={i} onClick={burgerlistArray[i][1]} className="burger-row">
+        <div key={i} onClick={burgerlistArray[i][1]} className="row">
           <Icon {...svgSize}/>
           <div className="burger-text">
             {burgerlistArray[i][0]}
           </div>
         </div>
       ))}
-    </PlaylistBurger>
+    </SongBurgerDiv>
   );
 }

@@ -35,14 +35,14 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
     return <div></div>
   } else {
     if (adding) {
-      return <div><Spinner size={20} color="#ad0f37" /></div>
+      return <div><Spinner size={22} color="#ad0f37" /></div>
     } else if (playlist) {
       return <ButtonDiv {...hoverColors} onClick={addSong}>
         <HoverPlaylist scale="1" size="22px" />
       </ButtonDiv>
     } else {
       return <ButtonDiv {...hoverColors} onClick={addSong}>
-        <HoverPlus scale="1" size="16px" />
+        <HoverPlus scale="1" size="20px" />
       </ButtonDiv>
     }
   }
@@ -110,7 +110,7 @@ export default function SearchResultsD() {
     >
       {search.loading && <Spinner size={50} color="#ad0f37" />}
       {(!search.search_results || !search.search_results.length ) && !search.loading &&
-        <div className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</div>
+        <span className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</span>
       }
 
       { search.search_results && search.search_results.map((e, idx) => (

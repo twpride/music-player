@@ -40,7 +40,7 @@ export default function PlaylistBurger() {
         <div>{titleD[contextMenu.playlist_id] && titleD[contextMenu.playlist_id]}</div>
       </div>
       {icons.map((Icon, i) => (
-        <div key={i} onClick={burgerlistArray[i][1]} className="burger-row">
+        <div key={i} onClick={burgerlistArray[i][1]} className="row">
           <Icon {...{scale:1,size:"24px"}}/>
           <div className="burger-text">
             {burgerlistArray[i][0]}

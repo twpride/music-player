@@ -30,7 +30,6 @@ const NavbarDiv = styled.div`
   min-height: 50px;
   justify-content: space-around;
   width: 100%;
-  border-top: 1px solid lightgrey;
 
 `
 const ButtonDiv = styled.div`
@@ -43,24 +42,19 @@ const ButtonDiv = styled.div`
   align-items: center;
   justify-content: center;
   
-  color: ${props => props.color};
   &:hover {
     color: ${props => props.hoverColor};
   }
   &:hover svg{
     fill:${props => props.hoverColor};
   }
-  svg{
-    fill:${props => props.color};
-  }
 `;
 
 const hoverColors = {
-  color: "grey",
   hoverColor: "#ad0f37"
 }
 const svgSize = {
-  scale: 0.9,
+  scale: 1,
   size: "24px",
 }
 
@@ -70,21 +64,21 @@ export default function Navbar() {
     <NavbarDiv className="nav">
       <Link to="/">
         <ButtonDiv {...hoverColors}>
-          <CollectionIcon {...svgSize} />
+          <CollectionIcon {...{scale: 0.9,size: "24px"}} />
           <div>Songs</div>
         </ButtonDiv>
       </Link>
 
       <Link to="/upload">
         <ButtonDiv {...hoverColors}>
-          <SearchIcon {...svgSize} />
+          <SearchIcon {...{scale: 0.8,size: "24px"}} />
           <div>Search</div>
         </ButtonDiv>
       </Link>
 
       <Link to="/playlist_d/">
-      <ButtonDiv {...hoverColors}>
-          <PlaylistsIcon {...svgSize} />
+        <ButtonDiv {...hoverColors}>
+          <PlaylistsIcon {...{scale: 1.2,size: "24px"}} />
           <div>Playlists</div>
         </ButtonDiv>
       </Link>

@@ -14,6 +14,7 @@ class User(models.Model):
   password_digest = models.CharField(max_length=100)
   session_token = models.CharField(max_length=100)
   date_added = models.DateTimeField(auto_now_add=True)
+  dark_mode = models.BooleanField()
   ph = PasswordHasher()
 
   def pre_init(**kwargs):

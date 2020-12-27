@@ -5,7 +5,6 @@ import { context_act } from '../reducers/ui_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import { session_act } from '../reducers/session_reducer';
 
-import logOutIcon from '../icons/logout.svg'
 import {LogoutIcon} from "./active_svgs"
 import { BurgerDiv } from './contextMenu'
 import UploadForm from './upload_form'
@@ -50,7 +49,7 @@ export default function Account() {
         ([name, Comp], i) => (
           typeof Comp === 'object'
             ?
-            <div key={i} onClick={Comp.cb} className="burger-row">
+            <div key={i} onClick={Comp.cb} className="row">
               <LogoutIcon {...{scale:1, size:"24px"}}/>
               <div className="burger-text">
                 {name}

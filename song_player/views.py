@@ -14,6 +14,9 @@ def getUser(req):
   token = req.session.get('session_token', None)
   return User.objects.filter(session_token=token)[0]
 
+def set_dark_mode(request, val):
+  getUser(request).update(dark_mode=True if val =="1" else False)
+  return HttpResponse(status=204)
 
 def init_store(request):
   usr = getUser(request)
@@ -25,7 +28,9 @@ def init_store(request):
       {
           x["id"]: x['title'] for x in Playlist.objects.filter(
               user_id=usr.id).values('id', 'title')
-      }],
+      },
+        usr.dark_mode
+      ],
 
       safe=False)
 

@@ -15,7 +15,10 @@ const ModalDiv = styled.div`
   height: 100%;
   width:100%;
   z-index: 20;
-  background-color: rgba(0,0,0,0.7);
+  /* background-color: rgba(0,0,0,0.7);
+  >div {
+    background:#222;
+  /* } */
 `
 
 export const ContextFormWrap = styled.div`
@@ -24,7 +27,6 @@ export const ContextFormWrap = styled.div`
   right: 0;
   bottom:0;
   padding: 1.5em;
-  background-color:white;
   .field {
     font-size: .7em;
     color: gray;
@@ -55,9 +57,6 @@ export const ContextFormWrap = styled.div`
     margin-left:3em;
   }
   
-  >div {
-    background-color:red;
-  }
 `
 
 export const BurgerDiv = styled.div`
@@ -72,15 +71,13 @@ export const BurgerDiv = styled.div`
     align-items: center;
     justify-content: center;
   }
-  .burger-row {
+  .row {
     padding: 1em 1em;
     display:flex;
     flex-direction: row;
     width:100%;
   }
-  .burger-row:hover{
-    background-color: #F0F0F0; 
-  }
+
   
   img {
     height:24px;

@@ -6,22 +6,19 @@ import styled from 'styled-components'
 import PlayingIcon from '../icons/playing.gif'
 import PausedIcon from '../icons/paused.gif'
 import { BurgerIcon } from './active_svgs'
+// import { HoverDiv} from './app'
 
 function preventDrag(e) {
   e.preventDefault()
   e.stopPropagation()
 }
 
-const CardDiv = styled.div`
+// const CardDiv = styled(props => <HoverDiv {...props} />)` 
+const CardDiv =styled.div`
   font-size: .9em;
   display:flex;
   flex-direction:row;
   align-items: center;
-  @media (hover: hover) {
-    &:hover {
-        background-color: #F0F0F0;
-    }
-  }
 
   >div {
     height: 60px;
@@ -35,7 +32,7 @@ const CardDiv = styled.div`
       overflow:hidden;
       white-space: nowrap;
       div:nth-child(1) {
-        color: #777777;
+        color: #777;
       }
     }
 
@@ -158,7 +155,7 @@ export const Card = ({ id, text, index, moveCard, setPrev, playSong, song_id, pl
       </div>
 
       <div onClick={launchBurger(song_id)}>
-        <BurgerIcon {...{ scale: 0.5, width: "40px",height:"60px" }} />
+        <BurgerIcon {...{ scale: 0.5, width: "40px", height: "60px" }} />
       </div>
     </CardDiv>
   )

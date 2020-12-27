@@ -9,6 +9,7 @@ import { context_act } from '../reducers/ui_reducer';
 import { HoverAccount, HoverGithub, HoverLinkedin } from './active_svgs'
 import { Route, Switch } from 'react-router-dom';
 import SearchBox from './search_box'
+import { setDarkModeAjax } from '../util/api_util'
 
 export const HeaderDiv = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ export const HeaderDiv = styled.div`
   min-height: 50px;
   width: 100%;
   position:relative;
-  box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+
   .title {
     font-size:1.2em;
   }
@@ -48,7 +49,7 @@ export const HeaderDiv = styled.div`
   }
 `
 
-export default function Header() {
+export default function Header({ setDarkMode }) {
   const dispatch = useDispatch()
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
   const [title, setTitle] = useState('')
@@ -121,6 +122,13 @@ export default function Header() {
           <div className='title'>
             {title}
           </div>
+          <button onClick={(e) => {
+            if (!e.screenX) return; //spaceback triggers click , dirty workaround
+            setDarkMode(state => !state)
+            setDarkModeAjax(state ? 0 : 1)
+          }}>
+            <HoverAccount {...svgProps} />
+          </button>
           <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
             <HoverAccount {...svgProps} />
           </button>

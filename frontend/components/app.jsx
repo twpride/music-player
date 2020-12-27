@@ -33,6 +33,7 @@ const AppDiv = styled.div`
     min-width:375px;
     overflow-y:auto;
     flex: 1 1 50%;
+
   }
 
   .box {
@@ -52,22 +53,73 @@ const AppDiv = styled.div`
     flex-direction:column;
     align-items:center;
   }
-  a {
-    /* width:100%; */
+
+  background: ${props => `${props.darkMode ? "#222" : "#fff"}`} ; 
+  color: ${props => `${props.darkMode ? "#eee" : "#000"}`} ; 
+
+  .scrollable>div:hover, .row:hover {
+    background: ${props => `${props.darkMode ? "#333" : "#eee"}`} ; 
   }
+
+  input[type=text], input[type=password] {
+    color: ${props => `${props.darkMode ? "#eee" : "#000"}`} ; 
+  }
+
+  textarea {
+    color: ${props => `${props.darkMode ? "#eee" : "#000"}`} ; 
+    font-size: 16px;
+    background-color: transparent;
+  }
+  
+  a {
+    text-decoration: none;
+    color: ${props => `${props.darkMode ? "#eee" : "#000"}`} ; 
+  }
+  
+  >div:nth-child(1) {
+  box-shadow: 0 1px 6px 0 ${props => `${props.darkMode ? "rgba(0, 0, 0, .8)" : "rgba(32, 33, 36, 0.28)"}`} ; 
+  }
+  
+  /* >div:nth-child(5) {
+    background: ${props => `${props.darkMode ? "blue" : "rgba(0, 0, 0, .5)"}`};
+  } */
+  >div:nth-child(6) {
+    background: ${props => `${props.darkMode ? "rgba(0, 0, 0, .7)" : "rgba(0, 0, 0, .5)"}`};
+    >div {
+      background: ${props => `${props.darkMode ? "#222" : "#fff"}`} ; 
+    } 
+  }
+
+  >div:nth-child(5) {
+  border-top: 1px solid ${props => `${props.darkMode ? "#444" : "#ccc"}`} ;
+  /* background: ${props => `${props.darkMode ? "blue" : "rgba(0, 0, 0, .5)"}`}; */
+  }
+
+  .context-header{
+  border-bottom: 1px solid ${props => `${props.darkMode ? "#444" : "#ccc"}`} ;
+  }
+
+
+
+  svg {
+    fill:#bbb;
+  }
+
 `
 
 const App = () => {
 
+  const [darkMode, setDarkMode] = useState(false);
   const dispatch = useDispatch()
-
   const [winWidth, setWinWidth] = useState(window.innerWidth);
   window.winWith = winWidth;
   useEffect(() => {
     const fetchData = async () => {
-      const [songD, playlistTitleD] = await initStore().then(response => response.json())
+      const [songD, playlistTitleD, darkMode] = await initStore().then(response => response.json())
       // const playlistTitleD = await getPlaylistTitleD().then(response => response.json())
       dispatch({ type: ent_act.INIT_STORE, songD, playlistTitleD })
+      setDarkMode(darkMode);
+
     }
     fetchData()
 
@@ -76,8 +128,8 @@ const App = () => {
 
 
   return (
-    <AppDiv>
-      <Header title='Songs' />
+    <AppDiv darkMode={darkMode}>
+      <Header title='Songs' setDarkMode={setDarkMode} />
       <div className='box'>
         {winWidth > 730 && <AlbumArt />}
         <Switch>
@@ -85,7 +137,6 @@ const App = () => {
             <Playlist />
           </Route>
           <Route exact path='/upload' >
-            {/* <SearchBox/> */}
             <SearchResultsD />
           </Route>
           <Route path='/playlist_d/:playlist_id'>
@@ -103,6 +154,8 @@ const App = () => {
   )
 };
 
+
+
 const SplashDiv = styled.div`
   display:flex;
   flex-direction: column;
@@ -110,26 +163,18 @@ const SplashDiv = styled.div`
   justify-content: center;
   height:100%;
 
-  background: #222;
-  color:#eee;
-  /* background-color: white; */
-  /* color:black; */
+
 
   input[type=text], input[type=password] {
     background-color: transparent;
     border: 0;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid grey;
     outline: none;
     font-size: 16px;
   }
 
   input[type=text]:focus {
-    border-color:#333;
-  }
-
-  a {
-    text-decoration: none;
-    color:black;
+    border-color:#ad0f37;
   }
 
   input[type=submit], button{
@@ -141,30 +186,20 @@ const SplashDiv = styled.div`
     color: #ad0f37;
   }
 
-  textarea {
-    font-size: 16px;
+  svg {
+    fill:grey;
   }
-
   svg:hover {
-    /* fill:${props => props.hoverColor}; */
     fill:#ad0f37;
   }
-  svg {
-    /* fill:${props => props.color}; */
-    fill:#888;
-  }
-
-
-
   >button {
     padding: 1.5em;
-    color: grey;
+    color: #777;
   }
   >button:hover {
     padding: 1.5em;
     color: #ad0f37;
   }
-
   div.favicon-links {
     position:absolute;
     bottom:5em;

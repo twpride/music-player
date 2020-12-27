@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
@@ -36,8 +36,7 @@ const SearchBoxDiv = styled.div`
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
 
-    border: 1px solid lightgrey;
-    border: 1px solid ${props => `${props.focus ? '#ad0f37' : 'lightgrey'}`};
+    border: 1px solid ${props => `${props.focus ? '#ad0f37' : 'rgba(120,120,120,0.5)'}`};
     border-radius: 15px;
 
     z-index:5;
@@ -76,7 +75,12 @@ export default function SearchBox() {
   const search = useSelector(state => state.entities.search)
   const [urls, setUrls] = useState(search.search_term);
   const [focus, setFocus] = useState(false);
+  
 
+  useEffect(()=>{
+    tboxRef.current.focus();
+  },[])
+  
   const submitSong = async e => {
 
     e.preventDefault();
