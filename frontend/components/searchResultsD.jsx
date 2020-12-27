@@ -108,6 +108,7 @@ export default function SearchResultsD() {
     <SearchResultsDiv className="scrollable"
       onClick={(e) => e.stopPropagation()}
     >
+
       {search.loading && <Spinner size={50} color="#ad0f37" />}
       {(!search.search_results || !search.search_results.length ) && !search.loading &&
         <span className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</span>

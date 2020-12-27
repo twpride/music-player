@@ -15,8 +15,11 @@ def getUser(req):
   return User.objects.filter(session_token=token)[0]
 
 def set_dark_mode(request, val):
-  getUser(request).update(dark_mode=True if val =="1" else False)
+  usr=getUser(request)
+  usr.dark_mode=True if val =="1" else False
+  usr.save()
   return HttpResponse(status=204)
+
 
 def init_store(request):
   usr = getUser(request)

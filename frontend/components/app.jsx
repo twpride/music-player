@@ -110,6 +110,7 @@ const AppDiv = styled.div`
 const App = () => {
 
   const [darkMode, setDarkMode] = useState(false);
+  window.dk = darkMode;
   const dispatch = useDispatch()
   const [winWidth, setWinWidth] = useState(window.innerWidth);
   window.winWith = winWidth;
@@ -129,7 +130,7 @@ const App = () => {
 
   return (
     <AppDiv darkMode={darkMode}>
-      <Header title='Songs' setDarkMode={setDarkMode} />
+      <Header title='Songs' {...{darkMode, setDarkMode}} />
       <div className='box'>
         {winWidth > 730 && <AlbumArt />}
         <Switch>

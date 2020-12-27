@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
 import { context_act } from '../reducers/ui_reducer';
-import { HoverAccount, HoverGithub, HoverLinkedin } from './active_svgs'
+import { HoverAccount, HoverGithub, HoverLinkedin, DarkIcon, LightIcon } from './active_svgs'
 import { Route, Switch } from 'react-router-dom';
 import SearchBox from './search_box'
 import { setDarkModeAjax } from '../util/api_util'
@@ -32,11 +32,17 @@ export const HeaderDiv = styled.div`
   }
   button {
     z-index:10;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     &:nth-child(4) {
       margin-left:auto;
     }
   }
   a {
+    display:flex;
+    justify-content:center;
+    align-items:center;
     z-index:10;
     &:nth-child(2) {
       margin-right:auto;
@@ -49,13 +55,13 @@ export const HeaderDiv = styled.div`
   }
 `
 
-export default function Header({ setDarkMode }) {
+export default function Header({ darkMode, setDarkMode }) {
   const dispatch = useDispatch()
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
   const [title, setTitle] = useState('')
   const containerRef = useRef()
   const location = useLocation()
-
+  console.log(darkMode, 'what htefuck')
   useEffect(() => {
     function resumeAudioCtx(e) {
       visualizer.paused = false;
@@ -102,7 +108,7 @@ export default function Header({ setDarkMode }) {
   }, [location])
 
   const svgProps = {
-    scale: 0.48,
+    scale: .6,
     size: "50px",
   }
 
@@ -125,9 +131,13 @@ export default function Header({ setDarkMode }) {
           <button onClick={(e) => {
             if (!e.screenX) return; //spaceback triggers click , dirty workaround
             setDarkMode(state => !state)
-            setDarkModeAjax(state ? 0 : 1)
+            setDarkModeAjax(darkMode ? 0 : 1)
           }}>
-            <HoverAccount {...svgProps} />
+            {darkMode ?
+              <LightIcon {...svgProps}/>
+              :
+              <DarkIcon {...svgProps}/>
+            }
           </button>
           <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
             <HoverAccount {...svgProps} />
