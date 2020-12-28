@@ -54,12 +54,12 @@ export default function SearchBox() {
   const search = useSelector(state => state.entities.search)
   const [urls, setUrls] = useState(search.search_term);
   const [focus, setFocus] = useState(false);
-  
 
-  useEffect(()=>{
+
+  useEffect(() => {
     tboxRef.current.focus();
-  },[])
-  
+  }, [])
+
   const submitSong = async e => {
 
     e.preventDefault();
@@ -67,33 +67,40 @@ export default function SearchBox() {
     const errorsArr = []
 
     // scrape youtube songs
-    const urlsArray = urls ? urls.split("|").filter(ent => ent) : []//filter blank lines
+    if (urls[0] == '+') {
+      const urlsArray = urls ? urls.split(" ").filter(ent => ent) : []//filter blank lines
+      const songs = await Promise.all(
+        urlsArray.map(async url => {
+          // console.log('querying:' + rl)
+          const resp = await fetch(ytdlAPI + '?add=' + url)
+          const json = await resp.json();
+          if (!resp.ok) {
+            errorsArr.push(json)
+            // console.log("fail")
+          }
+          return json
+        })
+      )
 
-    const songs = await Promise.all(
-      urlsArray.map(async url => {
-        // console.log('querying:' + rl)
-        const resp = await fetch(ytdlAPI + '?add=' + url)
-        const json = await resp.json();
-        if (!resp.ok) {
-          errorsArr.push(json)
-          // console.log("fail")
-        }
-        return json
-      })
-    )
-    if (!songs.length || songs[0].Key || errorsArr.length) {
       const ytFiles = songs.map(ent => [ent.Key, ent.yt_id]).filter(ent => ent[0]) //filter failed reqs
-
       if (ytFiles.length) dispatch(postSongs(ytFiles))
-
       if (errorsArr.length) {
         dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: errorsArr })
       } else {
         setUrls('')
       }
+
     } else {
-      const search_results = songs[0].map(e => ({ id: e.id, title: e.title, type: e.type, url: e.url })).filter(e => e.type === "video" || e.type === "playlist")
-      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
+      // console.log('querying:' + rl)
+      const resp = await fetch(ytdlAPI + '?add=' + urls)
+      const json = await resp.json();
+      if (!resp.ok) {
+        errorsArr.push(json)
+        dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: json })
+      } else {
+        const search_results = json.map(e => ({ id: e.id, title: e.title, type: e.type, url: e.url })).filter(e => e.type === "video" || e.type === "playlist")
+        dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
+      }
     }
     dispatch({ type: ent_act.SET_LOADING, status: false })
   }
@@ -124,7 +131,7 @@ export default function SearchBox() {
         setUrls('')
       }}>
         {urls && urls.length &&
-          <XIcon {...{ scale: 1, size: "22px" }}/>
+          <XIcon {...{ scale: 1, size: "22px" }} />
         }
       </div>
 
