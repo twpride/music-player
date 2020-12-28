@@ -163,7 +163,7 @@ const SplashDiv = styled.div`
     font-size: 16px;
   }
 
-  input[type=text]:focus {
+  input[type=text]:focus, input[type=password]:focus{
     border-color:#ad0f37;
   }
 
