@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 
 
-export const SpinningRecord = ({ xx, color }) => {
+export const SpinningRecord = () => {
   const size= 800;
   const od=700;
   const id=30;

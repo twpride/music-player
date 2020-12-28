@@ -34,13 +34,9 @@ const AddIcon = ({ playlist, added, adding, addSong }) => {
     if (adding) {
       return <div><Spinner size={22} color="#ad0f37" /></div>
     } else if (playlist) {
-      return <ButtonDiv {...hoverColors} onClick={addSong}>
-        <HoverPlaylist scale="1" size="22px" />
-      </ButtonDiv>
+      return <HoverPlaylist {...{ scale:.6, width: "40px", height: "60px" }} onClick={addSong}/>
     } else {
-      return <ButtonDiv {...hoverColors} onClick={addSong}>
-        <HoverPlus scale="1" size="20px" />
-      </ButtonDiv>
+        return <HoverPlus {...{ scale:.45, width: "40px", height: "60px" }} onClick={addSong}/>
     }
   }
 }

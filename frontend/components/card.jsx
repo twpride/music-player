@@ -38,6 +38,7 @@ export const CardDiv =styled.div`
 
     &:not(:nth-child(2)) {
       width:40px;
+      min-width:40px;
       display: flex;
       justify-content: center;
       align-items: center;
