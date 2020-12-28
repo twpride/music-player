@@ -19,6 +19,7 @@ export const HeaderDiv = styled.div`
   min-height: 50px;
   width: 100%;
   position:relative;
+  z-index:3;
 
   .title {
     font-size:1.2em;
