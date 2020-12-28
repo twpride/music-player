@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
-import { postSongs } from '../actions/actions'
+import { postSongs, getSearchedSongUrl} from '../actions/actions'
 import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
 import { ent_act } from '../reducers/root_reducer';
 import { ytdlAPI } from './search_box'
@@ -77,6 +77,16 @@ const SearchResRow = styled.div`
   }
 
 `
+function parse_str(str) {
+  return str.split('&').reduce(function(params, param) {
+    var paramSplit = param.split('=').map(function(value) {
+      return decodeURIComponent(value.replace('+', ' '));
+    });
+    params[paramSplit[0]] = paramSplit[1];
+    return params;
+  }, {});
+}
+
 
 export default function SearchResultsD() {
   const [adding, setAdding] = useState(null)
@@ -102,7 +112,10 @@ export default function SearchResultsD() {
 
   return (
     <SearchResultsDiv className="scrollable"
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e) => {
+        e.stopPropagation()
+
+      }}
     >
 
       {search.loading && <Spinner size={50} color="#ad0f37" />}
@@ -112,6 +125,11 @@ export default function SearchResultsD() {
 
       { search.search_results && search.search_results.map((e, idx) => (
         <SearchResRow key={idx}
+          onClick={
+            () => {
+              dispatch(getSearchedSongUrl(e.id))
+            }
+          }
         >
           <div>{e.title}</div>
           <AddIcon playlist={e.type === "playlist"} addSong={addSong(e.url, idx)} added={yt_id_set && yt_id_set.has(e.id)} adding={adding && adding[idx]} />

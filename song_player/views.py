@@ -115,9 +115,7 @@ def post_songs(request):  #post
   song_set = usr.song_set
   songs_to_post = json.loads(request.body.decode('utf-8'))
   res = []
-  print(songs_to_post)
   for i, (_song, yt_id) in enumerate(songs_to_post):
-    print(_song,yt_id)
     song = Song(title=_song[:-4], filename=_song, user=usr, yt_id=yt_id, order=song_set.count()+i+1)
     try:
       song.full_clean()
@@ -168,7 +166,7 @@ def song(request, id):  #get
       's3',
       aws_access_key_id=getattr(settings, "AWS_ACCESS_KEY_ID", None),
       aws_secret_access_key=getattr(settings, "AWS_SECRET_ACCESS_KEY", None),
-      config=Config(signature_version='s3v4', region_name='us-west-1')
+      # config=Config(signature_version='s3v4', region_name='us-west-1')
   )
   bucket = getattr(settings, "AWS_STORAGE_BUCKET_NAME", None)
   params = {}

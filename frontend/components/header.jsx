@@ -61,7 +61,6 @@ export default function Header({ darkMode, setDarkMode }) {
   const [title, setTitle] = useState('')
   const containerRef = useRef()
   const location = useLocation()
-  console.log(darkMode, 'what htefuck')
   useEffect(() => {
     function resumeAudioCtx(e) {
       visualizer.paused = false;
@@ -75,9 +74,9 @@ export default function Header({ darkMode, setDarkMode }) {
     function suspendAudioCtx(e) {
       visualizer.paused = true;
     }
-    const visualizer = new AudioVisualizer(containerRef.current)
-    window.viz = visualizer;
-    visualizer.startRenderer()
+    // const visualizer = new AudioVisualizer(containerRef.current)
+    // window.viz = visualizer;
+    // visualizer.startRenderer()
 
     window.addEventListener('touchend', mobileVizWorkaround)
     window.addEventListener('resumeViz', resumeAudioCtx)

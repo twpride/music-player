@@ -23,7 +23,6 @@ class User(models.Model):
                                      '_\\1', str).lower().strip('_')
 
     newkwargs = dict()
-    print(kwargs.items())
     for k, v in kwargs.items():
       if k == "password":
         newkwargs['password_digest'] = User.ph.hash(v[0])

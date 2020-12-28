@@ -80,9 +80,6 @@ const AppDiv = styled.div`
   box-shadow: 0 1px 6px 0 ${props => `${props.darkMode ? "rgba(0, 0, 0, .8)" : "rgba(32, 33, 36, 0.28)"}`} ; 
   }
   
-  /* >div:nth-child(5) {
-    background: ${props => `${props.darkMode ? "blue" : "rgba(0, 0, 0, .5)"}`};
-  } */
   >div:nth-child(6) {
     background: ${props => `${props.darkMode ? "rgba(0, 0, 0, .7)" : "rgba(0, 0, 0, .5)"}`};
     >div {
@@ -91,15 +88,12 @@ const AppDiv = styled.div`
   }
 
   >div:nth-child(5) {
-  border-top: 1px solid ${props => `${props.darkMode ? "#444" : "#ccc"}`} ;
-  /* background: ${props => `${props.darkMode ? "blue" : "rgba(0, 0, 0, .5)"}`}; */
+    border-top: 1px solid ${props => `${props.darkMode ? "#444" : "#ccc"}`} ;
   }
 
   .context-header{
   border-bottom: 1px solid ${props => `${props.darkMode ? "#444" : "#ccc"}`} ;
   }
-
-
 
   svg {
     fill:#bbb;

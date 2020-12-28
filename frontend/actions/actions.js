@@ -3,6 +3,7 @@ import { login } from '../util/session_api_util';
 import { session_act } from '../reducers/session_reducer'
 import { ent_act } from '../reducers/root_reducer'
 
+const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
 
 export const postSongs = songs => dispatch => (
   APIUtil.postSongs(songs)
@@ -29,6 +30,13 @@ export const getSongUrl = id => dispatch => (
     .then(response => response.json())
     .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
 )
+
+export const getSearchedSongUrl = yt_id => dispatch => {
+  fetch(ytdlAPI + '?get=' + yt_id)
+    .then(response => response.json())
+    .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
+}
+
 
 
 export const loginThunk = user => async dispatch => {
