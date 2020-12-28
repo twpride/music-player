@@ -7,7 +7,7 @@ import PlaylistBurger from './playlist_burger';
 import SelectPlaylist from './select_playlist';
 import Account from './account'
 import { useDispatch, useSelector } from 'react-redux'
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 import NewPlaylist from './new_playlist';
 
 const ModalDiv = styled.div`

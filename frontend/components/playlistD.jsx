@@ -7,7 +7,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { BurgerIcon } from './active_svgs'
 
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 const PlaylistTitleDiv = styled.div`
 a {
   font-size: 1em;

@@ -18,8 +18,6 @@ const fetchHeader = () => ({
   "X-CSRFToken": getCookie('csrftoken'),
 })
 
-
-
 export const initStore = () => (
   fetch('/api/init_store', {
     method: 'GET',
@@ -41,8 +39,6 @@ export const getPlaylistTitleD = () => (
   })
 );
 
-
-
 export const postSongs = songs => (
   fetch('/api/post_songs', {
     method: 'POST',
@@ -58,8 +54,6 @@ export const editSongs = (song) => (
     headers: fetchHeader(),
   })
 );
-
-
 
 export const getSongUrl = id => (
   fetch(`/api/song_d/${id}`, {

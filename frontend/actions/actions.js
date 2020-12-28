@@ -1,8 +1,6 @@
 import * as APIUtil from '../util/api_util';
 import { login } from '../util/session_api_util';
-import { session_act } from '../reducers/session_reducer'
-import { ent_act } from '../reducers/root_reducer'
-
+import { ent_act, session_act } from '../reducers/root_reducer'
 import { ytdlAPI } from '../components/search_box'
 
 export const postSongs = songs => dispatch => (
@@ -63,5 +61,3 @@ export const getPlaylist = playlist_id => async dispatch => {
   const playlist = await response.json()
   dispatch({ type: ent_act.RECEIVE_PLAYLIST, playlist_id, playlist })
 }
-
-

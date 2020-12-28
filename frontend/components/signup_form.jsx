@@ -1,12 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useEffect } from 'react';
 import { signup } from '../util/session_api_util'
-import { session_act } from '../reducers/session_reducer'
-import { error_act } from '../reducers/errors_reducer'
+import { session_act, error_act } from '../reducers/root_reducer'
 import styled from 'styled-components'
 
 export function renderErrors() {
-  const errors = useSelector(state => state.errors.session)
+  const errors = useSelector(state => state.errors.sessionErrors)
   return (
     <div className='error'>
       {errors.map((error, i) => (

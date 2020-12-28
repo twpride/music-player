@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 
 import { editSongs } from '../actions/actions'
 import { useTextField } from '../util/hooks'
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 import { useEffect } from 'react';
 
 import {ContextFormWrap} from './contextMenu';

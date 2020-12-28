@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
-import { context_act } from '../reducers/ui_reducer';
+import { context_act } from '../reducers/root_reducer';
 import { HoverAccount, HoverGithub, HoverLinkedin, DarkIcon, LightIcon } from './active_svgs'
 import { Route, Switch } from 'react-router-dom';
 import SearchBox from './search_box'

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { useDispatch, useSelector } from 'react-redux';
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 import styled from 'styled-components'
 import PlayingIcon from '../icons/playing.gif'
 import PausedIcon from '../icons/paused.gif'

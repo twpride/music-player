@@ -4,7 +4,7 @@ import { postSongs } from '../actions/actions'
 import { getPostUrls } from '../util/api_util'
 import { Spinner, UploadIcon} from './active_svgs'
 
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 
 const svgSize = {
   scale: 0.9,

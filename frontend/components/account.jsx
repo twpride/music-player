@@ -1,9 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 
-import { context_act } from '../reducers/ui_reducer'
-import { ent_act } from '../reducers/root_reducer'
-import { session_act } from '../reducers/session_reducer';
+import { ent_act, context_act, session_act } from '../reducers/root_reducer'
 
 import {LogoutIcon} from "./active_svgs"
 import { BurgerDiv } from './contextMenu'

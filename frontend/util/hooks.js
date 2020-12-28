@@ -18,6 +18,6 @@ export const useLegacyState = initialState => {
 }
 
 
-  const update = field => e => setState({
-    [field]: e.currentTarget.value
-  });
+const update = field => e => setState({
+  [field]: e.currentTarget.value
+});

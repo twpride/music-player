@@ -43,7 +43,7 @@ export default function SearchResultsD() {
   const dispatch = useDispatch()
   const search = useSelector(state => state.entities.search)
   const yt_id_set = useSelector(state => state.entities.songD.yt_id_set)
-  const err = useSelector(state => state.errors.search)
+  const err = useSelector(state => state.errors.searchErrors)
 
   const track = useSelector(state => state.player.track)
   const playing = useSelector(state => state.player.playing)

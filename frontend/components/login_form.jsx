@@ -2,8 +2,7 @@ import { useDispatch  } from 'react-redux';
 import React, { useState, useRef, useEffect } from 'react';
 import { loginThunk } from '../actions/actions'
 import {SessionDiv, renderErrors} from './signup_form'
-import {session_act} from '../reducers/session_reducer'
-import {error_act} from '../reducers/errors_reducer'
+import {error_act} from '../reducers/root_reducer'
 
 export default function LoginForm({ setMode }) {
   const form = useRef(null)

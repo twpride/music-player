@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 import { ent_act } from '../reducers/root_reducer'
 import { EditIcon, DeleteIcon} from './active_svgs'
 

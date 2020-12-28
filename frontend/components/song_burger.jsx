@@ -2,8 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React, { } from 'react';
 
 import styled from 'styled-components'
-import { context_act } from '../reducers/ui_reducer'
-import { ent_act } from '../reducers/root_reducer'
+import { ent_act, context_act } from '../reducers/root_reducer'
 
 
 import { EditIcon,AddToPlaylistIcon,DeleteIcon} from './active_svgs'

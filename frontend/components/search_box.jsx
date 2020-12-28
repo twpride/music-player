@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { XIcon } from './active_svgs'
-import { ent_act } from '../reducers/root_reducer';
-import { error_act } from '../reducers/errors_reducer';
+import { ent_act, error_act } from '../reducers/root_reducer';
 
 export const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
 

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import { ent_act } from '../reducers/root_reducer'
-import { context_act } from '../reducers/ui_reducer'
+import { context_act } from '../reducers/root_reducer'
 import { createPlaylist } from '../util/api_util'
 
 import { ContextFormWrap } from './contextMenu'
