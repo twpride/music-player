@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import styled from 'styled-components'
 
-// import AudioVisualizer from './audio_visualizer'
+import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
 import { context_act } from '../reducers/ui_reducer';
 import { HoverAccount, HoverGithub, HoverLinkedin, DarkIcon, LightIcon } from './active_svgs'
@@ -62,32 +62,32 @@ export default function Header({ darkMode, setDarkMode }) {
   const [title, setTitle] = useState('')
   const containerRef = useRef()
   const location = useLocation()
-  // useEffect(() => {
-  //   function resumeAudioCtx(e) {
-  //     visualizer.paused = false;
-  //     visualizer.startRenderer()
-  //   }
-  //   function mobileVizWorkaround(e) {
-  //     visualizer.audctx.resume()
-  //     window.removeEventListener('touchend', mobileVizWorkaround)
-  //   }
+  useEffect(() => {
+    function resumeAudioCtx(e) {
+      visualizer.paused = false;
+      visualizer.startRenderer()
+    }
+    function mobileVizWorkaround(e) {
+      visualizer.audctx.resume()
+      window.removeEventListener('touchend', mobileVizWorkaround)
+    }
 
-  //   function suspendAudioCtx(e) {
-  //     visualizer.paused = true;
-  //   }
-  //   const visualizer = new AudioVisualizer(containerRef.current)
-  //   window.viz = visualizer;
-  //   visualizer.startRenderer()
+    function suspendAudioCtx(e) {
+      visualizer.paused = true;
+    }
+    const visualizer = new AudioVisualizer(containerRef.current)
+    window.viz = visualizer;
+    visualizer.startRenderer()
 
-  //   window.addEventListener('touchend', mobileVizWorkaround)
-  //   window.addEventListener('resumeViz', resumeAudioCtx)
-  //   window.addEventListener('suspendViz', suspendAudioCtx)
+    window.addEventListener('touchend', mobileVizWorkaround)
+    window.addEventListener('resumeViz', resumeAudioCtx)
+    window.addEventListener('suspendViz', suspendAudioCtx)
 
-  //   return () => {
-  //     window.removeEventListener('resumeViz', resumeAudioCtx)
-  //     window.removeEventListener('suspendViz', suspendAudioCtx)
-  //   }
-  // }, [])
+    return () => {
+      window.removeEventListener('resumeViz', resumeAudioCtx)
+      window.removeEventListener('suspendViz', suspendAudioCtx)
+    }
+  }, [])
 
   useEffect(() => {
     const locArr = location.pathname.split('/')

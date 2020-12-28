@@ -350,7 +350,7 @@ export default function AudioPlayer({ winWidth }) {
       // controls
       id='audio'
       ref={aud}
-      // crossOrigin="anonymous"
+      crossOrigin="anonymous"
       autoPlay
       src={songUrl}
       onEnded={skip(1)}
