@@ -9,7 +9,7 @@ import { error_act } from '../reducers/errors_reducer';
 export const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
 
 
-const SearchBoxDiv = styled.div`
+const SearchBoxDiv = styled.form`
 
     width: min(90%, 400px); ;
     height: 30px;
@@ -27,14 +27,11 @@ const SearchBoxDiv = styled.div`
     flex-direction:row;
     justify-content:center;
     align-items:center;
-
-    textarea {
+    
+    input[type=text].searchbox {
       margin-left:15px;
-      resize: none;
-      height: 19px;
       width: 100%;
       overflow-x: hidden;
-      overflow-y: hidden;
       border: 0;
       outline: none; 
     }
@@ -70,7 +67,7 @@ export default function SearchBox() {
     const errorsArr = []
 
     // scrape youtube songs
-    const urlsArray = urls ? urls.split("\n").filter(ent => ent) : []//filter blank lines
+    const urlsArray = urls ? urls.split(" ").filter(ent => ent) : []//filter blank lines
 
     const songs = await Promise.all(
       urlsArray.map(async url => {
@@ -104,14 +101,6 @@ export default function SearchBox() {
   function onTextChange(e) {
     const tbox = tboxRef.current;
     setUrls(tbox.value)
-    // const nLine = (tbox.value.match(/\n/g) || []).length + 1;
-    // if (nLine > 3) {
-    //   tbox.style.overflowY = "scroll"
-    //   tbox.style.height = (19 * 3 + 2) + 'px';
-    // } else {
-    //   tbox.style.height = (nLine * 19 + 2) + 'px';
-    //   tbox.style.overflowY = "hidden"
-    // }
   }
 
   return (
@@ -119,14 +108,14 @@ export default function SearchBox() {
       onClick={(e) => e.stopPropagation()}
       focus={focus}
     >
-      <textarea type="text"
-        name="url"
+      <input
+        className="searchbox"
+        type="text"
         value={urls}
         placeholder="Search song, album, artist"
         onChange={onTextChange}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
-        onKeyDown={(e) => { if (e.key === 'Enter') submitSong(e) }}
         wrap="off"
         ref={tboxRef}
       />
@@ -135,9 +124,7 @@ export default function SearchBox() {
         setUrls('')
       }}>
         {urls && urls.length &&
-          <XIcon {...{ scale: 1, size: "22px" }}
-
-          />
+          <XIcon {...{ scale: 1, size: "22px" }}/>
         }
       </div>
 

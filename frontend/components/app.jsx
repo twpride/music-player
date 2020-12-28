@@ -63,11 +63,6 @@ const AppDiv = styled.div`
 
   input[type=text], input[type=password] {
     color: ${props => `${props.darkMode ? "#eee" : "#000"}`} ; 
-  }
-
-  textarea {
-    color: ${props => `${props.darkMode ? "#eee" : "#000"}`} ; 
-    font-size: 16px;
     background-color: transparent;
   }
   

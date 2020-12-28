@@ -1,32 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
-import { postSongs, getSearchedSongUrl } from '../actions/actions'
+import { postSongs } from '../actions/actions'
 import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
 import { ent_act } from '../reducers/root_reducer';
 import { ytdlAPI } from './search_box'
 import { CardDiv, Equalizer} from './card'
 
 
-const ButtonDiv = styled.div`
-  cursor: pointer;
-  
-  color: ${props => props.color};
-  &:hover {
-    color: ${props => props.hoverColor};
-  }
-  &:hover svg{
-    fill:${props => props.hoverColor};
-  }
-  svg{
-    margin:auto auto;
-    fill:${props => props.color};
-  }
-`;
-const hoverColors = {
-  color: "grey",
-  hoverColor: "#ad0f37"
-}
 const AddIcon = ({ playlist, added, adding, addSong }) => {
   if (added) {
     return <div></div>
@@ -56,34 +37,6 @@ const SearchResultsDiv = styled.div`
     align-items: center;
   }
 `
-const SearchResRow = styled.div`
-  font-size: 1em;
-  display:flex;
-  flex-direction:row;
-  align-items: center;
-  padding-left: 1.5em;
-  >div {
-    height:4em;
-    display:flex;
-    align-items:center;
-  }
-  >:last-child {
-    margin-left: auto;
-    min-width:3em;
-    justify-content:center;
-  }
-
-`
-function parse_str(str) {
-  return str.split('&').reduce(function (params, param) {
-    var paramSplit = param.split('=').map(function (value) {
-      return decodeURIComponent(value.replace('+', ' '));
-    });
-    params[paramSplit[0]] = paramSplit[1];
-    return params;
-  }, {});
-}
-
 
 export default function SearchResultsD() {
   const [adding, setAdding] = useState(null)

@@ -6,10 +6,6 @@ import styled from 'styled-components'
 import { ent_act } from "../reducers/root_reducer"
 import { getSongUrl, getSearchedSongUrl } from '../actions/actions'
 
-import playIcon from '../icons/play.svg';
-import pauseIcon from '../icons/pause.svg';
-import prev from '../icons/prev.svg';
-import next from '../icons/next.svg';
 
 import { PlayIcon, PauseIcon, PrevIcon, NextIcon } from './active_svgs'
 

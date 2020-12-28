@@ -3,7 +3,7 @@ import { login } from '../util/session_api_util';
 import { session_act } from '../reducers/session_reducer'
 import { ent_act } from '../reducers/root_reducer'
 
-const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
+import { ytdlAPI } from '../components/search_box'
 
 export const postSongs = songs => dispatch => (
   APIUtil.postSongs(songs)

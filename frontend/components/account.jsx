@@ -34,10 +34,6 @@ export default function Account() {
     "Upload Songs": UploadForm
   }
 
-  // console.log(UploadForm)
-  // console.log(burgerList["Log out"])
-  // console.log(typeof (icons[0]))
-
   return (
     <BurgerDiv 
     onClick={(e) => e.stopPropagation()}

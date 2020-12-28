@@ -6,14 +6,12 @@ import styled from 'styled-components'
 import PlayingIcon from '../icons/playing.gif'
 import PausedIcon from '../icons/paused.gif'
 import { BurgerIcon } from './active_svgs'
-// import { HoverDiv} from './app'
 
 function preventDrag(e) {
   e.preventDefault()
   e.stopPropagation()
 }
 
-// const CardDiv = styled(props => <HoverDiv {...props} />)` 
 export const CardDiv =styled.div`
   font-size: .9em;
   display:flex;

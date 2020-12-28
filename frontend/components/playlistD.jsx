@@ -42,12 +42,6 @@ export default function PlaylistD() {
 
   const titleD = useSelector(state => state.entities.playlistD.playlistTitleD)
 
-  // useEffect(() => {
-  //   // if (!titleD) {
-  //   //   dispatch(getPlaylistTitleD())
-  //   // }
-  // }, [])
-
   const launchBurger = (playlist_id) => (e) => {
     e.stopPropagation()
     e.preventDefault()
