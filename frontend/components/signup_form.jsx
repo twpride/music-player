@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import React, { useRef, useEffect } from 'react';
 import { signup } from '../util/session_api_util'
 import { session_act } from '../reducers/session_reducer'
+import { error_act } from '../reducers/errors_reducer'
 import styled from 'styled-components'
 
 export function renderErrors() {
@@ -64,7 +65,7 @@ export default function SignupForm({ setMode }) {
       dispatch({ type: session_act.RECEIVE_CURRENT_USER, currentUser })
     } else {
       const errors = await res.json();
-      dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors })
+      dispatch({ type: error_act.RECEIVE_SESSION_ERRORS, errors })
     }
 
   }

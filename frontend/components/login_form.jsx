@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { loginThunk } from '../actions/actions'
 import {SessionDiv, renderErrors} from './signup_form'
 import {session_act} from '../reducers/session_reducer'
+import {error_act} from '../reducers/errors_reducer'
 
 export default function LoginForm({ setMode }) {
   const form = useRef(null)
@@ -12,7 +13,7 @@ export default function LoginForm({ setMode }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
+    dispatch({ type: error_act.RECEIVE_SESSION_ERRORS, errors: [] })
   },[])
 
   const handleSubmit = async (e) => {

@@ -49,6 +49,7 @@ export default function SearchResultsD() {
   const playing = useSelector(state => state.player.playing)
 
   const addSong = (url, idx) => async (e) => {
+    e.stopPropagation()
     setAdding(Object.assign([], adding, { [idx]: true }))
     const resp = await fetch(ytdlAPI + '?add=' + url)
     const json = await resp.json();
@@ -64,12 +65,7 @@ export default function SearchResultsD() {
   }, [search.search_results])
 
   return (
-    <SearchResultsDiv className="scrollable"
-      onClick={(e) => {
-        e.stopPropagation()
-
-      }}
-    >
+    <SearchResultsDiv className="scrollable">
 
       {search.loading && <Spinner size={50} color="#ad0f37" />}
       {(!search.search_results || !search.search_results.length) && !search.loading &&

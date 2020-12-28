@@ -87,6 +87,7 @@ export default function SearchBox() {
       if (errorsArr.length) {
         dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: errorsArr })
       } else {
+        dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: [] })
         setUrls('')
       }
 
