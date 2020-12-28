@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
-import { postSongs, getSearchedSongUrl} from '../actions/actions'
+import { postSongs, getSearchedSongUrl } from '../actions/actions'
 import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
 import { ent_act } from '../reducers/root_reducer';
 import { ytdlAPI } from './search_box'
+import { CardDiv, Equalizer} from './card'
 
 
 const ButtonDiv = styled.div`
@@ -78,8 +79,8 @@ const SearchResRow = styled.div`
 
 `
 function parse_str(str) {
-  return str.split('&').reduce(function(params, param) {
-    var paramSplit = param.split('=').map(function(value) {
+  return str.split('&').reduce(function (params, param) {
+    var paramSplit = param.split('=').map(function (value) {
       return decodeURIComponent(value.replace('+', ' '));
     });
     params[paramSplit[0]] = paramSplit[1];
@@ -94,6 +95,9 @@ export default function SearchResultsD() {
   const search = useSelector(state => state.entities.search)
   const yt_id_set = useSelector(state => state.entities.songD.yt_id_set)
   const err = useSelector(state => state.errors.search)
+
+  const track = useSelector(state => state.player.track)
+  const playing = useSelector(state => state.player.playing)
 
   const addSong = (url, idx) => async (e) => {
     setAdding(Object.assign([], adding, { [idx]: true }))
@@ -124,16 +128,30 @@ export default function SearchResultsD() {
       }
 
       { search.search_results && search.search_results.map((e, idx) => (
-        <SearchResRow key={idx}
+        <CardDiv key={idx}
           onClick={
             () => {
-              dispatch(getSearchedSongUrl(e.id))
+              dispatch({ type: ent_act.LOAD_TRACK, track: ['search_results', idx] })
+              dispatch({ type: ent_act.SET_PLAY })
             }
           }
         >
-          <div>{e.title}</div>
-          <AddIcon playlist={e.type === "playlist"} addSong={addSong(e.url, idx)} added={yt_id_set && yt_id_set.has(e.id)} adding={adding && adding[idx]} />
-        </SearchResRow>
+          <div className='drag-handle'>
+            <Equalizer
+              track={track}
+              pl_id='search_results'
+              index={idx}
+              playing={playing}
+            />
+          </div>
+          <div>
+            <div></div>
+            <div>{e.title}</div>
+          </div>
+          <div>
+            <AddIcon playlist={e.type === "playlist"} addSong={addSong(e.url, idx)} added={yt_id_set && yt_id_set.has(e.id)} adding={adding && adding[idx]} />
+          </div>
+        </CardDiv>
       ))}
 
       <div className='holder error-holder'>

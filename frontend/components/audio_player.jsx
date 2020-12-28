@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { ent_act } from "../reducers/root_reducer"
-import { getSongUrl } from '../actions/actions'
+import { getSongUrl, getSearchedSongUrl } from '../actions/actions'
 
 import playIcon from '../icons/play.svg';
 import pauseIcon from '../icons/pause.svg';
@@ -152,7 +152,14 @@ export default function AudioPlayer({ winWidth }) {
       && track[1] < playlistD[track[0]].length // when last song of pl is deleted, while it's being played
       // won't allow this case to enter if statement
     ) {
-      let song = songD[playlistD[track[0]][track[1]][0]];
+
+      let song;
+      if (track[0]=='search_results') {
+        song = playlistD[track[0]][track[1]];
+      } else {
+        song = songD[playlistD[track[0]][track[1]][0]];
+      }
+
       if (!song) {
         song = { title: "", artist: '' }
       }
@@ -174,9 +181,17 @@ export default function AudioPlayer({ winWidth }) {
 
   useEffect(() => {
     if (!track || !playing) return;
-    const song_id = playlistD[track[0]][track[1]][0];
-    if (curSongId != song_id) {
+    let song_id;
+
+    if (track[0]=='search_results') {
+      song_id = playlistD[track[0]][track[1]].id;
+      dispatch(getSearchedSongUrl(song_id))
+    } else {
+      song_id = playlistD[track[0]][track[1]][0];
       dispatch(getSongUrl(song_id));
+    }
+
+    if (curSongId != song_id) {
       setCurSongId(song_id);
     } else {
       aud.current.play();

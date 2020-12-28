@@ -14,7 +14,7 @@ function preventDrag(e) {
 }
 
 // const CardDiv = styled(props => <HoverDiv {...props} />)` 
-const CardDiv =styled.div`
+export const CardDiv =styled.div`
   font-size: .9em;
   display:flex;
   flex-direction:row;
@@ -59,7 +59,7 @@ const CardDiv =styled.div`
 
 `
 
-const Equalizer = ({ track, pl_id, index, playing }) => {
+export const Equalizer = ({ track, pl_id, index, playing }) => {
   if (track && track[0] === pl_id && track[1] === index) {
     if (playing) {
       return <img className='equalizer' src={PlayingIcon}

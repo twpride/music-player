@@ -68,6 +68,11 @@ const playlistD = (state = {}, action) => {
         songs_playlist,
         playlistTitleD: action.playlistTitleD
       };
+    case ent_act.RECEIVE_SEARCH_RESULTS:
+      return {
+        ...state,
+        search_results: action.search_results
+      }
     case ent_act.RECEIVE_SONG_D:
       const new_songs = Object.values(action.songD)
         // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
