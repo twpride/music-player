@@ -28,7 +28,7 @@ export default function LoginForm({ setMode }) {
         <div className="login-input">
           <div>Username</div>
           <input type="text"
-            autocorrect="off" autocapitalize="none"
+            autoCorrect="off" autoCapitalize="none"
             value={email}
             onChange={e => setEmail(e.target.value)}
             name="email"

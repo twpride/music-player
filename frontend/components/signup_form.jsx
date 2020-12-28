@@ -80,7 +80,7 @@ export default function SignupForm({ setMode }) {
           (field, i) => ( // field = [dbname, print name]
             <div key={i} className="login-input">
               <div className="field">{field[1]}</div>
-              <input type="text" name={field[0]} autocorrect="off" autocapitalize="none" />
+              <input type="text" name={field[0]} autoCorrect="off" autoCapitalize="none" />
             </div>
           )
         )}
