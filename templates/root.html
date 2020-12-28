@@ -7,7 +7,8 @@
   <meta property="og:title" content="Music Player One" />
   <meta property="og:description" content="Mobile friendly music streaming app" />
   <meta property="og:url" content="https://music-player-1.herokuapp.com/" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif" />
 
   <link rel="manifest" href="manifest.json">
   {% csrf_token %}
@@ -20,7 +21,16 @@
   </div>
 </body>
 
-<link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
+<link rel="stylesheet" href="{% static " stylesheets/index.css" %}">
 <script type="text/javascript"> window.currentUser = {{ response | safe }} </script>
-<script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
+<script type="text/javascript" src="{% static " bundles/bundle.js" %}"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4XD38BQ77W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-4XD38BQ77W');
+</script>
+
 </html>

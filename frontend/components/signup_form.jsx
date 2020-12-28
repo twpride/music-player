@@ -54,7 +54,7 @@ export default function SignupForm({ setMode }) {
   }
   useEffect(() => {
     dispatch({ type: session_act.RECEIVE_SESSION_ERRORS, errors: [] })
-  },[])
+  }, [])
   async function handleSubmit(e) {
     e.preventDefault();
     const user = new FormData(form.current);
@@ -80,7 +80,7 @@ export default function SignupForm({ setMode }) {
           (field, i) => ( // field = [dbname, print name]
             <div key={i} className="login-input">
               <div className="field">{field[1]}</div>
-              <input type="text" name={field[0]} />
+              <input type="text" name={field[0]} autocorrect="off" autocapitalize="none" />
             </div>
           )
         )}
