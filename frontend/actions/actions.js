@@ -20,23 +20,21 @@ export const editSongs = song => dispatch => (
 export const editPlaylist = playlistEdit => dispatch => (
   APIUtil.editPlaylist(playlistEdit)
     .then(response => response.json())
-    .then(playlistTitleD => dispatch({ type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD}))
+    .then(playlistTitleD => dispatch({ type: ent_act.RECEIVE_PLAYLIST_TITLE_D, playlistTitleD }))
 )
 
 
-
-export const getSongUrl = id => dispatch => (
-  APIUtil.getSongUrl(id)
-    .then(response => response.json())
-    .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
-)
-
-export const getSearchedSongUrl = yt_id => dispatch => {
-  fetch(ytdlAPI + '?get=' + yt_id)
-    .then(response => response.json())
-    .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
+export const getSongUrl = id => dispatch => {
+  if (id.length) {
+    fetch(ytdlAPI + '?get=' + id)
+      .then(response => response.json())
+      .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
+  } else {
+    APIUtil.getSongUrl(id)
+      .then(response => response.json())
+      .then(url => dispatch({ type: ent_act.RECEIVE_SONG_URL, url }))
+  }
 }
-
 
 
 export const loginThunk = user => async dispatch => {

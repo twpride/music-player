@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { ent_act } from "../reducers/root_reducer"
-import { getSongUrl, getSearchedSongUrl } from '../actions/actions'
+import { getSongUrl } from '../actions/actions'
 
 
 import { PlayIcon, PauseIcon, PrevIcon, NextIcon } from './active_svgs'
@@ -150,7 +150,7 @@ export default function AudioPlayer({ winWidth }) {
     ) {
 
       let song;
-      if (track[0]=='search_results') {
+      if (track[0] == 'search_results') {
         song = playlistD[track[0]][track[1]];
       } else {
         song = songD[playlistD[track[0]][track[1]][0]];
@@ -177,17 +177,14 @@ export default function AudioPlayer({ winWidth }) {
 
   useEffect(() => {
     if (!track || !playing) return;
-    let song_id;
 
-    if (track[0]=='search_results') {
-      song_id = playlistD[track[0]][track[1]].id;
-      dispatch(getSearchedSongUrl(song_id))
-    } else {
-      song_id = playlistD[track[0]][track[1]][0];
-      dispatch(getSongUrl(song_id));
-    }
+    let song_id = track[0] == 'search_results' ?
+      song_id = playlistD[track[0]][track[1]].id
+      :
+      playlistD[track[0]][track[1]][0];
 
     if (curSongId != song_id) {
+      dispatch(getSongUrl(song_id));
       setCurSongId(song_id);
     } else {
       aud.current.play();
@@ -332,7 +329,7 @@ export default function AudioPlayer({ winWidth }) {
           >
             {playing ?
               <PauseIcon {...{ scale: 1, size: "32px" }} /> :
-              <PlayIcon {...{ scale: 1, size: "32px" }} /> 
+              <PlayIcon {...{ scale: 1, size: "32px" }} />
             }
           </div>
           {winWidth > 500 && <NextIcon {...{ scale: 1, size: "24px", onClick: skip(1) }} />}
