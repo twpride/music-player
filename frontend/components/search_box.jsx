@@ -2,27 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
-import { Spinner, HoverPlus, HoverPlaylist, XIcon } from './active_svgs'
+import { XIcon } from './active_svgs'
 import { ent_act } from '../reducers/root_reducer';
 import { error_act } from '../reducers/errors_reducer';
-// const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
-const ytdlAPI = "https://absi53nprb.execute-api.ap-northeast-2.amazonaws.com/test/"
 
-
-
-const AddIcon = ({ playlist, added, adding, addSong }) => {
-  if (added) {
-    return <div></div>
-  } else {
-    if (adding) {
-      return <div><Spinner size={20} color="#ad0f37" /></div>
-    } else if (playlist) {
-      return <div onClick={addSong}><HoverPlaylist size={24} color="grey" hoverColor="#ad0f37" /></div>
-    } else {
-      return <div onClick={addSong}><HoverPlus size={16} color="grey" hoverColor="#ad0f37" /></div>
-    }
-  }
-}
+export const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
 
 
 const SearchBoxDiv = styled.div`

@@ -4,10 +4,7 @@ import styled from 'styled-components'
 import { postSongs } from '../actions/actions'
 import { Spinner, HoverPlus, HoverPlaylist } from './active_svgs'
 import { ent_act } from '../reducers/root_reducer';
-// const ytdlAPI = "https://9fm8fonkk8.execute-api.us-west-1.amazonaws.com/test/"
-const ytdlAPI = "https://absi53nprb.execute-api.ap-northeast-2.amazonaws.com/test/"
-
-
+import { ytdlAPI } from './search_box'
 
 
 const ButtonDiv = styled.div`
@@ -109,7 +106,7 @@ export default function SearchResultsD() {
     >
 
       {search.loading && <Spinner size={50} color="#ad0f37" />}
-      {(!search.search_results || !search.search_results.length ) && !search.loading &&
+      {(!search.search_results || !search.search_results.length) && !search.loading &&
         <span className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</span>
       }
 
