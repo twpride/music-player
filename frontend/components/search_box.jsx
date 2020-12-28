@@ -67,7 +67,7 @@ export default function SearchBox() {
     const errorsArr = []
 
     // scrape youtube songs
-    const urlsArray = urls ? urls.split(" ").filter(ent => ent) : []//filter blank lines
+    const urlsArray = urls ? urls.split("|").filter(ent => ent) : []//filter blank lines
 
     const songs = await Promise.all(
       urlsArray.map(async url => {
