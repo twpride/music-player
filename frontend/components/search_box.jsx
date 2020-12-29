@@ -63,6 +63,7 @@ export default function SearchBox() {
 
     e.preventDefault();
     dispatch({ type: ent_act.SET_LOADING, status: true })
+    tboxRef.current.blur();
     const errorsArr = []
 
     // scrape youtube songs
@@ -88,7 +89,6 @@ export default function SearchBox() {
       } else {
         dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: [] })
         setUrls('')
-        tboxRef.current.blur();
       }
 
     } else {
@@ -100,7 +100,6 @@ export default function SearchBox() {
         dispatch({ type: error_act.RECEIVE_SEARCH_ERRORS, errors: json })
       } else {
         const search_results = json.map(e => ({ id: e.id, title: e.title, type: e.type, url: e.url })).filter(e => e.type === "video" || e.type === "playlist")
-        tboxRef.current.blur();
         dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
       }
     }
@@ -120,6 +119,7 @@ export default function SearchBox() {
       <input
         className="searchbox"
         name="s"
+        autoComplete="on"
         type="text"
         value={urls}
         placeholder="Search song, album, artist"
