@@ -13,7 +13,7 @@
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-scrub-skip.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/landscape.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif">
 </p>
 <br/>
 
