@@ -8,38 +8,45 @@
 <br/>
 
 <h3 align="center">
-  Jump to time & skip song &nbsp; | &nbsp; Song search -> preview -> add
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Song search -> preview -> add
 </h3>
+<br/>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/scrub-skip.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/search-flow.gif">
 </p>
 <br/>
+<br/>
 
 <h3 align="center">
   &nbsp;Drag number to reorder playlist &nbsp; | &nbsp; Media control on lock screen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </h3>
+<br/>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder-track.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/media-control.gif">
 </p>
 <br/>
+<br/>
 
 <h3 align="center">
-  Edit song information &nbsp; | &nbsp; Dark / Light mode toggle 
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Dark / Light mode toggle 
 </h3>
+<br/>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song-info.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif">
 </p>
 <br/>
+<br/>
 
 <h3 align="center">
 Desktop interface (responsive layout)
 <h3>
+<br/>
 <p align="center">
   <img width="600" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif">
 </p>
@@ -50,13 +57,15 @@ Desktop interface (responsive layout)
 
 A mobile friendly music streaming web app hosted on S3. For a demo, please check out the [live site](https://music-player-1.herokuapp.com/).
 
-## Features
+## Core features
 + Full playlist functionality
-+ Uploading songs locally or from YouTube
-  + A playlist is dynamically created from the search result allowing user to preview tracks before adding them
-+ Edit song information (title, artist, album)
-+ Automated album art fetching
-  + Once the song title and artist info are filled in, the app will attempt to fetch the album art
++ Adding songs
+  + User can also search for songs using search bar
+  + For each search, a playlist of the search results is dynamically generated, allowing the user to preview tracks before adding them
+  + Upload local files, multi-file batch uploads are supported
++ Editable song metadata
+  + Title, artist, album, and album art URL
+  + Once the song title and artist fields are populated, the app will attempt to fetch the album art based on aforementioned info
 + Optimized UI for touch and mobile
   + Swipe touch gestures to reorder tracks and skip songs
   + Integrated media controls allows the user to controll playback from desktop keyboard or Bluetooth device
@@ -81,9 +90,9 @@ A mobile friendly music streaming web app hosted on S3. For a demo, please check
 ### Song upload
   - Songs are stored in AWS [S3](https://aws.amazon.com/s3/) buckets
   - Utilizing javascripts async methods, the user is able to upload multiple files at once
-  - For YouTube uploads, a [Lambda](https://aws.amazon.com/lambda/) function is called with the YouTube url. The function utilizes a Node.js PassThrough stream to save the audio stream directly to S3.
+  - A Node.js [Lambda](https://aws.amazon.com/lambda/) function handles the song search, preview, and add functionality.
 
-### Album art
+### Automated album art fetching
   - Once a the song titles and artist fields are filled in, the app will attempt to look for the song [MusicBrainz](https://musicbrainz.org/) database.
   - If a match is found, the app uses the returned id from the match and queries the [Cover Art Archive](http://coverartarchive.org/), which will return a link to the song's album art.
   - The user can specify custom album art by providing the an image url. This is useful on the few occasions when the app fetches the wrong album art, or when the album art is not available.
