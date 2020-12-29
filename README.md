@@ -63,7 +63,7 @@ A mobile friendly music streaming web app using S3 storage. For a demo, please c
   + User can also search for songs using search bar
   + For each search, a playlist of the search results is dynamically generated, allowing the user to preview tracks before adding them
   + Upload local files, multi-file batch uploads are supported
-+ Editable song metadata
++ Editable song metadata and automated album art fetching
   + Title, artist, album, and album art URL
   + Once the song title and artist fields are populated, the app will attempt to fetch the album art based on aforementioned info
 + Optimized UI for touch and mobile
