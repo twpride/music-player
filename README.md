@@ -8,12 +8,12 @@
 <br/>
 
 <h3 align="center">
-  Jump to time & skip song &nbsp; | &nbsp; Dark / Light mode toggle
+  Jump to time & skip song &nbsp; | &nbsp; Song search -> preview -> add
 </h3>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/scrub-skip.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/search-workflow.gif">
 </p>
 <br/>
 
@@ -28,12 +28,12 @@
 <br/>
 
 <h3 align="center">
-  Edit song information &nbsp; | &nbsp; Song search & add
+  Edit song information &nbsp; | &nbsp; Dark / Light mode toggle 
 </h3>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song-info.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/search-add.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif">
 </p>
 <br/>
 
