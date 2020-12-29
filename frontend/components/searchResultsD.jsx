@@ -42,6 +42,7 @@ export default function SearchResultsD() {
   const [adding, setAdding] = useState(null)
   const dispatch = useDispatch()
   const search = useSelector(state => state.entities.search)
+  const search_results = useSelector(state => state.entities.playlistD.search_results)
   const yt_id_set = useSelector(state => state.entities.songD.yt_id_set)
   const err = useSelector(state => state.errors.searchErrors)
 
@@ -68,11 +69,11 @@ export default function SearchResultsD() {
     <SearchResultsDiv className="scrollable">
 
       {search.loading && <Spinner size={50} color="#ad0f37" />}
-      {(!search.search_results || !search.search_results.length) && !search.loading &&
+      {(!search_results || !search_results.length) && !search.loading &&
         <span className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</span>
       }
 
-      { search.search_results && search.search_results.map((e, idx) => (
+      { search_results && search_results.map((e, idx) => (
         <CardDiv key={idx}
           onClick={
             () => {

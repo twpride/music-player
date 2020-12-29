@@ -207,6 +207,10 @@ const playlistD = (state = {}, action) => {
       const st = { ...state }
       action.pls_to_reset.forEach(id => delete st[id])
       return st
+    case ent_act.SET_LOADING:
+      return { ...state, search_results: [] }
+    case ent_act.CLEAR_SEARCH_RESULTS:
+      return { ...state, search_results: [] }
     default:
       return state;
   }
@@ -241,10 +245,9 @@ const search = (state = {}, action) => {
       return {
         ...state,
         search_term: action.search_term,
-        search_results: action.search_results,
       }
     case ent_act.CLEAR_SEARCH_RESULTS:
-      return { ...state, search_term: "", search_results: [] }
+      return { ...state, search_term: "" }
     case ent_act.SET_LOADING:
       return { ...state, loading: action.status }
     default:
