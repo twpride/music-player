@@ -8,10 +8,10 @@
 <br/>
 
 <h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Portrait & landscape switch
+  &nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Dark/Light mode toggle
 </h3>
 <p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-scrub-skip.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/scrub-skip.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif">
 </p>
@@ -21,19 +21,19 @@
   &nbsp;Drag number to reorder playlist &nbsp; | &nbsp; Media control on lock screen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 </h3>
 <p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder-track.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/mobile-media-control.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/media-control.gif">
 </p>
 <br/>
 
 <h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Upload directly from YouTube
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Search & add songs
 </h3>
 <p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song-info.gif">
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/upload.gif">
+  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/search-add.gif">
 </p>
 <br/>
 
