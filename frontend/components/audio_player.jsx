@@ -85,14 +85,28 @@ const SwipeDiv = styled.div`
   }
   .song-info {
     margin-left:19px;
-    margin-right:19px;
+    height:100%;
+    width:100%;
     font-size:.9em;
     overflow:hidden;
     white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    div {
+      display:flex;
+      flex-direction: column;
+      justify-content:center;
+      align-items:flex-start;
+    }
     div:nth-of-type(1) {
       color: #777777;
     }
+    &:hover {
+      color: #ad0f37;
+    }
   }
+
   .time-info {
     font-size:.7em;
   }
@@ -287,8 +301,13 @@ export default function AudioPlayer({ winWidth }) {
   }
   function handleTitleClick(e) {
     const pl_id = track[0]
-    if (pl_id) { history.push(`/playlist_D/${pl_id}`); }
-    else { history.push(''); }
+    if (pl_id === 'search_results') {
+      history.push('/upload');
+    } else if (pl_id === 'songs_playlist') {
+      history.push('');
+    } else {
+      history.push(`/playlist_D/${pl_id}`);
+    }
   }
 
   function onPlayClick() {

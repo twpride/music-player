@@ -43,7 +43,8 @@ export const ent_act = {
 
   RECEIVE_SEARCH_RESULTS: 'RECEIVE_SEARCH_RESULTS',
   CLEAR_SEARCH_RESULTS: 'CLEAR_SEARCH_RESULTS',
-  SET_LOADING: 'SET_LOADING',
+  SET_LOAD_START: 'SET_LOAD_START',
+  SET_LOAD_STOP: 'SET_LOAD_STOP',
 }
 
 ////////////// UI Reducer //////////////////
@@ -167,11 +168,6 @@ const playlistD = (state = {}, action) => {
         songs_playlist,
         playlistTitleD: action.playlistTitleD
       };
-    case ent_act.RECEIVE_SEARCH_RESULTS:
-      return {
-        ...state,
-        search_results: action.search_results
-      }
     case ent_act.RECEIVE_SONG_D:
       const new_songs = Object.values(action.songD)
         // .sort((a,b)=>parseInt(b.order)-parseInt(a.order))
@@ -206,11 +202,30 @@ const playlistD = (state = {}, action) => {
     case ent_act.RESET_PLAYLISTS:
       const st = { ...state }
       action.pls_to_reset.forEach(id => delete st[id])
-      return st
-    case ent_act.SET_LOADING:
-      return { ...state, search_results: [] }
+      return st;
+    case ent_act.RECEIVE_SEARCH_RESULTS:
+      return {
+        ...state,
+        search_results: action.search_results,
+        search_term: action.search_term,
+      }
+    case ent_act.SET_LOAD_START:
+      return {
+        ...state,
+        search_results: [],
+        loading: true,
+      }
+    case ent_act.SET_LOAD_STOP:
+      return {
+        ...state,
+        loading: false
+      }
     case ent_act.CLEAR_SEARCH_RESULTS:
-      return { ...state, search_results: [] }
+      return {
+        ...state,
+        search_results: [],
+        search_term: "",
+      }
     default:
       return state;
   }
@@ -232,32 +247,18 @@ const player = (state = {}, action) => {
       return { ...state, playing: true };
     case ent_act.SET_PAUSE:
       return { ...state, playing: false };
-    default:
-      return state;
-  }
-};
-const search = (state = {}, action) => {
-  Object.freeze(state);
-  switch (action.type) {
-    case ent_act.INIT_STORE:
-      return {};
-    case ent_act.RECEIVE_SEARCH_RESULTS:
-      return {
-        ...state,
-        search_term: action.search_term,
-      }
+    case ent_act.SET_LOAD_START:
+      return { ...state, track: state.track && state.track[0] != 'search_results' ? state.track : null};
     case ent_act.CLEAR_SEARCH_RESULTS:
-      return { ...state, search_term: "" }
-    case ent_act.SET_LOADING:
-      return { ...state, loading: action.status }
+      return { ...state, track: state.track && state.track[0] != 'search_results' ? state.track : null };
     default:
       return state;
   }
 };
+
 const entities = combineReducers({
   playlistD,
   songD,
-  search
 });
 ///////////// Entities Reducer //////////////////
 

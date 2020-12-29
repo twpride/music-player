@@ -41,8 +41,7 @@ const SearchResultsDiv = styled.div`
 export default function SearchResultsD() {
   const [adding, setAdding] = useState(null)
   const dispatch = useDispatch()
-  const search = useSelector(state => state.entities.search)
-  const search_results = useSelector(state => state.entities.playlistD.search_results)
+  const playlistD = useSelector(state => state.entities.playlistD)
   const yt_id_set = useSelector(state => state.entities.songD.yt_id_set)
   const err = useSelector(state => state.errors.searchErrors)
 
@@ -57,23 +56,23 @@ export default function SearchResultsD() {
     if (json.Key) {
       dispatch(postSongs([[json.Key, json.yt_id]]))
     } else {
-      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: search.search_term, search_results: json })
+      dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: playlistD.search_term, search_results: json })
       setAdding(new Array(json.length).fill(false))
     }
   }
   useEffect(() => {
-    setAdding(search.search_results && new Array(search.search_results.length).fill(false))
-  }, [search.search_results])
+    setAdding(playlistD.search_results && new Array(playlistD.search_results.length).fill(false))
+  }, [playlistD.search_results])
 
   return (
     <SearchResultsDiv className="scrollable">
 
-      {search.loading && <Spinner size={50} color="#ad0f37" />}
-      {(!search_results || !search_results.length) && !search.loading &&
+      {playlistD.loading && <Spinner size={50} color="#ad0f37" />}
+      {(!playlistD.search_results || !playlistD.search_results.length) && !playlistD.loading &&
         <span className="disclaimer">Disclaimer: I condone only adding music that you own or ones that are royalty-free.</span>
       }
 
-      { search_results && search_results.map((e, idx) => (
+      { playlistD.search_results && playlistD.search_results.map((e, idx) => (
         <CardDiv key={idx}
           onClick={
             () => {

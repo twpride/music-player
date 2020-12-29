@@ -50,8 +50,8 @@ const SearchBoxDiv = styled.form`
 export default function SearchBox() {
   const tboxRef = useRef(null)
   const dispatch = useDispatch()
-  const search = useSelector(state => state.entities.search)
-  const [urls, setUrls] = useState(search.search_term);
+  const playlistD = useSelector(state => state.entities.playlistD)
+  const [urls, setUrls] = useState(playlistD.search_term);
   const [focus, setFocus] = useState(false);
 
 
@@ -62,7 +62,7 @@ export default function SearchBox() {
   const submitSong = async e => {
 
     e.preventDefault();
-    dispatch({ type: ent_act.SET_LOADING, status: true })
+    dispatch({ type: ent_act.SET_LOAD_START})
     tboxRef.current.blur();
     const errorsArr = []
 
@@ -103,7 +103,7 @@ export default function SearchBox() {
         dispatch({ type: ent_act.RECEIVE_SEARCH_RESULTS, search_term: urls, search_results })
       }
     }
-    dispatch({ type: ent_act.SET_LOADING, status: false })
+    dispatch({ type: ent_act.SET_LOAD_STOP})
   }
 
   function onTextChange(e) {
@@ -118,7 +118,6 @@ export default function SearchBox() {
     >
       <input
         className="searchbox"
-        name="s"
         autoComplete="on"
         type="text"
         value={urls}
