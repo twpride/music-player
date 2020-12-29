@@ -20,7 +20,7 @@
 <br/>
 
 <h3 align="center">
-  &nbsp;Drag number to reorder playlist &nbsp; | &nbsp; Media control on lock screen&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  Drag number to reorder playlist &nbsp; | &nbsp; Media control on lock screen&nbsp;&nbsp;&nbsp;&nbsp;
 </h3>
 <br/>
 <p align="center">
@@ -55,7 +55,7 @@ Desktop interface (responsive layout)
 
 ## About
 
-A mobile friendly music streaming web app hosted on S3. For a demo, please check out the [live site](https://music-player-1.herokuapp.com/).
+A mobile friendly music streaming web app using S3 storage. For a demo, please check out the [live site](https://music-player-1.herokuapp.com/).
 
 ## Core features
 + Full playlist functionality
