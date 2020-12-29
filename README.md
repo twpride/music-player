@@ -8,7 +8,7 @@
 <br/>
 
 <h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Dark/Light mode toggle
+  Jump to time & skip song &nbsp; | &nbsp; Dark / Light mode toggle
 </h3>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/scrub-skip.gif">
@@ -28,7 +28,7 @@
 <br/>
 
 <h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Search & add songs
+  Edit song information &nbsp; | &nbsp; Song search & add
 </h3>
 <p align="center">
   <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song-info.gif">
@@ -53,10 +53,13 @@ A mobile friendly music streaming web app hosted on S3. For a demo, please check
 ## Features
 + Full playlist functionality
 + Uploading songs locally or from YouTube
+  + A playlist is dynamically created from the search result allowing user to preview tracks before adding them
 + Edit song information (title, artist, album)
-+ Watch live sound visualization as music plays
 + Automated album art fetching
+  + Once the song title and artist info are filled in, the app will attempt to fetch the album art
 + Optimized UI for touch and mobile
+  + Swipe touch gestures to reorder tracks and skip songs
+  + Integrated media controls allows the user to controll playback from desktop keyboard or Bluetooth device
 
 ## Implementation
 
@@ -73,11 +76,6 @@ A mobile friendly music streaming web app hosted on S3. For a demo, please check
   - Whenever a track is moved, added, or removed, the playlist's order column must be updated. Fortunately, Django's [F() expressions](https://docs.djangoproject.com/en/3.1/ref/models/expressions/#f-expressions) and [bulk_update()](https://docs.djangoproject.com/en/3.1/ref/models/querysets/#bulk-update) method allows for the batch update of rows in one or two SQL queries.
   - When a song is deleted in the database, all the (potentially many) playlists that contain the songs need to be updated in Redux. Along the lines of lazy playlist fetching, only two updated playlists are fetched from the database upon deletion -- the one that is currently playing, and the one that is being viewed. All other "dirty" playlists are wiped from the Redux store. These wiped playlists only fetched fresh again when the user requests it later on.
 
-### Audio visualization
-  - Audio data is processed by the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) and rendered in real time using the [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
-  - The Web Audio API performs a Fast Fourier transform (FFT) to convert the audio to a frequency histogram.
-  - The bins of the histogram are spaced out linearly. For a more intuitive presentation (human perception of sound is logarithmic), the logarithmic coordinates of each bin is first saved and reused upon each render cycle.
-  - To improve performance, the [rendering script](https://github.com/twpride/music-player-1/blob/main/frontend/components/audio_visualizer.js) is written in vanilla JS, and connects to React using references.
 
 ### Song upload
   - Songs are stored in AWS [S3](https://aws.amazon.com/s3/) buckets
