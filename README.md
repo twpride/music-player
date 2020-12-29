@@ -60,6 +60,7 @@ A mobile friendly music streaming web app hosted on S3. For a demo, please check
 + Optimized UI for touch and mobile
   + Swipe touch gestures to reorder tracks and skip songs
   + Integrated media controls allows the user to controll playback from desktop keyboard or Bluetooth device
++ Dark/Light mode toggle
 
 ## Implementation
 
