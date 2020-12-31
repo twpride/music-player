@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
@@ -205,7 +205,17 @@ export default function AudioPlayer({ winWidth }) {
     }
   }, [track, playing])
 
-  const skip = (dir) => () => {
+  // const skip = (dir) => () => {
+  //   if (!track) return
+  //   const newtr = [...track];
+  //   newtr[1] += dir;
+  //   if (!playlistD[newtr[0]][newtr[1]]) return;
+
+  //   dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
+  //   dispatch({ type: ent_act.SET_PLAY })
+  // };
+
+  const skip = useCallback( (dir)=>() => {
     if (!track) return
     const newtr = [...track];
     newtr[1] += dir;
@@ -213,7 +223,7 @@ export default function AudioPlayer({ winWidth }) {
 
     dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     dispatch({ type: ent_act.SET_PLAY })
-  };
+  }, [track]);
 
   function handleLoadedMeta(e) {
     let sec;

@@ -83,13 +83,12 @@ WSGI_APPLICATION = 'music_player_1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-ssl_require = os.environ.get('DATABASE_URL', '') != ''
 DATABASES = {
   'default':
-    dj_database_url.config(
+    dj_database_url.parse(
+      'postgres://turdkgefwhlmsz:01318749e71c700d2145eca8df45370884b930983076553f2f6d8bfa0b67b2f4@ec2-54-158-190-214.compute-1.amazonaws.com:5432/dbuqo2f237hbof',
       conn_max_age=600,
-      ssl_require=ssl_require,
-      default='postgresql://fastcasual:casual@localhost/fastcasual')
+      ssl_require=True)
 }
 
 # Password validation
