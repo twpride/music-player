@@ -205,17 +205,7 @@ export default function AudioPlayer({ winWidth }) {
     }
   }, [track, playing])
 
-  // const skip = (dir) => () => {
-  //   if (!track) return
-  //   const newtr = [...track];
-  //   newtr[1] += dir;
-  //   if (!playlistD[newtr[0]][newtr[1]]) return;
-
-  //   dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
-  //   dispatch({ type: ent_act.SET_PLAY })
-  // };
-
-  const skip = useCallback( (dir)=>() => {
+  const skip = (dir) => () => {
     if (!track) return
     const newtr = [...track];
     newtr[1] += dir;
@@ -223,7 +213,7 @@ export default function AudioPlayer({ winWidth }) {
 
     dispatch({ type: ent_act.LOAD_TRACK, track: newtr });
     dispatch({ type: ent_act.SET_PLAY })
-  }, [track]);
+  };
 
   function handleLoadedMeta(e) {
     let sec;
