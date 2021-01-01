@@ -60,14 +60,14 @@ export const SvgWrapper = ({ size, scale, Comp, origSize, onClick }) => {
   </svg>
 }
 
-export const SvgWrapperRect = ({ width, height, scale, Comp, origSize, onClick }) => {
+export const SvgWrapperRect = ({ width, height, scale, origSize, onClick, children}) => {
   const offset = -origSize * (1 / scale - 1) / 2;
   const length = origSize / scale;
   return <svg viewBox={`${offset} ${offset} ${length} ${length}`}
     width={width} height={height}
     onClick={onClick}
   >
-    <Comp />
+    {children}
   </svg>
 }
 
@@ -168,13 +168,11 @@ export const LogoutIcon = props => <SvgWrapper {...props} origSize={16} Comp={
   </>
 } />
 
-export const BurgerIcon = props => <SvgWrapperRect {...props} origSize={16} Comp={
-  () => <>
-    <path
-      fillRule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
-    />
-  </>
-} />
+export const BurgerIcon = props => <SvgWrapperRect {...props} origSize={16}>
+  <path
+    fillRule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"
+  />
+</SvgWrapperRect>
 
 export const XIcon = props => <SvgWrapper {...props} origSize={24} Comp={
   () => <>
@@ -210,17 +208,15 @@ export const PauseIcon = props => <SvgWrapper {...props} origSize={16} Comp={
   </>
 } />
 
-export const HoverPlaylist = props => <SvgWrapperRect {...props} origSize={24} Comp={
-  () => <>
-    <path
-      d="M14 6H4c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1zm0 4H4c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1zM4 16h6c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zM19 6c-1.1 0-2 .9-2 2v6.18c-.31-.11-.65-.18-1-.18-1.84 0-3.28 1.64-2.95 3.54.21 1.21 1.2 2.2 2.41 2.41 1.9.33 3.54-1.11 3.54-2.95V8h2c.55 0 1-.45 1-1s-.45-1-1-1h-2z"
-    />
-  </>
-} />
+export const HoverPlaylist = props => <SvgWrapperRect {...props} origSize={24}>
+  <path
+    d="M14 6H4c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1zm0 4H4c-.55 0-1 .45-1 1s.45 1 1 1h10c.55 0 1-.45 1-1s-.45-1-1-1zM4 16h6c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zM19 6c-1.1 0-2 .9-2 2v6.18c-.31-.11-.65-.18-1-.18-1.84 0-3.28 1.64-2.95 3.54.21 1.21 1.2 2.2 2.41 2.41 1.9.33 3.54-1.11 3.54-2.95V8h2c.55 0 1-.45 1-1s-.45-1-1-1h-2z"
+  />
+</SvgWrapperRect>
 
 
-export const HoverPlus = props => <SvgWrapperRect {...props} origSize={16} Comp={
-  () => <>
+export const HoverPlus = props => <SvgWrapperRect {...props} origSize={16}>
+  <>
     <path
       d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
     />
@@ -228,7 +224,7 @@ export const HoverPlus = props => <SvgWrapperRect {...props} origSize={16} Comp=
       d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
     />
   </>
-} />
+</SvgWrapperRect>
 
 
 export const DarkIcon = props => <SvgWrapper {...props} origSize={24} Comp={
