@@ -36,9 +36,6 @@ export const HeaderDiv = styled.div`
     display:flex;
     justify-content:center;
     align-items:center;
-    &:nth-child(4) {
-      margin-left:auto;
-    }
   }
   a {
     display:flex;
@@ -54,6 +51,39 @@ export const HeaderDiv = styled.div`
     width:22px;
     height:22px;
   }
+  div:nth-child(4) {
+    z-index:10;
+    margin-left:auto;
+  }
+`
+const ToggleDiv = styled.div`
+  width:40px;
+  height:24px;
+  background:grey;
+  &:hover {
+    background:#ad0f37;
+  }
+  border-radius:18px;
+  position:relative;
+  div {
+    position:absolute;
+    background:#eee;
+    width:16px;
+    height:16px;
+    margin:4px;
+    border-radius:50%;
+    left: ${props => `${props.checked ? 16 : 0}px`} ; 
+    transition: 0.2s;
+  }
+  svg:first-of-type {
+    position:absolute;
+    left: ${props => `${props.checked ? 0 : 16}px`} ; 
+    fill:#eee;
+  }
+  svg:first-of-type:hover {
+    fill:#eee;
+  }
+
 `
 
 export default function Header({ darkMode, setDarkMode }) {
@@ -128,17 +158,21 @@ export default function Header({ darkMode, setDarkMode }) {
           <div className='title'>
             {title}
           </div>
-          <button onClick={(e) => {
-            if (!e.screenX) return; //spaceback triggers click , dirty workaround
-            setDarkMode(state => !state)
-            setDarkModeAjax(darkMode ? 0 : 1)
-          }}>
+          <ToggleDiv
+            onClick={(e) => {
+              if (!e.screenX) return; //spaceback triggers click , dirty workaround
+              setDarkMode(state => !state)
+              setDarkModeAjax(darkMode ? 0 : 1)
+            }}
+            checked={darkMode}
+          >
+            <div></div>
             {darkMode ?
-              <LightIcon {...svgProps}/>
+              <DarkIcon {...{size:"24px", scale:0.7}} />
               :
-              <DarkIcon {...svgProps}/>
+              <LightIcon {...{size:"24px", scale:0.7}} />
             }
-          </button>
+          </ToggleDiv>
           <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
             <HoverAccount {...svgProps} />
           </button>
