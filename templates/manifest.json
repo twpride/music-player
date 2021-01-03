@@ -19,4 +19,5 @@
   "name": "Music Player One",
   "short_name": "Music Player",
   "start_url": "../",
+  "prefer_related_applications": true
 }
