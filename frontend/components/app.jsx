@@ -30,7 +30,7 @@ const AppDiv = styled.div`
 
   .scrollable {
     z-index:1;
-    min-width:375px;
+    min-width:320px;
     overflow-y:auto;
     flex: 1 1 50%;
 
