@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width = device-width, initial-scale = 1.0, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
   <meta property="og:title" content="Music Player One" />
   <meta property="og:description" content="Mobile friendly music streaming app" />
   <meta property="og:url" content="https://music-player-1.herokuapp.com/" />
@@ -15,11 +16,10 @@
   {% load static %}
 
   
-  <meta name="viewport" content = "width = device-width, initial-scale = 1.0, minimum-scale = 1, maximum-scale = 1, user-scalable = no" />
   <meta name="apple-mobile-web-app-title" content="App name" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <link rel="apple-touch-icon" sizes="152x152" href="{% static "/icon/152.png" %}">
+  <link rel="apple-touch-icon" sizes="152x152" href="{% static "/icon/152.png" %}" />
 
 
   <link rel="icon" href="{% static "icon/icon.ico" %}" />
@@ -32,7 +32,7 @@
 </body>
 
 <link rel="stylesheet" href="{% static "stylesheets/index.css" %}">
-<script type="text/javascript"> window.currentUser = {{ response | safe }} </script>
+<script type="text/javascript"> window.currentUser={{response|safe}} </script>
 <script type="text/javascript" src="{% static "bundles/bundle.js" %}"></script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
