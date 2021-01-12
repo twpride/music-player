@@ -57,5 +57,5 @@ class Session(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   def new(user):
     token = secrets.token_urlsafe(16)
-    Session.create(user=user, token=token)
+    Session.objects.create(user=user, token=token)
     return token
