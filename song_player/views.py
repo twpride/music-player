@@ -6,13 +6,14 @@ from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.db.models import F
 from .models import Song, Playlist, Entry
-from user_auth.models import User
+from user_auth.models import User, Session
 import json
 
 
 def getUser(req):
   token = req.session.get('session_token', None)
-  return User.objects.filter(session_token=token)[0]
+  # return User.objects.filter(session_token=token)[0]
+  return Session.objects.filter(token=token)[0].user
 
 def set_dark_mode(request, val):
   usr=getUser(request)
