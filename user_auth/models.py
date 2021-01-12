@@ -53,7 +53,7 @@ class User(models.Model):
     return self.email
 
 class Session(models.Model):
-  session_token = models.CharField(max_length=100)
+  token = models.CharField(max_length=100)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   def new(user):
     token = secrets.token_urlsafe(16)
