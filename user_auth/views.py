@@ -20,7 +20,6 @@ class CustomView(View):
     if self.current_user:
       return self.current_user
     if token := self.request.session.get('session_token', None):
-      # if curr_user := User.objects.filter(session_token=token):
       if curr_user := Session.objects.filter(token=token):
         self.current_user = curr_user[0].user
       return self.current_user
@@ -31,13 +30,11 @@ class CustomView(View):
     return not not self.get_current_user()
 
   def log_out(self):
-    # self.get_current_user().reset_session_token
     Session.objects.filter(token=self.request.session['session_token']).delete()
     self.request.session['session_token'] = None
     self.current_user = None
 
   def log_in(self, user):
-    # self.request.session['session_token'] = user.reset_session_token()
     self.request.session['session_token'] = Session.new(user)
     self.current_user = user
 

@@ -12,7 +12,6 @@ import re
 class User(models.Model):
   email = models.CharField(max_length=100, unique=True)
   password_digest = models.CharField(max_length=100)
-  # session_token = models.CharField(max_length=100)
   date_added = models.DateTimeField(auto_now_add=True)
   dark_mode = models.BooleanField()
   ph = PasswordHasher()
@@ -29,14 +28,7 @@ class User(models.Model):
         continue
       newkwargs[camel2snake(k)] = v[0]
 
-    # newkwargs['session_token'] = secrets.token_urlsafe(16)
-
     return User(**newkwargs)
-
-  # def reset_session_token(self):
-  #   self.session_token = secrets.token_urlsafe(16)
-  #   self.save()
-  #   return self.session_token
 
   def find_by_credentials(email, password):
     if ((user := User.objects.filter(email=email)) and
