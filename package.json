@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch --config webpack.dev.js",
-    "postinstall": "webpack --config webpack.prod.js"
+    "postinstall": "webpack --config webpack.prod.js",
+    "get-bundle-size": "webpack --profile --json > stats.json --config webpack.prod.js && webpack-bundle-analyzer stats.json"
   },
   "keywords": [],
   "author": "",

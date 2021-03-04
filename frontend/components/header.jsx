@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import AudioVisualizer from './audio_visualizer'
 import { useLocation } from 'react-router-dom'
 import { context_act } from '../reducers/root_reducer';
-import { HoverAccount, HoverGithub, HoverLinkedin, DarkIcon, LightIcon } from './active_svgs'
+import { HoverAccount, HoverGithub, HoverLinkedin, DarkIcon, LightIcon, HoverPortfolio } from './active_svgs'
 import { Route, Switch } from 'react-router-dom';
 import SearchBox from './search_box'
 import { setDarkModeAjax } from '../util/api_util'
@@ -42,7 +42,7 @@ export const HeaderDiv = styled.div`
     justify-content:center;
     align-items:center;
     z-index:10;
-    &:nth-child(2) {
+    &:nth-child(3) {
       margin-right:auto;
     }
 
@@ -51,7 +51,7 @@ export const HeaderDiv = styled.div`
     width:22px;
     height:22px;
   }
-  div:nth-child(4) {
+  div:nth-child(5) {
     z-index:10;
     margin-left:auto;
   }
@@ -151,11 +151,14 @@ export default function Header({ darkMode, setDarkMode }) {
           <SearchBox />
         </Route>
         <Route path='/' >
+          <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
+            <HoverLinkedin {...svgProps}></HoverLinkedin>
+          </a>
           <a href='https://github.com/twpride/music-player-1'>
             <HoverGithub {...svgProps}></HoverGithub>
           </a>
-          <a href='https://www.linkedin.com/in/howard-hwang-b3000335'>
-            <HoverLinkedin {...svgProps}></HoverLinkedin>
+          <a href='https://twpride.github.io'>
+            <HoverPortfolio {...svgProps}></HoverPortfolio>
           </a>
           <div className='title'>
             {title}
@@ -170,9 +173,9 @@ export default function Header({ darkMode, setDarkMode }) {
           >
             <div></div>
             {darkMode ?
-              <DarkIcon {...{size:"24px", scale:0.7}} />
+              <DarkIcon {...{ size: "24px", scale: 0.7 }} />
               :
-              <LightIcon {...{size:"24px", scale:0.7}} />
+              <LightIcon {...{ size: "24px", scale: 0.7 }} />
             }
           </ToggleDiv>
           <button onClick={() => dispatch({ type: context_act.ACCOUNT })}>
