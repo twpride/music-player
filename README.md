@@ -1,55 +1,16 @@
-<h1 align="center">Music Player One</h2>
-
-<div align="center" >
+<div style="text-align:center">
+  <h1>Music Player One</h1>
   <a href="https://music-player-1.herokuapp.com/">
-  Live Site
+    <h2>
+      Live Site
+    </div>
   </a>
+
 </div>
-<br/>
-
-<h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jump to time & skip song &nbsp; | &nbsp; Song search -> preview -> add
-</h3>
-<br/>
 <p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/scrub-skip.gif">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/search-flow.gif">
+  <img style="width:min(600px,100%)"  src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif"></img>
 </p>
-<br/>
-<br/>
 
-<h3 align="center">
-  Drag number to reorder playlist &nbsp; | &nbsp; Media control on lock screen&nbsp;&nbsp;&nbsp;&nbsp;
-</h3>
-<br/>
-<p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder-track.gif">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/media-control.gif">
-</p>
-<br/>
-<br/>
-
-<h3 align="center">
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit song information &nbsp; | &nbsp; Dark / Light mode toggle 
-</h3>
-<br/>
-<p align="center">
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song-info.gif">
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <img width="270" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif">
-</p>
-<br/>
-<br/>
-
-<h3 align="center">
-Desktop interface (responsive layout)
-<h3>
-<br/>
-<p align="center">
-  <img width="600" height="auto" src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/desktop-adaptive.gif">
-</p>
 <br/>
 
 
@@ -71,7 +32,7 @@ A mobile friendly music streaming web app using S3 storage. For a demo, please c
   + Integrated media controls allows the user to controll playback from desktop keyboard or Bluetooth device
 + Dark/Light mode toggle
 
-## Implementation
+## Implementation Details
 
 ### Playlists
   - Backend ([Django](https://www.djangoproject.com/) | [Postgresql](https://www.postgresql.org/)):
@@ -105,5 +66,44 @@ A mobile friendly music streaming web app using S3 storage. For a demo, please c
   + Batch addition and deletion of tracks to playlist
   + Batch editing of song metadata
 
+<h2 align="center">Mobile UI Screenshots</h2>
+<div class="double" style="width:min(600px, var(--card-width))">
+  <figure>
+    <img src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/scrub-skip.gif" />
+    <figcaption> 
+      Jump to time & skip song
+    </figcaption>
+  </figure>
+  <figure>
+    <img src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/search-flow.gif" />
+    <figcaption> Song search -> preview -> add </figcaption>
+  </figure>
+</div>
+
+<div class="double" style="width:min(600px, var(--card-width))">
+  <figure>
+    <img src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/drag-reorder-track.gif" />
+    <figcaption> 
+      Drag number to reorder playlist
+    </figcaption>
+  </figure>
+  <figure>
+    <img src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/media-control.gif" />
+    <figcaption> Media control on lock screen </figcaption>
+  </figure>
+</div>
 
 
+
+<div class="double" style="width:min(600px, var(--card-width))">
+  <figure>
+    <img src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/edit-song-info.gif" />
+    <figcaption> 
+      Edit song information
+    </figcaption>
+  </figure>
+  <figure>
+    <img src="https://raw.githubusercontent.com/twpride/music-player-1/main/assets/demo/darkmode-toggle.gif" />
+    <figcaption> Dark / Light mode toggle </figcaption>
+  </figure>
+</div>
